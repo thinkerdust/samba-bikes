@@ -1,13 +1,13 @@
-<div class="nk-header nk-header-fixed is-light">
+<div class="nk-header nk-header-fixed bg-warning is-dim">
     <div class="container-fluid">
         <div class="nk-header-wrap">
             <div class="nk-menu-trigger d-xl-none ms-n1">
                 <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
             </div>
             <div class="nk-header-brand d-xl-none">
-                <a href="/dashboard" class="logo-link">
-                    <img class="logo-light logo-img" src="{{ asset('images/brand-full-logo-side.png') }}" srcset="{{ asset('images/brand-full-logo-side.png 2x') }}" alt="logo">
-                    <img class="logo-dark logo-img" src="{{ asset('images/brand-full-logo-side.png') }}" srcset="{{ asset('images/brand-full-logo-side.png 2x') }}" alt="logo-dark">
+                <a href="/admin/dashboard" class="logo-link">
+                    <img class="logo-light logo-img" src="{{ asset('images/logo-brand-side.png') }}" srcset="{{ asset('images/logo-brand-side.png 2x') }}" alt="logo">
+                    <img class="logo-dark logo-img" src="{{ asset('images/logo-brand-side.png') }}" srcset="{{ asset('images/logo-brand-side.png 2x') }}" alt="logo-dark">
                 </a>
             </div><!-- .nk-header-brand -->
             <!-- .nk-header-news -->
@@ -38,7 +38,7 @@
                             </div>
                             <div class="dropdown-inner">
                                 <ul class="link-list">
-                                    <li><a href="/change-password"><em class="icon ni ni-lock"></em><span>Change Password</span></a></li>
+                                    <li><a href="/admin/change-password"><em class="icon ni ni-lock"></em><span>Change Password</span></a></li>
                                     <li hidden><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
                                 </ul>
                             </div>

@@ -16,7 +16,7 @@
                         <div class="card card-bordered card-preview">
                             <div class="card-inner">
                                 @can("crudAccess", "UM3")
-                                <a href="#" onclick="tambah()" class="toggle btn btn-theme-sml btn-sm"><em class="icon ni ni-plus"></em><span>Add Data</span></a>
+                                <a href="#" onclick="tambah()" class="toggle btn btn-theme-custome btn-sm"><em class="icon ni ni-plus"></em><span>Add Data</span></a>
                                 @endcan
                                 <hr class="preview-hr">
                                 <table class="table table-striped nowrap" id="dt-table">
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <hr class="preview-hr">
-                    <button type="submit" class="btn btn-theme-sml" id="btn-submit">Save</button>
+                    <button type="submit" class="btn btn-theme-custome" id="btn-submit">Save</button>
                 </form>
             </div>
         </div>

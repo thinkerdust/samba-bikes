@@ -4,7 +4,7 @@ var table = NioApp.DataTable('#dt-table', {
     responsive: true,
     searchDelay: 500,
     ajax: {
-        url: '/user-management/datatable-role'
+        url: '/admin/user-management/role/datatable'
     },
     columns: [
         {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
@@ -37,7 +37,7 @@ var table = NioApp.DataTable('#dt-table', {
 });
 
 function tree_menu() {
-    $.getJSON("/user-management/list-permissions-menu", function (data) {
+    $.getJSON("/admin/user-management/role/list-permissions-menu", function (data) {
         let menu_json = data.menu;
         $("#tree_menu").jstree("destroy");
 
@@ -71,7 +71,7 @@ function tree_menu() {
 }
 
 function edit_tree_menu(id) {
-    $.getJSON("/user-management/list-permissions-menu?id=" + id,
+    $.getJSON("/admin/user-management/role/list-permissions-menu?id=" + id,
         function (data) {
             let menu_json = data.menu;
             $("#tree_menu").jstree("destroy");
@@ -121,7 +121,7 @@ $('#form-data').submit(function(e) {
     var btn = $('#btn-submit');
 
     $.ajax({
-        url : "/user-management/store-role",  
+        url : "/admin/user-management/role/store",  
         data : formData,
         type : "POST",
         dataType : "JSON",
@@ -156,7 +156,7 @@ $('#form-data').submit(function(e) {
 
 function edit(id) {
     $.ajax({
-        url: '/user-management/edit-role/'+id,
+        url: '/admin/user-management/role/edit'+id,
         dataType: 'JSON',
         success: function(response) {
             if(response.status) {
@@ -183,7 +183,7 @@ function hapus(id) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: '/user-management/delete-menu/'+id,
+                url: '/admin/user-management/menu/delete/'+id,
                 dataType: 'JSON',
                 success: function(response) {
                     if(response.status){

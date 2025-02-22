@@ -4,7 +4,7 @@ var table = NioApp.DataTable('#dt-table', {
     responsive: true,
     searchDelay: 500,
     ajax: {
-        url: '/user-management/datatable-menu'
+        url: '/admin/user-management/menu/datatable'
     },
     columns: [
         {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
@@ -52,7 +52,7 @@ $('#form-data').submit(function(e) {
     var btn = $('#btn-submit');
 
     $.ajax({
-        url : "/user-management/store-menu",  
+        url : "/admin/user-management/menu/store",  
         data : formData,
         type : "POST",
         dataType : "JSON",
@@ -60,10 +60,10 @@ $('#form-data').submit(function(e) {
         async : true,
         contentType: false,
         processData: false,
-        // beforeSend: function() {
-        //     btn.attr('disabled', true);
-        //     btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading ...</span>`);
-        // },
+        beforeSend: function() {
+            btn.attr('disabled', true);
+            btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading ...</span>`);
+        },
         success: function(response) {
             if(response.status){
                 $('#form-data')[0].reset();
@@ -87,7 +87,7 @@ $('#form-data').submit(function(e) {
 
 function edit(id) {
     $.ajax({
-        url: '/user-management/edit-menu/'+id,
+        url: '/admin/user-management/menu/edit/'+id,
         dataType: 'JSON',
         success: function(response) {
             if(response.status) {
@@ -117,7 +117,7 @@ function hapus(id) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: '/user-management/delete-menu/'+id,
+                url: '/admin/user-management/menu/delete/'+id,
                 dataType: 'JSON',
                 success: function(response) {
                     if(response.status){

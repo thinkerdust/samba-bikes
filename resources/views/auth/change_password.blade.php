@@ -57,7 +57,7 @@
                                             </div>
                                         </div>
                                         <hr class="preview-hr">
-                                        <button type="submit" class="btn btn-theme-sml" id="btn-submit">Save</button>
+                                        <button type="submit" class="btn btn-theme-custome" id="btn-submit">Save</button>
                                     </form>
                                 </div>
                             </div>

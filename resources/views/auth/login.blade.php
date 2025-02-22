@@ -4,14 +4,14 @@
 <head>
     <base href="../">
     <meta charset="utf-8">
-    <meta name="author" content="{{ config('app.name', 'Laravel') }}">
+    <meta name="author" content="Samba Bikes">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="{{ config('app.name', 'Laravel') }}">
+    <meta name="description" content="Samba Bikes">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fav Icon  -->
-    <link rel="shortcut icon" href="{{ asset('images/brand-logo.svg') }}">
+    <link rel="shortcut icon" href="{{ asset('images/logo.png') }}">
     <!-- Page Title  -->
-    <title>Login | {{ config('app.name', 'Laravel') }}</title>
+    <title>Login | Samba Bikes</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('assets/css/dashlite.css?ver=3.1.0') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('assets/css/theme.css?ver=3.1.0') }}">
@@ -22,7 +22,7 @@
     </style>
 </head>
 
-<body class="nk-body bg-white npc-default pg-auth">
+<body class="nk-body bg-indigo npc-default pg-auth">
     <div class="nk-app-root">
         <!-- main @s -->
         <div class="nk-main ">
@@ -33,17 +33,17 @@
                     <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
                         <div class="brand-logo pb-4 text-center">
                             <a href="/" class="logo-link">
-                                <img class="logo-light logo-img logo-img-login" src="{{ asset('images/brand-full-logo-side.png') }}" srcset="{{ asset('images/brand-full-logo-side.png') }}" alt="logo">
-                                <img class="logo-dark logo-img logo-img-login" src="{{ asset('images/brand-full-logo-side.png') }}" srcset="{{ asset('images/brand-full-logo-side.png') }}" alt="logo-dark">
+                                <img class="logo-light logo-img logo-img-login" src="{{ asset('images/logo-brand-side.png') }}" srcset="{{ asset('images/logo-brand-side.png') }}" alt="logo">
+                                <img class="logo-dark logo-img logo-img-login" src="{{ asset('images/logo-brand-side.png') }}" srcset="{{ asset('images/logo-brand-side.png') }}" alt="logo-dark">
                             </a>
                         </div>
-                        <div class="card">
+                        <div class="card bg-warning is-dim">
                             <div class="card-inner card-inner-lg">
                                 <div class="nk-block-head">
                                     <div class="nk-block-head-content">
                                         <h4 class="nk-block-title">Sign-In</h4>
                                         <div class="nk-block-des">
-                                            <p>Welcome to tracking order panel by Ocsagroup</p>
+                                            <p>Welcome to Panel Dashboard by Samba Bikes</p>
                                         </div>
                                     </div>
                                 </div>
@@ -70,7 +70,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-lg btn-theme-sml btn-block" id="btn-submit">Sign in</button>
+                                        <button type="submit" class="btn btn-lg btn-theme-custome btn-block" id="btn-submit">Sign in</button>
                                     </div>
                                 </form>
 

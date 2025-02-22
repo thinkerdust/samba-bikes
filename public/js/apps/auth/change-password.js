@@ -4,7 +4,7 @@ $('#form-data').submit(function(e) {
     var btn = $('#btn-submit');
 
     $.ajax({
-        url : "/process-change-password",  
+        url : "/admin/process-change-password",  
         data : formData,
         type : "POST",
         dataType : "JSON",
