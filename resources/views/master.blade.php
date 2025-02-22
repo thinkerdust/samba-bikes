@@ -4,14 +4,14 @@
 <head>
     <base href="../">
     <meta charset="utf-8">
-    <meta name="author" content="{{ config('app.name', 'Laravel') }}">
+    <meta name="author" content="Samba Bikes">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="{{ config('app.name', 'Laravel') }}">
+    <meta name="description" content="Samba Bikes">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fav Icon  -->
-    <link rel="shortcut icon" href="{{ asset('images/brand-logo.svg') }}">
+    <link rel="shortcut icon" href="{{ asset('images/logo.png') }}">
     <!-- Page Title  -->
-    <title>Panel | {{ config('app.name', 'Laravel') }}</title>
+    <title>Panel | Samba Bikes</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('assets/css/dashlite.css?ver=3.1.0') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('assets/css/theme.css?ver=3.1.0') }}">

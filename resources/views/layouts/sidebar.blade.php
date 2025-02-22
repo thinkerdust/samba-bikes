@@ -1,10 +1,10 @@
-<div class="nk-sidebar nk-sidebar-fixed is-light is-compact" data-content="sidebarMenu">
+<div class="nk-sidebar nk-sidebar-fixed bg-indigo is-dark" data-content="sidebarMenu">
     <div class="nk-sidebar-element nk-sidebar-head">
         <div class="nk-sidebar-brand">
-            <a href="/dashboard" class="logo-link nk-sidebar-logo">
-                <img class="logo-light logo-img" src="{{ asset('images/brand-full-logo-side.png') }}" srcset="{{ asset('images/brand-full-logo-side.png 2x') }}" alt="logo">
-                <img class="logo-dark logo-img" src="{{ asset('images/brand-full-logo-side.png') }}" srcset="{{ asset('images/brand-full-logo-side.png 2x') }}" alt="logo-dark">
-                <img class="logo-small logo-img logo-img-small" src="{{ asset('images/brand-logo.svg') }}" srcset="{{ asset('images/brand-logo.svg 2x') }}" alt="logo-small">
+            <a href="/admin/dashboard" class="logo-link nk-sidebar-logo">
+                <img class="logo-light logo-img" src="{{ asset('images/logo-brand-side.png') }}" srcset="{{ asset('images/logo-brand-side.png 2x') }}" alt="logo">
+                <img class="logo-dark logo-img" src="{{ asset('images/logo-brand-side.png') }}" srcset="{{ asset('images/logo-brand-side.png 2x') }}" alt="logo-dark">
+                <img class="logo-small logo-img logo-img-small" src="{{ asset('images/logo.png') }}" srcset="{{ asset('images/logo.png 2x') }}" alt="logo-small">
             </a>
         </div>
         <div class="nk-menu-trigger me-n2">
@@ -17,7 +17,7 @@
             <div class="nk-sidebar-menu" data-simplebar>
                 <ul class="nk-menu">
                     <li class="nk-menu-item active">
-                        <a href="/dashboard" class="nk-menu-link">
+                        <a href="/admin/dashboard" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-dashboard-fill"></em></span>
                             <span class="nk-menu-text">Dashboard</span>
                         </a>

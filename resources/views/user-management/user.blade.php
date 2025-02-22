@@ -16,7 +16,7 @@
                         <div class="card card-bordered card-preview">
                             <div class="card-inner">
                                 @can("crudAccess", "UM1")
-                                <a href="#" onclick="tambah()" class="toggle btn btn-theme-sml btn-sm"><em class="icon ni ni-plus"></em><span>Add Data</span></a>
+                                <a href="#" onclick="tambah()" class="toggle btn btn-theme-custome btn-sm"><em class="icon ni ni-plus"></em><span>Add Data</span></a>
                                 @endcan
                                 <hr class="preview-hr">
                                 <table class="table table-striped nowrap" id="dt-table">
@@ -77,12 +77,12 @@
                         <label class="form-label">Username</label>
                         <div class="form-control-wrap">
                             <input type="text" class="form-control" name="username" id="username" required>
-                            <span class="ff-italic">Default Password : ocsabron.com</span>
+                            <span class="ff-italic">Default Password : 5amba8ikes!</span>
                         </div>
                     </div>
                     
                     <hr class="preview-hr">
-                    <button type="submit" class="btn btn-theme-sml" id="btn-submit">Save</button>
+                    <button type="submit" class="btn btn-theme-custome" id="btn-submit">Save</button>
                 </form>
             </div>
         </div>

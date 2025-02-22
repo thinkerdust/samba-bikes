@@ -4,7 +4,7 @@ var table = NioApp.DataTable('#dt-table', {
     responsive: true,
     searchDelay: 500,
     ajax: {
-        url: '/user-management/datatable-user-management'
+        url: '/admin/user-management/datatable'
     },
     columns: [
         {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
@@ -43,7 +43,7 @@ $('#username').on('keyup', function() {
 
 function reset_password(id) {
     $.ajax({
-        url: '/reset-password/'+id,
+        url: '/admin/reset-password/'+id,
         dataType: 'json',
         success: function(response) {
             if(response.status) {
@@ -63,7 +63,7 @@ $('#role').select2({
     placeholder: 'Pilih Role',
     dropdownParent: $('#modalForm'),
     ajax: {
-        url: '/data-role',
+        url: '/admin/data-role',
         dataType: "json",
         type: "GET",
         delay: 250,
@@ -98,7 +98,7 @@ $('#form-data').submit(function(e) {
     var btn = $('#btn-submit');
 
     $.ajax({
-        url : "/user-management/register",  
+        url : "/admin/user-management/register",  
         data : formData,
         type : "POST",
         dataType : "JSON",
@@ -133,7 +133,7 @@ $('#form-data').submit(function(e) {
 
 function edit(id) {
     $.ajax({
-        url: '/user-management/edit-user/'+id,
+        url: '/admin/user-management/edit/'+id,
         dataType: 'json',
         success: function(response) {
             if(response.status) {
@@ -163,7 +163,7 @@ function hapus(id) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: '/user-management/delete-user/'+id,
+                url: '/admin/user-management/delete/'+id,
                 dataType: 'JSON',
                 success: function(response) {
                     if(response.status){
