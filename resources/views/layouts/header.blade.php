@@ -1,4 +1,4 @@
-<div class="nk-header nk-header-fixed bg-warning is-dim">
+<div class="nk-header nk-header-fixed is-dim">
     <div class="container-fluid">
         <div class="nk-header-wrap">
             <div class="nk-menu-trigger d-xl-none ms-n1">
@@ -6,8 +6,8 @@
             </div>
             <div class="nk-header-brand d-xl-none">
                 <a href="/admin/dashboard" class="logo-link">
-                    <img class="logo-light logo-img" src="{{ asset('images/logo-brand-side.png') }}" srcset="{{ asset('images/logo-brand-side.png 2x') }}" alt="logo">
-                    <img class="logo-dark logo-img" src="{{ asset('images/logo-brand-side.png') }}" srcset="{{ asset('images/logo-brand-side.png 2x') }}" alt="logo-dark">
+                    <img class="logo-light logo-img" src="{{ asset('assets/images/logo-brand-side.png') }}" srcset="{{ asset('assets/images/logo-brand-side.png 2x') }}" alt="logo">
+                    <img class="logo-dark logo-img" src="{{ asset('assets/images/logo-brand-side.png') }}" srcset="{{ asset('assets/images/logo-brand-side.png 2x') }}" alt="logo-dark">
                 </a>
             </div><!-- .nk-header-brand -->
             <!-- .nk-header-news -->
