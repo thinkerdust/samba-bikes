@@ -116,6 +116,7 @@
   --bs-link-hover-color: #7a3fff;
   --bs-code-color: #ff63a5;
   --bs-highlight-bg: #fcf8e3;
+  --template-color: #fcda0c;
 }
 
 *,
@@ -29679,7 +29680,7 @@ body.nav-shown {
   border-radius: 6px;
 }
 .nk-menu-link:hover, .active > .nk-menu-link {
-  color: #9769ff;
+  color: var(--template-color);
   background: #fff;
 }
 .is-light .nk-menu-link:hover, .is-light .active > .nk-menu-link {
@@ -29692,7 +29693,7 @@ body.nav-shown {
   background: #422782;
 }
 .nk-menu-link:hover .count, .active > .nk-menu-link .count {
-  color: #9769ff;
+  color: var(--template-color);
 }
 .nk-menu-sub .nk-menu-link {
   padding: 0.375rem 40px 0.375rem 36px;
@@ -29720,7 +29721,7 @@ body.nav-shown {
   color: #b799ff;
 }
 .is-light .nk-menu-link:hover, .is-light .active > .nk-menu-link {
-  color: #9769ff;
+  color: var(--template-color);
 }
 .is-theme .nk-menu-link:hover, .is-theme .active > .nk-menu-link {
   color: #fff;
@@ -29752,7 +29753,7 @@ body.nav-shown {
   transition: color 0.4s, background-color 0.4s;
 }
 .nk-menu-link:hover .nk-menu-icon, .nk-menu-item.active > .nk-menu-link .nk-menu-icon, .nk-menu-item.current-menu > .nk-menu-link .nk-menu-icon {
-  color: #9769ff;
+  color: var(--template-color);
 }
 .is-theme .nk-menu-link:hover .nk-menu-icon, .is-theme .nk-menu-item.active > .nk-menu-link .nk-menu-icon, .is-theme .nk-menu-item.current-menu > .nk-menu-link .nk-menu-icon {
   color: #fff;
@@ -29953,7 +29954,7 @@ body.nav-shown {
   font-weight: 500;
 }
 .nk-menu-footer .nk-menu-link:hover {
-  color: #9769ff;
+  color: var(--template-color);
 }
 .is-theme .nk-menu-footer .nk-menu-link {
   color: #d4c2ff;
@@ -33540,7 +33541,7 @@ body.toggle-shown {
   color: #854fff;
 }
 .is-theme .nk-news-icon .icon {
-  color: #9769ff;
+  color: var(--template-color);
 }
 .nk-news-icon img {
   width: 24px;

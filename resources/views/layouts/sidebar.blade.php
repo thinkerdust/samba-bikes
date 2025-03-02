@@ -1,10 +1,10 @@
-<div class="nk-sidebar nk-sidebar-fixed bg-indigo is-dark" data-content="sidebarMenu">
+<div class="nk-sidebar nk-sidebar-fixed" data-content="sidebarMenu">
     <div class="nk-sidebar-element nk-sidebar-head">
         <div class="nk-sidebar-brand">
             <a href="/admin/dashboard" class="logo-link nk-sidebar-logo">
-                <img class="logo-light logo-img" src="{{ asset('images/logo-brand-side.png') }}" srcset="{{ asset('images/logo-brand-side.png 2x') }}" alt="logo">
-                <img class="logo-dark logo-img" src="{{ asset('images/logo-brand-side.png') }}" srcset="{{ asset('images/logo-brand-side.png 2x') }}" alt="logo-dark">
-                <img class="logo-small logo-img logo-img-small" src="{{ asset('images/logo.png') }}" srcset="{{ asset('images/logo.png 2x') }}" alt="logo-small">
+                <img class="logo-light logo-img" src="{{ asset('assets/images/logo-brand-side-yellow.png') }}" srcset="{{ asset('assets/images/logo-brand-side-yellow.png 2x') }}" alt="logo">
+                <img class="logo-dark logo-img" src="{{ asset('assets/images/logo-brand-side-yellow.png') }}" srcset="{{ asset('assets/images/logo-brand-side-yellow.png 2x') }}" alt="logo-dark">
+                <img class="logo-small logo-img logo-img-small" src="{{ asset('assets/images/logo.png') }}" srcset="{{ asset('assets/images/logo.png 2x') }}" alt="logo-small">
             </a>
         </div>
         <div class="nk-menu-trigger me-n2">
