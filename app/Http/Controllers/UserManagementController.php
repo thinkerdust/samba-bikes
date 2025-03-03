@@ -27,7 +27,7 @@ class UserManagementController extends BaseController
     public function index()
     {
         $title = 'User Management';
-        $js = 'js/apps/user-management/user.js?_='.rand();
+        $js = 'assets/js/apps/user-management/user.js?_='.rand();
         return view('user-management.user', compact('js', 'title'));
     }
 
@@ -100,7 +100,7 @@ class UserManagementController extends BaseController
     public function menu()
     {
         $title = 'Menu Management';
-        $js = 'js/apps/user-management/menu.js?_='.rand();
+        $js = 'assets/js/apps/user-management/menu.js?_='.rand();
         return view('user-management.menu', compact('js', 'title'));
     }
 
@@ -193,7 +193,7 @@ class UserManagementController extends BaseController
         $title = 'Role Management';
         $css_library = css_tree();
         $js_library = js_tree();
-        $js = 'js/apps/user-management/role.js?_='.rand();
+        $js = 'assets/js/apps/user-management/role.js?_='.rand();
         return view('user-management.role', compact('js', 'js_library', 'css_library', 'title'));
     }
 
