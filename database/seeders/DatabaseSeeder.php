@@ -13,11 +13,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // automatically generated menu seeder
+        $this->call(MenuSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // automatically generated role seeder
+        $this->call(RoleTableSeeder::class);
+
+        // automatically generated user seeder
+        $this->call(UsersTableSeeder::class);
+
+        // automatically generated akses role seeder
+        $this->call(AksesRoleSeeder::class);
+
     }
 }

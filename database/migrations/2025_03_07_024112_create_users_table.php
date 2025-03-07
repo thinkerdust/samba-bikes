@@ -12,13 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // Auto-increment primary key (bigint unsigned, not null, unique)
+            $table->string('username', 50)->unique(); // Unique username
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('email')->unique(); // Unique email
             $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->unsignedBigInteger('id_role');
+            $table->tinyInteger('status')->unsigned()->default(1)->comment('1: aktif; 0: non-aktif');
+            $table->timestamp('created_at')->useCurrent();
+            $table->unsignedBigInteger('created_by');
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+
+            // Relationship
+            $table->foreign('id_role')->references('id')->on('role')->onDelete('cascade');
+            
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
