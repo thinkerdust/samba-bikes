@@ -20,7 +20,7 @@ class AuthController extends BaseController
 
     public function login()
     {
-        $js = 'js/apps/auth/login.js?_='.rand();
+        $js = 'assets/js/apps/auth/login.js?_='.rand();
         return view('auth.login', compact('js'));
     }
 

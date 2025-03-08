@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class LandingController extends BaseController {
 
     public function index() {
-        $js = 'js/apps/landing/landing.js?_='.rand();
+        $js = 'assets/js/apps/landing/landing.js?_='.rand();
         return view('landing.index', compact('js'));
     }
     
