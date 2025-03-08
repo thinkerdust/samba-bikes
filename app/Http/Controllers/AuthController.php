@@ -21,7 +21,7 @@ class AuthController extends BaseController
     public function login()
     {
         $js = 'assets/js/apps/auth/login.js?_='.rand();
-        return view('auth/login', compact('js'));
+        return view('auth.login', compact('js'));
     }
 
     public function logout(Request $request)
@@ -59,7 +59,7 @@ class AuthController extends BaseController
     {
         $title = 'Update Password';
         $js = 'js/apps/auth/change-password.js?_='.rand();
-        return view('auth/change_password', compact('js','title'));
+        return view('auth.change_password', compact('js','title'));
     }
 
     public function process_change_password(Request $request)
