@@ -10,6 +10,10 @@ use App\Http\Controllers\LandingController;
 
 Route::get('/', [LandingController::class, 'index'])->name('/');
 
+Route::get('/admin', function() {
+    return redirect('login');
+});
+
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'login')->name('login');
     Route::post('/authenticate', 'authenticate')->middleware('ajax-request')->name('authenticate');
