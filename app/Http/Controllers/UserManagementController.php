@@ -45,7 +45,8 @@ class UserManagementController extends BaseController
             'username' => 'required|max:50|unique:users, "username",'.$id,
             'nama'=> 'required',
             'email' => 'required|email:rfc,dns|unique:users, "email",'.$id,
-            'role' => 'required_if:id_user, null'
+            'role' => 'required',
+            'level' => 'required'
         ], validation_message());
    
         if($validator->stopOnFirstFailure()->fails()){
@@ -60,6 +61,7 @@ class UserManagementController extends BaseController
             'name' => $request->nama,
             'email' => $request->email,
             'id_role' => $request->role,
+            'level' => $request->level,
             'created_by' => $auth->username,
             'updated_by' => $auth->username,
         ];

@@ -17,8 +17,8 @@
                             <div class="card-inner">
                                 @can("crudAccess", "UM3")
                                 <a href="#" onclick="tambah()" class="toggle btn btn-theme-custome btn-sm"><em class="icon ni ni-plus"></em><span>Add Data</span></a>
-                                @endcan
                                 <hr class="preview-hr">
+                                @endcan
                                 <table class="table table-striped nowrap" id="dt-table">
                                     <thead>
                                         <tr>

@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\EventController;
 
 Route::get('/', [LandingController::class, 'index'])->name('/');
 
@@ -72,6 +73,15 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
             Route::get('/delete/{id}', 'delete_role');
             Route::get('/list-permissions-menu', 'list_permissions_menu')->middleware('ajax-request');
         });
+    });
+
+    Route::prefix('event')->middleware("can:Menu, 'EV'")->controller(EventController::class)->group(function() {
+        Route::get('/', 'index');
+        Route::post('/datatable', 'datatable_event');
+        Route::get('/form/{kode?}', 'form_event');
+        Route::post('/store', 'store_event');
+        Route::get('/edit/{kode}', 'edit_event');
+        Route::get('/delete/{kode}', 'delete_event');
     });
 
 });
