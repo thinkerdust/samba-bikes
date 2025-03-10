@@ -16,7 +16,7 @@
                         <div class="card card-bordered card-preview">
                             <div class="card-inner">
                                 <div class="preview-block">
-                                    <form class="form-validate is-alter" id="form-data">
+                                    <form class="form-validate is-alter" id="form-data" autocomplete="off">
                                         @csrf
                                         <input type="hidden" name="kode" id="kode" value="{{ isset($kode) ? $kode:0 }}">
                                         <div class="row gy-4">
@@ -75,7 +75,7 @@
                                         </div>
 
                                         <hr class="preview-hr">
-                                        <button type="submit" class="btn btn-theme-sml" id="btn-submit">Save</button>
+                                        <button type="submit" class="btn btn-theme-custome" id="btn-submit">Save</button>
                                     </form>
                                 </div>
                             </div>

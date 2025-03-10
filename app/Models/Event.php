@@ -39,7 +39,7 @@ class Event extends Model
                         DB::raw("DATE_FORMAT(tanggal_mulai, '%d/%m/%Y') as tanggal_mulai"),
                         DB::raw("DATE_FORMAT(tanggal_selesai, '%d/%m/%Y') as tanggal_selesai")
                     )
-                    ->get();
+                    ->first();
 
         return $query;
     }

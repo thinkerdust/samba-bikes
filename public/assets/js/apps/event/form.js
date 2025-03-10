@@ -21,13 +21,13 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 let data = response.data;
-                if(response.status) {
+                if(data) {
                     $('#nama').val(data.nama);
                     $('#lokasi').val(data.lokasi);
                     $('#tanggal').datepicker('setDate', data.tanggal);
                     $('#deskripsi').val(data.deskripsi);
-                    $('#tanggal_mulai').datepicker('setDate', data.tanggal_mulai);
-                    $('#tanggal_selesai').datepicker('setDate', data.tanggal_selesai);
+                    $('#tanggal_mulai_tiket').datepicker('setDate', data.tanggal_mulai);
+                    $('#tanggal_selesai_tiket').datepicker('setDate', data.tanggal_selesai);
                     $('#harga').val(thousandView(data.harga));
                     $('#stok').val(thousandView(data.stok));
                 }
