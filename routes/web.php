@@ -10,6 +10,12 @@ use App\Http\Controllers\LandingController;
 
 Route::get('/', [LandingController::class, 'index'])->name('/');
 
+// get harga
+Route::get('/get-harga', [LandingController::class, 'get_harga'])->name('get-harga');
+// register-peserta
+Route::post('/register-peserta', [LandingController::class, 'register_peserta'])->name('register-peserta');
+
+
 Route::get('/admin', function() {
     return redirect('login');
 });

@@ -2901,11 +2901,13 @@ footer {
   max-width: 610px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\00003867}}
   .marathon-register .title {
-    margin-bottom: 111px; }
+    /* margin-bottom: 111px;  */
+  }
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\00003870}}
   .marathon-register .inp-name,
   .marathon-register .inp-email {
-    width: 100%; }
+    /* width: 100%;  */
+  }
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\00003874}}
   .marathon-register .checkbox-cover p {
     max-width: 390px; }
@@ -2937,7 +2939,7 @@ footer {
 .register-img {
   position: absolute;
   left: -100px;
-  top: 38%;
+  top: 50.5%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
   z-index: 2;
@@ -4870,9 +4872,21 @@ blockquote:before {
       font-weight: 500;
       color: #333333; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000032603}}
+.buy-ticket-form {
+  background-color: #f5f7f9;
+  padding: 2rem 3rem;
+}
+
+@media (max-width: 768px) {
+  .buy-ticket-form {
+    padding: 1rem;
+  }
+}
+
 .buy-ticket-form .form-cover {
-  padding-top: 9px; }
+  padding-top: 9px; 
+}
+
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000032606}}
 .buy-ticket-form .pay-method {
   margin: 11px 0 25px;
@@ -4948,14 +4962,14 @@ blockquote:before {
     color: #333333;
     font-family: "Red Hat Display", sans-serif;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 24px;
     text-transform: capitalize;
     margin-right: 10px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000032672}}
   .buy-ticket-form .price-final .price-final-text {
-    color: #0d5aa5;
+    color: #0d5aa5 !important;
     font-weight: 700;
-    font-size: 36px; }
+    font-size: 24px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000032678}}
 .buy-ticket-form .btn-form-cover {
   text-align: right; }
@@ -6181,7 +6195,7 @@ body.modal {
 /*----------------- DANCE-BUY-TICKET -----------------*/
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000033766}}
 .dance-buy-ticket {
-  padding: 142px 0 150px;
+  padding: 142px 0 0px;
   background-position: top center;
   background-repeat: no-repeat;
   background-size: cover; }
@@ -6227,7 +6241,7 @@ body.modal {
       border-color: #393939; }
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000033818}}
   .dance-buy-ticket .buy-ticket-form .price-final span {
-    color: #fff; }
+    color: #0d5aa5; }
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000033821}}
   .dance-buy-ticket .buy-ticket-form .price-final .price-final-text {
     color: #d52b74; }
@@ -8763,3 +8777,216 @@ body.modal {
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000036030}}
   .dance-slide .container {
     min-height: 480px; } }
+
+/* Custom */
+    .scroll-container {
+      width: 100%; /* Ensures it takes full width */
+      overflow-x: auto; /* Enables horizontal scrolling */
+      white-space: nowrap; /* Prevents wrapping to the next line */
+      border: 1px solid #ddd; /* Optional: Adds a subtle border */
+      padding: 5px; /* Optional: Adds spacing */
+  }
+  
+  .scroll-list {
+      display: flex; /* Ensures all <li> items are in one row */
+      gap: 10px; /* Optional: Adds spacing between items */
+  }
+  
+  .inp-cover {
+      list-style: none; /* Removes default bullet points */
+      display: inline-block; /* Keeps items aligned horizontally */
+  }
+
+  /* Container for horizontal scrolling */
+/* Container for scrollable table */
+/* Container for scrollable table */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  background-color: #f9f9f9;
+  min-height: 300px;
+}
+
+/* General Table Styling */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+/* Table Header & Cell Styling */
+.custom-table th, .custom-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Remove double border issue */
+.custom-table thead th {
+  background: #f5f5f5;
+  border-top: none;
+}
+
+/* Input Styling - Fixed Width */
+.custom-table input, .custom-table select {
+  width: 220px; /* Adjust this value as needed */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 1px;
+  font-size: 14px;
+  outline: none;
+  text-align: center; /* Center align input text */
+}
+
+.custom-table .nice-select {
+  font-size: 14px;
+  min-width: 200px;
+}
+
+/* Input Focus Effect */
+.custom-table input:focus {
+  border-color: #0BBECA;
+  box-shadow: 0 0 5px rgba(11, 190, 202, 0.5);
+}
+
+/* Scrollable Container */
+.scroll-container {
+  overflow-x: auto;
+  white-space: nowrap;
+  max-width: 100%;
+  padding-bottom: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .table-container {
+      overflow-x: auto;
+  }
+  .custom-table {
+      min-width: 900px;
+  }
+}
+
+/* Custom Modal */
+  /* Background Overlay */
+  .modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  /* Modal Content */
+  .modal-dialog {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: clamp(350px, 80%, 600px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    animation: slideDown 0.3s ease-in-out;
+  }
+
+  /* Header */
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+  }
+
+  .modal-title {
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  /* Close Button */
+  .close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  /* Modal Body */
+  .modal-body {
+    padding: 15px 0;
+  }
+
+  .info-pembayaran {
+    color: #111;
+    font-size: 1rem;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: #111;
+  }
+
+  input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  /* Footer */
+  .modal-footer {
+    display: flex;
+    justify-content: end;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+  }
+
+  .btn {
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .btn-secondary {
+    background: #ccc;
+  }
+
+  .btn-primary {
+    background: #0BBECA;
+    color: white;
+  }
+
+  /* Open Animation */
+  @keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+  }
+
+  /* Button to Open Modal */
+  .btn-open {
+    margin: 20px;
+    padding: 10px 15px;
+    background: #0BBECA;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+/* End Custom Modal */
+
+.nice-select.open {
+  z-index: 100; /* Higher z-index when dropdown is opened */
+}
