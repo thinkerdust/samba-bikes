@@ -4,7 +4,15 @@ var table = NioApp.DataTable('#dt-table', {
     responsive: true,
     searchDelay: 500,
     ajax: {
-        url: '/admin/user-management/role/datatable'
+        url: '/admin/user-management/role/datatable',
+        error: function (xhr) {
+            if (xhr.status === 419) { // Unauthorized error
+                NioApp.Toast('Your session has expired. Redirecting to login...', 'error', {position: 'top-right'});
+                window.location.href = "/login"; 
+            } else {
+                NioApp.Toast('An error occurred while loading data. Please try again.', 'error', {position: 'top-right'});
+            }
+        }
     },
     columns: [
         {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
@@ -156,7 +164,7 @@ $('#form-data').submit(function(e) {
 
 function edit(id) {
     $.ajax({
-        url: '/admin/user-management/role/edit'+id,
+        url: '/admin/user-management/role/edit/'+id,
         dataType: 'JSON',
         success: function(response) {
             if(response.status) {

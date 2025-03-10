@@ -68,6 +68,17 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="form-label">Level</label>
+                        <div class="form-control-wrap">
+                            <select class="form-control js-select2" name="level" id="level" required>
+                                <option value="">Pilih Level</option>
+                                <option value="1">Superadmin</option>
+                                <option value="2">Admin</option>
+                                <option value="3">User</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="form-label">Email</label>
                         <div class="form-control-wrap">
                             <input type="email" class="form-control" name="email" id="email" required>

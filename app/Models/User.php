@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'id_role',
+        'level',
         'status',
         'created_by',
         'updated_by',
@@ -66,7 +67,7 @@ class User extends Authenticatable
         $query = DB::table('users as u')
                     ->join('role as r', 'r.id', '=', 'u.id_role')
                     ->where([['u.id', $id], ['r.status', 1]])
-                    ->select('u.id', 'u.name', 'u.username', 'u.email', 'u.id_role', 'u.status', 'r.nama as nama_role')
+                    ->select('u.id', 'u.name', 'u.username', 'u.email', 'u.id_role', 'u.status', 'r.nama as nama_role', 'level')
                     ->first();
 
         return $query;

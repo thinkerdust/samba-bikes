@@ -58,7 +58,7 @@ class AuthController extends BaseController
     public function change_password()
     {
         $title = 'Update Password';
-        $js = 'js/apps/auth/change-password.js?_='.rand();
+        $js = 'assets/js/apps/auth/change-password.js?_='.rand();
         return view('auth.change_password', compact('js','title'));
     }
 
@@ -94,7 +94,7 @@ class AuthController extends BaseController
     {
         $id = $request->id;
         $auth = Auth::user();
-        $user = User::where('id', $id)->update(['password'=> Hash::make('ocsabron.com'), 'updated_by' => $auth->username]);
+        $user = User::where('id', $id)->update(['password'=> Hash::make('5amba8ikes!'), 'updated_by' => $auth->username]);
         
         if($user) {
             return $this->ajaxResponse(true, 'Reset password berhasil');

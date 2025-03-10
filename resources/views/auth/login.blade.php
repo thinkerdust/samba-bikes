@@ -9,7 +9,7 @@
     <meta name="description" content="Samba Bikes">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fav Icon  -->
-    <link rel="shortcut icon" href="{{ asset('images/logo.png') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/images/logo.png') }}">
     <!-- Page Title  -->
     <title>Login | Samba Bikes</title>
     <!-- StyleSheets  -->
@@ -33,8 +33,8 @@
                     <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
                         <div class="brand-logo pb-4 text-center">
                             <a href="/" class="logo-link">
-                                <img class="logo-light logo-img logo-img-login" src="{{ asset('images/logo-brand-side.png') }}" srcset="{{ asset('images/logo-brand-side.png') }}" alt="logo">
-                                <img class="logo-dark logo-img logo-img-login" src="{{ asset('images/logo-brand-side.png') }}" srcset="{{ asset('images/logo-brand-side.png') }}" alt="logo-dark">
+                                <img class="logo-light logo-img logo-img-login" src="{{ asset('assets/images/logo-brand-side.png') }}" srcset="{{ asset('assets/images/logo-brand-side.png') }}" alt="logo">
+                                <img class="logo-dark logo-img logo-img-login" src="{{ asset('images/logo-brand-side.png') }}" srcset="{{ asset('assets/images/logo-brand-side.png') }}" alt="logo-dark">
                             </a>
                         </div>
                         <div class="card bg-warning is-dim">
