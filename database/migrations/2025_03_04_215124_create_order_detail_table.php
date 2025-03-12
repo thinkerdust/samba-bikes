@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('order_detail', function (Blueprint $table) {
             $table->id();            
-            $table->string('order_id');
-            $table->unsignedBigInteger('id_event_tiket');
-            $table->decimal('harga', 15, 2)->comment("harga per tiket");
+            $table->string('kode_order');
+            $table->unsignedBigInteger('id_peserta');
+            $table->decimal('harga', 15, 0)->comment("harga per tiket");
             $table->unsignedInteger('jumlah')->comment("total tiket");
+            $table->string('jersey');
             $table->tinyInteger('status')->unsigned()->default(1)->comment("1: aktif; 0: non-aktif;");
 
             $table->dateTime('insert_at')->default(DB::raw('CURRENT_TIMESTAMP()'));
@@ -27,13 +28,11 @@ return new class extends Migration
             $table->unsignedBigInteger('delete_by')->nullable();
 
             // Relations
-            $table->foreign('order_id')->references('order_id')->on('order')->onDelete('cascade');
-            $table->foreign('id_event_tiket')->references('id')->on('event_tiket')->onDelete('cascade');
+            $table->foreign('kode_order')->references('kode_order')->on('order')->onDelete('cascade');
 
             // Indexes
-            $table->index('order_id');
-            $table->index('id_event_tiket');
-            $table->index('status');
+            $table->index('kode_order');
+            $table->index('id_peserta');
 
         });
     }
