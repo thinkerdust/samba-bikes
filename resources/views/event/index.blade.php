@@ -16,7 +16,7 @@
                         <div class="card card-bordered card-preview">
                             <div class="card-inner">
                                 @can("crudAccess", "EV")
-                                <a href="/event/form" class="toggle btn btn-theme-custome btn-sm"><em class="icon ni ni-plus"></em><span>Add Data</span></a>
+                                <a href="/admin/event/form" class="btn btn-theme-custome btn-sm"><em class="icon ni ni-plus"></em><span>Add Data</span></a>
                                 <hr class="preview-hr">
                                 @endcan
 
@@ -62,6 +62,78 @@
                         </div><!-- .card-preview -->
                     </div> <!-- nk-block -->
                 </div><!-- .components-preview -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="modalDetail">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <em class="icon ni ni-cross"></em>
+            </a>
+            <div class="modal-header">
+                <h5 class="modal-title">Detail Event</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row gy-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Nama</label>
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" id="nama" name="nama" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Lokasi</label>
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" id="lokasi" name="lokasi" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tanggal</label>
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" id="tanggal" name="tanggal" data-date-format="dd/mm/yyyy" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Deskripsi</label>
+                            <div class="form-control-wrap">
+                                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="5" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Tanggal Mulai Tiket</label>
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" id="tanggal_mulai_tiket" name="tanggal_mulai_tiket" data-date-format="dd/mm/yyyy" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tanggal Selesai Tiket</label>
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" id="tanggal_selesai_tiket" name="tanggal_selesai_tiket" data-date-format="dd/mm/yyyy" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Harga</label>
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control format-currency text-end" id="harga" name="harga" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Stok</label>
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control format-currency text-end" id="stok" name="stok" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>

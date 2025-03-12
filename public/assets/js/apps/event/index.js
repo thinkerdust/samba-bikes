@@ -44,17 +44,17 @@ var table = NioApp.DataTable('#dt-table', {
             targets: -2,
             orderable: false,
             searchable: false,
+            className: 'text-center',
             render: function(data, type, full, meta) {
 
                 var status = {
-                    1: {'title': 'ON PROGRESS', 'class': ' bg-info'},
-                    2: {'title': 'DONE', 'class': ' bg-success'},
-                    3: {'title': 'PENDING', 'class': ' bg-warning'},
+                    0: {'title': 'Non Aktif', 'class': ' bg-danger'},
+                    1: {'title': 'Aktif', 'class': ' bg-success'}
                 };
                 if (typeof status[full['status']] === 'undefined') {
                     return data;
                 }
-                return '<span class="badge badge-dot '+ status[full['status']].class +'">'+ status[full['status']].title +'</span>';
+                return '<span class="badge '+ status[full['status']].class +'">'+ status[full['status']].title +'</span>';
             }
         },
     ]
@@ -105,4 +105,29 @@ function hapus(kode) {
             })
         }
     });
+}
+
+function detail(kode) {
+    $.ajax({
+        url: '/admin/event/edit/'+kode,
+        dataType: 'json',
+        success: function(response) {
+            let data = response.data;
+            if(data) {
+                $('#modalDetail').modal('show');
+                $('#nama').val(data.nama);
+                $('#lokasi').val(data.lokasi);
+                $('#tanggal').datepicker('setDate', data.tanggal);
+                $('#deskripsi').val(data.deskripsi);
+                $('#tanggal_mulai_tiket').datepicker('setDate', data.tanggal_mulai);
+                $('#tanggal_selesai_tiket').datepicker('setDate', data.tanggal_selesai);
+                $('#harga').val(thousandView(data.harga));
+                $('#stok').val(thousandView(data.stok));
+            }
+        },
+        error: function(error) {
+            console.log(error)
+            NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+        }
+    })
 }

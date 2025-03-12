@@ -44,7 +44,7 @@ class EventController extends BaseController
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <ul class="link-list-opt no-bdr">
                                         <li><a class="btn" onclick="detail(\'' . $row->kode . '\')"><em class="icon ni ni-eye"></em><span>Detail</span></a></li>
-                                        <li><a href="/event/form/'.$row->kode.'" class="btn"><em class="icon ni ni-edit"></em><span>Edit</span></a></li>
+                                        <li><a href="/admin/event/form/'.$row->kode.'" class="btn"><em class="icon ni ni-edit"></em><span>Edit</span></a></li>
                                         <li><a class="btn" onclick="hapus(\'' . $row->kode . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>
                                     </ul>
                                 </div>
@@ -120,7 +120,7 @@ class EventController extends BaseController
     {
         $title      = 'Form Event';
         $kode       = $request->kode;
-        $js         = 'js/apps/event/form.js?_='.rand();
+        $js         = 'assets/js/apps/event/form.js?_='.rand();
 
         return view('event.form', compact('title', 'js', 'kode'));
     }
@@ -128,7 +128,7 @@ class EventController extends BaseController
     public function edit_event(Request $request) 
     {
         $kode     = $request->kode;
-        $data     = $this->event->getOrder($kode);
+        $data     = $this->event->editEvent($kode);
 
         return $this->ajaxResponse(true, 'Success!', $data);
     }
@@ -141,7 +141,7 @@ class EventController extends BaseController
         try {
             DB::beginTransaction();
 
-            DB::table('event')->where('uid', $kode)->update(['status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->username]);
+            DB::table('event')->where('kode', $kode)->update(['status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->username]);
 
             DB::commit();
             return $this->ajaxResponse(true, 'Data berhasil dihapus');
