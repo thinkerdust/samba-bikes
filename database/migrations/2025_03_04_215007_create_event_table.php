@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('event', function (Blueprint $table) {
             $table->id();
-            $table->string('nama', 100);
+            $table->string('nama');
+            $table->date('tanggal');
             $table->text('deskripsi')->nullable();
-            $table->date('tgl_event');
-            $table->unsignedInteger('max_tiket')->default(1);
-            $table->date('mulai_tiket_available');
-            $table->date('selesai_tiket_available');
             $table->string('lokasi');
+            $table->date('tanggal_mulai');
+            $table->date('tanggal_selesai');
+            $table->decimal('harga', 15, 0)->default(1);
+            $table->unsignedInteger('stok')->default(1);
             $table->tinyInteger('status')->unsigned()->default(1)->comment("1: aktif; 0: non-aktif");
 
             $table->dateTime('insert_at')->default(DB::raw('CURRENT_TIMESTAMP()'));
