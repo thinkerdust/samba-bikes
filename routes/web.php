@@ -8,6 +8,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PesertaController;
 
 Route::get('/', [LandingController::class, 'index'])->name('/');
 
@@ -75,6 +76,7 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
         });
     });
 
+    // Event
     Route::prefix('event')->middleware("can:Menu, 'EV'")->controller(EventController::class)->group(function() {
         Route::get('/', 'index');
         Route::post('/datatable', 'datatable_event');
@@ -82,6 +84,14 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
         Route::post('/store', 'store_event');
         Route::get('/edit/{kode}', 'edit_event');
         Route::get('/delete/{kode}', 'delete_event');
+    });
+
+    // Peserta
+    Route::prefix('peserta')->middleware("can:Menu, 'PESERTA'")->controller(PesertaController::class)->group(function() {
+        Route::get('/', 'index');
+        Route::post('/datatable', 'datatable_peserta');
+        Route::get('/edit/{id}', 'edit_peserta');
+        Route::get('/delete/{id}', 'delete_peserta');
     });
 
 });
