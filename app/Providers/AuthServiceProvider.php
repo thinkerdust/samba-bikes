@@ -35,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider
             $db = DB::table('akses_role as ar')
                     ->join('users as u', 'ar.id_role', '=', 'u.id_role')
                     ->join('menu as m', 'ar.kode_menu', '=', 'm.kode')
-                    ->where([['ar.flag_access', '<>', 9], ['u.id_role', $user->id_role], ['m.parent', 0], ['ar.kode_menu', $kd_parent]])
+                    ->where([['ar.flag_access', '<>', 9], ['u.id_role', $user->id_role], ['m.kode_parent', 0], ['ar.kode_menu', $kd_parent]])
                     ->select('ar.kode_menu')
                     ->first();
             return $db;
