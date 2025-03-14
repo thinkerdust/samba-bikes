@@ -21,9 +21,6 @@ return new class extends Migration
 
             $table->dateTime('update_at')->nullable()->useCurrentOnUpdate();
             $table->unsignedBigInteger('update_by')->nullable();
-
-            $table->dateTime('delete_at')->nullable();
-            $table->unsignedBigInteger('delete_by')->nullable();
         });
         
     }
