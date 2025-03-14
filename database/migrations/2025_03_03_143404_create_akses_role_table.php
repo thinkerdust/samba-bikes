@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_role');
             $table->string('kode_menu', 10); // Changed from referencing id to kode
-            $table->tinyInteger('flag_access');
+            $table->tinyInteger('flag_access')->unsigned()->default(1);
 
             $table->dateTime('insert_at')->default(DB::raw('CURRENT_TIMESTAMP()'));
             $table->unsignedBigInteger('insert_by');
