@@ -21,7 +21,7 @@ class Event extends Model
 
         $query = DB::table('event')
                     ->whereBetween('tanggal', [$start_date, $end_date])
-                    ->select('kode', 'nama', 'lokasi', 'harga', 'stok', 'status',
+                    ->select('id', 'nama', 'lokasi', 'harga', 'stok', 'status',
                         DB::raw("DATE_FORMAT(tanggal, '%d/%m/%Y') as tanggal"),
                         DB::raw("DATE_FORMAT(tanggal_mulai, '%d/%m/%Y') as tanggal_mulai"),
                         DB::raw("DATE_FORMAT(tanggal_selesai, '%d/%m/%Y') as tanggal_selesai")
@@ -30,11 +30,11 @@ class Event extends Model
         return $query;
     }
 
-    public function editEvent($kode)
+    public function editEvent($id)
     {
         $query = DB::table('event')
-                    ->where('kode', $kode)
-                    ->select('kode', 'nama', 'lokasi', 'harga', 'stok', 'status', 'deskripsi',
+                    ->where('id', $id)
+                    ->select('id', 'nama', 'lokasi', 'harga', 'stok', 'status', 'deskripsi',
                         DB::raw("DATE_FORMAT(tanggal, '%d/%m/%Y') as tanggal"),
                         DB::raw("DATE_FORMAT(tanggal_mulai, '%d/%m/%Y') as tanggal_mulai"),
                         DB::raw("DATE_FORMAT(tanggal_selesai, '%d/%m/%Y') as tanggal_selesai")

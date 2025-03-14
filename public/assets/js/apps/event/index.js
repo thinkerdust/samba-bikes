@@ -79,7 +79,7 @@ $('.format-currency').on('keyup', (evt) => {
     keyUpThousandView(evt)
 })
 
-function hapus(kode) {
+function hapus(id) {
     Swal.fire({
         title: 'Apakah anda yakin akan hapus data?',
         icon: 'warning',
@@ -88,7 +88,7 @@ function hapus(kode) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: '/event/delete/'+kode,
+                url: '/admin/event/delete/'+id,
                 dataType: 'JSON',
                 success: function(response) {
                     if(response.status){
@@ -107,9 +107,9 @@ function hapus(kode) {
     });
 }
 
-function detail(kode) {
+function detail(id) {
     $.ajax({
-        url: '/admin/event/edit/'+kode,
+        url: '/admin/event/edit/'+id,
         dataType: 'json',
         success: function(response) {
             let data = response.data;

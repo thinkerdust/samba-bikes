@@ -191,7 +191,7 @@ function hapus(id) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: '/admin/user-management/menu/delete/'+id,
+                url: '/admin/user-management/role/delete/'+id,
                 dataType: 'JSON',
                 success: function(response) {
                     if(response.status){

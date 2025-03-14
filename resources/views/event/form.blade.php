@@ -18,7 +18,7 @@
                                 <div class="preview-block">
                                     <form class="form-validate is-alter" id="form-data" autocomplete="off">
                                         @csrf
-                                        <input type="hidden" name="kode" id="kode" value="{{ isset($kode) ? $kode:0 }}">
+                                        <input type="hidden" name="id" id="id" value="{{ isset($id) ? $id:0 }}">
                                         <div class="row gy-4">
                                             <div class="col-md-6">
                                                 <div class="form-group">

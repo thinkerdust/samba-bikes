@@ -13,7 +13,7 @@ class Menu extends Model
     protected $fillable = [
         'id',
         'kode',
-        'parent',
+        'kode_parent',
         'nama',
         'icon',
         'url',
@@ -26,7 +26,7 @@ class Menu extends Model
 
     public function dataTableMenu()
     {
-        return self::select('id', 'kode', 'parent', 'nama', 'icon', 'url', 'status')->where('status', 1);
+        return self::select('id', 'kode', 'kode_parent', 'nama', 'icon', 'url', 'status')->where('status', 1);
     }
 
     public function viewMenuTemplate($parent = '0', $level = '0', $kode_role = '')
@@ -114,12 +114,12 @@ class Menu extends Model
         $sql = "SELECT a.*, IFNULL(jumlah_menu.jumlah, 0) AS hitung
                 FROM menu a
                     LEFT JOIN (
-                        SELECT parent, COUNT(*) AS jumlah
+                        SELECT kode_parent, COUNT(*) AS jumlah
                         FROM menu
                         WHERE status = 1
-                        GROUP BY parent
-                    ) AS jumlah_menu ON a.kode = jumlah_menu.parent
-                WHERE a.parent = '$parent' AND a.status = 1
+                        GROUP BY kode_parent
+                    ) AS jumlah_menu ON a.kode = jumlah_menu.kode_parent
+                WHERE a.kode_parent = '$parent' AND a.status = 1
                 ";
 
         $data = DB::select($sql);
@@ -136,17 +136,17 @@ class Menu extends Model
                     c.flag_access
                 FROM menu a
                 LEFT JOIN (
-                    SELECT parent, COUNT(*) AS jumlah
+                    SELECT kode_parent, COUNT(*) AS jumlah
                     FROM menu
                     WHERE status = 1
-                    GROUP BY parent
-                ) AS jumlah_menu ON a.kode = jumlah_menu.parent
+                    GROUP BY kode_parent
+                ) AS jumlah_menu ON a.kode = jumlah_menu.kode_parent
                 LEFT JOIN (
                     SELECT kode_menu, flag_access
                     FROM akses_role 
                     WHERE id_role = '$kode_role'
                 ) AS c ON c.kode_menu = a.kode
-                WHERE a.parent = '$parent' AND a.status = 1";
+                WHERE a.kode_parent = '$parent' AND a.status = 1";
 
         $data = DB::select($sql);
         return $data;

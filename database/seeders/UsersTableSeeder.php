@@ -21,6 +21,7 @@ class UsersTableSeeder extends Seeder
                 'email' => 'thinkerdust.dev@gmail.com',
                 'password' => '$2y$12$mClJu24M2AZigk3CDhK.7.d1fZHBr6sHwcKa4nUlCynfSKrHnnGJq', // Already hashed
                 'id_role' => 1,
+                'level' => 1,
                 'status' => 1,
                 'created_at' => '2025-02-22 16:33:57',
                 'created_by' => '1',
@@ -32,8 +33,9 @@ class UsersTableSeeder extends Seeder
                 'username' => 'beta',
                 'name' => 'beta',
                 'email' => 'beta@mail.com',
-                'password' => '$2y$12$ldqpRbYKARHU5GdwQhmo0.R652gtIGuXJ47YkHm6aQToQw0B1BPg6', // Already hashed
+                'password' => '$2y$12$mClJu24M2AZigk3CDhK.7.d1fZHBr6sHwcKa4nUlCynfSKrHnnGJq', // Already hashed
                 'id_role' => 1,
+                'level' => 1,
                 'status' => 1,
                 'created_at' => '2025-02-22 16:33:57',
                 'created_by' => '1',
