@@ -80,10 +80,10 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
     Route::prefix('event')->middleware("can:Menu, 'EV'")->controller(EventController::class)->group(function() {
         Route::get('/', 'index');
         Route::post('/datatable', 'datatable_event');
-        Route::get('/form/{kode?}', 'form_event');
+        Route::get('/form/{id?}', 'form_event');
         Route::post('/store', 'store_event');
-        Route::get('/edit/{kode}', 'edit_event');
-        Route::get('/delete/{kode}', 'delete_event');
+        Route::get('/edit/{id}', 'edit_event');
+        Route::get('/delete/{id}', 'delete_event');
     });
 
     // Peserta
