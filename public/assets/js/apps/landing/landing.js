@@ -13,6 +13,26 @@ function closeModal() {
 
     // refresh form
     clearForm();
+    clearButtonSubmit()
+}
+
+function openModalOverride(listNama, onclick) {
+
+    $('#info-peserta-terdaftar').text('Peserta ' + listNama + ' sudah terdaftar, apakah anda yakin ingin melanjutkan (data peserta lama akan dihapus) ?');
+    $('#submit-override').attr('onclick', onclick);
+
+    let modal = document.getElementById("modalOverride");
+    modal.style.display = "flex";
+    setTimeout(() => modal.style.opacity = "1", 10);
+}
+
+function closeModalOverride() {
+    $('#info-peserta-terdaftar').text('');
+    let modal = document.getElementById("modalOverride");
+    modal.style.opacity = "0";
+    setTimeout(() => modal.style.display = "none", 300);
+
+    clearButtonSubmit()
 }
 
 function clearForm() {
@@ -40,6 +60,18 @@ function changeTotalHarga() {
     let totalPeserta = $('#listPeserta tr').length;
     let totalHarga = totalPeserta * hargaEvent;
     $('#totalHarga').text('Rp. ' + totalHarga.toLocaleString('id-ID'));
+}
+
+function clearButtonSubmit() {
+
+    var btnPersonal = $('#btn-submit-personal');
+    var btnKomunitas = $('#btn-submit-komunitas');
+
+    btnPersonal.attr('disabled', false);
+    btnPersonal.html('Register');
+
+    btnKomunitas.attr('disabled', false);
+    btnKomunitas.html('Register');
 }
 
 $(document).ready(function() {
@@ -131,27 +163,42 @@ $('#registerPersonal').submit(function(e) {
 
     var btn = $('#btn-submit-personal');
 
-    let formData = new FormData($('#registerPersonal')[0]);
-        formData.append('type', 'personal');
+    // check peserta
+    let nik = [];
+    nik.push($(this).find('input[name="nik"]').val());
 
-    // proses ajax
     $.ajax({
-        url: '/register-peserta',
+        url: '/check-peserta',
         type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
+        data: {
+            nik: nik, 
+            type: 'personal', 
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
         beforeSend: function() {
             btn.attr('disabled', true);
             btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading ...</span>`);
         },
         success: function(response) {
             let data = response.data;
+            console.log(data)
             if(response.status) {
-                openModal();
+                if(data.length > 0) {
+                    // peserta sudah terdaftar tampilan modal konfirmasi override
+                    let pesertaTerdaftar = '';
+
+                    data.forEach((item, index) => {
+                        pesertaTerdaftar += `${item.nama}, `;
+                    });
+
+                    // remove last comma
+                    pesertaTerdaftar = pesertaTerdaftar.slice(0, -2);
+
+                    openModalOverride(pesertaTerdaftar, 'processRegisterPersonal()');
+                } else {
+                    processRegisterPersonal();
+                }
             }
-            btn.attr('disabled', false);
-            btn.html('Register');
         },
         error: function(error) {
             console.log(error)
@@ -164,10 +211,86 @@ $('#registerKomunitas').submit(function(e) {
 
     var btn = $('#btn-submit-komunitas');
 
+    // check peserta
+    let nik = [];
+    $(this).find('input[name="nik[]"]').each(function() {
+        nik.push($(this).val());
+    });
+
+    $.ajax({
+        url: '/check-peserta',
+        type: 'POST',
+        data: {
+            nik: nik, 
+            type: 'komunitas', 
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function() {
+            btn.attr('disabled', true);
+            btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading ...</span>`);
+        },
+        success: function(response) {
+            let data = response.data;
+            console.log(data)
+            if(response.status) {
+                if(data.length > 0) {
+                    // peserta sudah terdaftar tampilan modal konfirmasi override
+                    let pesertaTerdaftar = '';
+
+                    data.forEach((item, index) => {
+                        pesertaTerdaftar += `${item.nama}, `;
+                    });
+
+                    // remove last comma
+                    pesertaTerdaftar = pesertaTerdaftar.slice(0, -2);
+
+                    openModalOverride(pesertaTerdaftar, 'processRegisterKomunitas()');
+                } else {
+                    processRegisterKomunitas();
+                }
+            }
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    });
+
+});
+
+function processRegisterPersonal() {
+
+    var btn = $('#btn-submit-personal');
+
+    let formData = new FormData($('#registerPersonal')[0]);
+        formData.append('type', 'personal');
+
+    $.ajax({
+        url: '/register-peserta',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            if(response.status) {
+                closeModalOverride();
+                openModal();
+            }
+            btn.attr('disabled', false);
+            btn.html('Register');
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    });
+}
+
+function processRegisterKomunitas() {
+
+    var btn = $('#btn-submit-komunitas');
+
     let formData = new FormData($('#registerKomunitas')[0]);
         formData.append('type', 'komunitas');
 
-    // proses ajax
     $.ajax({
         url: '/register-peserta',
         type : "POST",
@@ -182,6 +305,7 @@ $('#registerKomunitas').submit(function(e) {
         success: function(response) {
             let data = response.data;
             if(response.status) {
+                closeModalOverride();
                 openModal();
             }
             btn.attr('disabled', false);
@@ -191,4 +315,4 @@ $('#registerKomunitas').submit(function(e) {
             console.log(error)
         }
     });
-});
+}

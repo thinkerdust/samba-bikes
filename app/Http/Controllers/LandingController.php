@@ -21,23 +21,64 @@ class LandingController extends BaseController {
         return response()->json($data);
     }
 
+    // check peserta by nik (input array)
+    public function check_peserta(Request $request) {
+        $nik  = $request->input('nik');
+        $type = $request->input('type');
+    
+        $query = DB::table('peserta')->select('id', 'nama')->whereIn('nik', $nik)->where('status', 1);
+    
+        return $this->ajaxResponse(true, 'Berhasil mengambil data peserta', $query->get());
+    }    
+
     public function register_peserta(Request $request) {
     
         $type = $request->input('type');
-        $event = DB::table('event')->where('status', 1)->first();
-    
+
+        $event = DB::table('event')
+                    ->select(
+                        'event.*',
+                        DB::raw('IFNULL(order.jumlah, 0) as total_order'), // Use order.jumlah directly
+                        DB::raw('event.stok - IFNULL(order.jumlah, 0) as sisa_stok') // Calculate remaining stock
+                    )
+                    ->leftJoin('order', function ($join) {
+                        $join->on('event.id', '=', 'order.id_event')
+                            ->whereIn('order.status', [1, 2]); // Include only pending & paid orders
+                    })
+                    ->where('event.status', 1) // Only active events
+                    ->first(); // Get a single event
+        
+        // Handle if no event found
         if (!$event) {
             return $this->ajaxResponse(false, 'Event tidak ditemukan.');
+        }
+        
+        // Check stock availability
+        if ($event->sisa_stok <= 0) {
+            return $this->ajaxResponse(false, 'Stok event ' . $event->nama . ' sudah habis.');
         }
     
         try {
             DB::beginTransaction();
-    
-            $kode_order = 'OH-' . now()->format('YmdHisu');
+
+            // get counter order
+            $counter = DB::table('counter')
+                        ->where('modul', 'ORDER')
+                        ->value('count'); // Use value() to get a single value
+            $counter = $counter !== null ? $counter + 1 : 1;
+        
+            $nomor_order = 'ORD/' . Carbon::now()->format('ymd') . '/' . sprintf('%05d', $counter);
+
+            // update counter 
+            DB::table('counter')
+                ->where('modul', 'ORDER')
+                ->update(['count' => $counter]);
+
             $dataOrder = [
-                'kode_order' => $kode_order,
+                'nomor' => $nomor_order,
                 'id_event' => $event->id,
                 'total' => 0,
+                'jumlah' => 0,
                 'status' => 1,
             ];
     
@@ -72,12 +113,53 @@ class LandingController extends BaseController {
                 if ($validator->stopOnFirstFailure()->fails()) {
                     return $this->ajaxResponse(false, $validator->errors()->first());
                 }
+
+                // check duplicate nik base on event
+                $nik = $request->input('nik');
+                $checkNik = DB::table('peserta')
+                            ->where('nik', $nik)
+                            ->where('id_event', $event->id)
+                            ->where('status', 1)
+                            ->first();
+
+                // jika ada peserta set status 0 dan order nya set status 0
+                if ($checkNik) {
+                    DB::table('peserta')
+                        ->where('nik', $nik)
+                        ->where('id_event', $event->id)
+                        ->update(['status' => 0]);
+
+                    // jika jumlah order = 1 maka set status order = 0
+                    $oldOrder = DB::table('order_detail')
+                                    ->join('order', 'order_detail.nomor_order', '=', 'order.nomor')
+                                    ->where('order_detail.id_peserta', $checkNik->id)
+                                    ->where('order_detail.status', 1)
+                                    ->first();
+
+                    if ($oldOrder->jumlah == 1) {
+                        DB::table('order')
+                            ->where('nomor', $oldOrder->nomor_order)
+                            ->update(['status' => 0]);
+                    } else {
+                        // set jumlah dikurangi 1
+                        DB::table('order')
+                            ->where('nomor', $oldOrder->nomor_order)
+                            ->decrement('jumlah');
+                    }
+
+                    // set order_detail status 
+                    DB::table('order_detail')
+                        ->where('id_peserta', $checkNik->id)
+                        ->update(['status' => 0]);
+                
+                }
     
                 $id_peserta = DB::table('peserta')->insertGetId([
+                    'id_event' => $event->id,
                     'nama' => $request->nama,
                     'phone' => phone_number_format($request->phone),
                     'email' => $request->email,
-                    'tanggal_lahir' => Carbon::createFromFormat('d/m/Y', $request->tanggal_lahir)->format('Y-m-d'),
+                    'tgl_lahir' => Carbon::createFromFormat('d/m/Y', $request->tanggal_lahir)->format('Y-m-d'),
                     'gender' => $request->gender,
                     'blood' => $request->blood,
                     'nik' => $request->nik,
@@ -89,14 +171,11 @@ class LandingController extends BaseController {
                 ]);
     
                 $dataOrder['total'] = $event->harga;
+                $dataOrder['jumlah'] = 1;
                 $dataOrderDetail[] = [
-                    'kode_order' => $kode_order,
+                    'nomor_order' => $nomor_order,
                     'id_peserta' => $id_peserta,
-                    'harga' => $event->harga,
-                    'jumlah' => 1,
-                    'jersey' => $request->jersey,
-                    'status' => 1,
-                    'insert_by' => $id_peserta,
+                    'size' => $request->jersey,
                 ];
             } else {
                 $validator = Validator::make($request->all(), [
@@ -131,38 +210,70 @@ class LandingController extends BaseController {
                 $id_komunitas = DB::table('komunitas')->insertGetId($dataKomunitas);
 
                 foreach ($request->nama as $key => $nama) {
+                    // check duplicate nik base on event
+                    $nik = $request->nik[$key];
+                    $checkNik = DB::table('peserta')
+                                ->where('nik', $nik)
+                                ->where('id_event', $event->id)
+                                ->where('status', 1)
+                                ->first();
+
+                    // jika ada peserta set status 0
+                    if ($checkNik) {
+                        DB::table('peserta')
+                            ->where('nik', $nik)
+                            ->where('id_event', $event->id)
+                            ->update(['status' => 0]);
+
+                        // jika jumlah order = 1 maka set status order = 0
+                        $oldOrder = DB::table('order_detail')
+                                        ->join('order', 'order_detail.nomor_order', '=', 'order.nomor')
+                                        ->where('order_detail.id_peserta', $checkNik->id)
+                                        ->where('order_detail.status', 1)
+                                        ->first();
+
+                        if ($oldOrder->jumlah == 1) {
+                            DB::table('order')
+                                ->where('nomor', $oldOrder->nomor_order)
+                                ->update(['status' => 0]);
+                        } else {
+                            // set jumlah dikurangi 1
+                            DB::table('order')
+                                ->where('nomor', $oldOrder->nomor_order)
+                                ->decrement('jumlah');
+                        }
+
+                        // set order_detail status 
+                        DB::table('order_detail')
+                            ->where('id_peserta', $checkNik->id)
+                            ->update(['status' => 0]);
+                    }
+
                     $id_peserta = DB::table('peserta')->insertGetId([
                         'nama' => $nama,
                         'id_komunitas' => $id_komunitas,
+                        'id_event' => $event->id,
                         'gender' => $request->gender[$key],
-                        'tanggal_lahir' => $request->tanggal_lahir[$key],
+                        'tgl_lahir' => $request->tanggal_lahir[$key],
                         'nik' => $request->nik[$key],
                         'telp_emergency' => phone_number_format($request->telp_emergency[$key]),
                         'hubungan_emergency' => $request->hubungan_emergency[$key],
                         'blood' => $request->blood[$key],
                     ]);
 
-                    // loop pertama set koordinator
-                    if($key == 0) {
-                        $id_koordinator = $id_peserta;
-                    }
-
                     $dataOrder['total'] += $event->harga;
+                    $dataOrder['jumlah'] += 1;
                     $dataOrderDetail[] = [
-                        'kode_order' => $kode_order,
+                        'nomor_order' => $nomor_order,
                         'id_peserta' => $id_peserta,
-                        'harga' => $event->harga,
-                        'jumlah' => 1,
-                        'jersey' => $request->jersey[$key],
-                        'status' => 1,
-                        'insert_by' => $id_koordinator,
+                        'size' => $request->jersey[$key],
                     ];
                 }
             }
 
             DB::table('order')->insert($dataOrder);
             DB::table('order_detail')->insert($dataOrderDetail);
-    
+
             DB::commit();
             return $this->ajaxResponse(true, 'Data berhasil disimpan');
         } catch (\Exception $e) {

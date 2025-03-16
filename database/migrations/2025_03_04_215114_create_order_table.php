@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nomor')->comment('ORD/240313/0001');
             $table->unsignedBigInteger('id_event');
-            $table->date('tanggal_bayar')->comment('harus diisi admin jika status lunas ketika approval');
-            $table->decimal('total_bayar', 15, 0)->comment("total pembayaran");
+            $table->date('tanggal_bayar')->comment('harus diisi admin jika status lunas ketika approval')->nullable();
+            $table->decimal('total_bayar', 15, 0)->comment("total pembayaran")->nullable();
             $table->unsignedInteger('jumlah')->comment("total tiket");
             $table->decimal('total', 15, 0)->comment("total harga tiket");
             $table->tinyInteger('racepack')->unsigned()->default(0)->comment("1: sudah diambil; 0: belum diambil");
