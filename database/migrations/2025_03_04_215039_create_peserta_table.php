@@ -14,22 +14,24 @@ return new class extends Migration
 
         Schema::create('peserta', function (Blueprint $table) {
             $table->id();
-            $table->string('email');
+            $table->unsignedBigInteger('id_komunitas')->comment('relasi ke table komunitas, jika null berarti individu');
             $table->string('nama');
-            $table->string('tempat_lahir', 100);
+            $table->string('phone', 20);
+            $table->string('email');
             $table->date('tgl_lahir');
-            $table->string('telp', 20);
+            $table->string('nik')->note('nik harus unik pada 1 event (bisa join ke order untuk liat id_event) dipisah by id_komunitas, status peserta aktif');
+            $table->enum('blood', ['A', 'B', 'AB', 'O']);
+            $table->string('kota', 100);
             $table->text('alamat');
-            $table->tinyInteger('jenis_kelamin')->unsigned()->comment('1: Laki-laki; 2: Perempuan');
+            $table->enum('gender', ['L', 'P'])->comment('L: Laki-laki; P: Perempuan');
+            $table->string('nama_komunitas');
+            $table->string('telp_emergency', 20);
+            $table->string('hubungan_emergency', 100);
             $table->tinyInteger('status')->unsigned()->default(1)->comment("1: aktif; 0: non-aktif");
 
             $table->dateTime('insert_at', 3)->default(DB::raw('CURRENT_TIMESTAMP(3)'));
-            $table->unsignedBigInteger('insert_by');
             $table->dateTime('update_at', 3)->nullable()->useCurrentOnUpdate();
             $table->unsignedBigInteger('update_by')->nullable();
-            $table->dateTime('delete_at', 3)->nullable();
-            $table->unsignedBigInteger('delete_by')->nullable();
-
 
         });
     }

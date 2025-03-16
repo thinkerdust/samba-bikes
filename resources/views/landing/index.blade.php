@@ -322,20 +322,21 @@
 						<img src="{{ asset('assets/images/landing/our-mission-2.svg') }}" alt="img" class="register-img-effect-1">
 						<h2 class="title"><span>Register as Personal</span></h2>
 						<form id='registerPersonal'>
+							@csrf
 							<ul class="form-cover">
-								<li class="inp-cover inp-name" style="width: 100%"><input id="nama" type="text" name="nama" placeholder="Name"></li>
-								<li class="inp-cover inp-name"><input id="phone" type="text" name="phone" placeholder="No Telepon"></li>
-								<li class="inp-cover inp-email"><input id="email" type="email" name="email" placeholder="E-mail"></li>
-								<li class="inp-cover inp-email"><input id="tanggal_lahir" class="tanggal" type="text" name="tanggal_lahir" placeholder="Tanggal Lahir"></li>
-								<li class="inp-cover inp-email">
-									<select class="nice-select" id="gender" autocomplete="no">
+								<li class="inp-cover inp-name" style="width: 100%"><input id="nama" type="text" name="nama" placeholder="Name" required></li>
+								<li class="inp-cover"><input id="phone" type="text" name="phone" placeholder="No Telepon" pattern="\d*" required></li>
+								<li class="inp-cover inp-email"><input id="email" type="email" name="email" placeholder="E-mail" required></li>
+								<li class="inp-cover"><input id="tanggal_lahir" class="tanggal" type="text" name="tanggal_lahir" placeholder="Tanggal Lahir" required></li>
+								<li class="inp-cover">
+									<select class="nice-select" id="gender" name="gender" autocomplete="no" required>
 										<option value="">Jenis Kelamin</option>
 										<option value="L" style="font-size: 14px;">Laki-laki</option>
 										<option value="P" style="font-size: 14px;">Perempuan</option>
 									</select>
 								</li>
-								<li class="inp-cover inp-email">
-									<select class="nice-select" id="blood" id="blood" placeholder="Gol Darah" autocomplete="no">
+								<li class="inp-cover">
+									<select class="nice-select" id="blood" name="blood" placeholder="Gol Darah" autocomplete="no" required>
 										<option value="">Gol Darah</option>
 										<option value="A" style="font-size: 14px;">A</option>
 										<option value="B" style="font-size: 14px;">B</option>
@@ -343,16 +344,14 @@
 										<option value="O" style="font-size: 14px;">O</option>
 									</select>
 								</li>
-								<li class="inp-cover inp-email" style="z-index: 0"><input id="nik" type="text" name="nik" placeholder="No Tanda Pengenal"></li>
-								<li class="inp-cover inp-email" style="z-index: 0"><input id=" telp_emergency" type="text" name=" telp_emergency" placeholder="No Kontak Darurat"></li>
-								<li class="inp-cover inp-email" style="z-index: 0"><input id="hubungan_emergency" type="text" name="hubungan_emergency" placeholder="Hub Kontak Darurat"></li>
-								<li class="inp-cover inp-email" style="z-index: 0"><input id="kota" type="text" name="kota" placeholder="Kota"></li>
-								<li class="inp-cover inp-email"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas"></li>
-								<li class="inp-cover inp-email" style="width: 100%"><input id="alamat" type="text" name="alamat" placeholder="Alamat"></li>
-								<li class="inp-cover inp-email" style="width: 100%"><input id="paket" type="text" placeholder="Paket Tour De Borobudur 2024" readonly></li>
-								<li class="inp-cover inp-email"><input id="harga" type="text" placeholder="Rp. 600.000" readonly></li>
-								<li class="inp-cover inp-gender">
-									<select class="nice-select">
+								<li class="inp-cover" style="z-index: 0"><input id="nik" type="text" name="nik" placeholder="No Tanda Pengenal" required></li>
+								<li class="inp-cover" style="z-index: 0"><input id="telp_emergency" type="text" name=" telp_emergency" placeholder="No Kontak Darurat" required></li>
+								<li class="inp-cover" style="z-index: 0"><input id="hubungan_emergency" type="text" name="hubungan_emergency" placeholder="Hub Kontak Darurat" required></li>
+								<li class="inp-cover" style="z-index: 0"><input id="kota" type="text" name="kota" placeholder="Kota" required></li>
+								<li class="inp-cover"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas"></li>
+								<li class="inp-cover" style="width: 100%"><input id="alamat" type="text" name="alamat" placeholder="Alamat" required></li>
+								<li class="inp-cover" style="width: 100%">
+									<select class="nice-select" id="jersey" name="jersey" required>
 										<option selected="selected">Ukuran Jersey</option>
 										<option>S</option>
 										<option>M</option>
@@ -362,7 +361,7 @@
 								</li>
 							</ul>
 							<div class="btn-form-cover" style="margin-top: 1.5rem">
-								<button type="submit" class="btn"><span>Register</span></button>
+								<button type="submit" class="btn" id="btn-submit-personal"><span>Register</span></button>
 							</div>
 						</form>
 					</div>
@@ -382,9 +381,10 @@
 					<div class="col-md-12">
 						<div class="buy-ticket-form">
 							<form id='registerKomunitas'>
+								@csrf
 								<h5>Informasi Komunitas</h5>
 								<ul class="form-cover">
-									<li class="inp-cover inp-name" style="width: 100%"><input id="nama" type="text" name="nama" placeholder="Nama Komunitas"></li>
+									<li class="inp-cover inp-name" style="width: 100%"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas"></li>
 									<li class="inp-cover inp-name"><input id="koordinator" type="text" name="koordinator" placeholder="Nama Koordinator"></li>
 									<li class="inp-cover inp-name"><input id="email" type="email" name="email" placeholder="Email Koordinator"></li>
 									<li class="inp-cover inp-name"><input id="kota" type="text" name="kota" placeholder="Kota Komunitas"></li>
@@ -412,20 +412,20 @@
 												</thead>
 												<tbody id="listPeserta">
 													<tr>
-														<td><input type="text" name="nama" placeholder="Nama Peserta" autocomplete="no"></td>
+														<td><input type="text" name="nama[]" placeholder="Nama Peserta" autocomplete="no"></td>
 														<td>
-															<select class="nice-select" id="gender" autocomplete="no">
+															<select class="nice-select" id="gender" name="gender[]" autocomplete="no">
 																<option value="" disabled selected>Jenis Kelamin</option>
 																<option value="L" style="font-size: 14px;">Laki-laki</option>
 																<option value="P" style="font-size: 14px;">Perempuan</option>
 															</select>
 														</td>
-														<td><input type="text" name="tanggal_lahir" class="tanggal" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="no"></td>
-														<td><input type="text" name="nik" placeholder="No KTP" autocomplete="no"></td>
-														<td><input type="text" name="telp_emergency" placeholder="No Telepon" autocomplete="no"></td>
-														<td><input type="text" name="hubungan_emergency" placeholder="Hubungan" autocomplete="no"></td>
+														<td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="no"></td>
+														<td><input type="text" name="nik[]" placeholder="No KTP" autocomplete="no"></td>
+														<td><input type="text" name="telp_emergency[]" placeholder="No Telepon" autocomplete="no"></td>
+														<td><input type="text" name="hubungan_emergency[]" placeholder="Hubungan" autocomplete="no"></td>
 														<td>
-															<select class="nice-select" id="blood" id="blood" placeholder="Gol Darah" autocomplete="no">
+															<select class="nice-select" id="blood" name="blood[]" placeholder="Gol Darah" autocomplete="no">
 																<option value="" disabled selected>Gol Darah</option>
 																<option value="A" style="font-size: 14px;">A</option>
 																<option value="B" style="font-size: 14px;">B</option>
@@ -434,7 +434,7 @@
 															</select>
 														</td>
 														<td>
-															<select class="nice-select" id="jersey" id="jersey" placeholder="Ukuran Jersey" autocomplete="no" style="width: 220px !important;">
+															<select class="nice-select" id="jersey" name="jersey[]" placeholder="Ukuran Jersey" autocomplete="no" style="width: 220px !important;">
 																<option value="" disabled selected>Ukuran Jersey</option>
 																<option value="S" style="font-size: 14px;">S</option>
 																<option value="M" style="font-size: 14px;">M</option>
@@ -457,7 +457,7 @@
 										<div class="price-final-text">Rp. <span id="totalHarga">0</span></div>
 									</div>
 									<div class="btn-form-cover" style="margin-top: 1.5rem; margin-bottom: 1.5rem">
-										<button type="submit" class="btn"><span>Register</span></button>
+										<button type="submit" class="btn" id="btn-submit-komunitas"><span>Register</span></button>
 									</div>
 								</div>
 							</form>
@@ -725,61 +725,33 @@
 	</footer>
 	<!--================== FOOTER END ==================-->
 
-	{{-- Modal Konfirmasi --}}
-		<!-- Modal Background -->
-		<div id="modalKonfirmasi" class="modal">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<form id="formKonfirmasi" method="POST" enctype="multipart/form-data">
-						<div class="modal-header">
-							<h5 class="modal-title">Konfirmasi Pembayaran</h5>
-							<button type="button" class="close" onclick="closeModal()">&times;</button>
-						</div>
-						<div class="modal-body">
-							<!-- Informasi Pembayaran -->
-							<div class="info-pembayaran mb-3">Silakan lakukan transfer ke Bank BCA, No. Rekening 33321231123 atas nama [Nama Pemilik Rekening], lalu unggah bukti pembayaran pada form di bawah ini.</div>
-
-							<!-- Form Bukti Transfer -->
-							<div class="form-group">
-								<input type="hidden" name="type" id="type">
-								<label for="bukti_transfer">Bukti Transfer</label>
-								<input type="file" id="bukti_transfer" name="bukti_transfer" required>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<div class="btn-form-cover">
-								<button type="submit" class="btn"><span>Kirim</span></button>
-							</div>
-						</div>
-
-					</form>
+	<!-- Modal Konfirmasi Pembayaran -->
+	<div id="modalKonfirmasi" class="modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Konfirmasi Pembayaran</h5>
+					<button type="button" class="close" onclick="closeModal()">&times;</button>
 				</div>
-			</div>
-		</div>
-	{{-- End Modal Konfirmasi --}}
-
-	{{-- Modal Terimakasih --}}
-		<!-- Modal Background -->
-		<div id="modalTerimakasih" class="modal">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Terimakasih</h5>
-						<button type="button" class="close" onclick="closeModalThanks()">&times;</button>
+				<div class="modal-body">
+					<!-- Informasi Pembayaran -->
+					<div class="info-pembayaran mb-3">
+						Silakan lakukan transfer ke <strong>Bank BCA</strong>, No. Rekening <strong>33321231123</strong> atas nama <strong>[Nama Pemilik Rekening]</strong>. 
+						Setelah transfer, mohon kirim bukti pembayaran melalui WhatsApp ke <a href="https://wa.me/6285875502569" target="_blank"><strong>0858-7550-2569</strong></a>.
 					</div>
-					<div class="modal-body">
-						<!-- Informasi Pembayaran -->
-						<div class="info-pembayaran mb-3">Terima kasih, pembayaran anda sedang kami proses.</div>
+					<!-- Pesan Konfirmasi -->
+					<div class="info-pembayaran mb-3 text-success">
+						Kami akan segera memproses pembayaran Anda setelah bukti transfer diterima.
 					</div>
-					<div class="modal-footer">
-						<div class="btn-form-cover">
-							<button type="button" class="btn" onclick="closeModalThanks()"><span>Tutup</span></button>
-						</div>
+				</div>
+				<div class="modal-footer">
+					<div class="btn-form-cover">
+						<button type="button" class="btn btn-secondary" onclick="closeModal()"><span>Tutup</span></button>
 					</div>
 				</div>
 			</div>
 		</div>
-	{{-- End Modal Terimakasih --}}
+	</div>
 
 	<!--=================== TO TOP ===================-->
 	<a class="to-top" href="#home">
@@ -788,197 +760,24 @@
 	<!--================= TO TOP END =================-->
 
 	<!--=================== SCRIPT	===================-->
-	<script src="{{ asset('assets/js/apps/landing/jquery-2.2.4.min.js') }}"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	{{-- <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"> --}}
+
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 	
+
 	<script src="{{ asset('assets/js/apps/landing/slick.min.js') }}"></script>
 	<script src="{{ asset('assets/js/apps/landing/rx-lazy.js') }}"></script>
 	<script src="{{ asset('assets/js/apps/landing/jquery.nice-select.js') }}"></script>
 	<script src="{{ asset('assets/js/apps/landing/parallax.min.js') }}"></script>
 	<script src="{{ asset('assets/js/apps/landing/scripts.js') }}"></script>
 
-	<script>
+	<script src="{{ asset('assets/js/apps/landing/landing.js') }}"></script>
 
-		let hargaEvent = 0;
-
-		function openModal() {
-			let modal = document.getElementById("modalKonfirmasi");
-			modal.style.display = "flex";
-			setTimeout(() => modal.style.opacity = "1", 10);
-		}
-
-		function closeModal() {
-			let modal = document.getElementById("modalKonfirmasi");
-			modal.style.opacity = "0";
-			setTimeout(() => modal.style.display = "none", 300);
-		}
-
-		function openModalThanks() {
-			let modal = document.getElementById("modalTerimakasih");
-			modal.style.display = "flex";
-			setTimeout(() => modal.style.opacity = "1", 10);
-		}
-
-		function closeModalThanks() {
-			let modal = document.getElementById("modalTerimakasih");
-			modal.style.opacity = "0";
-			setTimeout(() => modal.style.display = "none", 300);
-		}
-
-		// Close when clicking outside the modal
-		window.onclick = function(event) {
-			let modal = document.getElementById("modalKonfirmasi");
-			if (event.target === modal) {
-				closeModal();
-			}
-		};
-
-		function changeTotalPeserta() {
-			let totalPeserta = $('#listPeserta tr').length;
-			$('#totalPeserta').text(totalPeserta);
-		}
-
-		function changeTotalHarga() {
-			let totalPeserta = $('#listPeserta tr').length;
-			let totalHarga = totalPeserta * hargaEvent;
-			$('#totalHarga').text('Rp. ' + totalHarga.toLocaleString('id-ID'));
-		}
-
-		$(document).ready(function() {
-
-			// get harga per tiket
-			function getHarga() {
-				$.ajax({
-					url: '{{ route('get-harga') }}',
-					type: 'GET',
-					success: function(response) {
-						hargaEvent = response.harga;
-						console.log('harga', hargaEvent);
-						changeTotalHarga()
-					}
-				});
-			}
-
-			getHarga();
-
-			$(document).on('focus', '.tanggal', function () {
-				$(this).datepicker({
-					format: 'yyyy-mm-dd',
-					autoclose: true
-				});
-			});
-
-			// Remove peserta
-			$(document).on('click', '#removePeserta', function() {
-				$(this).closest('tr').remove();
-
-				// change total peserta
-				changeTotalPeserta();
-				changeTotalHarga()
-			});
-
-			$('#addPeserta').click(function() {
-				let newRow = `
-					<tr>
-						<td><input type="text" name="nama" placeholder="Nama Peserta"></td>
-						<td>
-							<select class="nice-select" id="gender" autocomplete="no" style="z-index: 0; padding: 15px 0; color: #aaa;">
-								<option value="" disabled selected>Jenis Kelamin</option>
-								<option value="L" style="font-size: 14px;">Laki-laki</option>
-								<option value="P" style="font-size: 14px;">Perempuan</option>
-							</select>
-						</td>
-						<td><input type="text" name="tanggal_lahir" class="tanggal" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="no"></td>
-						<td><input type="text" name="nik" placeholder="No KTP"></td>
-						<td><input type="text" name="telp_emergency" placeholder="No Telepon"></td>
-						<td><input type="text" name="hubungan_emergency" placeholder="Hubungan"></td>
-						<td>
-							<select class="nice-select" id="blood" id="blood" placeholder="Gol Darah" autocomplete="no" style="z-index: 0; padding: 15px 0; color: #aaa;">
-								<option value="" disabled selected>Gol Darah</option>
-								<option value="A" style="font-size: 14px;">A</option>
-								<option value="B" style="font-size: 14px;">B</option>
-								<option value="AB" style="font-size: 14px;">AB</option>
-								<option value="O" style="font-size: 14px;">O</option>
-							</select>
-						</td>
-						<td>
-							<select class="nice-select" id="jersey" id="jersey" placeholder="Ukuran Jersey" autocomplete="no" style="width: 220px !important; z-index: 0;">
-								<option value="" disabled selected>Ukuran Jersey</option>
-								<option value="S" style="font-size: 14px;">S</option>
-								<option value="M" style="font-size: 14px;">M</option>
-								<option value="L" style="font-size: 14px;">L</option>
-								<option value="XL" style="font-size: 14px;">XL</option>
-							</select>
-						</td>
-						<td><button type="button" class="btn" id="removePeserta"><span>X</span></button></td>
-					</tr>
-				`;
-
-				let $newRow = $(newRow);
-				$('#listPeserta').append($newRow);
-
-				// Reinitialize only the newly added selects
-				$newRow.find('.nice-select').each(function() {
-					$(this).niceSelect();
-					// give css z-index = 0
-				});
-
-				// change total peserta
-				changeTotalPeserta();
-				changeTotalHarga()
-			});
-
-		})
-
-		$('#registerPersonal').submit(function(e) {
-			e.preventDefault();
-
-			$('#type').val('personal');
-
-			openModal();
-		});
-
-		$('#registerKomunitas').submit(function(e) {
-			e.preventDefault();
-
-			$('#type').val('komunitas');
-
-			openModal();
-		});
-
-		$('#formKonfirmasi').submit(function(e) {
-			e.preventDefault();
-
-			// jika type == personal get from id registerPersonal but if type == komunitas get from id registerKomunitas
-			let type = $('#type').val();
-			if(type == 'personal') {
-				let formData = new FormData($('#registerPersonal')[0]);
-			} else {
-				let formData = new FormData($('#registerKomunitas')[0]);
-			}
-
-			// get serialize form and add bukti_transfer
-			formData.append('bukti_transfer', $('#bukti_transfer')[0].files[0]);
-
-			// proses ajax
-			$.ajax({
-				url: '{{ route('register-peserta') }}',
-				type: 'POST',
-				data: formData,
-				success: function(response) {
-					if (response.status == 'success') {
-						openModal();
-					}
-				}
-			});
-
-			closeModal();
-			openModalThanks();
-		});
-	
-	</script>
 </body>
 </html>

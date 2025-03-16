@@ -13,7 +13,7 @@ class Menu extends Model
     protected $fillable = [
         'id',
         'kode',
-        'parent',
+        'kode_parent',
         'nama',
         'icon',
         'url',
@@ -26,7 +26,7 @@ class Menu extends Model
 
     public function dataTableMenu()
     {
-        return self::select('id', 'kode', 'parent', 'nama', 'icon', 'url', 'status')->where('status', 1);
+        return self::select('id', 'kode', 'kode_parent', 'nama', 'icon', 'url', 'status')->where('status', 1);
     }
 
     public function viewMenuTemplate($parent = '0', $level = '0', $kode_role = '')
@@ -114,12 +114,12 @@ class Menu extends Model
         $sql = "SELECT a.*, IFNULL(jumlah_menu.jumlah, 0) AS hitung
                 FROM menu a
                     LEFT JOIN (
-                        SELECT parent, COUNT(*) AS jumlah
+                        SELECT kode_parent, COUNT(*) AS jumlah
                         FROM menu
                         WHERE status = 1
-                        GROUP BY parent
-                    ) AS jumlah_menu ON a.kode = jumlah_menu.parent
-                WHERE a.parent = '$parent' AND a.status = 1
+                        GROUP BY kode_parent
+                    ) AS jumlah_menu ON a.kode = jumlah_menu.kode_parent
+                WHERE a.kode_parent = '$parent' AND a.status = 1
                 ";
 
         $data = DB::select($sql);
@@ -136,17 +136,17 @@ class Menu extends Model
                     c.flag_access
                 FROM menu a
                 LEFT JOIN (
-                    SELECT parent, COUNT(*) AS jumlah
+                    SELECT kode_parent, COUNT(*) AS jumlah
                     FROM menu
                     WHERE status = 1
-                    GROUP BY parent
-                ) AS jumlah_menu ON a.kode = jumlah_menu.parent
+                    GROUP BY kode_parent
+                ) AS jumlah_menu ON a.kode = jumlah_menu.kode_parent
                 LEFT JOIN (
                     SELECT kode_menu, flag_access
                     FROM akses_role 
                     WHERE id_role = '$kode_role'
                 ) AS c ON c.kode_menu = a.kode
-                WHERE a.parent = '$parent' AND a.status = 1";
+                WHERE a.kode_parent = '$parent' AND a.status = 1";
 
         $data = DB::select($sql);
         return $data;
@@ -172,20 +172,20 @@ class Menu extends Model
     public function menu()
     {
         $user = Auth::user();
-        $header_menu = DB::select("SELECT m.parent, m.kode, m.nama, m.icon, m.url
+        $header_menu = DB::select("SELECT m.kode_parent, m.kode, m.nama, m.icon, m.url
                         from menu m 
                         join (
-                            select m.parent as kode
+                            select m.kode_parent as kode
                             from users u 
                             join `role` r on u.id_role = r.id
                             join akses_role ar on r.id = ar.id_role 
                             join menu m on ar.kode_menu = m.kode 
                             where ar.flag_access != 9 and u.id = '$user->id' and m.status = 1 and r.status = 1
-                            group by m.parent 
+                            group by m.kode_parent 
                         ) sq on m.kode = sq.kode
                         where m.status = 1
                         union all
-                        SELECT m.parent, m.kode, m.nama, m.icon, m.url
+                        SELECT m.kode_parent, m.kode, m.nama, m.icon, m.url
                         from menu m 
                         join (
                             select m.kode
@@ -193,19 +193,19 @@ class Menu extends Model
                             join `role` r on u.id_role = r.id
                             join akses_role ar on r.id = ar.id_role
                             join menu m on ar.kode_menu = m.kode 
-                            where ar.flag_access != 9 and u.id = '$user->id' and m.status = 1 and m.parent = '0' and r.status = 1
+                            where ar.flag_access != 9 and u.id = '$user->id' and m.status = 1 and m.kode_parent = '0' and r.status = 1
                         ) sq on m.kode = sq.kode
                         where m.status = 1");
 
         $menu = '';
         foreach($header_menu as $row) {
 
-            $detail_menu = DB::select("SELECT m.parent, m.kode, m.nama, m.url
+            $detail_menu = DB::select("SELECT m.kode_parent, m.kode, m.nama, m.url
                                 from users u 
                                 join `role` r on u.id_role = r.id
                                 join akses_role ar on r.id = ar.id_role 
                                 join menu m on ar.kode_menu = m.kode 
-                                where ar.flag_access != 9 and u.id = $user->id and m.parent = '$row->kode' and m.status = 1 and r.status = 1");
+                                where ar.flag_access != 9 and u.id = $user->id and m.kode_parent = '$row->kode' and m.status = 1 and r.status = 1");
 
             if(!empty($detail_menu)) {
                 $menu .= '<li class="nk-menu-item has-sub">

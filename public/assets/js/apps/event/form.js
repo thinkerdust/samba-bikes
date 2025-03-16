@@ -14,7 +14,7 @@ $(document).ready(function() {
         keyUpThousandView(evt)
     })
 
-    let kode = $('#kode').val();
+    let kode = $('#id').val();
     if(kode) {
         $.ajax({
             url: '/admin/event/edit/'+kode,

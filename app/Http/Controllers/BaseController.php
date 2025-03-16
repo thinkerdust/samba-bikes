@@ -59,7 +59,7 @@ class BaseController extends Controller
             'uid_order'     => $uid_order,
             'uid_divisi'    => $uid_divisi,
             'status'        => $status,
-            'insert_by'     => $user->username
+            'insert_by'     => $user->id
         ]);
 
         return $logs;

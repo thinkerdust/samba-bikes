@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->unique(); // Unique email
             $table->string('password');
             $table->unsignedBigInteger('id_role');
+            $table->tinyInteger('level')->unsigned()->default(2)->comment('1: superadmin, 2: admin, 3: user');
             $table->tinyInteger('status')->unsigned()->default(1)->comment('1: aktif; 0: non-aktif');
             $table->timestamp('created_at')->useCurrent();
             $table->unsignedBigInteger('created_by');

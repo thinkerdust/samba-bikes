@@ -62,8 +62,8 @@ class UserManagementController extends BaseController
             'email' => $request->email,
             'id_role' => $request->role,
             'level' => $request->level,
-            'created_by' => $auth->username,
-            'updated_by' => $auth->username,
+            'created_by' => $auth->id,
+            'updated_by' => $auth->id,
         ];
 
         if(empty($id)) {
@@ -90,7 +90,7 @@ class UserManagementController extends BaseController
     {
         $id = $request->id;
         $user = Auth::user();
-        $process = User::where('id', $id)->update(['status' => 0, 'updated_by' => $user->username]);
+        $process = User::where('id', $id)->update(['status' => 0, 'updated_by' => $user->id]);
 
         if($process) {
             return $this->ajaxResponse(true, 'Data berhasil dihapus');
@@ -132,7 +132,7 @@ class UserManagementController extends BaseController
         $data = [
             'nama' => $request->menu,
             'icon' => $request->icon,
-            'parent' => $request->parent,
+            'kode_parent' => $request->parent,
             'kode' => $request->kode,
             'flag_level' => $user->id_level,
             'url' => $request->url,
@@ -140,10 +140,10 @@ class UserManagementController extends BaseController
 
         if(!empty($id)) {
             $data['update_at'] = Carbon::now();
-            $data['update_by'] = $user->username;
+            $data['update_by'] = $user->id;
         }else{
             $data['insert_at'] = Carbon::now();
-            $data['insert_by'] = $user->username;
+            $data['insert_by'] = $user->id;
         }
 
         $process = Menu::updateOrCreate(['id' => $id], $data);
@@ -166,7 +166,7 @@ class UserManagementController extends BaseController
     {
         $id = $request->id;
         $user = Auth::user();
-        $process = Menu::where('id', $id)->update(['status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->username]);
+        $process = Menu::where('id', $id)->update(['status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->id]);
 
         if($process) {
             return $this->ajaxResponse(true, 'Data berhasil dihapus');
@@ -230,10 +230,10 @@ class UserManagementController extends BaseController
 
             if(!empty($id)) {
                 $data_role['update_at'] = Carbon::now();
-                $data_role['update_by'] = $user->username;
+                $data_role['update_by'] = $user->id;
             }else{
                 $data_role['insert_at'] = Carbon::now();
-                $data_role['insert_by'] = $user->username;
+                $data_role['insert_by'] = $user->id;
             }
 
             Role::updateOrCreate(['id' => $id], $data_role);
@@ -255,11 +255,11 @@ class UserManagementController extends BaseController
                     $arr_akses['insert_at'] = $akses_role->insert_at;
                     $arr_akses['insert_by'] = $akses_role->insert_by;
                     $arr_akses['update_at'] = Carbon::now();
-                    $arr_akses['update_by'] = $user->username;
+                    $arr_akses['update_by'] = $user->id;
                 }else{
                     $arr_akses['id'] = null;
                     $arr_akses['insert_at'] = Carbon::now();
-                    $arr_akses['insert_by'] = $user->username;
+                    $arr_akses['insert_by'] = $user->id;
                     $arr_akses['update_at'] = null;
                     $arr_akses['update_by'] = null;
                 }
@@ -292,7 +292,7 @@ class UserManagementController extends BaseController
     {
         $id = $request->id;
         $user = Auth::user();
-        $process = Role::where('id', $id)->update(['status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->username]);
+        $process = Role::where('id', $id)->update(['status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->id]);
 
         if($process) {
             return $this->ajaxResponse(true, 'Data berhasil dihapus');

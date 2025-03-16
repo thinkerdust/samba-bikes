@@ -6,12 +6,11 @@ var table = NioApp.DataTable('#dt-table', {
     scrollX: true,
     scrollY: '500px',
     ajax: {
-        url: '/admin/event/datatable',
+        url: '/admin/peserta/datatable',
         type: 'POST',
         data: function(d) {
-            d._token        = token;
-            d.start_date    = $('#start_date').val();
-            d.end_date      = $('#end_date').val();
+            d._token    = token;
+            d.gender    = $('#filter_gender').val();
         },
         error: function (xhr) {
             if (xhr.status === 419) { // Unauthorized error
@@ -26,13 +25,11 @@ var table = NioApp.DataTable('#dt-table', {
     columns: [
         {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
         {data: 'nama'},
-        {data: 'tanggal'},
-        {data: 'lokasi'},
-        {data: 'tanggal_mulai'},
-        {data: 'tanggal_selesai'},
-        {data: 'harga', className: 'text-end', render: $.fn.dataTable.render.number( ',', '.', 0)},
-        {data: 'stok', className: 'text-end', render: $.fn.dataTable.render.number( ',', '.', 0)},
-        {data: 'status'},
+        {data: 'nama'},
+        {data: 'gender'},
+        {data: 'phone'},
+        {data: 'telp_emergency'},
+        {data: 'hubungan_emergency'},
         {data: 'action', orderable: false, searchable: false},
     ],
     columnDefs: [
@@ -41,20 +38,23 @@ var table = NioApp.DataTable('#dt-table', {
             targets: "_all"
         },
         {
-            targets: -2,
+            targets: 1,
+            render: function(data, type, full, meta) {
+                if(full.nama_komunitas_personal != null) {
+                    return full.nama_komunitas_personal;
+                } else {
+                    return full.nama_komunitas;
+                }
+            }
+        },
+        {
+            targets: 3,
             orderable: false,
             searchable: false,
             className: 'text-center',
             render: function(data, type, full, meta) {
-
-                var status = {
-                    0: {'title': 'Non Aktif', 'class': ' bg-danger'},
-                    1: {'title': 'Aktif', 'class': ' bg-success'}
-                };
-                if (typeof status[full['status']] === 'undefined') {
-                    return data;
-                }
-                return '<span class="badge '+ status[full['status']].class +'">'+ status[full['status']].title +'</span>';
+                var gender = data === 'L' ? 'Laki-laki' : 'Perempuan';
+                return gender;
             }
         },
     ]
@@ -64,20 +64,9 @@ $('#btn-filter').click(function() {
     $("#dt-table").DataTable().ajax.reload();
 })
 
-const thousandView = (number = 0) => {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
-const keyUpThousandView = (evt) => {
-    let currentValue = (evt.currentTarget.value != '') ? evt.currentTarget.value.replaceAll('.','') : '0';
-    let iNumber = parseInt(currentValue);
-    let result = isNaN(iNumber) == false ? thousandView(iNumber) : '0';
-    evt.currentTarget.value = result;
-}
-
-$('.format-currency').on('keyup', (evt) => {
-    keyUpThousandView(evt)
-})
+$('.select2-js').select2({
+    minimumResultsForSearch: Infinity
+});
 
 function hapus(id) {
     Swal.fire({
@@ -88,7 +77,7 @@ function hapus(id) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: '/admin/event/delete/'+id,
+                url: '/admin/peserta/delete/'+id,
                 dataType: 'JSON',
                 success: function(response) {
                     if(response.status){
@@ -99,7 +88,6 @@ function hapus(id) {
                     }
                 },
                 error: function(error) {
-                    console.log(error)
                     NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
                 }
             })
@@ -109,20 +97,27 @@ function hapus(id) {
 
 function detail(id) {
     $.ajax({
-        url: '/admin/event/edit/'+id,
+        url: '/admin/peserta/edit/'+id,
         dataType: 'json',
         success: function(response) {
             let data = response.data;
-            if(data) {
+            if (data) {
                 $('#modalDetail').modal('show');
+            
                 $('#nama').val(data.nama);
-                $('#lokasi').val(data.lokasi);
-                $('#tanggal').datepicker('setDate', data.tanggal);
-                $('#deskripsi').val(data.deskripsi);
-                $('#tanggal_mulai_tiket').datepicker('setDate', data.tanggal_mulai);
-                $('#tanggal_selesai_tiket').datepicker('setDate', data.tanggal_selesai);
-                $('#harga').val(thousandView(data.harga));
-                $('#stok').val(thousandView(data.stok));
+                $('#nama_komunitas').val(data.nama_komunitas);
+                $('#phone').val(data.phone);
+                $('#telp_emergency').val(data.telp_emergency);
+                $('#hubungan_emergency').val(data.hubungan_emergency);
+                $('#email').val(data.email);
+                $('#nik').val(data.nik);
+                $('#kota').val(data.kota);
+                $('#tanggal_lahir').val(data.tanggal_lahir);
+                $('#alamat').val(data.alamat);
+            
+                // Select2 update
+                $('#blood').val(data.blood).trigger('change');
+                $('#gender').val(data.gender).trigger('change');
             }
         },
         error: function(error) {

@@ -43,9 +43,9 @@ class EventController extends BaseController
                                 <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <ul class="link-list-opt no-bdr">
-                                        <li><a class="btn" onclick="detail(\'' . $row->kode . '\')"><em class="icon ni ni-eye"></em><span>Detail</span></a></li>
-                                        <li><a href="/admin/event/form/'.$row->kode.'" class="btn"><em class="icon ni ni-edit"></em><span>Edit</span></a></li>
-                                        <li><a class="btn" onclick="hapus(\'' . $row->kode . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>
+                                        <li><a class="btn" onclick="detail(\'' . $row->id . '\')"><em class="icon ni ni-eye"></em><span>Detail</span></a></li>
+                                        <li><a href="/admin/event/form/'.$row->id.'" class="btn"><em class="icon ni ni-edit"></em><span>Edit</span></a></li>
+                                        <li><a class="btn" onclick="hapus(\'' . $row->id . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>
                                     </ul>
                                 </div>
                             </div>';
@@ -57,7 +57,7 @@ class EventController extends BaseController
 
     public function store_event(Request $request)
     {
-        $kode = $request->input('kode');
+        $id = $request->input('id');
 
         $validator = Validator::make($request->all(), [
             'nama' => 'required|max:255',
@@ -92,24 +92,23 @@ class EventController extends BaseController
             ];
 
             // insert order
-            if(!empty($kode)) {
+            if(!empty($id)) {
                 $data['update_at']  = Carbon::now();
-                $data['update_by']  = $user->username;
+                $data['update_by']  = $user->id;
             } else {
-                $kode = 'E'.Carbon::now()->format('YmdHisu');
-                $data['kode'] = $kode;
                 $data['insert_at']  = Carbon::now();
-                $data['insert_by']  = $user->username;
+                $data['insert_by']  = $user->id;
             }
 
             DB::table('event')->updateOrInsert(
-                ['kode' => $kode],
+                ['id' => $id],
                 $data
             );
 
             DB::commit();
             return $this->ajaxResponse(true, 'Data berhasil disimpan');
         } catch (\Exception $e) {
+            dd($e);
             Log::error($e->getMessage());
             DB::rollback();
             return $this->ajaxResponse(false, 'Data gagal disimpan', $e);
@@ -119,29 +118,29 @@ class EventController extends BaseController
     public function form_event(Request $request)
     {
         $title      = 'Form Event';
-        $kode       = $request->kode;
+        $id         = $request->id;
         $js         = 'assets/js/apps/event/form.js?_='.rand();
 
-        return view('event.form', compact('title', 'js', 'kode'));
+        return view('event.form', compact('title', 'js', 'id'));
     }
 
     public function edit_event(Request $request) 
     {
-        $kode     = $request->kode;
-        $data     = $this->event->editEvent($kode);
+        $id     = $request->id;
+        $data   = $this->event->editEvent($id);
 
         return $this->ajaxResponse(true, 'Success!', $data);
     }
 
     public function delete_event(Request $request)
     {
-        $kode   = $request->kode;
+        $id     = $request->id;
         $user   = Auth::user();
 
         try {
             DB::beginTransaction();
 
-            DB::table('event')->where('kode', $kode)->update(['status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->username]);
+            DB::table('event')->where('id', $id)->update(['status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->id]);
 
             DB::commit();
             return $this->ajaxResponse(true, 'Data berhasil dihapus');

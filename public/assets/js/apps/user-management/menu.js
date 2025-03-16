@@ -16,7 +16,7 @@ var table = NioApp.DataTable('#dt-table', {
     },
     columns: [
         {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
-        {data: 'parent'},
+        {data: 'kode_parent'},
         {data: 'kode'},
         {data: 'nama'},
         {data: 'icon', orderable: false, searchable: false},
@@ -105,7 +105,7 @@ function edit(id) {
                 $('#menu').val(data.nama);
                 $('#icon').val(data.icon);
                 $('#kode').val(data.kode);
-                $('#parent').val(data.parent);
+                $('#parent').val(data.kode_parent);
                 $('#url').val(data.url);
             }
         },

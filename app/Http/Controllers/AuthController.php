@@ -79,7 +79,7 @@ class AuthController extends BaseController
 
         $auth = Auth::user();
         if(Hash::check($request->current_password, auth()->user()->password)){ 
-            $process = User::find(auth()->user()->id)->update(['password'=> bcrypt($request->new_password), 'updated_by' => $auth->username]);
+            $process = User::find(auth()->user()->id)->update(['password'=> bcrypt($request->new_password), 'updated_by' => $auth->id]);
             if($process) {
                 return $this->ajaxResponse(true, 'Password berhasil di update');
             }else{
@@ -94,7 +94,7 @@ class AuthController extends BaseController
     {
         $id = $request->id;
         $auth = Auth::user();
-        $user = User::where('id', $id)->update(['password'=> Hash::make('5amba8ikes!'), 'updated_by' => $auth->username]);
+        $user = User::where('id', $id)->update(['password'=> Hash::make('5amba8ikes!'), 'updated_by' => $auth->id]);
         
         if($user) {
             return $this->ajaxResponse(true, 'Reset password berhasil');
