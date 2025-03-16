@@ -37,7 +37,7 @@
                                 <img class="logo-dark logo-img logo-img-login" src="{{ asset('images/logo-brand-side.png') }}" srcset="{{ asset('assets/images/logo-brand-side.png') }}" alt="logo-dark">
                             </a>
                         </div>
-                        <div class="card bg-warning is-dim">
+                        <div class="card is-dim">
                             <div class="card-inner card-inner-lg">
                                 <div class="nk-block-head">
                                     <div class="nk-block-head-content">
