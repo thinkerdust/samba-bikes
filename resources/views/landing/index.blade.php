@@ -6,6 +6,8 @@
 	<meta name="description" content="">
 	<meta name="format-detection" content="telephone=no">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
+
 	<link rel="shortcut icon" href="{{ asset('assets/images/landing/favicon.png') }}">
 	<!-- =================== STYLE =================== -->
 	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/landing/slick.min.css') }}"/>
@@ -324,35 +326,32 @@
 						<form id='registerPersonal'>
 							@csrf
 							<ul class="form-cover">
-								<li class="inp-cover inp-name" style="width: 100%"><input id="nama" type="text" name="nama" placeholder="Name" required></li>
-								<li class="inp-cover"><input id="phone" type="text" name="phone" placeholder="No Telepon" pattern="\d*" required></li>
-								<li class="inp-cover inp-email"><input id="email" type="email" name="email" placeholder="E-mail" required></li>
-								<li class="inp-cover"><input id="tanggal_lahir" class="tanggal" type="text" name="tanggal_lahir" placeholder="Tanggal Lahir" required></li>
+								<li class="inp-cover inp-name" style="width: 100%"><input id="nama" type="text" name="nama" placeholder="Name" autocomplete="no" required></li>
+								<li class="inp-cover"><input id="phone" type="text" name="phone" placeholder="No Telepon" autocomplete="no" pattern="\d*" required></li>
+								<li class="inp-cover inp-email"><input id="email" type="email" name="email" placeholder="E-mail" autocomplete="no" required></li>
+								<li class="inp-cover"><input id="tanggal_lahir" class="tanggal" type="text" name="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="no" required></li>
 								<li class="inp-cover">
 									<select class="nice-select" id="gender" name="gender" autocomplete="no" required>
-										<option value="">Jenis Kelamin</option>
 										<option value="L" style="font-size: 14px;">Laki-laki</option>
 										<option value="P" style="font-size: 14px;">Perempuan</option>
 									</select>
 								</li>
 								<li class="inp-cover">
 									<select class="nice-select" id="blood" name="blood" placeholder="Gol Darah" autocomplete="no" required>
-										<option value="">Gol Darah</option>
 										<option value="A" style="font-size: 14px;">A</option>
 										<option value="B" style="font-size: 14px;">B</option>
 										<option value="AB" style="font-size: 14px;">AB</option>
 										<option value="O" style="font-size: 14px;">O</option>
 									</select>
 								</li>
-								<li class="inp-cover" style="z-index: 0"><input id="nik" type="text" name="nik" placeholder="No Tanda Pengenal" required></li>
-								<li class="inp-cover" style="z-index: 0"><input id="telp_emergency" type="text" name=" telp_emergency" placeholder="No Kontak Darurat" required></li>
-								<li class="inp-cover" style="z-index: 0"><input id="hubungan_emergency" type="text" name="hubungan_emergency" placeholder="Hub Kontak Darurat" required></li>
-								<li class="inp-cover" style="z-index: 0"><input id="kota" type="text" name="kota" placeholder="Kota" required></li>
-								<li class="inp-cover"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas"></li>
-								<li class="inp-cover" style="width: 100%"><input id="alamat" type="text" name="alamat" placeholder="Alamat" required></li>
+								<li class="inp-cover" style="z-index: 0"><input id="nik" type="text" name="nik" placeholder="No Tanda Pengenal" autocomplete="no" required></li>
+								<li class="inp-cover" style="z-index: 0"><input id="telp_emergency" type="text" name=" telp_emergency" placeholder="No Kontak Darurat" autocomplete="no" required></li>
+								<li class="inp-cover" style="z-index: 0"><input id="hubungan_emergency" type="text" name="hubungan_emergency" placeholder="Hub Kontak Darurat" autocomplete="no" required></li>
+								<li class="inp-cover" style="z-index: 0"><input id="kota" type="text" name="kota" placeholder="Kota" autocomplete="no" required></li>
+								<li class="inp-cover"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas" autocomplete="no"></li>
+								<li class="inp-cover" style="width: 100%"><input id="alamat" type="text" name="alamat" placeholder="Alamat" autocomplete="no" required></li>
 								<li class="inp-cover" style="width: 100%">
-									<select class="nice-select" id="jersey" name="jersey" required>
-										<option selected="selected">Ukuran Jersey</option>
+									<select class="nice-select" id="jersey" name="jersey" autocomplete="no" required>
 										<option>S</option>
 										<option>M</option>
 										<option>L</option>
@@ -415,7 +414,6 @@
 														<td><input type="text" name="nama[]" placeholder="Nama Peserta" autocomplete="no"></td>
 														<td>
 															<select class="nice-select" id="gender" name="gender[]" autocomplete="no">
-																<option value="" disabled selected>Jenis Kelamin</option>
 																<option value="L" style="font-size: 14px;">Laki-laki</option>
 																<option value="P" style="font-size: 14px;">Perempuan</option>
 															</select>
@@ -426,7 +424,6 @@
 														<td><input type="text" name="hubungan_emergency[]" placeholder="Hubungan" autocomplete="no"></td>
 														<td>
 															<select class="nice-select" id="blood" name="blood[]" placeholder="Gol Darah" autocomplete="no">
-																<option value="" disabled selected>Gol Darah</option>
 																<option value="A" style="font-size: 14px;">A</option>
 																<option value="B" style="font-size: 14px;">B</option>
 																<option value="AB" style="font-size: 14px;">AB</option>
@@ -435,7 +432,6 @@
 														</td>
 														<td>
 															<select class="nice-select" id="jersey" name="jersey[]" placeholder="Ukuran Jersey" autocomplete="no" style="width: 220px !important;">
-																<option value="" disabled selected>Ukuran Jersey</option>
 																<option value="S" style="font-size: 14px;">S</option>
 																<option value="M" style="font-size: 14px;">M</option>
 																<option value="L" style="font-size: 14px;">L</option>
@@ -752,6 +748,27 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Modal Override -->
+	<div id="modalOverride" class="modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Konfirmasi Peserta</h5>
+					<button type="button" class="close" onclick="closeModal()">&times;</button>
+				</div>
+				<div class="modal-body">
+					<!-- Informasi Pembayaran -->
+					<div class="info-peserta-terdaftar mb-3" id="info-peserta-terdaftar"></div>
+				</div>
+				<div class="modal-footer">
+					<div class="btn-form-cover">
+						<button type="button" class="btn btn-secondary" onclick="closeModalOverride()"><span>Tidak</span></button>
+						<button type="button" class="btn btn-primary" onclick="" id="submit-override"><span>Ya</span></button>
+					</div>
+				</div>
+			</div>
+		</div>
 
 	<!--=================== TO TOP ===================-->
 	<a class="to-top" href="#home">

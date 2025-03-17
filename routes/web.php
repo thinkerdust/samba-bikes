@@ -16,6 +16,7 @@ Route::get('/', [LandingController::class, 'index'])->name('/');
 Route::get('/get-harga', [LandingController::class, 'get_harga'])->name('get-harga');
 // register-peserta
 Route::post('/register-peserta', [LandingController::class, 'register_peserta'])->name('register-peserta');
+Route::post('/check-peserta', [LandingController::class, 'check_peserta'])->name('check-peserta');
 
 
 Route::get('/admin', function() {

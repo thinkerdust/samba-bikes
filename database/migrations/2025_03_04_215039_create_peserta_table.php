@@ -14,17 +14,18 @@ return new class extends Migration
 
         Schema::create('peserta', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_komunitas')->comment('relasi ke table komunitas, jika null berarti individu');
+            $table->unsignedBigInteger('id_komunitas')->comment('relasi ke table komunitas, jika null berarti individu')->nullable();
+            $table->unsignedBigInteger('id_event')->comment('relasi ke table event');
             $table->string('nama');
-            $table->string('phone', 20);
-            $table->string('email');
+            $table->string('phone', 20)->nullable();
+            $table->string('email')->nullable();
             $table->date('tgl_lahir');
             $table->string('nik')->note('nik harus unik pada 1 event (bisa join ke order untuk liat id_event) dipisah by id_komunitas, status peserta aktif');
             $table->enum('blood', ['A', 'B', 'AB', 'O']);
-            $table->string('kota', 100);
-            $table->text('alamat');
+            $table->string('kota', 100)->nullable();
+            $table->text('alamat')->nullable();
             $table->enum('gender', ['L', 'P'])->comment('L: Laki-laki; P: Perempuan');
-            $table->string('nama_komunitas');
+            $table->string('nama_komunitas')->nullable();
             $table->string('telp_emergency', 20);
             $table->string('hubungan_emergency', 100);
             $table->tinyInteger('status')->unsigned()->default(1)->comment("1: aktif; 0: non-aktif");
