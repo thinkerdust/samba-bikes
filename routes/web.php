@@ -37,6 +37,8 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
     //Data Master
     Route::middleware('ajax-request')->controller(MasterController::class)->group(function() {
         Route::get('/data-role', 'list_data_role');
+        Route::get('/data-size-chart', 'list_data_size_chart');
+        Route::get('/data-bank', 'list_data_bank');
     });
 
     Route::controller(AuthController::class)->group(function () {
@@ -77,13 +79,14 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
     });
 
     // Event
-    Route::prefix('event')->middleware("can:Menu, 'EV'")->controller(EventController::class)->group(function() {
+    Route::prefix('event')->middleware("can:Menu, 'EVENT'")->controller(EventController::class)->group(function() {
         Route::get('/', 'index');
         Route::post('/datatable', 'datatable_event');
         Route::get('/form/{id?}', 'form_event');
         Route::post('/store', 'store_event');
         Route::get('/edit/{id}', 'edit_event');
         Route::get('/delete/{id}', 'delete_event');
+        Route::get('/release/{id}', 'release_event');
     });
 
     // Peserta

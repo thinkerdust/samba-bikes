@@ -22,55 +22,145 @@
                                         <div class="row gy-4">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="form-label">Nama</label>
+                                                    <label class="form-label">Nama <span class="text-danger">*</span></label>
                                                     <div class="form-control-wrap">
                                                         <input type="text" class="form-control" id="nama" name="nama" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label">Lokasi</label>
+                                                    <label class="form-label">Phone <span class="text-danger">*</span></label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control format-number" id="phone" name="phone" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Email <span class="text-danger">*</span></label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="email" class="form-control" id="email" name="email" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Lokasi <span class="text-danger">*</span></label>
                                                     <div class="form-control-wrap">
                                                         <input type="text" class="form-control" id="lokasi" name="lokasi" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label">Tanggal</label>
+                                                    <label class="form-label">Tanggal <span class="text-danger">*</span></label>
                                                     <div class="form-control-wrap">
                                                         <input type="text" class="form-control date-picker" id="tanggal" name="tanggal" data-date-format="dd/mm/yyyy" readonly required>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Bank <span class="text-danger">*</span></label>
+                                                    <div class="form-control-wrap">
+                                                        <select class="form-control" name="bank" id="bank" required></select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Nama Rekening <span class="text-danger">*</span></label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control" id="nama_rekening" name="nama_rekening" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Nomor Rekening <span class="text-danger">*</span></label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control format-number" id="nomor_rekening" name="nomor_rekening" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Tanggal Mulai Tiket <span class="text-danger">*</span></label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control date-picker" id="tanggal_mulai_tiket" name="tanggal_mulai_tiket" data-date-format="dd/mm/yyyy" readonly required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Tanggal Selesai Tiket <span class="text-danger">*</span></label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control date-picker" id="tanggal_selesai_tiket" name="tanggal_selesai_tiket" data-date-format="dd/mm/yyyy" readonly required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Harga <span class="text-danger">*</span></label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control format-currency text-end" id="harga" name="harga" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Stok <span class="text-danger">*</span></label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control format-currency text-end" id="stok" name="stok" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Deskripsi</label>
                                                     <div class="form-control-wrap">
                                                         <textarea class="form-control" id="deskripsi" name="deskripsi" rows="5"></textarea>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="form-label">Tanggal Mulai Tiket</label>
+                                                <label class="form-label">File Banner <span class="text-danger">*</span></label>
+                                                    <label class="cabinet center-block">
+                                                    <figure>
+                                                        <img src="" class="gambar img-responsive img-thumbnail" id="preview_image_banner" />
+                                                        <figcaption>
+                                                            <ul>
+                                                                <li>*)Leave blank if you don't want to replace</li>
+                                                                <li>*)Max size file 2 MB</li>
+                                                            </ul>
+                                                        </figcaption>
+                                                    </figure>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control date-picker" id="tanggal_mulai_tiket" name="tanggal_mulai_tiket" data-date-format="dd/mm/yyyy" readonly required>
+                                                        <div class="form-file">
+                                                            <input type="file" class="form-file-input" id="banner" name="banner" accept=".png, .jpg">
+                                                            <input type="hidden" id="old_banner" name="old_banner">
+                                                            <label class="form-file-label" for="banner">Choose file</label>
+                                                        </div>
+                                                        <div id="sectionBanner" class="my-2"></div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Tanggal Selesai Tiket</label>
+                                                </label>
+                                                <label class="form-label">File Size Chart <span class="text-danger">*</span></label>
+                                                    <label class="cabinet center-block">
+                                                    <figure>
+                                                        <img src="" class="gambar img-responsive img-thumbnail" id="preview_image_size_chart" />
+                                                        <figcaption>
+                                                            <ul>
+                                                                <li>*)Leave blank if you don't want to replace</li>
+                                                                <li>*)Max size file 2 MB</li>
+                                                            </ul>
+                                                        </figcaption>
+                                                    </figure>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control date-picker" id="tanggal_selesai_tiket" name="tanggal_selesai_tiket" data-date-format="dd/mm/yyyy" readonly required>
+                                                        <div class="form-file">
+                                                            <input type="file" class="form-file-input" id="size_chart" name="size_chart" accept=".png, .jpg">
+                                                            <input type="hidden" id="old_size_chart" name="old_size_chart">
+                                                            <label class="form-file-label" for="size_chart">Choose file</label>
+                                                        </div>
+                                                        <div id="sectionSizeChart" class="my-2"></div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Harga</label>
+                                                </label>
+                                                <label class="form-label">File Rute <span class="text-danger">*</span></label>
+                                                    <label class="cabinet center-block">
+                                                    <figure>
+                                                        <img src="" class="gambar img-responsive img-thumbnail" id="preview_image_rute" />
+                                                        <figcaption>
+                                                            <ul>
+                                                                <li>*)Leave blank if you don't want to replace</li>
+                                                                <li>*)Max size file 2 MB</li>
+                                                            </ul>
+                                                        </figcaption>
+                                                    </figure>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control format-currency text-end" id="harga" name="harga" required>
+                                                        <div class="form-file">
+                                                            <input type="file" class="form-file-input" id="rute" name="rute" accept=".png, .jpg">
+                                                            <input type="hidden" id="old_rute" name="old_rute">
+                                                            <label class="form-file-label" for="rute">Choose file</label>
+                                                        </div>
+                                                        <div id="sectionRute" class="my-2"></div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Stok</label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control format-currency text-end" id="stok" name="stok" required>
-                                                    </div>
-                                                </div>
+                                                </label>
                                             </div>
                                         </div>
 
@@ -86,4 +176,29 @@
         </div>
     </div>
 </div>
+
+<style type="text/css">
+    label.cabinet{
+        display: block;
+        cursor: pointer;
+    }
+
+    label.cabinet input.file{
+        position: relative;
+        height: 100%;
+        width: auto;
+        opacity: 0;
+        -moz-opacity: 0;
+        filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+        margin-top:-30px;
+    }
+
+    .gambar {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        object-position: 50% 0;
+    }
+</style>
+
 @endsection
