@@ -18,4 +18,18 @@ class MasterController extends Controller
         $data = $this->master->listDataRole($q);
         return response()->json($data);
     }
+
+    public function list_data_size_chart(Request $request)
+    {
+        $q = $request->get('q');
+        $data = $this->master->listDataSizeChart($q);
+        return response()->json($data);
+    }
+
+    public function list_data_bank(Request $request)
+    {
+        $q = $request->get('q');
+        $data = $this->master->listDataBank($q);
+        return response()->json($data);
+    }
 }

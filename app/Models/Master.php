@@ -16,9 +16,18 @@ class Master extends Model
         return $data->get();
     }
 
-    public function listDataDivisi($q)
+    public function listDataSizeChart($q)
     {
-        $data = DB::table('divisi')->where('status', 1)->select('uid as id', 'nama');
+        $data = DB::table('size_chart')->select('nama as id', 'nama');
+        if($q) {
+            $data = $data->where('nama', 'like', '%'.$q.'%');
+        }
+        return $data->get();
+    }
+
+    public function listDataBank($q)
+    {
+        $data = DB::table('bank')->select('nama as id', 'nama');
         if($q) {
             $data = $data->where('nama', 'like', '%'.$q.'%');
         }

@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use App\Models\Event;
 use Carbon\Carbon;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends BaseController
 {
@@ -38,17 +39,30 @@ class EventController extends BaseController
         return Datatables::of($data)->addIndexColumn()
             ->addColumn('action', function($row) {
                 $btn = '';
-                if(Gate::allows('crudAccess', 'EV', $row)) {
-                    $btn = '<div class="drodown">
+                if(Gate::allows('crudAccess', 'EVENT', $row)) {
+                    if($row->status == 1) {
+                        $btn = '<div class="drodown">
                                 <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <ul class="link-list-opt no-bdr">
+                                        <li><a class="btn" onclick="release(' . $row->id . ')"><em class="icon ni ni-send"></em><span>Release</span></a></li>
                                         <li><a class="btn" onclick="detail(\'' . $row->id . '\')"><em class="icon ni ni-eye"></em><span>Detail</span></a></li>
                                         <li><a href="/admin/event/form/'.$row->id.'" class="btn"><em class="icon ni ni-edit"></em><span>Edit</span></a></li>
                                         <li><a class="btn" onclick="hapus(\'' . $row->id . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>
                                     </ul>
                                 </div>
                             </div>';
+                    }elseif($row->status == 2) {
+                        $btn = '<div class="drodown">
+                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <ul class="link-list-opt no-bdr">
+                                        <li><a class="btn" onclick="detail(\'' . $row->id . '\')"><em class="icon ni ni-eye"></em><span>Detail</span></a></li>
+                                        <li><a class="btn" onclick="hapus(\'' . $row->id . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>';
+                    }
                 }
                 return $btn;
             })
@@ -61,12 +75,20 @@ class EventController extends BaseController
 
         $validator = Validator::make($request->all(), [
             'nama' => 'required|max:255',
+            'phone' => 'required|max:20',
+            'email' => 'required|email:rfc,dns||max:255',
             'tanggal' => 'required',
-            'lokasi' => 'required',
+            'bank' => 'required',
+            'nomor_rekening' => 'required|max:255',
+            'nama_rekening' => 'required|max:255',
+            'lokasi' => 'required|max:255',
             'tanggal_mulai_tiket' => 'required',
             'tanggal_selesai_tiket' => 'required',
             'harga' => 'required',
             'stok' => 'required',
+            'banner' => 'required_if:id, 0|max:2048',
+            'size_chart' => 'required_if:id, 0|max:2048',
+            'rute' => 'required_if:id, 0|max:2048'
         ], validation_message());
 
         if($validator->stopOnFirstFailure()->fails()){
@@ -82,16 +104,59 @@ class EventController extends BaseController
 
             $data = [
                 'nama' => $request->nama,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'bank' => $request->bank,
+                'nama_rekening' => $request->nama_rekening,
+                'nomor_rekening' => $request->nomor_rekening,
                 'lokasi' => $request->lokasi,
+                'deskripsi' => $request->deskripsi,
                 'tanggal' => Carbon::createFromFormat('d/m/Y', $request->tanggal)->format('Y-m-d'),
                 'tanggal_mulai' => Carbon::createFromFormat('d/m/Y', $request->tanggal_mulai_tiket)->format('Y-m-d'),
                 'tanggal_selesai' => Carbon::createFromFormat('d/m/Y', $request->tanggal_selesai_tiket)->format('Y-m-d'),
-                'deskripsi' => $request->deskripsi,
                 'harga' => $harga,
                 'stok' => $stok
             ];
 
-            // insert order
+            if($request->file('banner')) {
+                $banner = $request->file('banner');
+                $extBanner = $banner->getClientOriginalExtension();
+                $filenameBanner = 'BANNER_' . time() . '.' . $extBanner;
+                $banner->storeAs('uploads', $filenameBanner, 'public');
+                $data['banner'] = $filenameBanner;
+
+                $filePathBanner = 'uploads/'.$request->old_banner;
+                if (Storage::disk('public')->exists($filePathBanner)) {
+                    Storage::disk('public')->delete($filePathBanner);
+                }
+            }
+
+            if($request->file('size_chart')) {
+                $size_chart = $request->file('size_chart');
+                $extSizeChart = $size_chart->getClientOriginalExtension();
+                $filenameSizeChart = 'SIZE_CHART_' . time() . '.' . $extSizeChart;
+                $size_chart->storeAs('uploads', $filenameSizeChart, 'public');
+                $data['size_chart'] = $filenameSizeChart;
+
+                $filePathSizeChart = 'uploads/'.$request->old_size_chart;
+                if (Storage::disk('public')->exists($filePathSizeChart)) {
+                    Storage::disk('public')->delete($filePathSizeChart);
+                }
+            }
+
+            if($request->file('rute')) {
+                $rute = $request->file('rute');
+                $extRute = $rute->getClientOriginalExtension();
+                $filenameRute = 'RUTE_' . time() . '.' . $extRute;
+                $rute->storeAs('uploads', $filenameRute, 'public');
+                $data['rute'] = $filenameRute;
+
+                $filePathRute = 'uploads/'.$request->old_rute;
+                if (Storage::disk('public')->exists($filePathRute)) {
+                    Storage::disk('public')->delete($filePathRute);
+                }
+            }
+
             if(!empty($id)) {
                 $data['update_at']  = Carbon::now();
                 $data['update_by']  = $user->id;
@@ -134,11 +199,11 @@ class EventController extends BaseController
 
     public function delete_event(Request $request)
     {
-        $id     = $request->id;
-        $user   = Auth::user();
-
         try {
             DB::beginTransaction();
+
+            $id     = $request->id;
+            $user   = Auth::user();
 
             DB::table('event')->where('id', $id)->update(['status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->id]);
 
@@ -148,6 +213,27 @@ class EventController extends BaseController
             Log::error($e->getMessage());
             DB::rollback();
             return $this->ajaxResponse(false, 'Data gagal dihapus', $e);
+        }
+    }
+
+    public function release_event(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            
+            $id     = $request->id;
+            $user   = Auth::user();
+
+            DB::table('event')->where('status', 2)->update(['status' => 1, 'update_at' => Carbon::now(), 'update_by' => $user->id]);
+
+            DB::table('event')->where('id', $id)->update(['status' => 2, 'update_at' => Carbon::now(), 'update_by' => $user->id]);
+
+            DB::commit();
+            return $this->ajaxResponse(true, 'Data berhasil di-release');
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            DB::rollback();
+            return $this->ajaxResponse(false, 'Data gagal di-release', $e);
         }
     }
 }

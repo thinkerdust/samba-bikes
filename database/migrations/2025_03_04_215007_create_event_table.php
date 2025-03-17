@@ -23,13 +23,13 @@ return new class extends Migration
             $table->unsignedInteger('stok')->default(0);
             $table->string('nomor_rekening', 20);
             $table->string('nama_rekening');
-            $table->string('nama_bank')->comment("table: bank");
+            $table->string('bank')->comment("table: bank");
             $table->string('phone', 20)->comment("nomor telepon admin");
             $table->string('email')->comment("email admin");
-            $table->string('banner');
-            $table->string('panduan_size');
-            $table->string('rute');
-            $table->tinyInteger('status')->unsigned()->default(1)->comment("1: aktif; 0: non-aktif");
+            $table->text('banner')->nullable();
+            $table->text('size_chart')->nullable();
+            $table->text('rute')->nullable();
+            $table->tinyInteger('status')->unsigned()->default(1)->comment("0: non-aktif; 1: aktif; 2: release");
 
             $table->dateTime('insert_at')->default(DB::raw('CURRENT_TIMESTAMP()'));
             $table->unsignedBigInteger('insert_by');

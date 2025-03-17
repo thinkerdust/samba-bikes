@@ -15,7 +15,7 @@
                     <div class="nk-block nk-block-lg">
                         <div class="card card-bordered card-preview">
                             <div class="card-inner">
-                                @can("crudAccess", "EV")
+                                @can("crudAccess", "EVENT")
                                 <a href="/admin/event/form" class="btn btn-theme-custome btn-sm"><em class="icon ni ni-plus"></em><span>Add Data</span></a>
                                 <hr class="preview-hr">
                                 @endcan
@@ -82,25 +82,37 @@
                         <div class="form-group">
                             <label class="form-label">Nama</label>
                             <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="nama" name="nama" readonly>
+                                <input type="text" class="form-control" id="nama" readonly>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Lokasi</label>
                             <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="lokasi" name="lokasi" readonly>
+                                <input type="text" class="form-control" id="lokasi" readonly>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Tanggal</label>
                             <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="tanggal" name="tanggal" data-date-format="dd/mm/yyyy" readonly>
+                                <input type="text" class="form-control" id="tanggal" data-date-format="dd/mm/yyyy" readonly>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Deskripsi</label>
+                            <label class="form-label">Bank</label>
                             <div class="form-control-wrap">
-                                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="5" readonly></textarea>
+                                <input type="text" class="form-control" id="bank" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nama Rekening</label>
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" id="nama_rekening" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nomor Rekening</label>
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" id="nomor_rekening" readonly>
                             </div>
                         </div>
                     </div>
@@ -108,25 +120,31 @@
                         <div class="form-group">
                             <label class="form-label">Tanggal Mulai Tiket</label>
                             <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="tanggal_mulai_tiket" name="tanggal_mulai_tiket" data-date-format="dd/mm/yyyy" readonly>
+                                <input type="text" class="form-control" id="tanggal_mulai_tiket" data-date-format="dd/mm/yyyy" readonly>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Tanggal Selesai Tiket</label>
                             <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="tanggal_selesai_tiket" name="tanggal_selesai_tiket" data-date-format="dd/mm/yyyy" readonly>
+                                <input type="text" class="form-control" id="tanggal_selesai_tiket" data-date-format="dd/mm/yyyy" readonly>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Harga</label>
                             <div class="form-control-wrap">
-                                <input type="text" class="form-control format-currency text-end" id="harga" name="harga" readonly>
+                                <input type="text" class="form-control text-end" id="harga" readonly>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Stok</label>
                             <div class="form-control-wrap">
-                                <input type="text" class="form-control format-currency text-end" id="stok" name="stok" readonly>
+                                <input type="text" class="form-control text-end" id="stok" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Deskripsi</label>
+                            <div class="form-control-wrap">
+                                <textarea class="form-control" id="deskripsi" rows="5" readonly></textarea>
                             </div>
                         </div>
                     </div>

@@ -49,7 +49,8 @@ var table = NioApp.DataTable('#dt-table', {
 
                 var status = {
                     0: {'title': 'Non Aktif', 'class': ' bg-danger'},
-                    1: {'title': 'Aktif', 'class': ' bg-success'}
+                    1: {'title': 'Aktif', 'class': ' bg-success'},
+                    2: {'title': 'Release', 'class': ' bg-primary'}
                 };
                 if (typeof status[full['status']] === 'undefined') {
                     return data;
@@ -117,12 +118,15 @@ function detail(id) {
                 $('#modalDetail').modal('show');
                 $('#nama').val(data.nama);
                 $('#lokasi').val(data.lokasi);
-                $('#tanggal').datepicker('setDate', data.tanggal);
+                $('#tanggal').val(data.tanggal);
                 $('#deskripsi').val(data.deskripsi);
-                $('#tanggal_mulai_tiket').datepicker('setDate', data.tanggal_mulai);
-                $('#tanggal_selesai_tiket').datepicker('setDate', data.tanggal_selesai);
+                $('#tanggal_mulai_tiket').val(data.tanggal_mulai);
+                $('#tanggal_selesai_tiket').val(data.tanggal_selesai);
                 $('#harga').val(thousandView(data.harga));
                 $('#stok').val(thousandView(data.stok));
+                $('#nama_rekening').val(data.nama_rekening);
+                $('#nomor_rekening').val(data.nomor_rekening);
+                $('#bank').val(data.bank);
             }
         },
         error: function(error) {
@@ -130,4 +134,32 @@ function detail(id) {
             NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
         }
     })
+}
+
+function release(id) {
+    Swal.fire({
+        title: 'Apakah anda yakin akan menampilkan event?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, saya yakin!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: '/admin/event/release/'+id,
+                dataType: 'JSON',
+                success: function(response) {
+                    if(response.status){
+                        $("#dt-table").DataTable().ajax.reload(null, false);
+                        NioApp.Toast(response.message, 'success', {position: 'top-right'});
+                    }else{
+                        NioApp.Toast(response.message, 'warning', {position: 'top-right'});
+                    }
+                },
+                error: function(error) {
+                    console.log(error)
+                    NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+                }
+            })
+        }
+    });
 }

@@ -15,7 +15,6 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'id' => 1,
                 'username' => 'thinkerdust',
                 'name' => 'Thinkerdust',
                 'email' => 'thinkerdust.dev@gmail.com',
@@ -23,13 +22,10 @@ class UsersTableSeeder extends Seeder
                 'id_role' => 1,
                 'level' => 1,
                 'status' => 1,
-                'created_at' => '2025-02-22 16:33:57',
-                'created_by' => '1',
-                'updated_at' => '2024-11-16 16:01:32',
-                'updated_by' => '1',
+                'created_at' => now(),
+                'created_by' => 1
             ],
             [
-                'id' => 2,
                 'username' => 'beta',
                 'name' => 'beta',
                 'email' => 'beta@mail.com',
@@ -37,10 +33,8 @@ class UsersTableSeeder extends Seeder
                 'id_role' => 1,
                 'level' => 1,
                 'status' => 1,
-                'created_at' => '2025-02-22 16:33:57',
-                'created_by' => '1',
-                'updated_at' => '2025-02-22 16:33:57',
-                'updated_by' => '1',
+                'created_at' => now(),
+                'created_by' => 1
             ]
         ]);
     }
