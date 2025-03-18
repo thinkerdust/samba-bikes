@@ -257,6 +257,13 @@ const readURL = (input,el) => {
         reader.onload = (e) => {
             $('#'+el).removeAttr('src')
             $('#'+el).attr('src', e.target.result)
+
+            let fileName = input.files[0].name;
+
+            // get attr id from input
+            let label = input.getAttribute('id');
+            $('#label_' + label).html(fileName);
+
         }
         reader.readAsDataURL(input.files[0])
     }
