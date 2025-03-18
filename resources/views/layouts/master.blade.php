@@ -60,6 +60,8 @@
     <!-- JavaScript -->
     <script src="{{ asset('assets/js/bundle.js?ver=3.1.0') }}"></script>
     <script src="{{ asset('assets/js/scripts.js?ver=3.1.0') }}"></script>
+    <script src="{{ asset('assets/js/apps/moment.js') }}"></script>
+    <script src="{{ asset('/assets/js/libs/blockui.min.js') }}" type="text/javascript"></script>
 
     <!-- add library -->
     @if(isset($js_library))
@@ -86,6 +88,30 @@
                 text: 'You are back online. Welcome back!',
             });
         });
+
+        function blockUI() {
+            $.blockUI({
+                message: `<i class="spinner-border" role="status"></i><br>
+                                <span class="text-semibold display-block">Loading...</span> `,
+                overlayCSS: {
+                    backgroundColor: '#1b2024',
+                    opacity: 0.8,
+                    zIndex: 1200,
+                    cursor: 'wait'
+                },
+                css: {
+                    border: 0,
+                    color: '#fff',
+                    padding: 0,
+                    zIndex: 1201,
+                    backgroundColor: 'transparent'
+                }
+            });
+        }
+
+        function unBlockUI() {
+            $.unblockUI();
+        }
     </script>
 
     <!-- custom js -->

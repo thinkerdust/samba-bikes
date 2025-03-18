@@ -9,6 +9,7 @@ use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PesertaController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', [LandingController::class, 'index'])->name('/');
 
@@ -40,6 +41,7 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
         Route::get('/data-role', 'list_data_role');
         Route::get('/data-size-chart', 'list_data_size_chart');
         Route::get('/data-bank', 'list_data_bank');
+        Route::get('/data-event', 'list_data_event');
     });
 
     Route::controller(AuthController::class)->group(function () {
@@ -96,6 +98,16 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
         Route::post('/datatable', 'datatable_peserta');
         Route::get('/edit/{id}', 'edit_peserta');
         Route::get('/delete/{id}', 'delete_peserta');
+    });
+
+    // Order
+    Route::prefix('order')->middleware("can:Menu, 'ORDER'")->controller(OrderController::class)->group(function() {
+        Route::get('/', 'index');
+        Route::post('/datatable', 'datatable_order');
+        Route::get('/edit/{id}', 'edit_order');
+        Route::get('/detail/{id}', 'detail_order');
+        Route::post('/konfirmasi', 'konfirmasi_order');
+        Route::get('/delete/{id}', 'delete_order');
     });
 
 });
