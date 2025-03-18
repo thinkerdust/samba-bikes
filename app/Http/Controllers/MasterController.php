@@ -32,4 +32,11 @@ class MasterController extends Controller
         $data = $this->master->listDataBank($q);
         return response()->json($data);
     }
+
+    public function list_data_event(Request $request)
+    {
+        $q = $request->get('q');
+        $data = $this->master->listDataEvent($q);
+        return response()->json($data);
+    }
 }

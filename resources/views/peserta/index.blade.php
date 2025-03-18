@@ -23,13 +23,9 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label class="form-label">Jenis Kelamin</label>
+                                            <label class="form-label">Event</label>
                                             <div class="form-control-wrap">
-                                                <select class="form-select form-control form-control-lg select2-js" id="filter_gender" name="filter_gender">
-                                                    <option value="">Semua</option>
-                                                    <option value="L">Laki-laki</option>
-                                                    <option value="P">Perempuan</option>
-                                                </select>
+                                                <select class="form-select form-control form-control-lg select2-js event" id="filter_event" name="filter_event"></select>
                                             </div>
                                         </div>
                                     </div>
@@ -45,6 +41,7 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>Event</th>
                                             <th>Nama Komunitas</th> 
                                             <th>Nama</th> 
                                             <th>Gender</th>
