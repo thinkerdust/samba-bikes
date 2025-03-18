@@ -116,7 +116,7 @@
                                                         <div class="form-file">
                                                             <input type="file" class="form-file-input" id="banner" name="banner" accept=".png, .jpg">
                                                             <input type="hidden" id="old_banner" name="old_banner">
-                                                            <label class="form-file-label" for="banner">Choose file</label>
+                                                            <label class="form-file-label" id="label_banner" for="banner">Choose file</label>
                                                         </div>
                                                         <div id="sectionBanner" class="my-2"></div>
                                                     </div>
@@ -136,7 +136,7 @@
                                                         <div class="form-file">
                                                             <input type="file" class="form-file-input" id="size_chart" name="size_chart" accept=".png, .jpg">
                                                             <input type="hidden" id="old_size_chart" name="old_size_chart">
-                                                            <label class="form-file-label" for="size_chart">Choose file</label>
+                                                            <label class="form-file-label" id="label_size_chart" for="size_chart">Choose file</label>
                                                         </div>
                                                         <div id="sectionSizeChart" class="my-2"></div>
                                                     </div>
@@ -156,7 +156,7 @@
                                                         <div class="form-file">
                                                             <input type="file" class="form-file-input" id="rute" name="rute" accept=".png, .jpg">
                                                             <input type="hidden" id="old_rute" name="old_rute">
-                                                            <label class="form-file-label" for="rute">Choose file</label>
+                                                            <label class="form-file-label" id="label_rute" for="rute">Choose file</label>
                                                         </div>
                                                         <div id="sectionRute" class="my-2"></div>
                                                     </div>
