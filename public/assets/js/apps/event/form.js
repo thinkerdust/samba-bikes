@@ -168,6 +168,10 @@ $('#banner').on('change', function() {
             $('#preview_image_banner').attr('src', "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png");
             $('#banner').next('label').html('Choose file');
         }else{
+            // give label file name
+            let fileName = file.name;
+            $('#label_banner').html(fileName);
+
             readURL(this,'preview_image_banner');
         }
     }
@@ -207,6 +211,10 @@ $('#size_chart').on('change', function() {
             $('#preview_image_size_chart').attr('src', "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png");
             $('#size_chart').next('label').html('Choose file');
         }else{
+            // give label file name
+            let fileName = file.name;
+            $('#label_size_chart').html(fileName);
+
             readURL(this,'preview_image_size_chart');
         }
     }
@@ -246,6 +254,10 @@ $('#rute').on('change', function() {
             $('#preview_image_rute').attr('src', "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png");
             $('#rute').next('label').html('Choose file');
         }else{
+            // give label file name
+            let fileName = file.name;
+            $('#label_rute').html(fileName);
+
             readURL(this,'preview_image_rute');
         }
     }
@@ -257,13 +269,6 @@ const readURL = (input,el) => {
         reader.onload = (e) => {
             $('#'+el).removeAttr('src')
             $('#'+el).attr('src', e.target.result)
-
-            let fileName = input.files[0].name;
-
-            // get attr id from input
-            let label = input.getAttribute('id');
-            $('#label_' + label).html(fileName);
-
         }
         reader.readAsDataURL(input.files[0])
     }
