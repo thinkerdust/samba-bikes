@@ -32,8 +32,8 @@ class PesertaController extends BaseController
 
     public function datatable_peserta(Request $request)
     {
-        $gender = $request->gender;
-        $data = $this->peserta->dataTablePeserta($gender); 
+        $event = $request->event;
+        $data = $this->peserta->dataTablePeserta($event); 
         return Datatables::of($data)->addIndexColumn()
             ->addColumn('action', function($row) {
                 $btn = '';

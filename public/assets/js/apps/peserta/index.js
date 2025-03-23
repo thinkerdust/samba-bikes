@@ -10,7 +10,7 @@ var table = NioApp.DataTable('#dt-table', {
         type: 'POST',
         data: function(d) {
             d._token    = token;
-            d.gender    = $('#filter_gender').val();
+            d.event    = $('#filter_event').val();
         },
         error: function (xhr) {
             if (xhr.status === 419) { // Unauthorized error
@@ -24,6 +24,7 @@ var table = NioApp.DataTable('#dt-table', {
     order: [1, 'ASC'],
     columns: [
         {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+        {data: 'nama_event'},
         {data: 'nama'},
         {data: 'nama'},
         {data: 'gender'},
@@ -38,7 +39,7 @@ var table = NioApp.DataTable('#dt-table', {
             targets: "_all"
         },
         {
-            targets: 1,
+            targets: 2,
             render: function(data, type, full, meta) {
                 if(full.nama_komunitas_personal != null) {
                     return full.nama_komunitas_personal;
@@ -48,7 +49,7 @@ var table = NioApp.DataTable('#dt-table', {
             }
         },
         {
-            targets: 3,
+            targets: 4,
             orderable: false,
             searchable: false,
             className: 'text-center',
@@ -67,6 +68,57 @@ $('#btn-filter').click(function() {
 $('.select2-js').select2({
     minimumResultsForSearch: Infinity
 });
+
+const initializeSelect2 = async (elementId, type, selectedValue, additionalParams = {}) => {
+    const element = $(elementId);
+    const res = await $.ajax({
+        type: 'GET',
+        url: base_url + '/master/select2',
+        data: { tipe: type, ...additionalParams },
+    });
+
+    if(selectedValue) {
+        const response = res.results.find(o => o.id == selectedValue);
+        const option = new Option(response.text, response.id, true, true);
+        element.append(option).trigger('change');
+    }
+}
+
+$('.event').each(function() {
+    var dropdownParent = null;
+    // Check if the element has a parent with class 'modal'
+    if ($(this).closest('.modal').length > 0) {
+        // If it has a parent with class 'modal', set dropdownParent
+        dropdownParent = $(this).closest('.modal');
+    }
+
+    // Initialize Select2 dropdown for the current element
+    $(this).select2({
+        placeholder: 'Pilih Event',
+        dropdownParent: dropdownParent,
+        allowClear: true,
+        ajax: {
+            url: '/admin/data-event',
+            dataType: "json",
+            type: "GET",
+            delay: 250,
+            data: function (params) {
+                return { q: params.term };
+            },
+            processResults: function (data, params) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.nama,
+                            id: item.id
+                        }
+                    })
+                };
+            },
+            cache: true
+        }
+    });
+}); 
 
 function hapus(id) {
     Swal.fire({
@@ -101,6 +153,7 @@ function detail(id) {
         dataType: 'json',
         success: function(response) {
             let data = response.data;
+            console.log(data)
             if (data) {
                 $('#modalDetail').modal('show');
             
@@ -112,10 +165,12 @@ function detail(id) {
                 $('#email').val(data.email);
                 $('#nik').val(data.nik);
                 $('#kota').val(data.kota);
-                $('#tanggal_lahir').val(data.tanggal_lahir);
                 $('#alamat').val(data.alamat);
             
-                // Select2 update
+                // Datepicker
+                $('#tanggal_lahir').val(data.tgl_lahir).trigger('change');
+
+                // Select2
                 $('#blood').val(data.blood).trigger('change');
                 $('#gender').val(data.gender).trigger('change');
             }

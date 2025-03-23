@@ -33,4 +33,13 @@ class Master extends Model
         }
         return $data->get();
     }
+
+    public function listDataEvent($q)
+    {
+        $data = DB::table('event')->select('id', 'nama');
+        if($q) {
+            $data = $data->where('nama', 'like', '%'.$q.'%');
+        }
+        return $data->get();
+    }
 }
