@@ -101,10 +101,17 @@
                                                         <textarea class="form-control" id="deskripsi" name="deskripsi" rows="5"></textarea>
                                                     </div>
                                                 </div>
-                                                <label class="form-label">File Banner <span class="text-danger">*</span></label>
+                                            </div>
+                                        </div>
+
+                                        <hr class="preview-hr">
+                                        <h3>Assets</h3>
+                                        <div class="row gy-4">
+                                            <div class="col-md-6">
+                                                <label class="form-label">File Banner 1<span class="text-danger">*</span></label>
                                                     <label class="cabinet center-block">
                                                     <figure>
-                                                        <img src="" class="gambar img-responsive img-thumbnail" id="preview_image_banner" />
+                                                        <img src="" class="gambar img-responsive img-thumbnail" id="preview_image_banner1" />
                                                         <figcaption>
                                                             <ul>
                                                                 <li>*)Leave blank if you don't want to replace</li>
@@ -114,13 +121,73 @@
                                                     </figure>
                                                     <div class="form-control-wrap">
                                                         <div class="form-file">
-                                                            <input type="file" class="form-file-input" id="banner" name="banner" accept=".png, .jpg">
-                                                            <input type="hidden" id="old_banner" name="old_banner">
-                                                            <label class="form-file-label" id="label_banner" for="banner">Choose file</label>
+                                                            <input type="file" class="form-file-input" id="banner1" name="banner1" accept=".png, .jpg">
+                                                            <input type="hidden" id="old_banner1" name="old_banner1">
+                                                            <label class="form-file-label" id="label_banner1" for="banner1">Choose file</label>
                                                         </div>
-                                                        <div id="sectionBanner" class="my-2"></div>
+                                                        <div id="sectionBanner1" class="my-2"></div>
                                                     </div>
                                                 </label>
+                                                <div class="form-group">
+                                                    <label class="form-label">Tagline Banner 1</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control" id="tagline_banner1" name="tagline_banner1" required>
+                                                    </div>
+                                                </div>
+                                                <label class="form-label">File Banner 2</label>
+                                                    <label class="cabinet center-block">
+                                                    <figure>
+                                                        <img src="" class="gambar img-responsive img-thumbnail" id="preview_image_banner2" />
+                                                        <figcaption>
+                                                            <ul>
+                                                                <li>*)Leave blank if you don't want to replace</li>
+                                                                <li>*)Max size file 2 MB</li>
+                                                            </ul>
+                                                        </figcaption>
+                                                    </figure>
+                                                    <div class="form-control-wrap">
+                                                        <div class="form-file">
+                                                            <input type="file" class="form-file-input" id="banner2" name="banner2" accept=".png, .jpg">
+                                                            <input type="hidden" id="old_banner2" name="old_banner2">
+                                                            <label class="form-file-label" id="label_banner2" for="banner2">Choose file</label>
+                                                        </div>
+                                                        <div id="sectionBanner2" class="my-2"></div>
+                                                    </div>
+                                                </label>
+                                                <div class="form-group">
+                                                    <label class="form-label">Tagline Banner 2</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control" id="tagline_banner2" name="tagline_banner2" required>
+                                                    </div>
+                                                </div>
+                                                <label class="form-label">File Banner 3</label>
+                                                    <label class="cabinet center-block">
+                                                    <figure>
+                                                        <img src="" class="gambar img-responsive img-thumbnail" id="preview_image_banner3" />
+                                                        <figcaption>
+                                                            <ul>
+                                                                <li>*)Leave blank if you don't want to replace</li>
+                                                                <li>*)Max size file 2 MB</li>
+                                                            </ul>
+                                                        </figcaption>
+                                                    </figure>
+                                                    <div class="form-control-wrap">
+                                                        <div class="form-file">
+                                                            <input type="file" class="form-file-input" id="banner3" name="banner3" accept=".png, .jpg">
+                                                            <input type="hidden" id="old_banner3" name="old_banner3">
+                                                            <label class="form-file-label" id="label_banner3" for="banner3">Choose file</label>
+                                                        </div>
+                                                        <div id="sectionBanner3" class="my-2"></div>
+                                                    </div>
+                                                </label>
+                                                <div class="form-group">
+                                                    <label class="form-label">Tagline Banner 3</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control" id="tagline_banner3" name="tagline_banner3" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
                                                 <label class="form-label">File Size Chart <span class="text-danger">*</span></label>
                                                     <label class="cabinet center-block">
                                                     <figure>
@@ -161,6 +228,16 @@
                                                         <div id="sectionRute" class="my-2"></div>
                                                     </div>
                                                 </label>
+                                            </div>
+                                        </div>
+
+                                        <hr class="preview-hr">
+                                        <h3>Sponsorship</h3>
+                                        <div class="upload-sponsor">
+                                            <div class="dz-message" data-dz-message>
+                                                <span class="dz-message-text">Drag and drop file</span>
+                                                <span class="dz-message-or">or</span>
+                                                <button type="button" class="btn btn-primary">SELECT</button>
                                             </div>
                                         </div>
 

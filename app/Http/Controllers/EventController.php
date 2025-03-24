@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Models\Event;
+use App\Models\Sponsor;
 use Carbon\Carbon;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Storage;
@@ -18,10 +19,12 @@ use Illuminate\Support\Facades\Storage;
 class EventController extends BaseController
 {
     protected $event;
+    protected $sponsor;
 
-    function __construct(Event $event)
+    function __construct(Event $event, Sponsor $sponsor)
     {
         $this->event = $event;
+        $this->sponsor = $sponsor;
     }
 
     public function index()
@@ -235,5 +238,47 @@ class EventController extends BaseController
             DB::rollback();
             return $this->ajaxResponse(false, 'Data gagal di-release', $e);
         }
+    }
+
+    public function store_sponsor(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+        ], validation_message());
+
+        if($validator->stopOnFirstFailure()->fails()){
+            return $this->ajaxResponse(false, $validator->errors()->first());        
+        }
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $extFile = $file->getClientOriginalExtension();
+            $filename = 'SPONSOR_' . time() . '.' . $extFile;
+            $path = $file->storeAs('public/uploads', $filename);
+            $auth = Auth::user();
+
+            $sponsor = Sponsor::create([
+                'id_event' => 1, 
+                'filename' => $filename, 
+                'insert_at' => Carbon::now(), 
+                'insert_by' => $auth->id
+            ]);
+
+            return $this->ajaxResponse(true, 'Berhasil upload file', $sponsor->id);
+        }
+        return $this->ajaxResponse(false, 'Gagal upload file');
+    }
+
+    public function delete_sponsor($id)
+    {
+        $file = Sponsor::find($id);
+
+        if ($file) {
+            Storage::disk('public')->delete("uploads/" . $file->filename);
+            $file->delete();
+            return $this->ajaxResponse(true, 'Berhasil hapus file');
+        }
+
+        return $this->ajaxResponse(false, 'Gagal hapus file');
     }
 }

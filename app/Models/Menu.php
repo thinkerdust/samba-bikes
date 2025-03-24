@@ -120,6 +120,7 @@ class Menu extends Model
                         GROUP BY kode_parent
                     ) AS jumlah_menu ON a.kode = jumlah_menu.kode_parent
                 WHERE a.kode_parent = '$parent' AND a.status = 1
+                ORDER BY a.id ASC
                 ";
 
         $data = DB::select($sql);
@@ -146,7 +147,8 @@ class Menu extends Model
                     FROM akses_role 
                     WHERE id_role = '$kode_role'
                 ) AS c ON c.kode_menu = a.kode
-                WHERE a.kode_parent = '$parent' AND a.status = 1";
+                WHERE a.kode_parent = '$parent' AND a.status = 1
+                ORDER BY a.id ASC";
 
         $data = DB::select($sql);
         return $data;

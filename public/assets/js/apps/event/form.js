@@ -132,6 +132,59 @@ $(document).ready(function() {
             }
         });
     });
+
+    var sponsorUpload = NioApp.Dropzone('.upload-sponsor', {
+        maxFilesize: 2, // MB
+        acceptedFiles: "image/*",
+        headers: {
+            'X-CSRF-TOKEN': token
+        },
+        url: "/admin/event/sponsor/store",
+        success: function(file, response) {
+            NioApp.Toast(response.message, 'success', {position: 'top-right'});
+            file.serverId = response.data;
+        },
+        error: function(file, response) {
+            this.removeFile(file);
+            console.log(response);
+            NioApp.Toast(response, 'error', {position: 'top-right'});
+        },
+        init: function() {
+            this.on("addedfile", function(file) {
+                // Tambahkan tombol hapus secara dinamis
+                let removeButton = Dropzone.createElement("<button class='dz-remove btn btn-danger btn-sm'>Remove</button>");
+    
+                // Saat tombol diklik, hapus file dari Dropzone
+                removeButton.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+    
+                    if (file.serverId) {
+                        // Jika file sudah diupload ke server, kirim permintaan DELETE
+                        fetch(`/admin/event/sponsor/delete/${file.serverId}`, {
+                            method: "DELETE",
+                            headers: { 'X-CSRF-TOKEN': token }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status) {
+                                this.removeFile(file);
+                                NioApp.Toast(data.message, 'success', {position: 'top-right'});
+                            } else {
+                                NioApp.Toast("Failed to delete file.", 'error', {position: 'top-right'});
+                            }
+                        })
+                        .catch(error => console.error("Delete Error:", error));
+                    } else {
+                        // Jika file belum terupload, langsung hapus dari Dropzone
+                        this.removeFile(file);
+                    }
+                }.bind(this));
+    
+                file.previewElement.appendChild(removeButton);
+            });
+        }
+    });
 })
 
 $('#preview_image_banner').attr('src', "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png");
