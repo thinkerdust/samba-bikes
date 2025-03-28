@@ -110,6 +110,9 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
         Route::get('/detail/{id}', 'detail_order');
         Route::post('/konfirmasi', 'konfirmasi_order');
         Route::get('/delete/{id}', 'delete_order');
+
+        Route::get('/racepack', 'racepack');
+        Route::post('racepack/store', 'store_racepack');
     });
 
 });
