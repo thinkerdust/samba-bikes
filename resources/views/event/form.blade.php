@@ -19,6 +19,8 @@
                                     <form class="form-validate is-alter" id="form-data" autocomplete="off">
                                         @csrf
                                         <input type="hidden" name="id" id="id" value="{{ isset($id) ? $id:0 }}">
+
+                                        <h3>Data Event</h3>
                                         <div class="row gy-4">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -107,7 +109,7 @@
                                         <hr class="preview-hr">
                                         <h3>Assets</h3>
                                         <div class="row gy-4">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <label class="form-label">File Banner 1<span class="text-danger">*</span></label>
                                                     <label class="cabinet center-block">
                                                     <figure>
@@ -134,6 +136,8 @@
                                                         <input type="text" class="form-control" id="tagline_banner1" name="tagline_banner1" required>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label class="form-label">File Banner 2</label>
                                                     <label class="cabinet center-block">
                                                     <figure>
@@ -160,6 +164,8 @@
                                                         <input type="text" class="form-control" id="tagline_banner2" name="tagline_banner2" required>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label class="form-label">File Banner 3</label>
                                                     <label class="cabinet center-block">
                                                     <figure>
@@ -187,7 +193,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <label class="form-label">File Size Chart <span class="text-danger">*</span></label>
                                                     <label class="cabinet center-block">
                                                     <figure>
@@ -208,6 +214,8 @@
                                                         <div id="sectionSizeChart" class="my-2"></div>
                                                     </div>
                                                 </label>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <label class="form-label">File Rute <span class="text-danger">*</span></label>
                                                     <label class="cabinet center-block">
                                                     <figure>
@@ -270,12 +278,24 @@
         margin-top:-30px;
     }
 
+    .form-file-label {
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
     .gambar {
         width: 200px;
         height: 200px;
         object-fit: cover;
         object-position: 50% 0;
     }
+
+    .dz-remove {
+        width: 100%;
+        margin-top: 1rem;
+        border-radius: 25px;
+    }
+    
 </style>
 
 @endsection

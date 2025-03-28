@@ -48,6 +48,13 @@ class AksesRoleSeeder extends Seeder
                 'flag_access' => 1,
                 'insert_at' => now(),
                 'insert_by' => 1
+            ],
+            [
+                'id_role' => 1,
+                'kode_menu' => 'ORDER',
+                'flag_access' => 1,
+                'insert_at' => now(),
+                'insert_by' => 1
             ]
         ]);
     }

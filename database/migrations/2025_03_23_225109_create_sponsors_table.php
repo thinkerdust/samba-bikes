@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_event');
             $table->text('filename');
+            $table->mediumInteger('size')->unsigned();
             $table->tinyInteger('status')->default(1)->comment('1: aktif');
             $table->timestamp('insert_at')->useCurrent();
             $table->unsignedBigInteger('insert_by');

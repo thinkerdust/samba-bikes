@@ -90,6 +90,7 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
         Route::get('/edit/{id}', 'edit_event');
         Route::get('/delete/{id}', 'delete_event');
         Route::get('/release/{id}', 'release_event');
+        Route::get('/sponsor/list/{id_event}', 'list_sponsor');
         Route::post('/sponsor/store', 'store_sponsor');
         Route::delete('/sponsor/delete/{id}', 'delete_sponsor');
     });

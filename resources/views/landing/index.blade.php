@@ -227,9 +227,9 @@
 				<div class="col-xl-6">
 					<div class="event-schedule-tabs">
 						<div class="event-schedule-item">
-							<div class="schedule-item-img">
+							{{-- <div class="schedule-item-img">
 								<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/event-icon-1.svg') }}" alt="img">
-							</div>
+							</div> --}}
 							<div class="schedule-item-info">
 								<div class="date">9:00 - 11:00</div>
 								<h4>Opening Ceremony & Warm-up</h4>
@@ -239,7 +239,7 @@
 							</div>
 						</div>
 						<div class="event-schedule-item">
-							<div class="schedule-item-img"><img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/event-icon-2.svg') }}" alt="img"></div>
+							{{-- <div class="schedule-item-img"><img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/event-icon-2.svg') }}" alt="img"></div> --}}
 							<div class="schedule-item-info">
 								<div class="date">11:00 - 13:00</div>
 								<h4>Main Cycling Event</h4>
@@ -249,7 +249,7 @@
 							</div>
 						</div>
 						<div class="event-schedule-item">
-							<div class="schedule-item-img"><img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/event-icon-3.svg') }}" alt="img"></div>
+							{{-- <div class="schedule-item-img"><img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/event-icon-3.svg') }}" alt="img"></div> --}}
 							<div class="schedule-item-info">
 								<div class="date">13:00 - 14:00</div>
 								<h4>Break & Refreshments</h4>
@@ -259,7 +259,7 @@
 							</div>
 						</div>
 						<div class="event-schedule-item">
-							<div class="schedule-item-img"><img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/event-icon-4.svg') }}" alt="img"></div>
+							{{-- <div class="schedule-item-img"><img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/event-icon-4.svg') }}" alt="img"></div> --}}
 							<div class="schedule-item-info">
 								<div class="date">14:00 - 15:00</div>
 								<h4>Awards & Closing Ceremony</h4>
@@ -500,7 +500,7 @@
 	<!--================= S-CLIENTS END =================-->
 
 	<!--================ S-MARATHON-NEWS ================-->
-	<section id="news" class="s-marathon-news">
+	{{-- <section id="news" class="s-marathon-news">
 		<div class="container">
 			<h2 class="title"><span>Our news</span></h2>
 			<div class="marathon-news-slider">
@@ -591,7 +591,7 @@
 				</div>
 			</div>
 		</div>
-	</section>
+	</section> --}}
 	<!--============== S-MARATHON-NEWS END ==============-->
 
 	<!--================== S-INSTAGRAM ==================-->

@@ -44,6 +44,7 @@ $(document).ready(function() {
         }
     })
 
+    // ID Event
     let id = $('#id').val();
     if(id) {
         $.ajax({
@@ -133,188 +134,149 @@ $(document).ready(function() {
         });
     });
 
-    var sponsorUpload = NioApp.Dropzone('.upload-sponsor', {
+    NioApp.Dropzone('.upload-sponsor', {
         maxFilesize: 2, // MB
         acceptedFiles: "image/*",
-        headers: {
-            'X-CSRF-TOKEN': token
-        },
+        headers: { 'X-CSRF-TOKEN': token },
         url: "/admin/event/sponsor/store",
-        success: function(file, response) {
-            NioApp.Toast(response.message, 'success', {position: 'top-right'});
-            file.serverId = response.data;
-        },
-        error: function(file, response) {
-            this.removeFile(file);
-            console.log(response);
-            NioApp.Toast(response, 'error', {position: 'top-right'});
-        },
-        init: function() {
-            this.on("addedfile", function(file) {
-                // Tambahkan tombol hapus secara dinamis
-                let removeButton = Dropzone.createElement("<button class='dz-remove btn btn-danger btn-sm'>Remove</button>");
     
-                // Saat tombol diklik, hapus file dari Dropzone
-                removeButton.addEventListener("click", function(e) {
+        success(file, response) {
+            NioApp.Toast(response.message, 'success', { position: 'top-right' });
+            file.serverId = response.data;
+            this.checkFiles(); // Call checkFiles() properly
+        },
+    
+        error(file, response) {
+            this.removeFile(file);
+            console.error("Upload Error:", response);
+            NioApp.Toast(response, 'error', { position: 'top-right' });
+        },
+    
+        init() {
+            const dropzoneInstance = this;
+            const dzMessage = document.querySelector('.upload-sponsor .dz-message');
+    
+            // **Define checkFiles as a method inside init**
+            this.checkFiles = function () {
+                if (dropzoneInstance.files.length > 0) {
+                    dzMessage.style.display = 'none'; // Hide message
+                } else {
+                    dzMessage.style.display = 'block'; // Show message
+                }
+            };
+    
+            // Load existing files when editing
+            fetch('/admin/event/sponsor/list/' + id)
+                .then(response => response.json())
+                .then(files => {
+                    if (files.data && Array.isArray(files.data)) {
+                        files.data.forEach(fileData => {
+                            const existingFile = dropzoneInstance.files.find(f => f.serverId === fileData.id);
+                            if (!existingFile) {
+                                let mockFile = { 
+                                    name: fileData.filename, 
+                                    size: fileData.size, 
+                                    serverId: fileData.id 
+                                };
+                                dropzoneInstance.emit("addedfile", mockFile);
+                                dropzoneInstance.emit("thumbnail", mockFile, `/storage/uploads/${fileData.filename}`);
+                                dropzoneInstance.emit("complete", mockFile);
+    
+                                // **Manually push to Dropzone's file array**
+                                dropzoneInstance.files.push(mockFile);
+                            }
+                        });
+                        dropzoneInstance.checkFiles(); // Update message after loading existing files
+                    }
+                })
+                .catch(error => console.error("Error loading files:", error));
+    
+            this.on("addedfile", file => {
+                dropzoneInstance.checkFiles();
+    
+                const removeButton = Dropzone.createElement("<button class='dz-remove btn btn-danger btn-sm'>Remove</button>");
+    
+                removeButton.addEventListener("click", async (e) => {
                     e.preventDefault();
                     e.stopPropagation();
     
                     if (file.serverId) {
-                        // Jika file sudah diupload ke server, kirim permintaan DELETE
-                        fetch(`/admin/event/sponsor/delete/${file.serverId}`, {
-                            method: "DELETE",
-                            headers: { 'X-CSRF-TOKEN': token }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
+                        try {
+                            const response = await fetch(`/admin/event/sponsor/delete/${file.serverId}`, {
+                                method: "DELETE",
+                                headers: { 'X-CSRF-TOKEN': token }
+                            });
+                            const data = await response.json();
+    
                             if (data.status) {
-                                this.removeFile(file);
-                                NioApp.Toast(data.message, 'success', {position: 'top-right'});
+                                dropzoneInstance.removeFile(file);
+                                NioApp.Toast(data.message, 'success', { position: 'top-right' });
                             } else {
-                                NioApp.Toast("Failed to delete file.", 'error', {position: 'top-right'});
+                                NioApp.Toast("Failed to delete file.", 'error', { position: 'top-right' });
                             }
-                        })
-                        .catch(error => console.error("Delete Error:", error));
+                        } catch (error) {
+                            console.error("Delete Error:", error);
+                        }
                     } else {
-                        // Jika file belum terupload, langsung hapus dari Dropzone
-                        this.removeFile(file);
+                        dropzoneInstance.removeFile(file);
                     }
-                }.bind(this));
+                    dropzoneInstance.checkFiles();
+                });
     
                 file.previewElement.appendChild(removeButton);
             });
+    
+            this.on("removedfile", () => {
+                dropzoneInstance.checkFiles();
+            });
         }
     });
+    
 })
 
-$('#preview_image_banner').attr('src', "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png");
+$('#preview_image_size_chart, #preview_image_rute, #preview_image_banner1, #preview_image_banner2, #preview_image_banner3').attr('src', "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png");
 
-$('#banner').on('change', function() {
-
-    // The recommended plugin to animate custom file input: bs-custom-file-input, is what bootstrap using currently
-    // bsCustomFileInput.init();
-
-    // Set maximum filesize
-    var maxSizeMb = 2;
-
-    // Get the file by using JQuery's selector
-    var file = $('#banner')[0].files[0];
-
-    // Make sure that a file has been selected before attempting to get its size.
-    if(file !== undefined) {
-
-        // Get the filesize
-        var totalSize = file.size;
-
-        // Convert bytes into MB
-        var totalSizeMb = totalSize  / Math.pow(1024,2);
-
-        // Check to see if it is too large.
-        if(totalSizeMb > maxSizeMb) {
-
-            // Create an error message
-            var errorMsg = 'File too large. Maximum file size is ' + maxSizeMb + ' MB. Selected file is ' + totalSizeMb.toFixed(2) + ' MB';
-            NioApp.Toast(errorMsg, 'warning', {position: 'top-right'});
-
-            // Clear the value
-            $('#banner').val('');
-            $('#preview_image_banner').attr('src', "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png");
-            $('#banner').next('label').html('Choose file');
-        }else{
-            // give label file name
-            let fileName = file.name;
-            $('#label_banner').html(fileName);
-
-            readURL(this,'preview_image_banner');
-        }
-    }
+$('#banner1').on('change', function() {
+    handleFileChange('banner1', 'preview_image_banner1', 'label_banner1');
 });
 
-$('#preview_image_size_chart').attr('src', "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png");
+$('#banner2').on('change', function() {
+    handleFileChange('banner2', 'preview_image_banner2', 'label_banner2');
+});
+
+$('#banner3').on('change', function() {
+    handleFileChange('banner3', 'preview_image_banner3', 'label_banner3');
+});
 
 $('#size_chart').on('change', function() {
-
-    // The recommended plugin to animate custom file input: bs-custom-file-input, is what bootstrap using currently
-    // bsCustomFileInput.init();
-
-    // Set maximum filesize
-    var maxSizeMb = 2;
-
-    // Get the file by using JQuery's selector
-    var file = $('#size_chart')[0].files[0];
-
-    // Make sure that a file has been selected before attempting to get its size.
-    if(file !== undefined) {
-
-        // Get the filesize
-        var totalSize = file.size;
-
-        // Convert bytes into MB
-        var totalSizeMb = totalSize  / Math.pow(1024,2);
-
-        // Check to see if it is too large.
-        if(totalSizeMb > maxSizeMb) {
-
-            // Create an error message
-            var errorMsg = 'File too large. Maximum file size is ' + maxSizeMb + ' MB. Selected file is ' + totalSizeMb.toFixed(2) + ' MB';
-            NioApp.Toast(errorMsg, 'warning', {position: 'top-right'});
-
-            // Clear the value
-            $('#size_chart').val('');
-            $('#preview_image_size_chart').attr('src', "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png");
-            $('#size_chart').next('label').html('Choose file');
-        }else{
-            // give label file name
-            let fileName = file.name;
-            $('#label_size_chart').html(fileName);
-
-            readURL(this,'preview_image_size_chart');
-        }
-    }
+    handleFileChange('size_chart', 'preview_image_size_chart', 'label_size_chart');
 });
-
-$('#preview_image_rute').attr('src', "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png");
 
 $('#rute').on('change', function() {
+    handleFileChange('rute', 'preview_image_rute', 'label_rute');
+});
 
-    // The recommended plugin to animate custom file input: bs-custom-file-input, is what bootstrap using currently
-    // bsCustomFileInput.init();
-
-    // Set maximum filesize
+const handleFileChange = (inputId, previewId, labelId) => {
     var maxSizeMb = 2;
+    var fileInput = $('#' + inputId)[0];
+    var file = fileInput.files[0];
+    var defaultImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png";
 
-    // Get the file by using JQuery's selector
-    var file = $('#rute')[0].files[0];
+    if (file) {
+        var totalSizeMb = file.size / Math.pow(1024, 2);
 
-    // Make sure that a file has been selected before attempting to get its size.
-    if(file !== undefined) {
-
-        // Get the filesize
-        var totalSize = file.size;
-
-        // Convert bytes into MB
-        var totalSizeMb = totalSize  / Math.pow(1024,2);
-
-        // Check to see if it is too large.
-        if(totalSizeMb > maxSizeMb) {
-
-            // Create an error message
-            var errorMsg = 'File too large. Maximum file size is ' + maxSizeMb + ' MB. Selected file is ' + totalSizeMb.toFixed(2) + ' MB';
-            NioApp.Toast(errorMsg, 'warning', {position: 'top-right'});
-
-            // Clear the value
-            $('#rute').val('');
-            $('#preview_image_rute').attr('src', "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png");
-            $('#rute').next('label').html('Choose file');
-        }else{
-            // give label file name
-            let fileName = file.name;
-            $('#label_rute').html(fileName);
-
-            readURL(this,'preview_image_rute');
+        if (totalSizeMb > maxSizeMb) {
+            NioApp.Toast(`File too large. Maximum file size is ${maxSizeMb} MB. Selected file is ${totalSizeMb.toFixed(2)} MB`, 'warning', { position: 'top-right' });
+            
+            $('#' + inputId).val('');
+            $('#' + previewId).attr('src', defaultImage);
+            $('#' + labelId).html('Choose file');
+        } else {
+            $('#' + labelId).html(file.name);
+            readURL(fileInput, previewId);
         }
     }
-});
+}
 
 const readURL = (input,el) => {
     if (input.files && input.files[0]) {
