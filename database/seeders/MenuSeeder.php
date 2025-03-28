@@ -74,6 +74,16 @@ class MenuSeeder extends Seeder
                 'insert_at' => now(),
                 'insert_by' => 1
             ],
+            [
+                'kode' => 'ORDER',
+                'kode_parent' => '0',
+                'nama' => 'Order',
+                'icon' => 'ni ni-bag-fill',
+                'url' => '/admin/order',
+                'status' => 1,
+                'insert_at' => now(),
+                'insert_by' => 1
+            ],
         ]);
     }
 }

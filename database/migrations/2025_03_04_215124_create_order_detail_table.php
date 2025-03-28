@@ -12,18 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order_detail', function (Blueprint $table) {
-            $table->id();            
+            $table->id();
             $table->string('nomor_order');
             $table->unsignedBigInteger('id_peserta');
-            $table->string('size', 10)->comment('table: size_chart');
-
-            // Relations
+            $table->dateTime('racepack_at')->nullable();
+            $table->unsignedBigInteger('racepack_by')->nullable();
+            $table->timestamp('insert_at', 3)->useCurrent();
+            $table->timestamp('update_at', 3)->nullable()->useCurrentOnUpdate();
+            $table->unsignedBigInteger('update_by')->nullable()->useCurrentOnUpdate();
+            
             $table->foreign('nomor_order')->references('nomor')->on('order')->onDelete('cascade');
-
-            // Indexes
-            $table->index('nomor_order');
-            $table->index('id_peserta');
-
+            
+            $table->index('nomor_order', 'order_detail_nomor_order_index');
+            $table->index('id_peserta', 'order_detail_id_peserta_index');
         });
     }
 

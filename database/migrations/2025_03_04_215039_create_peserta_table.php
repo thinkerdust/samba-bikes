@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('nama_komunitas')->nullable();
             $table->string('telp_emergency', 20);
             $table->string('hubungan_emergency', 100);
+            $table->string('size_jersey', 10);
             $table->tinyInteger('status')->unsigned()->default(1)->comment("1: aktif; 0: non-aktif");
 
             $table->dateTime('insert_at', 3)->default(DB::raw('CURRENT_TIMESTAMP(3)'));
