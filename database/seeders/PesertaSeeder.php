@@ -36,7 +36,7 @@ class PesertaSeeder extends Seeder
                 'update_by' => 1,
             ],
             [
-                'id_komunitas' => 2,
+                'id_komunitas' => null,
                 'id_event' => 2,
                 'nama' => 'Siti Aminah',
                 'phone' => '081345678901',
