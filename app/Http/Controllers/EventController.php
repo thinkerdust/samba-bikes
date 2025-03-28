@@ -240,6 +240,13 @@ class EventController extends BaseController
         }
     }
 
+    public function list_sponsor($id_event)
+    {
+        // get data
+        $data = $this->sponsor->where('id_event', $id_event)->get();
+        return $this->ajaxResponse(true, 'Success!', $data);
+    }
+
     public function store_sponsor(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -260,6 +267,7 @@ class EventController extends BaseController
             $sponsor = Sponsor::create([
                 'id_event' => 1, 
                 'filename' => $filename, 
+                'size' => $file->getSize(),
                 'insert_at' => Carbon::now(), 
                 'insert_by' => $auth->id
             ]);

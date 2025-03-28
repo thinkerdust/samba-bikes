@@ -12,6 +12,7 @@ class Sponsor extends Model
     protected $fillable = [
         'id_event',
         'filename', 
+        'size',
         'status', 
         'insert_at',
         'insert_by',
