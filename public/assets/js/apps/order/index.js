@@ -32,10 +32,11 @@ var table = NioApp.DataTable('#dt-table', {
     order: [1, 'ASC'],
     columns: [
         {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
-        {data: 'nama_event'},
-        {data: 'nomor'},
-        {data: 'jumlah'},
-        {data: 'total'},
+        {data: 'nama_event', name: 'event.nama'},
+        {data: 'nomor', name: 'order.nomor'},
+        {data: 'jumlah', name: 'order.jumlah', className: 'text-end'},
+        {data: 'total', name: 'order.total'},
+        {data: 'tanggal_order', name: 'order.insert_at'},
         {data: 'status'},
         {data: 'action', orderable: false, searchable: false},
     ],
@@ -53,8 +54,7 @@ var table = NioApp.DataTable('#dt-table', {
 
                 var status = {
                     1: {'title': 'Pending', 'class': ' bg-warning'},
-                    2: {'title': 'Paid', 'class': ' bg-success'},
-                    3: {'title': 'Confirmed', 'class': ' bg-primary'}
+                    2: {'title': 'Paid', 'class': ' bg-success'}
                 };
                 if (typeof status[full['status']] === 'undefined') {
                     return data;
@@ -63,7 +63,7 @@ var table = NioApp.DataTable('#dt-table', {
             }
         },
         {
-            targets: 4, // Kolom "total"
+            targets: 4, 
             className: 'text-end',
             render: function(data, type, full, meta) {
                 if (!data) return 'Rp 0'; // Jika data kosong, tampilkan Rp 0
@@ -143,7 +143,7 @@ $('.format-currency').on('keyup', (evt) => {
     keyUpThousandView(evt)
 })
 
-function hapus(id) {
+function hapus(nomor) {
     Swal.fire({
         title: 'Apakah anda yakin akan hapus data?',
         icon: 'warning',
@@ -152,7 +152,7 @@ function hapus(id) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: '/admin/order/delete/'+id,
+                url: '/admin/order/delete?nomor='+nomor,
                 dataType: 'JSON',
                 success: function(response) {
                     if(response.status){
@@ -171,19 +171,19 @@ function hapus(id) {
     });
 }
 
-function detail(id) {
+function detail(nomor) {
 
     // open modal
     $("#modalDetail").modal("show");
 
     NioApp.DataTable('#dt-table-detail', {
         scrollX: true,
-        destroy: true, // `bDestroy` is an older option, `destroy` is preferred
+        destroy: true, 
         stateSave: true,
         responsive: false,
         serverSide: false,
         ajax: {
-            url: '/admin/order/detail/' + id,
+            url: '/admin/order/detail?nomor=' + nomor,
             dataType: 'json',
             beforeSend: function () {
                 blockUI();
@@ -196,59 +196,35 @@ function detail(id) {
                 NioApp.Toast('Error while fetching data: ' + error, 'error', { position: 'top-right' });
             }
         },
-        order: [[1, 'asc']], // Sort by the second column (nomor_order)
+        order: [1, 'ASC'], // Sort by the second column (nomor_order)
         columns: [
-            { data: 'DT_RowIndex', orderable: false, searchable: false },
-            { data: 'nomor_order' },
-            { data: 'nama_peserta' },
-            { data: 'size' },
-            {data: 'status'},
+            {data: 'DT_RowIndex', orderable: false, searchable: false},
+            {data: 'nama_peserta', name: 'p.nama'},
+            {data: 'phone', name: 'p.phone'},
+            {data: 'email', name: 'p.email'},
+            {data: 'size_jersey', name: 'p.size_jersey'},
         ],
         columnDefs: [
             {
                 className: "nk-tb-col",
                 targets: "_all"
-            },
-            {
-                targets: -1,
-                orderable: false,
-                searchable: false,
-                className: 'text-center',
-                render: function(data, type, full, meta) {
-    
-                    var status = {
-                        0: {'title': 'Non Aktif', 'class': ' bg-danger'},
-                        1: {'title': 'Aktif', 'class': ' bg-success'},
-                    };
-                    if (typeof status[full['status']] === 'undefined') {
-                        return data;
-                    }
-                    return '<span class="badge '+ status[full['status']].class +'">'+ status[full['status']].title +'</span>';
-                }
-            },
+            }
         ]
     });
     
 }
 
-function konfirmasi(id) {
-
-    // clear form
-    $('#form-data')[0].reset();
-    
-    // open modal
-    $("#modalKonfirmasi").modal("show");
-
-    // populate form with data
+function payment(nomor) {
+    $('#form-data-payment')[0].reset();
     $.ajax({
-        url: '/admin/order/edit/' + id,
+        url: '/admin/order/edit?nomor=' + nomor,
         type: 'GET',
         dataType: 'json',
         success: function(response) {
             if (response.status) {
-                // Populate the form fields with the response data
+                $("#modalPayment").modal("show");
                 $('#id_order').val(response.data.id);
-                $('#total_bayar').val(new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(response.data.total));
+                $('#total_bayar').val('Rp ' + thousandView(response.data.total));
             } else {
                 NioApp.Toast(response.message, 'warning', {position: 'top-right'});
             }
@@ -258,45 +234,51 @@ function konfirmasi(id) {
             NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
         }
     });
-
 }
 
-$('#form-data').submit(function(e) {
+$('#form-data-payment').submit(function(e) {
     e.preventDefault();
     formData = new FormData($(this)[0]);
-    var btn = $('#btn-submit');
+    var btn = $('#btn-submit-payment');
 
-    $.ajax({
-        url : "/admin/order/konfirmasi",  
-        data : formData,
-        type : "POST",
-        dataType : "JSON",
-        cache:false,
-        async : true,
-        contentType: false,
-        processData: false,
-        beforeSend: function() {
-            btn.attr('disabled', true);
-            btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading ...</span>`);
-        },
-        success: function(response) {
-            if(response.status) {
-                $("#dt-table").DataTable().ajax.reload(null, false);
-                NioApp.Toast(response.message, 'success', {position: 'top-right'});
-
-                // close modal
-                $('#modalKonfirmasi').modal('hide');
-            } else {
-                NioApp.Toast(response.message, 'warning', {position: 'top-right'});
-            }
-            btn.attr('disabled', false);
-            btn.html('Konfirmasi');
-        },
-        error: function(error) {
-            console.log(error)
-            btn.attr('disabled', false);
-            btn.html('Konfirmasi');
-            NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+    Swal.fire({
+        title: 'Apakah anda yakin akan simpan data?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, saya yakin!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url : "/admin/order/payment",  
+                data : formData,
+                type : "POST",
+                dataType : "JSON",
+                cache:false,
+                async : true,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    btn.attr('disabled', true);
+                    btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading ...</span>`);
+                },
+                success: function(response) {
+                    if(response.status) {
+                        $("#dt-table").DataTable().ajax.reload(null, false);
+                        NioApp.Toast(response.message, 'success', {position: 'top-right'});
+                        $('#modalPayment').modal('hide');
+                    } else {
+                        NioApp.Toast(response.message, 'warning', {position: 'top-right'});
+                    }
+                    btn.attr('disabled', false);
+                    btn.html('Submit');
+                },
+                error: function(error) {
+                    console.log(error)
+                    btn.attr('disabled', false);
+                    btn.html('Submit');
+                    NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+                }
+            });
         }
-    });
+    })
 });

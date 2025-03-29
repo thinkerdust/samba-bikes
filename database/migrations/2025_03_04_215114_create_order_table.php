@@ -18,12 +18,12 @@ return new class extends Migration
             $table->date('tanggal_bayar')->comment('harus diisi admin jika status lunas ketika approval')->nullable();
             $table->unsignedInteger('jumlah')->comment("total tiket");
             $table->decimal('total', 15, 0)->comment("total harga tiket");
-            $table->tinyInteger('status')->unsigned()->default(1)->comment("1: pending; 2: terbayarkan; 3: terkonfiramasi");
+            $table->tinyInteger('status')->unsigned()->default(1)->comment("1: pending; 2: terbayarkan; 0: cancel/hapus/reject");
             
-            $table->dateTime('approve_at')->nullable()->useCurrentOnUpdate();
+            $table->dateTime('approve_at')->nullable();
             $table->unsignedBigInteger('approve_by')->nullable();
-            $table->dateTime('insert_at')->default(DB::raw('CURRENT_TIMESTAMP()'));
-            $table->timestamp('update_at', 3)->nullable()->useCurrentOnUpdate();
+            $table->dateTime('insert_at')->useCurrent();
+            $table->dateTime('update_at', 3)->nullable()->useCurrentOnUpdate();
             $table->unsignedBigInteger('update_by')->nullable();
 
             // Relations

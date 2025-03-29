@@ -18,7 +18,7 @@ class UsersSeeder extends Seeder
                 'username' => 'thinkerdust',
                 'name' => 'Thinkerdust',
                 'email' => 'thinkerdust.dev@gmail.com',
-                'password' => '$2y$12$mClJu24M2AZigk3CDhK.7.d1fZHBr6sHwcKa4nUlCynfSKrHnnGJq', // Already hashed
+                'password' => '$2y$12$mClJu24M2AZigk3CDhK.7.d1fZHBr6sHwcKa4nUlCynfSKrHnnGJq',
                 'id_role' => 1,
                 'level' => 1,
                 'status' => 1,
@@ -29,8 +29,19 @@ class UsersSeeder extends Seeder
                 'username' => 'beta',
                 'name' => 'beta',
                 'email' => 'beta@mail.com',
-                'password' => '$2y$12$mClJu24M2AZigk3CDhK.7.d1fZHBr6sHwcKa4nUlCynfSKrHnnGJq', // Already hashed
+                'password' => '$2y$12$mClJu24M2AZigk3CDhK.7.d1fZHBr6sHwcKa4nUlCynfSKrHnnGJq',
                 'id_role' => 1,
+                'level' => 1,
+                'status' => 1,
+                'created_at' => now(),
+                'created_by' => 1
+            ],
+            [
+                'username' => 'samba',
+                'name' => 'Samba Admin',
+                'email' => 'samba@mail.com',
+                'password' => '$2y$12$mClJu24M2AZigk3CDhK.7.d1fZHBr6sHwcKa4nUlCynfSKrHnnGJq',
+                'id_role' => 2,
                 'level' => 1,
                 'status' => 1,
                 'created_at' => now(),

@@ -31,9 +31,7 @@ class PesertaSeeder extends Seeder
                 'hubungan_emergency' => 'Saudara',
                 'size_jersey' => 'M',
                 'status' => 1,
-                'insert_at' => now(),
-                'update_at' => now(),
-                'update_by' => 1,
+                'insert_at' => now()
             ],
             [
                 'id_komunitas' => null,
@@ -52,9 +50,7 @@ class PesertaSeeder extends Seeder
                 'hubungan_emergency' => 'Orang Tua',
                 'size_jersey' => 'L',
                 'status' => 1,
-                'insert_at' => now(),
-                'update_at' => now(),
-                'update_by' => 2,
+                'insert_at' => now()
             ],
         ]);
     }

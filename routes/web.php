@@ -107,12 +107,13 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
     Route::prefix('order')->middleware("can:Menu, 'ORDER'")->controller(OrderController::class)->group(function() {
         Route::get('/', 'index');
         Route::post('/datatable', 'datatable_order');
-        Route::get('/edit/{id}', 'edit_order');
-        Route::get('/detail/{id}', 'detail_order');
-        Route::post('/konfirmasi', 'konfirmasi_order');
-        Route::get('/delete/{id}', 'delete_order');
+        Route::get('/edit', 'edit_order');
+        Route::get('/detail', 'detail_order');
+        Route::post('/payment', 'payment_order');
+        Route::get('/delete', 'delete_order');
 
         Route::get('/racepack', 'racepack');
+        Route::post('/racepack/datatable', 'datatable_racepack');
         Route::post('racepack/store', 'store_racepack');
     });
 

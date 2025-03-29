@@ -17,28 +17,18 @@ class OrderSeeder extends Seeder
             [
                 'nomor' => 'ORD/250601/0001',
                 'id_event' => 1,
-                'tanggal_bayar' => null,
                 'jumlah' => 1,
                 'total' => 250000,
                 'status' => 1,
-                'approve_at' => null,
-                'approve_by' => null,
                 'insert_at' => now(),
-                'update_at' => now(),
-                'update_by' => null,
             ],
             [
                 'nomor' => 'ORD/250801/0002',
                 'id_event' => 2,
-                'tanggal_bayar' => null,
                 'jumlah' => 1,
                 'total' => 300000,
                 'status' => 1,
-                'approve_at' => null,
-                'approve_by' => null,
                 'insert_at' => now(),
-                'update_at' => null,
-                'update_by' => null,
             ],
         ]);
     }

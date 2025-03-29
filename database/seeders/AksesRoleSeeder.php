@@ -55,6 +55,48 @@ class AksesRoleSeeder extends Seeder
                 'flag_access' => 1,
                 'insert_at' => now(),
                 'insert_by' => 1
+            ],
+            [
+                'id_role' => 2,
+                'kode_menu' => 'UM1',
+                'flag_access' => 1,
+                'insert_at' => now(),
+                'insert_by' => 1,
+            ],
+            [
+                'id_role' => 2,
+                'kode_menu' => 'UM2',
+                'flag_access' => 1,
+                'insert_at' => now(),
+                'insert_by' => 1
+            ],
+            [
+                'id_role' => 2,
+                'kode_menu' => 'UM3',
+                'flag_access' => 1,
+                'insert_at' => now(),
+                'insert_by' => 1
+            ],
+            [
+                'id_role' => 2,
+                'kode_menu' => 'EVENT',
+                'flag_access' => 1,
+                'insert_at' => now(),
+                'insert_by' => 1
+            ],
+            [
+                'id_role' => 2,
+                'kode_menu' => 'PESERTA',
+                'flag_access' => 1,
+                'insert_at' => now(),
+                'insert_by' => 1
+            ],
+            [
+                'id_role' => 2,
+                'kode_menu' => 'ORDER',
+                'flag_access' => 1,
+                'insert_at' => now(),
+                'insert_by' => 1
             ]
         ]);
     }
