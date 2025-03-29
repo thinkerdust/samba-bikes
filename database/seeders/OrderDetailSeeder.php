@@ -17,20 +17,12 @@ class OrderDetailSeeder extends Seeder
             [
                 'nomor_order' => 'ORD/250601/0001',
                 'id_peserta' => 1,
-                'racepack_at' => '2025-06-10 08:00:00',
-                'racepack_by' => 2,
-                'insert_at' => now(),
-                'update_at' => now(),
-                'update_by' => 2,
+                'insert_at' => now()
             ],
             [
                 'nomor_order' => 'ORD/250801/0002',
                 'id_peserta' => 2,
-                'racepack_at' => null,
-                'racepack_by' => null,
-                'insert_at' => now(),
-                'update_at' => null,
-                'update_by' => null,
+                'insert_at' => now()
             ],
         ]);
     }

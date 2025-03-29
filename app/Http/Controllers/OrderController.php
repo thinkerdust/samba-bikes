@@ -13,7 +13,6 @@ use Illuminate\Support\Str;
 use App\Models\Order;
 use Carbon\Carbon;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Storage;
 
 class OrderController extends BaseController
 {
@@ -43,28 +42,26 @@ class OrderController extends BaseController
             ->addColumn('action', function($row) {
                 $btn = '';
                 if(Gate::allows('crudAccess', 'ORDER', $row)) {
+                    $btn_delete = '<li><a class="btn" onclick="hapus(\'' . $row->nomor . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>';
+                    $btn_payment = '<li><a class="btn" onclick="payment(\'' . $row->nomor . '\')"><em class="icon ni ni-money"></em><span>Payment</span></a></li>';
+                    $btn_racepack = '<li><a href="/admin/order/racepack?nomor='.$row->nomor.'" class="btn"><em class="icon ni ni-package"></em></em><span>Racepack</span></a></li>';
+                    $btn_action = '';
+
                     if($row->status == 1) {
-                        $btn = '<div class="drodown">
-                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <ul class="link-list-opt no-bdr">
-                                        <li><a class="btn" onclick="konfirmasi(' . $row->id . ')"><em class="icon ni ni-send"></em><span>Konfirmasi</span></a></li>
-                                        <li><a class="btn" onclick="detail(\'' . $row->id . '\')"><em class="icon ni ni-eye"></em><span>Detail</span></a></li>
-                                        <li><a class="btn" onclick="hapus(\'' . $row->id . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>';
-                    } else {
-                        $btn = '<div class="drodown">
-                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <ul class="link-list-opt no-bdr">
-                                        <li><a class="btn" onclick="detail(\'' . $row->id . '\')"><em class="icon ni ni-eye"></em><span>Detail</span></a></li>
-                                        <li><a class="btn" onclick="hapus(\'' . $row->id . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>';
+                        $btn_action .= $btn_delete . ' ' . $btn_payment;
+                    }elseif($row->status == 2) {
+                        $btn_action .= $btn_racepack;
                     }
+
+                    $btn = '<div class="drodown">
+                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <ul class="link-list-opt no-bdr">
+                                        <li><a class="btn" onclick="detail(\'' . $row->nomor . '\')"><em class="icon ni ni-eye"></em><span>Detail</span></a></li>
+                                        ' . $btn_action . '
+                                    </ul>
+                                </div>
+                            </div>';
                 }
                 return $btn;
             })
@@ -73,16 +70,16 @@ class OrderController extends BaseController
 
     public function detail_order(Request $request) 
     {
-        $id     = $request->id;
-        $data   = $this->order->detailOrder($id);
+        $nomor  = $request->nomor;
+        $data   = $this->order->detailOrder($nomor);
 
         return Datatables::of($data)->addIndexColumn()->make(true);
     }
 
     public function edit_order(Request $request) 
     {
-        $id     = $request->id;
-        $data   = $this->order->editOrder($id);
+        $nomor  = $request->nomor;
+        $data   = Order::where('nomor', $nomor)->first();
 
         return $this->ajaxResponse(true, 'Success!', $data);
     }
@@ -92,53 +89,100 @@ class OrderController extends BaseController
         try {
             DB::beginTransaction();
 
-            $id     = $request->id;
+            $nomor  = $request->nomor;
             $user   = Auth::user();
+            $order  = Order::where('nomor', $nomor)->first();
 
-            // get nomor_order
-            $nomor_order = DB::table('order')->where('id', $id)->value('nomor');
-
-            // set status order to 0 (non-aktif)
-            DB::table('order')->where('id', $id)->update(['status' => 0]);
-
-            // set status order detail to 0 (non-aktif)
-            DB::table('order_detail')->where('nomor_order', $nomor_order)->update(['status' => 0]);
+            $order->update(['status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->username]);
 
             DB::commit();
             return $this->ajaxResponse(true, 'Data berhasil dihapus');
         } catch (\Exception $e) {
-            dd($e);
             Log::error($e->getMessage());
             DB::rollback();
             return $this->ajaxResponse(false, 'Data gagal dihapus', $e);
         }
     }
 
-    public function konfirmasi_order(Request $request)
+    public function payment_order(Request $request)
     {
-        try {   
+        $validator = Validator::make($request->all(), [
+            'id_order'  => 'required',
+            'tanggal_bayar' => 'required',
+        ], validation_message());
 
-            // validasi
-            $validator = Validator::make($request->all(), [
-                'id_order'  => 'required',
-                'tgl_bayar' => 'required',
-            ]);
+        if($validator->stopOnFirstFailure()->fails()){
+            return $this->ajaxResponse(false, $validator->errors()->first());        
+        }
 
-            if ($validator->fails()) {
-                return $this->ajaxResponse(false, 'Data tidak valid', $validator->errors());
-            }
+        try {  
+            DB::beginTransaction(); 
 
-            $id         = $request->id_order;
-            $tgl_bayar  = $request->tgl_bayar;
-            $user       = Auth::user();
+            $id    = $request->id_order;
+            $user  = Auth::user();
 
-            DB::table('order')->where('status', 1)->where('id', $id)->update(['status' => 2, 'tanggal_bayar' => $tgl_bayar, 'approve_at' => Carbon::now(), 'approve_by' => $user->id]);
+            $tanggal_bayar = Carbon::createFromFormat('d/m/Y', $request->tanggal_bayar);
+            $tanggal_bayar = $tanggal_bayar->format('Y-m-d');
 
+            DB::table('order')->where('id', $id)->update(['status' => 2, 'tanggal_bayar' => $tanggal_bayar, 'approve_at' => Carbon::now(), 'approve_by' => $user->id]);
+
+            DB::commit();
             return $this->ajaxResponse(true, 'Data berhasil di-konfirmasi');
         } catch (\Exception $e) {   
             Log::error($e->getMessage());
             DB::rollback();
-            return $this->ajaxResponse(false, 'Data gagal di-release', $e);
+            return $this->ajaxResponse(false, 'Data gagal di-konfirmasi', $e);
+        }
+    }
+
+    public function racepack(Request $request)
+    {
+        $nomor  = $request->nomor;
+        $order  = Order::where('nomor', $nomor)->exists();
+        if($order) {
+            $title  = 'Pengambilan Racepack';
+            $js     = 'assets/js/apps/order/racepack.js?_='.rand();
+            return view('order.racepack', compact('js', 'title', 'nomor'));
+        }
+
+        abort(404);
+    }
+
+    public function datatable_racepack(Request $request)
+    {
+        $nomor = $request->nomor;
+        $data = $this->order->dataTableRacepackOrder($nomor);
+        return Datatables::of($data)->addIndexColumn()->make(true);
+    }
+
+    public function store_racepack(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id_order_detail'   => 'required',
+            'tanggal'           => 'required',
+            'nama'              => 'required',
+        ], validation_message());
+
+        if($validator->stopOnFirstFailure()->fails()){
+            return $this->ajaxResponse(false, $validator->errors()->first());        
+        }
+
+        try {  
+            DB::beginTransaction();
+
+            $id      = explode(',', $request->id_order_detail);
+            $nama    = $request->nama;
+            $tanggal = Carbon::createFromFormat('d/m/Y', $request->tanggal);
+            $tanggal = $tanggal->format('Y-m-d');
+
+            DB::table('order_detail')->whereIn('id', $id)->update(['racepack_at' => $tanggal, 'racepack_by' => $nama]);
+
+            DB::commit();
+            return $this->ajaxResponse(true, 'Data berhasil disimpan');
+        } catch (\Exception $e) {   
+            Log::error($e->getMessage());
+            DB::rollback();
+            return $this->ajaxResponse(false, 'Data gagal disimpan', $e);
         }
     }
 }

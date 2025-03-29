@@ -5,6 +5,12 @@ var table = NioApp.DataTable('#dt-table', {
     searchDelay: 500,
     ajax: {
         url: '/admin/user-management/menu/datatable',
+        beforeSend: function () {
+            blockUI();
+        },
+        complete: function () {
+            unBlockUI();
+        },
         error: function (xhr) {
             if (xhr.status === 419) { // Unauthorized error
                 NioApp.Toast('Your session has expired. Redirecting to login...', 'error', {position: 'top-right'});

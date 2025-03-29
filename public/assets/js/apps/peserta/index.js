@@ -12,6 +12,12 @@ var table = NioApp.DataTable('#dt-table', {
             d._token    = token;
             d.event    = $('#filter_event').val();
         },
+        beforeSend: function () {
+            blockUI();
+        },
+        complete: function () {
+            unBlockUI();
+        },
         error: function (xhr) {
             if (xhr.status === 419) { // Unauthorized error
                 NioApp.Toast('Your session has expired. Redirecting to login...', 'error', {position: 'top-right'});

@@ -21,9 +21,7 @@ class KomunitasSeeder extends Seeder
                 'kota' => 'Jakarta',
                 'phone' => '081234567890',
                 'status' => 1,
-                'insert_at' => now(),
-                'update_at' => null,
-                'update_by' => null
+                'insert_at' => now()
             ],
             [
                 'nama' => 'Bandung Marathon Club',
@@ -32,9 +30,7 @@ class KomunitasSeeder extends Seeder
                 'kota' => 'Bandung',
                 'phone' => '081345678901',
                 'status' => 1,
-                'insert_at' => now(),
-                'update_at' => null,
-                'update_by' => null
+                'insert_at' => now()
             ],
         ]);
     }

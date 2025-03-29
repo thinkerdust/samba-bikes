@@ -58,6 +58,7 @@
                                             <th>Nomor Order</th> 
                                             <th>Jumlah</th> 
                                             <th>Total Harga</th> 
+                                            <th>Tanggal Order</th> 
                                             <th>Status</th>
                                             <th>Action</th> 
                                         </tr>
@@ -88,10 +89,10 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nomor Order</th>
                             <th>Peserta</th>
+                            <th>Phone</th>
+                            <th>Email</th>
                             <th>Ukuran Jersey</th>
-                            <th>Status</th>
                         </tr>
                     </thead>
                 </table>
@@ -104,22 +105,20 @@
     </div>
 </div>
 
-<div class="modal fade" tabindex="-1" id="modalKonfirmasi">
+<div class="modal fade" tabindex="-1" id="modalPayment">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
                 <em class="icon ni ni-cross"></em>
             </a>
             <div class="modal-header">
-                <h5 class="modal-title">Konfirmasi Order</h5>
+                <h5 class="modal-title">Payment Order</h5>
             </div>
 
-            <form class="form-validate is-alter" id="form-data">
+            <form class="form-validate is-alter" id="form-data-payment">
                 @csrf
                 <div class="modal-body">
-
                     <input type="hidden" name="id_order" id="id_order">
-
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label class="form-label">Total Bayar</label>
@@ -131,15 +130,14 @@
                         <div class="form-group col-md-6">
                             <label class="form-label">Tanggal Bayar</label>
                             <div class="form-control-wrap">
-                                <input type="date" class="form-control" name="tgl_bayar" id="tgl_bayar" required>
+                                <input type="text" class="form-control date-picker" id="tanggal_bayar" name="tanggal_bayar" data-date-format="dd/mm/yyyy" value="{{ date('d/m/Y') }}" readonly required>
                             </div>
                         </div>
                     </div>
-                        
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" id="btn-submit">Konfirmasi</button>
+                    <button type="submit" class="btn btn-success" id="btn-submit-payment">Submit</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </form>

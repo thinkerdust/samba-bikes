@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('nomor_order');
             $table->unsignedBigInteger('id_peserta');
-            $table->dateTime('racepack_at')->nullable();
-            $table->unsignedBigInteger('racepack_by')->nullable();
-            $table->timestamp('insert_at', 3)->useCurrent();
-            $table->timestamp('update_at', 3)->nullable()->useCurrentOnUpdate();
+            $table->date('racepack_at')->nullable();
+            $table->string('racepack_by', 255)->nullable();
+            $table->dateTime('insert_at', 3)->useCurrent();
+            $table->dateTime('update_at', 3)->nullable()->useCurrentOnUpdate();
             $table->unsignedBigInteger('update_by')->nullable()->useCurrentOnUpdate();
             
             $table->foreign('nomor_order')->references('nomor')->on('order')->onDelete('cascade');
