@@ -1,6 +1,6 @@
 <head>
 	<meta charset="UTF-8">
-	<title>Giner</title>
+	<title>Samba Bikes</title>
 	<!-- =================== META =================== -->
 	<meta name="keywords" content="">
 	<meta name="description" content="">
@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 
-	<link rel="shortcut icon" href="{{ asset('assets/images/landing/favicon.png') }}">
+	<link rel="shortcut icon" href="{{ asset('assets/images/logo.png') }}">
 	<!-- =================== STYLE =================== -->
 	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/landing/slick.min.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('assets/css/landing/bootstrap-grid.css') }}">
@@ -36,7 +36,7 @@
 		</a>
 		<div class="top-panel">
 			<div class="container">
-				<a href="index.html" class="logo"><img src="{{ asset('assets/images/landing/logo-white.svg') }}" alt="logo"></a>
+				<a href="index.html" class="logo"><img src="{{ asset('assets/images/logo-brand-side.png') }}" alt="logo" style="width: 11rem; height: auto;"></a>
 				<ul class="social-list">
 					<li><a target="_blank" href="https://www.facebook.com/rovadex"><i class="fab fa-facebook-f"></i></a></li>
 					<li><a target="_blank" href="https://twitter.com/RovadexStudio"><i class="fab fa-twitter"></i></a></li>
@@ -676,8 +676,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="footer-cont col-12 col-sm-6 col-lg-4">
-					<a href="index.html" class="logo"><img src="{{ asset('assets/images/landing/logo.svg') }}" alt="logo"></a>
-					<p>Semarang Utara, Indonesia</p>
+					<a href="index.html" class="logo"><img src="{{ asset('assets/images/logo-brand-side-yellow.png') }}" alt="logo" style="width: 11rem; height: auto;"></a>
+					<p>Semarang, Indonesia</p>
 					<ul class="footer-contacts">
 						<li class="footer-phone">
 							<i aria-hidden="true" class="fas fa-phone"></i>
@@ -687,7 +687,7 @@
 							<a href="mailto:samba@gmail.com">samba@gmail.com</a>
 						</li>
 					</ul>
-					<div class="footer-copyright"><a target="_blank" href="https://samba.com">Rovadex</a> © 2019. All Rights Reserved.</div>
+					<div class="footer-copyright"><a target="_blank" href="https://samba.com">Samba</a> © 2025. All Rights Reserved.</div>
 				</div>
 				<div class="footer-item-link col-12 col-sm-6 col-lg-4">
 					<div class="footer-link">
