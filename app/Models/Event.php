@@ -25,7 +25,8 @@ class Event extends Model
                         DB::raw("DATE_FORMAT(tanggal, '%d/%m/%Y') as tanggal"),
                         DB::raw("DATE_FORMAT(tanggal_mulai, '%d/%m/%Y') as tanggal_mulai"),
                         DB::raw("DATE_FORMAT(tanggal_selesai, '%d/%m/%Y') as tanggal_selesai")
-                    );
+                    )
+                    ->orderBy('status', 'DESC');
 
         return $query;
     }
@@ -34,7 +35,7 @@ class Event extends Model
     {
         $query = DB::table('event')
                     ->where('id', $id)
-                    ->select('id', 'nama', 'lokasi', 'harga', 'stok', 'status', 'deskripsi', 'bank', 'nomor_rekening', 'nama_rekening', 'phone', 'email', 'banner', 'size_chart', 'rute',
+                    ->select('id', 'nama', 'lokasi', 'harga', 'stok', 'status', 'deskripsi', 'bank', 'nomor_rekening', 'nama_rekening', 'phone', 'email', 'banner1', 'tagline_banner1', 'banner2', 'tagline_banner2', 'banner3', 'tagline_banner3', 'size_chart', 'rute',
                         DB::raw("DATE_FORMAT(tanggal, '%d/%m/%Y') as tanggal"),
                         DB::raw("DATE_FORMAT(tanggal_mulai, '%d/%m/%Y') as tanggal_mulai"),
                         DB::raw("DATE_FORMAT(tanggal_selesai, '%d/%m/%Y') as tanggal_selesai")

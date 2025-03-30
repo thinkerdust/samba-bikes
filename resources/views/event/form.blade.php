@@ -161,7 +161,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Tagline Banner 2</label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="tagline_banner2" name="tagline_banner2" required>
+                                                        <input type="text" class="form-control" id="tagline_banner2" name="tagline_banner2">
                                                     </div>
                                                 </div>
                                             </div>
@@ -189,7 +189,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Tagline Banner 3</label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="tagline_banner3" name="tagline_banner3" required>
+                                                        <input type="text" class="form-control" id="tagline_banner3" name="tagline_banner3">
                                                     </div>
                                                 </div>
                                             </div>
@@ -241,7 +241,17 @@
 
                                         <hr class="preview-hr">
                                         <h3>Sponsorship</h3>
-                                        <div class="upload-sponsor">
+                                        <div class="upload-sponsor" id="upload-sponsor">
+                                            <div class="dz-message" data-dz-message>
+                                                <span class="dz-message-text">Drag and drop file</span>
+                                                <span class="dz-message-or">or</span>
+                                                <button type="button" class="btn btn-primary">SELECT</button>
+                                            </div>
+                                        </div>
+
+                                        <hr class="preview-hr">
+                                        <h3>Event Images</h3>
+                                        <div class="upload-event-image" id="upload-event-image">
                                             <div class="dz-message" data-dz-message>
                                                 <span class="dz-message-text">Drag and drop file</span>
                                                 <span class="dz-message-or">or</span>

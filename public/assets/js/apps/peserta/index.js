@@ -1,4 +1,4 @@
-var table = NioApp.DataTable('#dt-table', {
+const table = () => NioApp.DataTable('#dt-table', {
     serverSide: true,
     processing: true,
     responsive: false,
@@ -75,30 +75,32 @@ $('.select2-js').select2({
     minimumResultsForSearch: Infinity
 });
 
-const initializeSelect2 = async (elementId, type, selectedValue, additionalParams = {}) => {
+function initializeSelect2(elementId, url, selectedValue, additionalParams = {}, callback = null) {
     const element = $(elementId);
-    const res = await $.ajax({
+    $.ajax({
         type: 'GET',
-        url: base_url + '/master/select2',
-        data: { tipe: type, ...additionalParams },
+        url: url,
+        dataType: 'json',
+        data: { ...additionalParams },
+    }).done(function (res) {
+        if (selectedValue) {
+            const response = res.find(o => o.id == selectedValue);
+            if (response) {
+                const option = new Option(response.nama, response.id, true, true);
+                element.append(option).trigger('change');
+            }
+        }
+        if (callback) callback(); // Ensure table() is called after data loads
     });
-
-    if(selectedValue) {
-        const response = res.results.find(o => o.id == selectedValue);
-        const option = new Option(response.text, response.id, true, true);
-        element.append(option).trigger('change');
-    }
 }
 
-$('.event').each(function() {
+$('.event').each(async function() {
     var dropdownParent = null;
-    // Check if the element has a parent with class 'modal'
+
     if ($(this).closest('.modal').length > 0) {
-        // If it has a parent with class 'modal', set dropdownParent
         dropdownParent = $(this).closest('.modal');
     }
 
-    // Initialize Select2 dropdown for the current element
     $(this).select2({
         placeholder: 'Pilih Event',
         dropdownParent: dropdownParent,
@@ -109,7 +111,7 @@ $('.event').each(function() {
             type: "GET",
             delay: 250,
             data: function (params) {
-                return { q: params.term };
+                return { q: params.term, release: true };
             },
             processResults: function (data, params) {
                 return {
@@ -124,45 +126,22 @@ $('.event').each(function() {
             cache: true
         }
     });
+
+    initializeSelect2('#filter_event', '/admin/data-event', 1, null, function () {
+        table();
+    });
 }); 
 
-function hapus(id) {
-    Swal.fire({
-        title: 'Apakah anda yakin akan hapus data?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Ya, saya yakin!'
-    }).then((result) => {
-        if (result.value) {
-            $.ajax({
-                url: '/admin/peserta/delete/'+id,
-                dataType: 'JSON',
-                success: function(response) {
-                    if(response.status){
-                        $("#dt-table").DataTable().ajax.reload(null, false);
-                        NioApp.Toast(response.message, 'success', {position: 'top-right'});
-                    }else{
-                        NioApp.Toast(response.message, 'warning', {position: 'top-right'});
-                    }
-                },
-                error: function(error) {
-                    NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
-                }
-            })
-        }
-    });
-}
-
-function detail(id) {
+function detailOrEdit(id) {
     $.ajax({
         url: '/admin/peserta/edit/'+id,
         dataType: 'json',
         success: function(response) {
             let data = response.data;
-            console.log(data)
             if (data) {
-                $('#modalDetail').modal('show');
+                $('#modalDetailEdit').modal('show');
             
+                $('#id').val(data.id);
                 $('#nama').val(data.nama);
                 $('#nama_komunitas').val(data.nama_komunitas);
                 $('#phone').val(data.phone);
@@ -182,8 +161,44 @@ function detail(id) {
             }
         },
         error: function(error) {
-            console.log(error)
             NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
         }
     })
 }
+
+$('#form-data').submit(function(e) {
+    e.preventDefault();
+    formData = new FormData($(this)[0]);
+    var btn = $('#btn-submit');
+
+    $.ajax({
+        url: '/admin/peserta/store',
+        data : formData,
+        type : "POST",
+        dataType : "JSON",
+        cache:false,
+        async : true,
+        contentType: false,
+        processData: false,
+        beforeSend: function() {
+            btn.attr('disabled', true);
+            btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading ...</span>`);
+        },
+        success: function(response) {
+            if(response.status){
+                NioApp.Toast(response.message, 'success', {position: 'top-right'});
+                $('#modalDetailEdit').modal('hide');
+                $("#dt-table").DataTable().ajax.reload(null, false);
+            }else{
+                NioApp.Toast(response.message, 'warning', {position: 'top-right'});
+            }
+            btn.attr('disabled', false);
+            btn.html('Update');
+        },
+        error: function(error) {
+            btn.attr('disabled', false);
+            btn.html('Update');
+            NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+        }
+    });
+});

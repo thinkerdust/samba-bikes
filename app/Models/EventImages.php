@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Sponsor extends Model
+class EventImages extends Model
 {
     public $timestamps = false;
-    protected $table = 'sponsor';
+    protected $table = 'event_images';
 
     protected $fillable = [
         'id_event',

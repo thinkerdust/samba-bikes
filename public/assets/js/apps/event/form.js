@@ -16,7 +16,7 @@ $(document).ready(function() {
 
     $('.format-number').keyup(function() {
         $(this).val(function (index, value) {
-          return value.replace(/\D/g, "");
+            return value.replace(/\D/g, "");
         });
     });
 
@@ -67,12 +67,28 @@ $(document).ready(function() {
                     $('#stok').val(thousandView(data.stok));
                     $("#bank").empty().append(`<option value="${data.bank}">${data.bank}</option>`).val(data.bank).trigger('change');
 
+                    $('#tagline_banner1').val(data.tagline_banner1);
+                    $('#tagline_banner2').val(data.tagline_banner2);
+                    $('#tagline_banner3').val(data.tagline_banner3);
+
                     let link_storage = '/storage/uploads/';
 
-                    if(data.banner) {
-                        $('#preview_image_banner').attr('src', link_storage+data.banner);
-                        $('#sectionBanner').html(`<a target="_blank" href="${link_storage+data.banner}" class="btn btn-info btn-sm">Link File Banner</a>`);
-                        $('#old_banner').val(data.banner);
+                    if(data.banner1) {
+                        $('#preview_image_banner1').attr('src', link_storage+data.banner1);
+                        $('#sectionBanner1').html(`<a target="_blank" href="${link_storage+data.banner1}" class="btn btn-info btn-sm">Link File Banner</a>`);
+                        $('#old_banner1').val(data.banner1);
+                    }
+
+                    if(data.banner2) {
+                        $('#preview_image_banner2').attr('src', link_storage+data.banner2);
+                        $('#sectionBanner2').html(`<a target="_blank" href="${link_storage+data.banner2}" class="btn btn-info btn-sm">Link File Banner</a>`);
+                        $('#old_banner2').val(data.banner2);
+                    }
+
+                    if(data.banner3) {
+                        $('#preview_image_banner3').attr('src', link_storage+data.banner3);
+                        $('#sectionBanner3').html(`<a target="_blank" href="${link_storage+data.banner3}" class="btn btn-info btn-sm">Link File Banner</a>`);
+                        $('#old_banner3').val(data.banner3);
                     }
 
                     if(data.size_chart) {
@@ -89,7 +105,6 @@ $(document).ready(function() {
                 }
             },
             error: function(error) {
-                console.log(error)
                 NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
             }
         })
@@ -126,7 +141,6 @@ $(document).ready(function() {
                 btn.html('Save');
             },
             error: function(error) {
-                console.log(error)
                 btn.attr('disabled', false);
                 btn.html('Save');
                 NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
@@ -134,72 +148,68 @@ $(document).ready(function() {
         });
     });
 
-    NioApp.Dropzone('.upload-sponsor', {
+    NioApp.Dropzone('#upload-sponsor', {
         maxFilesize: 2, // MB
         acceptedFiles: "image/*",
         headers: { 'X-CSRF-TOKEN': token },
         url: "/admin/event/sponsor/store",
     
+        params: function() {
+            return {
+                id_event: $('#id').val() // Get the event ID from the input field
+            };
+        },
+
         success(file, response) {
             NioApp.Toast(response.message, 'success', { position: 'top-right' });
             file.serverId = response.data;
-            this.checkFiles(); // Call checkFiles() properly
+            this.checkFiles(); // Ensure checkFiles is properly scoped
         },
     
         error(file, response) {
             this.removeFile(file);
-            console.error("Upload Error:", response);
-            NioApp.Toast(response, 'error', { position: 'top-right' });
+            console.error("Upload Error:", typeof response === "object" ? response.message : response);
+            NioApp.Toast(typeof response === "object" ? response.message : response, 'error', { position: 'top-right' });
         },
     
         init() {
-            const dropzoneInstance = this;
-            const dzMessage = document.querySelector('.upload-sponsor .dz-message');
+            let dropzoneInstance = this; // Correct scoping
+            let dzMessage = document.querySelector('#upload-sponsor .dz-message');
     
-            // **Define checkFiles as a method inside init**
             this.checkFiles = function () {
                 if (dropzoneInstance.files.length > 0) {
-                    dzMessage.style.display = 'none'; // Hide message
+                    dzMessage.style.display = 'none';
                 } else {
-                    dzMessage.style.display = 'block'; // Show message
+                    dzMessage.style.display = 'block';
                 }
             };
     
-            // Load existing files when editing
             fetch('/admin/event/sponsor/list/' + id)
                 .then(response => response.json())
                 .then(files => {
                     if (files.data && Array.isArray(files.data)) {
                         files.data.forEach(fileData => {
-                            const existingFile = dropzoneInstance.files.find(f => f.serverId === fileData.id);
-                            if (!existingFile) {
-                                let mockFile = { 
-                                    name: fileData.filename, 
-                                    size: fileData.size, 
-                                    serverId: fileData.id 
-                                };
-                                dropzoneInstance.emit("addedfile", mockFile);
-                                dropzoneInstance.emit("thumbnail", mockFile, `/storage/uploads/${fileData.filename}`);
-                                dropzoneInstance.emit("complete", mockFile);
-    
-                                // **Manually push to Dropzone's file array**
-                                dropzoneInstance.files.push(mockFile);
-                            }
+                            let mockFile = { 
+                                name: fileData.filename, 
+                                size: fileData.size, 
+                                serverId: fileData.id 
+                            };
+                            dropzoneInstance.emit("addedfile", mockFile);
+                            dropzoneInstance.emit("thumbnail", mockFile, `/storage/uploads/${fileData.filename}`);
+                            dropzoneInstance.emit("complete", mockFile);
+                            dropzoneInstance.files.push(mockFile);
                         });
-                        dropzoneInstance.checkFiles(); // Update message after loading existing files
+                        dropzoneInstance.checkFiles();
                     }
                 })
                 .catch(error => console.error("Error loading files:", error));
     
             this.on("addedfile", file => {
                 dropzoneInstance.checkFiles();
-    
-                const removeButton = Dropzone.createElement("<button class='dz-remove btn btn-danger btn-sm'>Remove</button>");
-    
+                let removeButton = Dropzone.createElement("<button class='dz-remove btn btn-danger btn-sm'>Remove</button>");
                 removeButton.addEventListener("click", async (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-    
                     if (file.serverId) {
                         try {
                             const response = await fetch(`/admin/event/sponsor/delete/${file.serverId}`, {
@@ -207,7 +217,6 @@ $(document).ready(function() {
                                 headers: { 'X-CSRF-TOKEN': token }
                             });
                             const data = await response.json();
-    
                             if (data.status) {
                                 dropzoneInstance.removeFile(file);
                                 NioApp.Toast(data.message, 'success', { position: 'top-right' });
@@ -222,7 +231,98 @@ $(document).ready(function() {
                     }
                     dropzoneInstance.checkFiles();
                 });
+                file.previewElement.appendChild(removeButton);
+            });
     
+            this.on("removedfile", () => {
+                dropzoneInstance.checkFiles();
+            });
+        }
+    });
+    
+    NioApp.Dropzone('#upload-event-image', {
+        maxFilesize: 2, // MB
+        acceptedFiles: "image/*",
+        headers: { 'X-CSRF-TOKEN': token },
+        url: "/admin/event/event-images/store",        
+    
+        params: function() {
+            return {
+                id_event: $('#id').val() // Get the event ID from the input field
+            };
+        },
+
+        success(file, response) {
+            NioApp.Toast(response.message, 'success', { position: 'top-right' });
+            file.serverId = response.data;
+            this.checkFiles(); // Ensure checkFiles is properly scoped
+        },
+    
+        error(file, response) {
+            this.removeFile(file);
+            console.error("Upload Error:", typeof response === "object" ? response.message : response);
+            NioApp.Toast(typeof response === "object" ? response.message : response, 'error', { position: 'top-right' });
+        },
+    
+        init() {
+            let dropzoneInstance = this; // Correct scoping
+            let dzMessage = document.querySelector('#upload-event-image .dz-message');
+    
+            this.checkFiles = function () {
+                if (dropzoneInstance.files.length > 0) {
+                    dzMessage.style.display = 'none';
+                } else {
+                    dzMessage.style.display = 'block';
+                }
+            };
+    
+            fetch('/admin/event/event-images/list/' + id)
+                .then(response => response.json())
+                .then(files => {
+                    if (files.data && Array.isArray(files.data)) {
+                        files.data.forEach(fileData => {
+                            let mockFile = { 
+                                name: fileData.filename, 
+                                size: fileData.size, 
+                                serverId: fileData.id 
+                            };
+                            dropzoneInstance.emit("addedfile", mockFile);
+                            dropzoneInstance.emit("thumbnail", mockFile, `/storage/uploads/${fileData.filename}`);
+                            dropzoneInstance.emit("complete", mockFile);
+                            dropzoneInstance.files.push(mockFile);
+                        });
+                        dropzoneInstance.checkFiles();
+                    }
+                })
+                .catch(error => console.error("Error loading files:", error));
+    
+            this.on("addedfile", file => {
+                dropzoneInstance.checkFiles();
+                let removeButton = Dropzone.createElement("<button class='dz-remove btn btn-danger btn-sm'>Remove</button>");
+                removeButton.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (file.serverId) {
+                        try {
+                            const response = await fetch(`/admin/event/event-images/delete/${file.serverId}`, {
+                                method: "DELETE",
+                                headers: { 'X-CSRF-TOKEN': token }
+                            });
+                            const data = await response.json();
+                            if (data.status) {
+                                dropzoneInstance.removeFile(file);
+                                NioApp.Toast(data.message, 'success', { position: 'top-right' });
+                            } else {
+                                NioApp.Toast("Failed to delete file.", 'error', { position: 'top-right' });
+                            }
+                        } catch (error) {
+                            console.error("Delete Error:", error);
+                        }
+                    } else {
+                        dropzoneInstance.removeFile(file);
+                    }
+                    dropzoneInstance.checkFiles();
+                });
                 file.previewElement.appendChild(removeButton);
             });
     
@@ -275,6 +375,10 @@ const handleFileChange = (inputId, previewId, labelId) => {
             $('#' + labelId).html(file.name);
             readURL(fileInput, previewId);
         }
+    } else {
+        $('#' + inputId).val('');
+        $('#' + previewId).attr('src', defaultImage);
+        $('#' + labelId).html('Choose file');
     }
 }
 

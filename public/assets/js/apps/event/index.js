@@ -106,7 +106,6 @@ function hapus(id) {
                     }
                 },
                 error: function(error) {
-                    console.log(error)
                     NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
                 }
             })
@@ -136,7 +135,6 @@ function detail(id) {
             }
         },
         error: function(error) {
-            console.log(error)
             NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
         }
     })
@@ -162,7 +160,6 @@ function release(id) {
                     }
                 },
                 error: function(error) {
-                    console.log(error)
                     NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
                 }
             })

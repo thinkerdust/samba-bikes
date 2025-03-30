@@ -216,7 +216,7 @@
       var eventTheme = $('#event-theme').val();
       var eventStartTimeCheck = eventStartTime ? 'T' + eventStartTime + 'Z' : '';
       var eventEndTimeCheck = eventEndTime ? 'T' + eventEndTime + 'Z' : '';
-      console.log(eventStartTime);
+
       calendar.addEvent({
         id: 'added-event-id-' + Math.floor(Math.random() * 9999999),
         title: eventTitle,

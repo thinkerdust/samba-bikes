@@ -67,7 +67,6 @@ function reset_password(id) {
             }
         },
         error: function(error) {
-            console.log(error)
             NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
         }
     })
@@ -138,7 +137,6 @@ $('#form-data').submit(function(e) {
             btn.html('Save');
         },
         error: function(error) {
-            console.log(error)
             btn.attr('disabled', false);
             btn.html('Save');
             NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
@@ -164,7 +162,6 @@ function edit(id) {
             }
         },
         error: function(error) {
-            console.log(error)
             NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
         }
     })
@@ -190,7 +187,6 @@ function hapus(id) {
                     }
                 },
                 error: function(error) {
-                    console.log(error)
                     NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
                 }
             })
