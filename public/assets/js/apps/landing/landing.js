@@ -277,7 +277,7 @@ function processRegisterPersonal() {
             btn.html('Register');
         },
         error: function(error) {
-            NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+            console.log(error);
         }
     });
 }
@@ -310,7 +310,7 @@ function processRegisterKomunitas() {
             btn.html('Register');
         },
         error: function(error) {
-            NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+            console.log(error);
         }
     });
 }
