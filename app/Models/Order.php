@@ -34,7 +34,7 @@ class Order extends Model
 
         $query = DB::table('order')
                     ->join('event', 'order.id_event', '=', 'event.id')
-                    ->whereBetween('order.insert_at', [$start_date, $end_date])
+                    ->whereBetween(DB::raw('DATE(order.insert_at)'), [$start_date, $end_date])
                     ->where('order.status', '!=', 0)
                     ->select('order.id', 'order.nomor', 'order.jumlah', 'order.total', 'order.status', 'event.nama as nama_event',
                         DB::raw("DATE_FORMAT(order.insert_at, '%d/%m/%Y') as tanggal_order")
