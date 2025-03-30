@@ -83,7 +83,6 @@ $(document).ready(function() {
             type: 'GET',
             success: function(response) {
                 hargaEvent = response.harga;
-                console.log('harga', hargaEvent);
                 changeTotalHarga()
             }
         });
@@ -92,7 +91,6 @@ $(document).ready(function() {
     getHarga();
 
     $(document).on('focus', '.tanggal', function () {
-        console.log('focus')
         $(this).datepicker();
     });
 
@@ -181,7 +179,7 @@ $('#registerPersonal').submit(function(e) {
         },
         success: function(response) {
             let data = response.data;
-            console.log(data)
+
             if(response.status) {
                 if(data.length > 0) {
                     // peserta sudah terdaftar tampilan modal konfirmasi override
@@ -201,7 +199,7 @@ $('#registerPersonal').submit(function(e) {
             }
         },
         error: function(error) {
-            console.log(error)
+            NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
         }
     });
 });
@@ -231,7 +229,7 @@ $('#registerKomunitas').submit(function(e) {
         },
         success: function(response) {
             let data = response.data;
-            console.log(data)
+
             if(response.status) {
                 if(data.length > 0) {
                     // peserta sudah terdaftar tampilan modal konfirmasi override
@@ -251,7 +249,7 @@ $('#registerKomunitas').submit(function(e) {
             }
         },
         error: function(error) {
-            console.log(error)
+            NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
         }
     });
 
@@ -279,7 +277,7 @@ function processRegisterPersonal() {
             btn.html('Register');
         },
         error: function(error) {
-            console.log(error)
+            NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
         }
     });
 }
@@ -312,7 +310,7 @@ function processRegisterKomunitas() {
             btn.html('Register');
         },
         error: function(error) {
-            console.log(error)
+            NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
         }
     });
 }

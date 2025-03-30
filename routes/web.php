@@ -90,9 +90,14 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
         Route::get('/edit/{id}', 'edit_event');
         Route::get('/delete/{id}', 'delete_event');
         Route::get('/release/{id}', 'release_event');
+        
         Route::get('/sponsor/list/{id_event}', 'list_sponsor');
         Route::post('/sponsor/store', 'store_sponsor');
         Route::delete('/sponsor/delete/{id}', 'delete_sponsor');
+
+        Route::get('/event-images/list/{id_event}', 'list_event_images');
+        Route::post('/event-images/store', 'store_event_images');
+        Route::delete('/event-images/delete/{id}', 'delete_event_images');
     });
 
     // Peserta
@@ -101,6 +106,7 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
         Route::post('/datatable', 'datatable_peserta');
         Route::get('/edit/{id}', 'edit_peserta');
         Route::get('/delete/{id}', 'delete_peserta');
+        Route::post('/store', 'store_peserta');
     });
 
     // Order

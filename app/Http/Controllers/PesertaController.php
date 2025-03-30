@@ -42,8 +42,7 @@ class PesertaController extends BaseController
                                 <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <ul class="link-list-opt no-bdr">
-                                        <li><a class="btn" onclick="detail(\'' . $row->id . '\')"><em class="icon ni ni-eye"></em><span>Detail</span></a></li>
-                                        <li><a class="btn" onclick="hapus(\'' . $row->id . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>
+                                        <li><a class="btn" onclick="detailOrEdit(\'' . $row->id . '\')"><em class="icon ni ni-eye"></em><span>Detail / Edit</span></a></li>
                                     </ul>
                                 </div>
                             </div>';
@@ -61,22 +60,70 @@ class PesertaController extends BaseController
         return $this->ajaxResponse(true, 'Success!', $data);
     }
 
-    public function delete_peserta(Request $request)
+    public function store_peserta(Request $request)
     {
-        $id     = $request->id;
-        $user   = Auth::user();
+        $id = $request->input('id');
+
+        $validator = Validator::make($request->all(), [
+            'nama'                  => 'required|max:255',
+            'nama_komunitas'        => 'required|max:255',
+            'phone'                 => 'required|max:20',
+            'telp_emergency'        => 'required|max:20',
+            'hubungan_emergency'    => 'required|max:100',
+            'email'                 => 'required|email|max:255',
+            'nik'                   => 'required|max:255',
+            'kota'                  => 'required|max:100',
+            'tanggal_lahir'         => 'required',
+            'blood'                 => 'required',
+            'gender'                => 'required',
+            'alamat'                => 'required',
+        ], validation_message());
+
+        if($validator->stopOnFirstFailure()->fails()){
+            return $this->ajaxResponse(false, $validator->errors()->first());        
+        }
+
+        $user = Auth::user();
 
         try {
             DB::beginTransaction();
 
-            DB::table('peserta')->where('id', $id)->update(['status' => 0, 'delete_at' => Carbon::now(), 'delete_by' => $user->id]);
+            $id = $request->input('id');
+
+            $data = [
+                'nama'                  => $request->nama,
+                'nama_komunitas'        => $request->nama_komunitas,
+                'phone'                 => $request->phone,
+                'telp_emergency'        => $request->telp_emergency,
+                'hubungan_emergency'    => $request->hubungan_emergency,
+                'email'                 => $request->email,
+                'nik'                   => $request->nik,
+                'kota'                  => $request->kota,
+                'tgl_lahir'             => $request->tanggal_lahir,
+                'blood'                 => $request->blood,
+                'gender'                => $request->gender,
+                'alamat'                => $request->alamat,
+            ];
+
+            if(!empty($id)) {
+                $data['update_at']  = Carbon::now();
+                $data['update_by']  = $user->id;
+            } else {
+                $data['insert_at']  = Carbon::now();
+            }
+
+            DB::table('peserta')->updateOrInsert(
+                ['id' => $id],
+                $data
+            );
 
             DB::commit();
-            return $this->ajaxResponse(true, 'Data berhasil dihapus');
+            return $this->ajaxResponse(true, 'Data berhasil disimpan');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollback();
-            return $this->ajaxResponse(false, 'Data gagal dihapus', $e);
+            dd($e);
+            return $this->ajaxResponse(false, 'Data gagal disimpan', $e);
         }
     }
 }

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Models\Event;
 use App\Models\Sponsor;
+use App\Models\EventImages;
 use Carbon\Carbon;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Storage;
@@ -20,11 +21,13 @@ class EventController extends BaseController
 {
     protected $event;
     protected $sponsor;
+    protected $event_images;
 
-    function __construct(Event $event, Sponsor $sponsor)
+    function __construct(Event $event, Sponsor $sponsor, EventImages $event_images)
     {
-        $this->event = $event;
-        $this->sponsor = $sponsor;
+        $this->event        = $event;
+        $this->sponsor      = $sponsor;
+        $this->event_images = $event_images;
     }
 
     public function index()
@@ -43,29 +46,23 @@ class EventController extends BaseController
             ->addColumn('action', function($row) {
                 $btn = '';
                 if(Gate::allows('crudAccess', 'EVENT', $row)) {
-                    if($row->status == 1) {
-                        $btn = '<div class="drodown">
+                    $release = '';
+                    if($row->status != 2 && $row->status != 0) {
+                        $release = '<li><a class="btn" onclick="release(' . $row->id . ')"><em class="icon ni ni-send"></em><span>Release</span></a></li>';
+                    }
+
+                    $btn = '<div class="drodown">
                                 <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <ul class="link-list-opt no-bdr">
-                                        <li><a class="btn" onclick="release(' . $row->id . ')"><em class="icon ni ni-send"></em><span>Release</span></a></li>
+                                        '.$release.'
                                         <li><a class="btn" onclick="detail(\'' . $row->id . '\')"><em class="icon ni ni-eye"></em><span>Detail</span></a></li>
                                         <li><a href="/admin/event/form/'.$row->id.'" class="btn"><em class="icon ni ni-edit"></em><span>Edit</span></a></li>
                                         <li><a class="btn" onclick="hapus(\'' . $row->id . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>
                                     </ul>
                                 </div>
                             </div>';
-                    }elseif($row->status == 2) {
-                        $btn = '<div class="drodown">
-                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <ul class="link-list-opt no-bdr">
-                                        <li><a class="btn" onclick="detail(\'' . $row->id . '\')"><em class="icon ni ni-eye"></em><span>Detail</span></a></li>
-                                        <li><a class="btn" onclick="hapus(\'' . $row->id . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>';
-                    }
+
                 }
                 return $btn;
             })
@@ -77,21 +74,26 @@ class EventController extends BaseController
         $id = $request->input('id');
 
         $validator = Validator::make($request->all(), [
-            'nama' => 'required|max:255',
-            'phone' => 'required|max:20',
-            'email' => 'required|email:rfc,dns||max:255',
-            'tanggal' => 'required',
-            'bank' => 'required',
-            'nomor_rekening' => 'required|max:255',
-            'nama_rekening' => 'required|max:255',
-            'lokasi' => 'required|max:255',
-            'tanggal_mulai_tiket' => 'required',
+            'nama'                  => 'required|max:255',
+            'phone'                 => 'required|max:20',
+            'email'                 => 'required|email|max:255',
+            'tanggal'               => 'required',
+            'bank'                  => 'required',
+            'nomor_rekening'        => 'required|max:255',
+            'nama_rekening'         => 'required|max:255',
+            'lokasi'                => 'required|max:255',
+            'tanggal_mulai_tiket'   => 'required',
             'tanggal_selesai_tiket' => 'required',
-            'harga' => 'required',
-            'stok' => 'required',
-            'banner' => 'required_if:id, 0|max:2048',
-            'size_chart' => 'required_if:id, 0|max:2048',
-            'rute' => 'required_if:id, 0|max:2048'
+            'harga'                 => 'required',
+            'stok'                  => 'required',
+            'banner1'               => 'required_if:id, 0|max:2048',
+            'tagline_banner1'       => 'required_if:id,0|max:20',
+            'tagline_banner2'       => 'max:20',
+            'tagline_banner3'       => 'max:20',
+            'banner2'               => 'max:2048',
+            'banner3'               => 'max:2048',
+            'size_chart'            => 'required_if:id, 0|max:2048',
+            'rute'                  => 'required_if:id, 0|max:2048'
         ], validation_message());
 
         if($validator->stopOnFirstFailure()->fails()){
@@ -106,31 +108,60 @@ class EventController extends BaseController
             $stok = Str::replace('.', '', $request->stok);
 
             $data = [
-                'nama' => $request->nama,
-                'phone' => $request->phone,
-                'email' => $request->email,
-                'bank' => $request->bank,
-                'nama_rekening' => $request->nama_rekening,
-                'nomor_rekening' => $request->nomor_rekening,
-                'lokasi' => $request->lokasi,
-                'deskripsi' => $request->deskripsi,
-                'tanggal' => Carbon::createFromFormat('d/m/Y', $request->tanggal)->format('Y-m-d'),
-                'tanggal_mulai' => Carbon::createFromFormat('d/m/Y', $request->tanggal_mulai_tiket)->format('Y-m-d'),
-                'tanggal_selesai' => Carbon::createFromFormat('d/m/Y', $request->tanggal_selesai_tiket)->format('Y-m-d'),
-                'harga' => $harga,
-                'stok' => $stok
+                'nama'              => $request->nama,
+                'phone'             => $request->phone,
+                'email'             => $request->email,
+                'bank'              => $request->bank,
+                'nama_rekening'     => $request->nama_rekening,
+                'nomor_rekening'    => $request->nomor_rekening,
+                'lokasi'            => $request->lokasi,
+                'deskripsi'         => $request->deskripsi,
+                'tanggal'           => Carbon::createFromFormat('d/m/Y', $request->tanggal)->format('Y-m-d'),
+                'tanggal_mulai'     => Carbon::createFromFormat('d/m/Y', $request->tanggal_mulai_tiket)->format('Y-m-d'),
+                'tanggal_selesai'   => Carbon::createFromFormat('d/m/Y', $request->tanggal_selesai_tiket)->format('Y-m-d'),
+                'harga'             => $harga,
+                'stok'              => $stok,
+                'tagline_banner1'   => $request->tagline_banner1,
+                'tagline_banner2'   => $request->tagline_banner2,
+                'tagline_banner3'   => $request->tagline_banner3,
             ];
 
-            if($request->file('banner')) {
-                $banner = $request->file('banner');
+            if($request->file('banner1')) {
+                $banner = $request->file('banner1');
                 $extBanner = $banner->getClientOriginalExtension();
                 $filenameBanner = 'BANNER_' . time() . '.' . $extBanner;
                 $banner->storeAs('uploads', $filenameBanner, 'public');
-                $data['banner'] = $filenameBanner;
+                $data['banner1'] = $filenameBanner;
 
                 $filePathBanner = 'uploads/'.$request->old_banner;
                 if (Storage::disk('public')->exists($filePathBanner)) {
                     Storage::disk('public')->delete($filePathBanner);
+                }
+            }
+
+            if($request->file('banner2')) {
+                $banner = $request->file('banner2');
+                $extBanner = $banner->getClientOriginalExtension();
+                $filenameBanner = 'BANNER_' . time() . '.' . $extBanner;
+                $banner->storeAs('uploads', $filenameBanner, 'public');
+                $data['banner2'] = $filenameBanner;
+
+                $filePathBanner2 = 'uploads/'.$request->old_banner2;
+                if (Storage::disk('public')->exists($filePathBanner2)) {
+                    Storage::disk('public')->delete($filePathBanner2);
+                }
+            }
+
+            if($request->file('banner3')) {
+                $banner = $request->file('banner3');
+                $extBanner = $banner->getClientOriginalExtension();
+                $filenameBanner = 'BANNER_' . time() . '.' . $extBanner;
+                $banner->storeAs('uploads', $filenameBanner, 'public');
+                $data['banner3'] = $filenameBanner;
+
+                $filePathBanner3 = 'uploads/'.$request->old_banner3;
+                if (Storage::disk('public')->exists($filePathBanner3)) {
+                    Storage::disk('public')->delete($filePathBanner3);
                 }
             }
 
@@ -242,7 +273,6 @@ class EventController extends BaseController
 
     public function list_sponsor($id_event)
     {
-        // get data
         $data = $this->sponsor->where('id_event', $id_event)->get();
         return $this->ajaxResponse(true, 'Success!', $data);
     }
@@ -257,17 +287,25 @@ class EventController extends BaseController
             return $this->ajaxResponse(false, $validator->errors()->first());        
         }
 
+        $id_event = $request->input('id_event');
+
+        // check validasi max 10 file
+        $count = Sponsor::where('id_event', $id_event)->count();
+        if($count >= 10) {
+            return $this->ajaxResponse(false, 'Maksimal 10 file');
+        }
+
         if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $extFile = $file->getClientOriginalExtension();
-            $filename = 'SPONSOR_' . time() . '.' . $extFile;
-            $path = $file->storeAs('public/uploads', $filename);
-            $auth = Auth::user();
+            $file       = $request->file('file');
+            $extFile    = $file->getClientOriginalExtension();
+            $filename   = 'SPONSOR_' . time() . '.' . $extFile;
+            $path       = $file->storeAs('public/uploads', $filename);
+            $auth       = Auth::user();
 
             $sponsor = Sponsor::create([
-                'id_event' => 1, 
-                'filename' => $filename, 
-                'size' => $file->getSize(),
+                'id_event'  => $id_event, 
+                'filename'  => $filename, 
+                'size'      => $file->getSize(),
                 'insert_at' => Carbon::now(), 
                 'insert_by' => $auth->id
             ]);
@@ -280,6 +318,63 @@ class EventController extends BaseController
     public function delete_sponsor($id)
     {
         $file = Sponsor::find($id);
+
+        if ($file) {
+            Storage::disk('public')->delete("uploads/" . $file->filename);
+            $file->delete();
+            return $this->ajaxResponse(true, 'Berhasil hapus file');
+        }
+
+        return $this->ajaxResponse(false, 'Gagal hapus file');
+    }
+
+    public function list_event_images($id_event)
+    {
+        $data = $this->event_images->where('id_event', $id_event)->get();
+        return $this->ajaxResponse(true, 'Success!', $data);
+    }
+
+    public function store_event_images(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+        ], validation_message());
+
+        if($validator->stopOnFirstFailure()->fails()){
+            return $this->ajaxResponse(false, $validator->errors()->first());        
+        }
+
+        $id_event = $request->input('id_event');
+
+        // check validasi max 10 file
+        $count = EventImages::where('id_event', $id_event)->count();
+        if($count >= 10) {
+            return $this->ajaxResponse(false, 'Maksimal 10 file');
+        }
+
+        if ($request->hasFile('file')) {
+            $file       = $request->file('file');
+            $extFile    = $file->getClientOriginalExtension();
+            $filename   = 'EVENT_IMAGES_' . time() . '.' . $extFile;
+            $path       = $file->storeAs('public/uploads', $filename);
+            $auth       = Auth::user();
+
+            $event_images = EventImages::create([
+                'id_event'  => $id_event, 
+                'filename'  => $filename, 
+                'size'      => $file->getSize(),
+                'insert_at' => Carbon::now(), 
+                'insert_by' => $auth->id
+            ]);
+
+            return $this->ajaxResponse(true, 'Berhasil upload file', $event_images->id);
+        }
+        return $this->ajaxResponse(false, 'Gagal upload file');
+    }
+
+    public function delete_event_images($id)
+    {
+        $file = EventImages::find($id);
 
         if ($file) {
             Storage::disk('public')->delete("uploads/" . $file->filename);

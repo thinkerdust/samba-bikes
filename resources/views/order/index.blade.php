@@ -15,10 +15,6 @@
                     <div class="nk-block nk-block-lg">
                         <div class="card card-bordered card-preview">
                             <div class="card-inner">
-                                @can("crudAccess", "EVENT")
-                                <a href="/admin/event/form" class="btn btn-theme-custome btn-sm"><em class="icon ni ni-plus"></em><span>Add Data</span></a>
-                                <hr class="preview-hr">
-                                @endcan
 
                                 <div class="row">
                                     <div class="col-md-4">

@@ -35,8 +35,10 @@ class MasterController extends Controller
 
     public function list_data_event(Request $request)
     {
-        $q = $request->get('q');
-        $data = $this->master->listDataEvent($q);
+        $q          = $request->get('q');
+        $release    = $request->get('release');
+
+        $data = $this->master->listDataEvent($q, $release);
         return response()->json($data);
     }
 }
