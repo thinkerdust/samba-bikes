@@ -21,7 +21,7 @@ class Event extends Model
 
         $query = DB::table('event')
                     ->whereBetween('tanggal', [$start_date, $end_date])
-                    ->select('id', 'nama', 'lokasi', 'harga', 'stok', 'status',
+                    ->select('id', 'nama', 'lokasi', 'jarak', 'lat_start', 'long_start', 'lat_end', 'long_end', 'harga', 'stok', 'status',
                         DB::raw("DATE_FORMAT(tanggal, '%d/%m/%Y') as tanggal"),
                         DB::raw("DATE_FORMAT(tanggal_mulai, '%d/%m/%Y') as tanggal_mulai"),
                         DB::raw("DATE_FORMAT(tanggal_selesai, '%d/%m/%Y') as tanggal_selesai")
@@ -35,7 +35,7 @@ class Event extends Model
     {
         $query = DB::table('event')
                     ->where('id', $id)
-                    ->select('id', 'nama', 'lokasi', 'harga', 'stok', 'status', 'deskripsi', 'bank', 'nomor_rekening', 'nama_rekening', 'phone', 'email', 'banner1', 'tagline_banner1', 'banner2', 'tagline_banner2', 'banner3', 'tagline_banner3', 'size_chart', 'rute',
+                    ->select('id', 'nama', 'lokasi', 'jarak', 'lat_start', 'long_start', 'lat_end', 'long_end', 'harga', 'stok', 'status', 'deskripsi', 'bank', 'nomor_rekening', 'nama_rekening', 'phone', 'email', 'banner1', 'tagline_banner1', 'banner2', 'tagline_banner2', 'banner3', 'tagline_banner3', 'size_chart', 'rute',
                         DB::raw("DATE_FORMAT(tanggal, '%d/%m/%Y') as tanggal"),
                         DB::raw("DATE_FORMAT(tanggal_mulai, '%d/%m/%Y') as tanggal_mulai"),
                         DB::raw("DATE_FORMAT(tanggal_selesai, '%d/%m/%Y') as tanggal_selesai")
@@ -44,4 +44,25 @@ class Event extends Model
 
         return $query;
     }
+
+    public function dataTableEventSchedule($id_event)
+    {
+        $query = DB::table('event_schedule')
+                    ->where('id_event', [$id_event])
+                    ->select('id', 'id_event', 'nama', 'deskripsi', DB::raw('DATE_FORMAT(jam, "%H:%i") as jam'))
+                    ->orderBy('jam', 'ASC');
+
+        return $query;
+    }
+
+    public function editSchedule($id)
+    {
+        $query = DB::table('event_schedule')
+                    ->where('id', $id)
+                    ->select('id', 'id_event', 'nama', 'deskripsi', DB::raw('DATE_FORMAT(jam, "%H:%i") as jam'))
+                    ->first();
+
+        return $query;
+    }
+
 }

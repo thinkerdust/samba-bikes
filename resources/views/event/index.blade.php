@@ -86,65 +86,75 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Lokasi</label>
-                            <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="lokasi" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label class="form-label">Tanggal</label>
                             <div class="form-control-wrap">
                                 <input type="text" class="form-control" id="tanggal" data-date-format="dd/mm/yyyy" readonly>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Bank</label>
-                            <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="bank" readonly>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="form-label">Lokasi</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="lokasi" readonly>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Nama Rekening</label>
-                            <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="nama_rekening" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Nomor Rekening</label>
-                            <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="nomor_rekening" readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Tanggal Mulai Tiket</label>
-                            <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="tanggal_mulai_tiket" data-date-format="dd/mm/yyyy" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Tanggal Selesai Tiket</label>
-                            <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="tanggal_selesai_tiket" data-date-format="dd/mm/yyyy" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Harga</label>
-                            <div class="form-control-wrap">
-                                <input type="text" class="form-control text-end" id="harga" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Stok</label>
-                            <div class="form-control-wrap">
-                                <input type="text" class="form-control text-end" id="stok" readonly>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">Jarak</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="jarak" readonly>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Deskripsi</label>
                             <div class="form-control-wrap">
                                 <textarea class="form-control" id="deskripsi" rows="5" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Nama Rekening</label>
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" id="nama_rekening" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="form-label">Nomor Rekening</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="nomor_rekening" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">Bank</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="bank" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">Tanggal Mulai Tiket</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="tanggal_mulai_tiket" data-date-format="dd/mm/yyyy" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">Tanggal Selesai Tiket</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="tanggal_selesai_tiket" data-date-format="dd/mm/yyyy" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">Harga</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control text-end" id="harga" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label">Stok</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control text-end" id="stok" readonly>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -88,8 +88,13 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
         Route::get('/form/{id?}', 'form_event');
         Route::post('/store', 'store_event');
         Route::get('/edit/{id}', 'edit_event');
-        Route::get('/delete/{id}', 'delete_event');
+        Route::delete('/delete/{id}', 'delete_event');
         Route::get('/release/{id}', 'release_event');
+        
+        Route::post('/datatable-schedule', 'datatable_schedule');
+        Route::get('/edit-schedule/{id}', 'edit_schedule');
+        Route::post('/store-schedule', 'store_schedule');
+        Route::delete('/delete-schedule/{id}', 'delete_schedule');
         
         Route::get('/sponsor/list/{id_event}', 'list_sponsor');
         Route::post('/sponsor/store', 'store_sponsor');
