@@ -148,6 +148,64 @@ $(document).ready(function() {
         });
     });
 
+    $('#jam_schedule').on('input', function() {
+        let value = $(this).val().replace(/\D/g, '');
+        if (value.length > 4) {
+            value = value.slice(0, 4);
+        }
+        if (value.length > 2) {
+            value = value.slice(0, 2) + ':' + value.slice(2);
+        }
+        $(this).val(value);
+    });
+
+    $('#btn-submit-event-schedule').click(function(e) {
+        e.preventDefault();
+
+        let id_event    = $('#id').val();
+        let nama        = $('#nama_schedule').val();
+        let deskripsi   = $('#deskripsi_schedule').val();
+        let jam         = $('#jam_schedule').val();
+
+        let btn_schedule = $('#btn-submit-event-schedule');
+
+        $.ajax({
+            url : "/admin/event/store-schedule",  
+            data : {
+                id: $('#id_schedule').val(),
+                id_event: id_event,
+                nama: nama,
+                deskripsi: deskripsi,
+                jam: jam
+            },
+            type : "POST",
+            headers: { 'X-CSRF-TOKEN': token },
+            beforeSend: function() {
+                btn_schedule.attr('disabled', true);
+                btn_schedule.html(`<div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div>`);
+            },
+            success: function(response) {
+                if(response.status){
+                    NioApp.Toast(response.message, 'success', {position: 'top-right'});
+                    $('#dt-table-schedule').DataTable().ajax.reload(null, false);
+
+                    $('#id_schedule').val('');
+                    $('#nama_schedule').val('');
+                    $('#deskripsi_schedule').val('');
+                    $('#jam_schedule').val('');
+                }else{
+                    NioApp.Toast(response.message, 'warning', {position: 'top-right'});
+                }
+                btn_schedule.attr('disabled', false);
+                btn_schedule.html('Tambah');
+            },
+            error: function(error) {
+                btn_schedule.attr('disabled', false);
+                NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+            }
+        });
+    })
+
     NioApp.Dropzone('#upload-sponsor', {
         maxFilesize: 2, // MB
         acceptedFiles: "image/*",
@@ -333,6 +391,101 @@ $(document).ready(function() {
     });
     
 })
+
+var table = NioApp.DataTable('#dt-table-schedule', {
+    processing: true,
+    scrollX: true,
+    searching: false, 
+    responsive: false,
+    paging: false,   
+    lengthChange: false, 
+    info: false,
+    ajax: {
+        url: '/admin/event/datatable-schedule',
+        type: 'POST',
+        data: function(d) {
+            d._token    = token;
+            d.id_event  = $('#id').val();
+        },
+        beforeSend: function () {
+            blockUI();
+        },
+        complete: function () {
+            unBlockUI();
+        },
+        error: function (xhr) {
+            if (xhr.status === 419) { // Unauthorized error
+                NioApp.Toast('Your session has expired. Redirecting to login...', 'error', {position: 'top-right'});
+                window.location.href = "/login"; 
+            } else {
+                NioApp.Toast('An error occurred while loading data. Please try again.', 'error', {position: 'top-right'});
+            }
+        }
+    },
+    columns: [
+        {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+        {data: 'nama', className: 'text-wrap'},
+        {data: 'deskripsi', className: 'text-wrap'}, // Add class to wrap text
+        {data: 'jam'},
+        {data: 'action', orderable: false, searchable: false},
+    ],
+    columnDefs: [
+        {
+            className: "nk-tb-col",
+            targets: "_all"
+        },
+    ]
+});
+
+function edit_schedule(id) {
+    $.ajax({
+        url: '/admin/event/edit-schedule/'+id,
+        dataType: 'json',
+        success: function(response) {
+            let data = response.data;
+            if(data) {
+                $('#id_schedule').val(data.id);
+                $('#nama_schedule').val(data.nama);
+                $('#deskripsi_schedule').val(data.deskripsi);
+                $('#jam_schedule').val(data.jam);
+
+                $('#btn-submit-event-schedule').html('Update');
+            }
+        },
+        error: function(error) {
+            NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+        }
+    })
+}
+
+function hapus_schedule(id) {
+    Swal.fire({
+        title: 'Apakah anda yakin akan hapus data?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, saya yakin!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: '/admin/event/delete-schedule/'+id,
+                dataType: 'JSON',
+                type: 'DELETE',
+                headers: { 'X-CSRF-TOKEN': token },
+                success: function(response) {
+                    if(response.status){
+                        $('#dt-table-schedule').DataTable().ajax.reload(null, false);
+                        NioApp.Toast(response.message, 'success', {position: 'top-right'});
+                    }else{
+                        NioApp.Toast(response.message, 'warning', {position: 'top-right'});
+                    }
+                },
+                error: function(error) {
+                    NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+                }
+            })
+        }
+    });
+}
 
 $('#preview_image_size_chart, #preview_image_rute, #preview_image_banner1, #preview_image_banner2, #preview_image_banner3').attr('src', "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png");
 

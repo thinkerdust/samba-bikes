@@ -96,6 +96,8 @@ function hapus(id) {
         if (result.value) {
             $.ajax({
                 url: '/admin/event/delete/'+id,
+                type: 'DELETE',
+                headers: { 'X-CSRF-TOKEN': token },
                 dataType: 'JSON',
                 success: function(response) {
                     if(response.status){
@@ -123,6 +125,7 @@ function detail(id) {
                 $('#modalDetail').modal('show');
                 $('#nama').val(data.nama);
                 $('#lokasi').val(data.lokasi);
+                $('#jarak').val(data.jarak + ' KM');
                 $('#tanggal').val(data.tanggal);
                 $('#deskripsi').val(data.deskripsi);
                 $('#tanggal_mulai_tiket').val(data.tanggal_mulai);

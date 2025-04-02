@@ -17,6 +17,11 @@ return new class extends Migration
             $table->date('tanggal');
             $table->text('deskripsi')->nullable();
             $table->string('lokasi');
+            $table->unsignedInteger('jarak')->comment('kilometer');
+            $table->string('lat_start');
+            $table->string('long_start');
+            $table->string('lat_end');
+            $table->string('long_end');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
             $table->decimal('harga', 15, 0)->default(0);
@@ -26,7 +31,12 @@ return new class extends Migration
             $table->string('bank')->comment("table: bank");
             $table->string('phone', 20)->comment("nomor telepon admin");
             $table->string('email')->comment("email admin");
-            $table->text('banner')->nullable();
+            $table->text('banner1')->nullable();
+            $table->string('tagline_banner1')->nullable();
+            $table->text('banner2')->nullable();
+            $table->string('tagline_banner2')->nullable();
+            $table->text('banner3')->nullable();
+            $table->string('tagline_banner3')->nullable();
             $table->text('size_chart')->nullable();
             $table->text('rute')->nullable();
             $table->tinyInteger('status')->unsigned()->default(1)->comment("0: non-aktif; 1: aktif; 2: release");

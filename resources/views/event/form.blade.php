@@ -26,33 +26,73 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Nama <span class="text-danger">*</span></label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="nama" name="nama" required>
+                                                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Tour De Borobudur 2025" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label">Phone <span class="text-danger">*</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control format-number" id="phone" name="phone" placeholder="085123456789" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label">Email <span class="text-danger">*</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="email" class="form-control" id="email" name="email" placeholder="samba@gmail.com" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label class="form-label">Tanggal <span class="text-danger">*</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control date-picker" id="tanggal" name="tanggal" data-date-format="dd/mm/yyyy" placeholder="10/04/2025" readonly required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label class="form-label">Lokasi <span class="text-danger">*</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control" id="lokasi" name="lokasi" oninput="this.value = this.value.toUpperCase();" placeholder="SEMARANG" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label class="form-label">Jarak (KM) <span class="text-danger">*</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="number" class="form-control" id="jarak" name="jarak" placeholder="50" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label">Latitude Start <span class="text-danger">* Wajib isi jika menggunakan maps</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control" id="lat_start" name="lat_start" placeholder="-6.983279655865463" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label">Longitude Start <span class="text-danger">* Wajib isi jika menggunakan maps</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control" id="long_start" name="long_start" placeholder="110.44557770717617" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label">Latitude End <span class="text-danger">* Wajib isi jika menggunakan maps</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control" id="lat_end" name="lat_end" placeholder="-6.983279655865463" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label">Longitude End <span class="text-danger">* Wajib isi jika menggunakan maps</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control" id="long_end" name="long_end" placeholder="110.44557770717617" required>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label">Phone <span class="text-danger">*</span></label>
+                                                    <label class="form-label">Deskripsi</label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control format-number" id="phone" name="phone" required>
+                                                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="5" placeholder="Isi Dengan Deskripsi Event"></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Email <span class="text-danger">*</span></label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="email" class="form-control" id="email" name="email" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Lokasi <span class="text-danger">*</span></label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="lokasi" name="lokasi" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Tanggal <span class="text-danger">*</span></label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control date-picker" id="tanggal" name="tanggal" data-date-format="dd/mm/yyyy" readonly required>
-                                                    </div>
-                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Bank <span class="text-danger">*</span></label>
                                                     <div class="form-control-wrap">
@@ -62,45 +102,39 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Nama Rekening <span class="text-danger">*</span></label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="nama_rekening" name="nama_rekening" required>
+                                                        <input type="text" class="form-control" id="nama_rekening" name="nama_rekening" placeholder="Elon Musk" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label">Nomor Rekening <span class="text-danger">*</span></label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control format-number" id="nomor_rekening" name="nomor_rekening" required>
+                                                        <input type="text" class="form-control format-number" id="nomor_rekening" name="nomor_rekening" placeholder="1234567890" required>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Tanggal Mulai Tiket <span class="text-danger">*</span></label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control date-picker" id="tanggal_mulai_tiket" name="tanggal_mulai_tiket" data-date-format="dd/mm/yyyy" readonly required>
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label">Tanggal Mulai Tiket <span class="text-danger">*</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control date-picker" id="tanggal_mulai_tiket" name="tanggal_mulai_tiket" data-date-format="dd/mm/yyyy" placeholder="10/04/2025" readonly required>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Tanggal Selesai Tiket <span class="text-danger">*</span></label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control date-picker" id="tanggal_selesai_tiket" name="tanggal_selesai_tiket" data-date-format="dd/mm/yyyy" readonly required>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label">Tanggal Selesai Tiket <span class="text-danger">*</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control date-picker" id="tanggal_selesai_tiket" name="tanggal_selesai_tiket" data-date-format="dd/mm/yyyy" placeholder="12/04/2025" readonly required>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Harga <span class="text-danger">*</span></label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control format-currency text-end" id="harga" name="harga" required>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label">Harga <span class="text-danger">*</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control format-currency text-end" id="harga" name="harga" placeholder="200.000" required>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Stok <span class="text-danger">*</span></label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control format-currency text-end" id="stok" name="stok" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="form-label">Deskripsi</label>
-                                                    <div class="form-control-wrap">
-                                                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="5"></textarea>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label">Stok <span class="text-danger">*</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control format-currency text-end" id="stok" name="stok" placeholder="100" required>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -110,7 +144,7 @@
                                         <h3>Assets</h3>
                                         <div class="row gy-4">
                                             <div class="col-md-4">
-                                                <label class="form-label">File Banner 1<span class="text-danger">*</span></label>
+                                                <label class="form-label">File Banner 1 <span class="text-danger">*</span></label>
                                                     <label class="cabinet center-block">
                                                     <figure>
                                                         <img src="" class="gambar img-responsive img-thumbnail" id="preview_image_banner1" />
@@ -131,9 +165,9 @@
                                                     </div>
                                                 </label>
                                                 <div class="form-group">
-                                                    <label class="form-label">Tagline Banner 1</label>
+                                                    <label class="form-label">Tagline Banner 1 <span class="text-danger">*</span></label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="tagline_banner1" name="tagline_banner1" required>
+                                                        <input type="text" class="form-control" id="tagline_banner1" name="tagline_banner1" placeholder="Feel Your Burn" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -161,7 +195,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Tagline Banner 2</label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="tagline_banner2" name="tagline_banner2">
+                                                        <input type="text" class="form-control" id="tagline_banner2" placeholder="Feel Your Muscle" name="tagline_banner2">
                                                     </div>
                                                 </div>
                                             </div>
@@ -189,7 +223,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Tagline Banner 3</label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="tagline_banner3" name="tagline_banner3">
+                                                        <input type="text" class="form-control" id="tagline_banner3" placeholder="Feel Your Turn" name="tagline_banner3">
                                                     </div>
                                                 </div>
                                             </div>
@@ -239,25 +273,74 @@
                                             </div>
                                         </div>
 
-                                        <hr class="preview-hr">
-                                        <h3>Sponsorship</h3>
-                                        <div class="upload-sponsor" id="upload-sponsor">
-                                            <div class="dz-message" data-dz-message>
-                                                <span class="dz-message-text">Drag and drop file</span>
-                                                <span class="dz-message-or">or</span>
-                                                <button type="button" class="btn btn-primary">SELECT</button>
-                                            </div>
-                                        </div>
+                                        @if (isset($id))    
+                                            <hr class="preview-hr">
+                                            <h3>Event Schedule</h3>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Nama Schedule <span class="text-danger">*</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="hidden" class="form-control" id="id_schedule" name="id_schedule">
+                                                            <input type="text" class="form-control" id="nama_schedule" name="nama_schedule" placeholder="Opening Ceremony & Warm-up" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Deskripsi <span class="text-danger">*</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control" id="deskripsi_schedule" name="deskripsi_schedule" placeholder="Kick off the event with an energizing warm-up session, race briefing, and an inspiring welcome speech." required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Jam <span class="text-danger">*</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control text-center" id="jam_schedule" name="jam_schedule" placeholder="__:__" maxlength="5" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1" style="margin-top: 30px">
+                                                    <button type="button" class="btn btn-primary" id="btn-submit-event-schedule"><span>Tambah</span></button>
+                                                </div>
 
-                                        <hr class="preview-hr">
-                                        <h3>Event Images</h3>
-                                        <div class="upload-event-image" id="upload-event-image">
-                                            <div class="dz-message" data-dz-message>
-                                                <span class="dz-message-text">Drag and drop file</span>
-                                                <span class="dz-message-or">or</span>
-                                                <button type="button" class="btn btn-primary">SELECT</button>
+                                                <table class="table table-striped nowrap" id="dt-table-schedule">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Nama Schedule</th> 
+                                                            <th>Deskripsi</th> 
+                                                            <th>Jam</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                
+                                                </table>
+
                                             </div>
-                                        </div>
+
+                                            <hr class="preview-hr">
+                                            <h3>Sponsorship</h3>
+                                            <div class="upload-sponsor" id="upload-sponsor">
+                                                <div class="dz-message" data-dz-message>
+                                                    <span class="dz-message-text">Drag and drop file</span>
+                                                    <span class="dz-message-or">or</span>
+                                                    <button type="button" class="btn btn-primary">SELECT</button>
+                                                </div>
+                                            </div>
+
+                                            <hr class="preview-hr">
+                                            <h3>Event Images</h3>
+                                            <div class="upload-event-image" id="upload-event-image">
+                                                <div class="dz-message" data-dz-message>
+                                                    <span class="dz-message-text">Drag and drop file</span>
+                                                    <span class="dz-message-or">or</span>
+                                                    <button type="button" class="btn btn-primary">SELECT</button>
+                                                </div>
+                                            </div>
+                                        @endif
 
                                         <hr class="preview-hr">
                                         <button type="submit" class="btn btn-theme-custome" id="btn-submit">Save</button>

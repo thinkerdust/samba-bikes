@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use App\Models\Event;
 use App\Models\Sponsor;
 use App\Models\EventImages;
+use App\Models\EventSchedule;
 use Carbon\Carbon;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Storage;
@@ -82,6 +83,11 @@ class EventController extends BaseController
             'nomor_rekening'        => 'required|max:255',
             'nama_rekening'         => 'required|max:255',
             'lokasi'                => 'required|max:255',
+            'jarak'                 => 'required|max:255',
+            'lat_start'             => 'required_without_all:rute|nullable',
+            'long_start'            => 'required_without_all:rute|nullable',
+            'lat_end'               => 'required_without_all:rute|nullable',
+            'long_end'              => 'required_without_all:rute|nullable',
             'tanggal_mulai_tiket'   => 'required',
             'tanggal_selesai_tiket' => 'required',
             'harga'                 => 'required',
@@ -93,7 +99,7 @@ class EventController extends BaseController
             'banner2'               => 'max:2048',
             'banner3'               => 'max:2048',
             'size_chart'            => 'required_if:id, 0|max:2048',
-            'rute'                  => 'required_if:id, 0|max:2048'
+            'rute'                  => 'required_without_all:lat_start,long_start,lat_end,long_end|nullable|max:2048',
         ], validation_message());
 
         if($validator->stopOnFirstFailure()->fails()){
@@ -115,6 +121,11 @@ class EventController extends BaseController
                 'nama_rekening'     => $request->nama_rekening,
                 'nomor_rekening'    => $request->nomor_rekening,
                 'lokasi'            => $request->lokasi,
+                'jarak'             => $request->jarak,
+                'lat_start'         => $request->lat_start,
+                'long_start'        => $request->long_start,
+                'lat_end'           => $request->lat_end,
+                'long_end'          => $request->long_end,
                 'deskripsi'         => $request->deskripsi,
                 'tanggal'           => Carbon::createFromFormat('d/m/Y', $request->tanggal)->format('Y-m-d'),
                 'tanggal_mulai'     => Carbon::createFromFormat('d/m/Y', $request->tanggal_mulai_tiket)->format('Y-m-d'),
@@ -268,6 +279,102 @@ class EventController extends BaseController
             Log::error($e->getMessage());
             DB::rollback();
             return $this->ajaxResponse(false, 'Data gagal di-release', $e);
+        }
+    }
+
+    public function datatable_schedule(Request $request)
+    {
+        $id_event = $request->id_event;
+        $data = $this->event->dataTableEventSchedule($id_event); 
+        return Datatables::of($data)->addIndexColumn()
+            ->addColumn('action', function($row) {
+                $btn = '';
+                if(Gate::allows('crudAccess', 'EVENT', $row)) {
+
+                    $btn = '
+                        <a class="btn btn-warning" onclick="edit_schedule(\'' . $row->id . '\')"><span>Edit</span></a>
+                        <a class="btn btn-danger" onclick="hapus_schedule(\'' . $row->id . '\')"></em><span>Hapus</span></a>
+                    ';
+
+                }
+                return $btn;
+            })
+            ->make(true);
+    }
+
+    public function edit_schedule(Request $request) 
+    {
+        $id     = $request->id;
+        $data   = $this->event->editSchedule($id);
+
+        return $this->ajaxResponse(true, 'Success!', $data);
+    }
+
+    public function store_schedule(Request $request)
+    {
+        $id         = $request->input('id');
+        $id_event   = $request->input('id_event');
+
+        $validator = Validator::make($request->all(), [
+            'nama'         => 'required|max:100',
+            'deskripsi'    => 'required|max:255',
+            'jam'          => 'required',
+        ], validation_message());
+
+        if($validator->stopOnFirstFailure()->fails()){
+            return $this->ajaxResponse(false, $validator->errors()->first());        
+        }
+
+        $user = Auth::user();
+
+        try {
+            DB::beginTransaction();
+
+            $data = [
+                'id_event'  => $id_event,
+                'nama'      => $request->nama,
+                'deskripsi' => $request->deskripsi,
+                'jam'       => $request->jam,
+            ];
+
+            if(!empty($id)) {
+                $data['update_at']  = Carbon::now();
+                $data['update_by']  = $user->id;
+            } else {
+                $data['insert_at']  = Carbon::now();
+                $data['insert_by']  = $user->id;
+            }
+
+            EventSchedule::updateOrCreate(
+                ['id' => $id], 
+                $data         
+            );            
+
+            DB::commit();
+            return $this->ajaxResponse(true, 'Data berhasil disimpan');
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage());
+            return $this->ajaxResponse(false, 'Data gagal disimpan', $e);
+        }
+    }
+
+    public function delete_schedule(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $id     = $request->id;
+            $user   = Auth::user();
+
+            EventSchedule::where('id', $id)->delete();
+
+            DB::commit();
+            return $this->ajaxResponse(true, 'Data berhasil dihapus');
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            DB::rollback();
+            return $this->ajaxResponse(false, 'Data gagal dihapus', $e);
         }
     }
 
