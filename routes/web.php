@@ -25,7 +25,7 @@ Route::get('/admin', function() {
 });
 
 Route::controller(AuthController::class)->group(function () {
-    Route::get('/login', 'login')->name('login');
+    Route::get('/login', 'login')->middleware('redirect-if-authenticated')->name('login');
     Route::post('/authenticate', 'authenticate')->middleware('ajax-request')->name('authenticate');
     Route::get('/logout', 'logout')->name('logout');
 });
