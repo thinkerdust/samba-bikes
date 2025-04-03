@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'ajax-request' => \App\Http\Middleware\AjaxRequest::class,
+            'redirect-if-authenticated' => \App\Http\Middleware\RedirectIfAuthenticated::class, // Add alias
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
