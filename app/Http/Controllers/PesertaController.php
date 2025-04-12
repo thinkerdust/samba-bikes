@@ -122,7 +122,6 @@ class PesertaController extends BaseController
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollback();
-            dd($e);
             return $this->ajaxResponse(false, 'Data gagal disimpan', $e);
         }
     }

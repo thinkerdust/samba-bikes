@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('url');
             $table->tinyInteger('status')->unsigned()->default(1)->comment("1: aktif; 0: non-aktif");
 
-            $table->dateTime('insert_at')->default(DB::raw('CURRENT_TIMESTAMP()'));
+            $table->dateTime('insert_at')->useCurrent();
             $table->unsignedBigInteger('insert_by');
 
             $table->dateTime('update_at')->nullable()->useCurrentOnUpdate();

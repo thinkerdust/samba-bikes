@@ -332,12 +332,14 @@
 								<li class="inp-cover"><input id="tanggal_lahir" class="tanggal" type="text" name="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="no" required></li>
 								<li class="inp-cover">
 									<select class="nice-select" id="gender" name="gender" autocomplete="no" required>
-										<option value="L" style="font-size: 14px;">Laki-laki</option>
+										<option value="" style="font-size: 14px;">Jenis Kelamin</option>
+										<option value="L" style="font-size: 14px;">Laki-Laki</option>
 										<option value="P" style="font-size: 14px;">Perempuan</option>
 									</select>
 								</li>
 								<li class="inp-cover">
 									<select class="nice-select" id="blood" name="blood" placeholder="Gol Darah" autocomplete="no" required>
+										<option value="" style="font-size: 14px;">Gol Darah</option>
 										<option value="A" style="font-size: 14px;">A</option>
 										<option value="B" style="font-size: 14px;">B</option>
 										<option value="AB" style="font-size: 14px;">AB</option>
@@ -352,10 +354,11 @@
 								<li class="inp-cover" style="width: 100%"><input id="alamat" type="text" name="alamat" placeholder="Alamat" autocomplete="no" required></li>
 								<li class="inp-cover" style="width: 100%">
 									<select class="nice-select" id="jersey" name="jersey" autocomplete="no" required>
-										<option>S</option>
-										<option>M</option>
-										<option>L</option>
-										<option>XL</option>
+										<option value="">Jersey</option>
+										<option value="S">S</option>
+										<option value="M">M</option>
+										<option value="L">L</option>
+										<option value="XL">XL</option>
 									</select>
 								</li>
 							</ul>

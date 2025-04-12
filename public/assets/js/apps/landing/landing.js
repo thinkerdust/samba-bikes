@@ -109,7 +109,7 @@ $(document).ready(function() {
                 <td><input type="text" name="nama[]" placeholder="Nama Peserta"></td>
                 <td>
                     <select class="nice-select" id="gender" name="gender[]" autocomplete="no" style="z-index: 0; padding: 15px 0; color: #aaa;">
-                        <option value="" disabled selected>Jenis Kelamin</option>
+                        <option value="">Jenis Kelamin</option>
                         <option value="L" style="font-size: 14px;">Laki-laki</option>
                         <option value="P" style="font-size: 14px;">Perempuan</option>
                     </select>
@@ -120,7 +120,7 @@ $(document).ready(function() {
                 <td><input type="text" name="hubungan_emergency[]" placeholder="Hubungan"></td>
                 <td>
                     <select class="nice-select" id="blood" name="blood[]" placeholder="Gol Darah" autocomplete="no" style="z-index: 0; padding: 15px 0; color: #aaa;">
-                        <option value="" disabled selected>Gol Darah</option>
+                        <option value="">Gol Darah</option>
                         <option value="A" style="font-size: 14px;">A</option>
                         <option value="B" style="font-size: 14px;">B</option>
                         <option value="AB" style="font-size: 14px;">AB</option>
@@ -129,7 +129,7 @@ $(document).ready(function() {
                 </td>
                 <td>
                     <select class="nice-select" id="jersey" name="jersey[]" placeholder="Ukuran Jersey" autocomplete="no" style="width: 220px !important; z-index: 0;">
-                        <option value="" disabled selected>Ukuran Jersey</option>
+                        <option value="">Jersey</option>
                         <option value="S" style="font-size: 14px;">S</option>
                         <option value="M" style="font-size: 14px;">M</option>
                         <option value="L" style="font-size: 14px;">L</option>
@@ -266,6 +266,7 @@ function processRegisterPersonal() {
         url: '/register-peserta',
         type: 'POST',
         data: formData,
+        dataType : "JSON",
         processData: false,
         contentType: false,
         success: function(response) {
@@ -278,6 +279,8 @@ function processRegisterPersonal() {
         },
         error: function(error) {
             console.log(error);
+            btn.attr('disabled', false);
+            btn.html('Register');
         }
     });
 }
@@ -296,12 +299,7 @@ function processRegisterKomunitas() {
         data: formData,
         processData: false,
         contentType: false,
-        beforeSend: function() {
-            btn.attr('disabled', true);
-            btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading ...</span>`);
-        },
         success: function(response) {
-            let data = response.data;
             if(response.status) {
                 closeModalOverride();
                 openModal();
@@ -311,6 +309,8 @@ function processRegisterKomunitas() {
         },
         error: function(error) {
             console.log(error);
+            btn.attr('disabled', false);
+            btn.html('Register');
         }
     });
 }

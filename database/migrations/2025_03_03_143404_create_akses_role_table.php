@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('kode_menu', 10); // Changed from referencing id to kode
             $table->tinyInteger('flag_access')->unsigned()->default(1);
 
-            $table->dateTime('insert_at')->default(DB::raw('CURRENT_TIMESTAMP()'));
+            $table->dateTime('insert_at')->useCurrent();
             $table->unsignedBigInteger('insert_by');
 
             $table->dateTime('update_at')->nullable()->useCurrentOnUpdate();

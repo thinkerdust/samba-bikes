@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_peserta');
             $table->date('racepack_at')->nullable();
             $table->string('racepack_by', 255)->nullable();
-            $table->dateTime('insert_at', 3)->useCurrent();
-            $table->dateTime('update_at', 3)->nullable()->useCurrentOnUpdate();
+            $table->dateTime('insert_at')->useCurrent();
+            $table->dateTime('update_at')->nullable()->useCurrentOnUpdate();
             $table->unsignedBigInteger('update_by')->nullable()->useCurrentOnUpdate();
             
             $table->foreign('nomor_order')->references('nomor')->on('order')->onDelete('cascade');
