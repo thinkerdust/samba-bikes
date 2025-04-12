@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_event');
             $table->text('filename');
             $table->mediumInteger('size')->unsigned();
-            $table->timestamp('insert_at')->useCurrent();
+            $table->dateTime('insert_at')->useCurrent();
             $table->unsignedBigInteger('insert_by');
 
             // Relations

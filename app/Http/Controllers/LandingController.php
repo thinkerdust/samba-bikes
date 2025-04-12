@@ -4,21 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\BaseController as BaseController;
 use Illuminate\Http\Request;
-use DB;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Counter;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegistrationMail;
+use App\Models\Counters;
 use App\Models\Peserta;
+use DB;
+use Carbon\Carbon;
 
 class LandingController extends BaseController {
 
     protected $counter;
     protected $peserta;
 
-    function __construct(Counter $counter, Peserta $peserta) {
+    function __construct(Counters $counters, Peserta $peserta) {
         $this->peserta = $peserta;
-        $this->counter = $counter;
+        $this->counters = $counters;
     }
 
     public function index() {
@@ -34,29 +36,30 @@ class LandingController extends BaseController {
     // check peserta by nik (input array)
     public function check_peserta(Request $request) {
         $nik  = $request->input('nik');
-        $type = $request->input('type');
-    
-        $query = DB::table('peserta')->select('id', 'nama')->whereIn('nik', $nik)->where('status', 1);
-    
-        return $this->ajaxResponse(true, 'Berhasil mengambil data peserta', $query->get());
+        $data = DB::table('peserta')->select('id', 'nama')->whereIn('nik', $nik)->where('status', 1)->get();
+        return $this->ajaxResponse(true, 'Berhasil mengambil data peserta', $data);
     }    
 
     public function register_peserta(Request $request) {
     
         $type = $request->input('type');
 
-        $event = DB::table('event')
-                    ->select(
-                        'event.id', 'event.nama', 'event.harga',
-                        DB::raw('IFNULL(order.jumlah, 0) as total_order'),
-                        DB::raw('event.stok - IFNULL(order.jumlah, 0) as sisa_stok') 
-                    )
-                    ->leftJoin('order', function ($join) {
-                        $join->on('event.id', '=', 'order.id_event')
-                            ->whereIn('order.status', [1, 2]);
+        $event =  DB::table('event as e')
+                    ->leftJoin('order as o', function ($join) {
+                        $join->on('e.id', '=', 'o.id_event')
+                            ->whereIn('o.status', [1, 2]);
                     })
-                    ->where('event.status', 2)
-                    ->first(); 
+                    ->select(
+                        'e.id',
+                        'e.nama',
+                        'e.harga',
+                        'e.stok',
+                        DB::raw('(e.stok - SUM(o.jumlah)) as sisa_stok')
+                    )
+                    ->where('e.status', 2)
+                    ->whereBetween(DB::raw('CURDATE()'), [DB::raw('e.tanggal_mulai'), DB::raw('e.tanggal_selesai')])
+                    ->groupBy('e.id')
+                    ->first();
         
         if (!$event) {
             return $this->ajaxResponse(false, 'Event tidak ditemukan.');
@@ -68,24 +71,20 @@ class LandingController extends BaseController {
     
         try {
             DB::beginTransaction();
-
-            $counter = DB::table('counter')
-                        ->where('modul', 'ORDER')
-                        ->value('count');
-            $counter = $counter !== null ? $counter + 1 : 1;
         
-            $nomor_order = 'ORD/' . Carbon::now()->format('ymd') . '/' . sprintf('%05d', $counter);
+            $nomor_order = $this->counters->generateKode();
+            $kode_unik = mt_rand(100, 999);
 
-            Counter::updateOrCreate(
-                ['modul' => 'ORDER'], // Condition to check if the row exists
-                ['count' => $counter] // Data to update or insert
-            );
+            $dataEmail = [
+                'event' => $event->nama
+            ];
 
             $dataOrder = [
                 'nomor'     => $nomor_order,
                 'id_event'  => $event->id,
                 'total'     => 0,
                 'jumlah'    => 0,
+                'kode_unik' => $kode_unik,
                 'status'    => 1,
             ];
     
@@ -170,12 +169,17 @@ class LandingController extends BaseController {
                     'size_jersey'       => $request->jersey,
                 ]);
     
-                $dataOrder['total'] = $event->harga;
                 $dataOrder['jumlah'] = 1;
+                $dataOrder['subtotal'] = $event->harga;
+                $dataOrder['total'] = $event->harga + $kode_unik;
                 $dataOrderDetail[] = [
                     'nomor_order'   => $nomor_order,
                     'id_peserta'    => $id_peserta,
                 ];
+                $recepientMail = $request->email;
+                $dataEmail['nama'] = $request->nama;
+                $dataEmail['email'] = $request->email;
+                $dataEmail['phone'] = $request->phone;
             } else {
                 $validator = Validator::make($request->all(), [
                     'nama_komunitas'        => 'required',
@@ -206,6 +210,10 @@ class LandingController extends BaseController {
                 ];
 
                 $id_komunitas = DB::table('komunitas')->insertGetId($dataKomunitas);
+                $recepientMail = $request->email;
+                $dataEmail['nama'] = $request->nama_komunitas;
+                $dataEmail['email'] = $request->email;
+                $dataEmail['phone'] = $request->phone;
 
                 foreach ($request->nama as $key => $nama) {
                     $nik = $request->nik[$key];
@@ -252,18 +260,23 @@ class LandingController extends BaseController {
                         'blood'             => $request->blood[$key],
                         'size_jersey'       => $request->jersey[$key],
                     ]);
-
-                    $dataOrder['total'] += $event->harga;
-                    $dataOrder['jumlah'] += 1;
+                    
                     $dataOrderDetail[] = [
                         'nomor_order' => $nomor_order,
                         'id_peserta' => $id_peserta,
                     ];
                 }
+
+                $total_peserta = count($request->nama);
+                $dataOrder['jumlah'] = $total_peserta;
+                $dataOrder['subtotal'] = $event->harga * $total_peserta;
+                $dataOrder['total'] = ($event->harga * $total_peserta) + $kode_unik;
             }
 
             DB::table('order')->insert($dataOrder);
             DB::table('order_detail')->insert($dataOrderDetail);
+
+            Mail::to($recepientMail)->send(new RegistrationMail($dataEmail));
 
             DB::commit();
             return $this->ajaxResponse(true, 'Data berhasil disimpan');

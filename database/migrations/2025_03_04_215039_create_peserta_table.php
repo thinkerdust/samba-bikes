@@ -31,8 +31,8 @@ return new class extends Migration
             $table->string('size_jersey', 10);
             $table->tinyInteger('status')->unsigned()->default(1)->comment("1: aktif; 0: non-aktif");
 
-            $table->dateTime('insert_at', 3)->default(DB::raw('CURRENT_TIMESTAMP(3)'));
-            $table->dateTime('update_at', 3)->nullable()->useCurrentOnUpdate();
+            $table->dateTime('insert_at')->useCurrent();
+            $table->dateTime('update_at')->nullable()->useCurrentOnUpdate();
             $table->unsignedBigInteger('update_by')->nullable();
 
         });

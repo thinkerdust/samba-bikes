@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('kota', 20);
             $table->string('phone', 20);
             $table->tinyInteger('status')->unsigned()->default(1)->comment('1: aktif; 0: non-aktif');
-            $table->timestamp('insert_at', 3)->useCurrent();
-            $table->timestamp('update_at', 3)->nullable()->useCurrentOnUpdate();
+            $table->dateTime('insert_at')->useCurrent();
+            $table->dateTime('update_at')->nullable()->useCurrentOnUpdate();
             $table->unsignedBigInteger('update_by')->nullable();
         });
     }

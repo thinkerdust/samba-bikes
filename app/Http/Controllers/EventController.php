@@ -218,7 +218,6 @@ class EventController extends BaseController
             DB::commit();
             return $this->ajaxResponse(true, 'Data berhasil disimpan');
         } catch (\Exception $e) {
-            dd($e);
             Log::error($e->getMessage());
             DB::rollback();
             return $this->ajaxResponse(false, 'Data gagal disimpan', $e);
