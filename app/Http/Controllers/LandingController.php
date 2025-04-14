@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Counter;
 use App\Models\Peserta;
+use App\Mail\SendEmail;
 
 class LandingController extends BaseController {
 
@@ -266,6 +267,21 @@ class LandingController extends BaseController {
             DB::table('order_detail')->insert($dataOrderDetail);
 
             DB::commit();
+
+            try {
+                $data = [
+                    'nomor_order' => $nomor_order,
+                    'event'       => $event->nama,
+                    'total'       => number_format($dataOrder['total'], 0, ',', '.'),
+                    'jumlah'      => $dataOrder['jumlah'],
+                    'email'       => $request->email,
+                ];
+
+                Mail::to($request->email)->send(new SendEmail($data));    
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+            }
+
             return $this->ajaxResponse(true, 'Data berhasil disimpan');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
