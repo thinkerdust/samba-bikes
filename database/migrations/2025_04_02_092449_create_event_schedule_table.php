@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('deskripsi', 255);
             $table->time('jam');
 
-            $table->dateTime('insert_at')->default(DB::raw('CURRENT_TIMESTAMP()'));
+            $table->dateTime('insert_at')->useCurrent();
             $table->unsignedBigInteger('insert_by');
             $table->dateTime('update_at')->nullable()->useCurrentOnUpdate();
             $table->unsignedBigInteger('update_by')->nullable();

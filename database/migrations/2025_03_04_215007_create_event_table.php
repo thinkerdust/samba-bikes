@@ -41,7 +41,7 @@ return new class extends Migration
             $table->text('rute')->nullable();
             $table->tinyInteger('status')->unsigned()->default(1)->comment("0: non-aktif; 1: aktif; 2: release");
 
-            $table->dateTime('insert_at')->default(DB::raw('CURRENT_TIMESTAMP()'));
+            $table->dateTime('insert_at')->useCurrent();
             $table->unsignedBigInteger('insert_by');
             $table->dateTime('update_at')->nullable()->useCurrentOnUpdate();
             $table->unsignedBigInteger('update_by')->nullable();
