@@ -417,6 +417,7 @@
 														<td><input type="text" name="nama[]" placeholder="Nama Peserta" autocomplete="no"></td>
 														<td>
 															<select class="nice-select" id="gender" name="gender[]" autocomplete="no">
+																<option value="">Jenis Kelamin</option>
 																<option value="L" style="font-size: 14px;">Laki-laki</option>
 																<option value="P" style="font-size: 14px;">Perempuan</option>
 															</select>
@@ -427,6 +428,7 @@
 														<td><input type="text" name="hubungan_emergency[]" placeholder="Hubungan" autocomplete="no"></td>
 														<td>
 															<select class="nice-select" id="blood" name="blood[]" placeholder="Gol Darah" autocomplete="no">
+																<option value="">Gol Darah</option>
 																<option value="A" style="font-size: 14px;">A</option>
 																<option value="B" style="font-size: 14px;">B</option>
 																<option value="AB" style="font-size: 14px;">AB</option>
@@ -435,6 +437,7 @@
 														</td>
 														<td>
 															<select class="nice-select" id="jersey" name="jersey[]" placeholder="Ukuran Jersey" autocomplete="no" style="width: 220px !important;">
+																<option value="">Jersey</option>
 																<option value="S" style="font-size: 14px;">S</option>
 																<option value="M" style="font-size: 14px;">M</option>
 																<option value="L" style="font-size: 14px;">L</option>

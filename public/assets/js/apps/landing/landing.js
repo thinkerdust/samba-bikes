@@ -197,8 +197,14 @@ $('#registerPersonal').submit(function(e) {
                     processRegisterPersonal();
                 }
             }
+
+            btn.attr('disabled', false);
+            btn.html('Register');
         },
         error: function(error) {
+            btn.attr('disabled', false);
+            btn.html('Register');
+            console.log(error);
             NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
         }
     });
@@ -247,8 +253,14 @@ $('#registerKomunitas').submit(function(e) {
                     processRegisterKomunitas();
                 }
             }
+
+            btn.attr('disabled', false);
+            btn.html('Register');
         },
         error: function(error) {
+            btn.attr('disabled', false);
+            btn.html('Register');
+            console.log(error);
             NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
         }
     });
