@@ -13,36 +13,42 @@ use App\Models\Peserta;
 use DB;
 use Carbon\Carbon;
 
-class LandingController extends BaseController {
+class LandingController extends BaseController 
+{
 
     protected $counter;
     protected $peserta;
 
-    function __construct(Counters $counters, Peserta $peserta) {
+    function __construct(Counters $counters, Peserta $peserta) 
+    {
         $this->peserta = $peserta;
         $this->counters = $counters;
     }
 
-    public function index() {
+    public function index() 
+    {
         $js = 'assets/js/apps/landing/landing.js?_='.rand();
         return view('landing.index', compact('js'));
     }
 
-    public function get_harga(Request $request) {
+    public function get_harga(Request $request) 
+    {
         $data = DB::table('event')->where('status', 1)->first();
         return response()->json($data);
     }
 
     // check peserta by nik (input array)
-    public function check_peserta(Request $request) {
+    public function check_peserta(Request $request) 
+    {
         $nik  = $request->input('nik');
         $data = DB::table('peserta')->select('id', 'nama')->whereIn('nik', $nik)->where('status', 1)->get();
         return $this->ajaxResponse(true, 'Berhasil mengambil data peserta', $data);
     }    
 
-    public function register_peserta(Request $request) {
-    
+    public function register_peserta(Request $request) 
+    {
         $type = $request->input('type');
+        $jumlah = ($type == 'komunitas') ? count($request->nama): 1;
 
         $event =  DB::table('event as e')
                     ->leftJoin('order as o', function ($join) {
@@ -65,8 +71,8 @@ class LandingController extends BaseController {
             return $this->ajaxResponse(false, 'Event tidak ditemukan.');
         }
         
-        if ($event->sisa_stok <= 0) {
-            return $this->ajaxResponse(false, 'Stok event ' . $event->nama . ' sudah habis.');
+        if (($event->sisa_stok - $jumlah) <= 0) {
+            return $this->ajaxResponse(false, 'Stok tiket event ' . $event->nama . ' sudah habis.');
         }
     
         try {
