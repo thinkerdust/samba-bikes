@@ -367,100 +367,103 @@
 	</section>
 	<!-- ============= MAP-WITH-ROUTE END ============= -->
 
-	<!--================== S-BUY-TICKET ==================-->
-	<section id="register" class="s-buy-ticket dance-buy-ticket" style="background-image: url(assets/img/effect-form-dance.svg);">
-		<div class="container">
-			<div class="title-cover">
-				<span class="dance-slogan">Daftarkan Komunitas Anda</span>
-				<h2 class="dance-title">Register as Komunitas</h2>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="buy-ticket-form">
-						<form id='registerKomunitas'>
-							@csrf
-							<h5>Informasi Komunitas</h5>
-							<ul class="form-cover">
-								<li class="inp-cover inp-name" style="width: 100%"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas"></li>
-								<li class="inp-cover inp-name"><input id="koordinator" type="text" name="koordinator" placeholder="Nama Koordinator"></li>
-								<li class="inp-cover inp-name"><input id="email" type="email" name="email" placeholder="Email Koordinator"></li>
-								<li class="inp-cover inp-name"><input id="kota" type="text" name="kota" placeholder="Kota Komunitas"></li>
-								<li class="inp-cover inp-name"><input id="phone" type="text" name="phone" placeholder="Kontak Koordinator"></li>
-								
-								<li class="pay-method">
-									<div class="col-md-12 mb-2 p-0" style="display: flex; justify-content: space-between; align-items: center;">
-										<h5>List Peserta</h5>
-										<button type="button" class="btn" id="addPeserta"><span>Add Peserta</span></button>
-									</div>
-									<div class="table-container">
-										<table class="custom-table">
-											<thead>
-												<tr>
-													<th>Nama Peserta</th>
-													<th>Jenis Kelamin</th>
-													<th>Tanggal Lahir</th>
-													<th>No KTP</th>
-													<th>No Telepon</th>
-													<th>Hubungan</th>
-													<th>Gol Darah</th>
-													<th>Ukuran Jersey</th>
-													<th>Action</th>
-												</tr>
-											</thead>
-											<tbody id="listPeserta">
-												<tr>
-													<td><input type="text" name="nama[]" placeholder="Nama Peserta" autocomplete="no"></td>
-													<td>
-														<select class="nice-select" id="gender" name="gender[]" autocomplete="no">
-															<option value="L" style="font-size: 14px;">Laki-laki</option>
-															<option value="P" style="font-size: 14px;">Perempuan</option>
-														</select>
-													</td>
-													<td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="no"></td>
-													<td><input type="text" name="nik[]" placeholder="No KTP" autocomplete="no"></td>
-													<td><input type="text" name="telp_emergency[]" placeholder="No Telepon" autocomplete="no"></td>
-													<td><input type="text" name="hubungan_emergency[]" placeholder="Hubungan" autocomplete="no"></td>
-													<td>
-														<select class="nice-select" id="blood" name="blood[]" placeholder="Gol Darah" autocomplete="no">
-															<option value="A" style="font-size: 14px;">A</option>
-															<option value="B" style="font-size: 14px;">B</option>
-															<option value="AB" style="font-size: 14px;">AB</option>
-															<option value="O" style="font-size: 14px;">O</option>
-														</select>
-													</td>
-													<td>
-														<select class="nice-select" id="jersey" name="jersey[]" placeholder="Ukuran Jersey" autocomplete="no" style="width: 220px !important;">
-															<option value="S" style="font-size: 14px;">S</option>
-															<option value="M" style="font-size: 14px;">M</option>
-															<option value="L" style="font-size: 14px;">L</option>
-															<option value="XL" style="font-size: 14px;">XL</option>
-														</select>
-													</td>
-													<td><button type="button" class="btn" id="removePeserta"><span>X</span></button></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
+		<!--================== S-BUY-TICKET ==================-->
+		<section id="register" class="s-buy-ticket dance-buy-ticket" style="background-image: url(assets/img/effect-form-dance.svg);">
+			<div class="container">
+				<div class="title-cover">
+					<span class="dance-slogan">Daftarkan Komunitas Anda</span>
+					<h2 class="dance-title">Register as Komunitas</h2>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="buy-ticket-form">
+							<form id='registerKomunitas'>
+								@csrf
+								<h5>Informasi Komunitas</h5>
+								<ul class="form-cover">
+									<li class="inp-cover inp-name" style="width: 100%"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas"></li>
+									<li class="inp-cover inp-name"><input id="koordinator" type="text" name="koordinator" placeholder="Nama Koordinator"></li>
+									<li class="inp-cover inp-name"><input id="email" type="email" name="email" placeholder="Email Koordinator"></li>
+									<li class="inp-cover inp-name"><input id="kota" type="text" name="kota" placeholder="Kota Komunitas"></li>
+									<li class="inp-cover inp-name"><input id="phone" type="text" name="phone" placeholder="Kontak Koordinator"></li>
 									
-									
-								</li>
-							</ul>
-							<div class="col-md-12 m-0 p-0" style="display: flex; justify-content: space-between; align-items: center;">
-								<div class="price-final">
-									<span>Total <span id="totalPeserta">1</span>Peserta :</span>
-									<div class="price-final-text">Rp. <span id="totalHarga">0</span></div>
+									<li class="pay-method">
+										<div class="col-md-12 mb-2 p-0" style="display: flex; justify-content: space-between; align-items: center;">
+											<h5>List Peserta</h5>
+											<button type="button" class="btn" id="addPeserta"><span>Add Peserta</span></button>
+										</div>
+										<div class="table-container">
+											<table class="custom-table">
+												<thead>
+													<tr>
+														<th>Nama Peserta</th>
+														<th>Jenis Kelamin</th>
+														<th>Tanggal Lahir</th>
+														<th>No KTP</th>
+														<th>No Telepon</th>
+														<th>Hubungan</th>
+														<th>Gol Darah</th>
+														<th>Ukuran Jersey</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+												<tbody id="listPeserta">
+													<tr>
+														<td><input type="text" name="nama[]" placeholder="Nama Peserta" autocomplete="no"></td>
+														<td>
+															<select class="nice-select" id="gender" name="gender[]" autocomplete="no">
+																<option value="">Jenis Kelamin</option>
+																<option value="L" style="font-size: 14px;">Laki-laki</option>
+																<option value="P" style="font-size: 14px;">Perempuan</option>
+															</select>
+														</td>
+														<td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="no"></td>
+														<td><input type="text" name="nik[]" placeholder="No KTP" autocomplete="no"></td>
+														<td><input type="text" name="telp_emergency[]" placeholder="No Telepon" autocomplete="no"></td>
+														<td><input type="text" name="hubungan_emergency[]" placeholder="Hubungan" autocomplete="no"></td>
+														<td>
+															<select class="nice-select" id="blood" name="blood[]" placeholder="Gol Darah" autocomplete="no">
+																<option value="">Gol Darah</option>
+																<option value="A" style="font-size: 14px;">A</option>
+																<option value="B" style="font-size: 14px;">B</option>
+																<option value="AB" style="font-size: 14px;">AB</option>
+																<option value="O" style="font-size: 14px;">O</option>
+															</select>
+														</td>
+														<td>
+															<select class="nice-select" id="jersey" name="jersey[]" placeholder="Ukuran Jersey" autocomplete="no" style="width: 220px !important;">
+																<option value="">Jersey</option>
+																<option value="S" style="font-size: 14px;">S</option>
+																<option value="M" style="font-size: 14px;">M</option>
+																<option value="L" style="font-size: 14px;">L</option>
+																<option value="XL" style="font-size: 14px;">XL</option>
+															</select>
+														</td>
+														<td><button type="button" class="btn" id="removePeserta"><span>X</span></button></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										
+										
+									</li>
+								</ul>
+								<div class="col-md-12 m-0 p-0" style="display: flex; justify-content: space-between; align-items: center;">
+									<div class="price-final">
+										<span>Total <span id="totalPeserta">1</span>Peserta :</span>
+										<div class="price-final-text">Rp. <span id="totalHarga">0</span></div>
+									</div>
+									<div class="btn-form-cover" style="margin-top: 1.5rem; margin-bottom: 1.5rem">
+										<button type="submit" class="btn" id="btn-submit-komunitas"><span>Register</span></button>
+									</div>
 								</div>
-								<div class="btn-form-cover" style="margin-top: 1.5rem; margin-bottom: 1.5rem">
-									<button type="submit" class="btn" id="btn-submit-komunitas"><span>Register</span></button>
-								</div>
-							</div>
-						</form>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-	<!--================ S-BUY-TICKET END ================-->
+		</section>
+		<!--================ S-BUY-TICKET END ================-->
 
 	<!--=================== S-CLIENTS ===================-->
 	<section class="s-clients">

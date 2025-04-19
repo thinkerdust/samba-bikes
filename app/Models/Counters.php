@@ -36,8 +36,7 @@ class Counters extends Model
                     'kode' => $kode,
                     'dates' => $currentDate,
                     'counters' => str_pad($counter, 4, '0', STR_PAD_LEFT),
-                    'insert_at' => now(),
-                    'update_at' => now()
+                    'insert_at' => now()
                 ]);
             } else {
                 $counter = (int)$row->counters + 1;
@@ -45,8 +44,7 @@ class Counters extends Model
                 DB::table('counters')
                     ->where('id', $row->id)
                     ->update([
-                        'counters' => str_pad($counter, 4, '0', STR_PAD_LEFT),
-                        'update_at' => now()
+                        'counters' => str_pad($counter, 4, '0', STR_PAD_LEFT)
                     ]);
             }
 
