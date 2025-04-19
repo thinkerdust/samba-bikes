@@ -119,14 +119,28 @@ class OrderController extends BaseController
             DB::beginTransaction(); 
 
             $id    = $request->id_order;
+            $email = $request->email;
             $user  = Auth::user();
 
             $tanggal_bayar = Carbon::createFromFormat('d/m/Y', $request->tanggal_bayar);
             $tanggal_bayar = $tanggal_bayar->format('Y-m-d');
 
+            $dataEmail = [
+                'nomor_order' => $id,
+            ];
+
             DB::table('order')->where('id', $id)->update(['status' => 2, 'tanggal_bayar' => $tanggal_bayar, 'approve_at' => Carbon::now(), 'approve_by' => $user->id]);
 
             DB::commit();
+
+            try {
+
+                Mail::to($email)->send(new SendEmailPembayaran($dataEmail));
+    
+            } catch (\Throwable $e) {
+                Log::error($e->getMessage());
+            }
+
             return $this->ajaxResponse(true, 'Data berhasil di-konfirmasi');
         } catch (\Exception $e) {   
             Log::error($e->getMessage());

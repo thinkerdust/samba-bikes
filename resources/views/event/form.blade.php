@@ -49,15 +49,45 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <label class="form-label">Lokasi <span class="text-danger">*</span></label>
+                                                        <label class="form-label">Kota <span class="text-danger">*</span></label>
                                                         <div class="form-control-wrap">
-                                                            <input type="text" class="form-control" id="lokasi" name="lokasi" oninput="this.value = this.value.toUpperCase();" placeholder="SEMARANG" required>
+                                                            <input type="text" class="form-control" id="kota" name="kota" oninput="this.value = this.value.toUpperCase();" placeholder="SEMARANG" required>
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label class="form-label">Jarak (KM) <span class="text-danger">*</span></label>
                                                         <div class="form-control-wrap">
                                                             <input type="number" class="form-control" id="jarak" name="jarak" placeholder="50" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label class="form-label">Lokasi / Alamat <span class="text-danger">*</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control" id="lokasi" name="lokasi" placeholder="Jl. Jangli dalam 2, RT.04 RW.05 Kecamatan Semarang Tengah, Semarang, Indonesia" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Tanggal Racepack <span class="text-danger">*</span></label>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control date-picker" id="tanggal_racepack" name="tanggal_racepack" data-date-format="dd/mm/yyyy" placeholder="10/04/2025" readonly required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Jam Mulai Racepack <span class="text-danger">*</span></label>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control text-center" id="jam_mulai_racepack" name="jam_mulai_racepack" placeholder="__:__" maxlength="5" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Jam Selesai Racepack <span class="text-danger">*</span></label>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control text-center" id="jam_selesai_racepack" name="jam_selesai_racepack" placeholder="__:__" maxlength="5" required>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-6">
@@ -161,13 +191,19 @@
                                                             <input type="hidden" id="old_banner1" name="old_banner1">
                                                             <label class="form-file-label" id="label_banner1" for="banner1">Choose file</label>
                                                         </div>
-                                                        <div id="sectionBanner1" class="my-2"></div>
+                                                        <div class="d-flex align-items-center">
+                                                            <a target="_blank" href="{{ asset('assets/images/DEFAULT-LANDING.png') }}" class="btn btn-primary btn-sm me-2">Download Default Banner</a>
+                                                            <div id="sectionBanner1" class="my-2"></div>
+                                                        </div>
                                                     </div>
                                                 </label>
                                                 <div class="form-group">
                                                     <label class="form-label">Tagline Banner 1 <span class="text-danger">*</span></label>
                                                     <div class="form-control-wrap">
                                                         <input type="text" class="form-control" id="tagline_banner1" name="tagline_banner1" placeholder="Feel Your Burn" required>
+                                                        <div class="invalid-feedback">
+                                                            Tagline must be a maximum of 4 words.
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -196,6 +232,9 @@
                                                     <label class="form-label">Tagline Banner 2</label>
                                                     <div class="form-control-wrap">
                                                         <input type="text" class="form-control" id="tagline_banner2" placeholder="Feel Your Muscle" name="tagline_banner2">
+                                                        <div class="invalid-feedback">
+                                                            Tagline must be a maximum of 4 words.
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -224,6 +263,9 @@
                                                     <label class="form-label">Tagline Banner 3</label>
                                                     <div class="form-control-wrap">
                                                         <input type="text" class="form-control" id="tagline_banner3" placeholder="Feel Your Turn" name="tagline_banner3">
+                                                        <div class="invalid-feedback">
+                                                            Tagline must be a maximum of 4 words.
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -281,8 +323,8 @@
                                                     <div class="form-group">
                                                         <label class="form-label">Nama Schedule <span class="text-danger">*</span></label>
                                                         <div class="form-control-wrap">
-                                                            <input type="hidden" class="form-control" id="id_schedule" name="id_schedule">
-                                                            <input type="text" class="form-control" id="nama_schedule" name="nama_schedule" placeholder="Opening Ceremony & Warm-up" required>
+                                                            <input type="hidden" id="id_schedule" name="id_schedule">
+                                                            <input type="text" class="form-control" id="nama_schedule" name="nama_schedule" placeholder="Opening Ceremony & Warm-up">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -290,7 +332,7 @@
                                                     <div class="form-group">
                                                         <label class="form-label">Deskripsi <span class="text-danger">*</span></label>
                                                         <div class="form-control-wrap">
-                                                            <input type="text" class="form-control" id="deskripsi_schedule" name="deskripsi_schedule" placeholder="Kick off the event with an energizing warm-up session, race briefing, and an inspiring welcome speech." required>
+                                                            <input type="text" class="form-control" id="deskripsi_schedule" name="deskripsi_schedule" placeholder="Kick off the event with an energizing warm-up session, race briefing, and an inspiring welcome speech.">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -298,7 +340,7 @@
                                                     <div class="form-group">
                                                         <label class="form-label">Jam <span class="text-danger">*</span></label>
                                                         <div class="form-control-wrap">
-                                                            <input type="text" class="form-control text-center" id="jam_schedule" name="jam_schedule" placeholder="__:__" maxlength="5" required>
+                                                            <input type="text" class="form-control text-center" id="jam_schedule" name="jam_schedule" placeholder="__:__" maxlength="5">
                                                         </div>
                                                     </div>
                                                 </div>

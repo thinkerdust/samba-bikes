@@ -43,6 +43,19 @@ $(document).ready(function() {
             cache: true
         }
     })
+    
+    $('#tagline_banner1, #tagline_banner2, #tagline_banner3').on('input', function () {
+        const value = $(this).val().trim();
+        const wordCount = value.split(/\s+/).filter(word => word.length > 0).length;
+
+        if (wordCount > 4) {
+            $(this).addClass('is-invalid');
+            this.setCustomValidity("Too many words.");
+        } else {
+            $(this).removeClass('is-invalid');
+            this.setCustomValidity("");
+        }
+    });
 
     // ID Event
     let id = $('#id').val();
@@ -58,7 +71,16 @@ $(document).ready(function() {
                     $('#email').val(data.email);
                     $('#nama_rekening').val(data.nama_rekening);
                     $('#nomor_rekening').val(data.nomor_rekening);
+                    $('#kota').val(data.kota);
                     $('#lokasi').val(data.lokasi);
+                    $('#jarak').val(data.jarak);
+                    $('#tanggal_racepack').datepicker('setDate', data.tanggal_racepack);
+                    $('#jam_mulai_racepack').val(data.jam_mulai_racepack);
+                    $('#jam_selesai_racepack').val(data.jam_selesai_racepack);
+                    $('#lat_start').val(data.lat_start);
+                    $('#long_start').val(data.long_start);
+                    $('#lat_end').val(data.lat_end);
+                    $('#long_end').val(data.long_end);
                     $('#tanggal').datepicker('setDate', data.tanggal);
                     $('#deskripsi').val(data.deskripsi);
                     $('#tanggal_mulai_tiket').datepicker('setDate', data.tanggal_mulai);
@@ -75,31 +97,31 @@ $(document).ready(function() {
 
                     if(data.banner1) {
                         $('#preview_image_banner1').attr('src', link_storage+data.banner1);
-                        $('#sectionBanner1').html(`<a target="_blank" href="${link_storage+data.banner1}" class="btn btn-info btn-sm">Link File Banner</a>`);
+                        $('#sectionBanner1').html(`<a target="_blank" href="${link_storage+data.banner1}" class="btn btn-info btn-sm">Download File Banner</a>`);
                         $('#old_banner1').val(data.banner1);
                     }
 
                     if(data.banner2) {
                         $('#preview_image_banner2').attr('src', link_storage+data.banner2);
-                        $('#sectionBanner2').html(`<a target="_blank" href="${link_storage+data.banner2}" class="btn btn-info btn-sm">Link File Banner</a>`);
+                        $('#sectionBanner2').html(`<a target="_blank" href="${link_storage+data.banner2}" class="btn btn-info btn-sm">Download File Banner</a>`);
                         $('#old_banner2').val(data.banner2);
                     }
 
                     if(data.banner3) {
                         $('#preview_image_banner3').attr('src', link_storage+data.banner3);
-                        $('#sectionBanner3').html(`<a target="_blank" href="${link_storage+data.banner3}" class="btn btn-info btn-sm">Link File Banner</a>`);
+                        $('#sectionBanner3').html(`<a target="_blank" href="${link_storage+data.banner3}" class="btn btn-info btn-sm">Download File Banner</a>`);
                         $('#old_banner3').val(data.banner3);
                     }
 
                     if(data.size_chart) {
                         $('#preview_image_size_chart').attr('src', link_storage+data.size_chart);
-                        $('#sectionSizeChart').html(`<a target="_blank" href="${link_storage+data.size_chart}" class="btn btn-info btn-sm">Link File Size Chart</a>`);
+                        $('#sectionSizeChart').html(`<a target="_blank" href="${link_storage+data.size_chart}" class="btn btn-info btn-sm">Download File Size Chart</a>`);
                         $('#old_size_chart').val(data.size_chart);
                     }
 
                     if(data.rute) {
                         $('#preview_image_rute').attr('src', link_storage+data.rute);
-                        $('#sectionRute').html(`<a target="_blank" href="${link_storage+data.rute}" class="btn btn-info btn-sm">Link File Rute</a>`);
+                        $('#sectionRute').html(`<a target="_blank" href="${link_storage+data.rute}" class="btn btn-info btn-sm">Download File Rute</a>`);
                         $('#old_rute').val(data.rute);
                     }
                 }
@@ -114,6 +136,21 @@ $(document).ready(function() {
         e.preventDefault();
         formData = new FormData($(this)[0]);
         var btn = $('#btn-submit');
+
+        // validasi tagline_banner1, 2, 3 harus 3 kata
+        const taglineFields = ['#tagline_banner1', '#tagline_banner2', '#tagline_banner3'];
+        for (const field of taglineFields) {
+            const value = $(field).val().trim();
+
+            if (value) {
+                const wordCount = value.split(' ').filter(word => word.length > 0).length;
+                if (wordCount != 3) {
+                    NioApp.Toast("Tagline harus 3 kata", 'warning', { position: 'top-right' });
+                    $(field).focus();
+                    return false;
+                }
+            }
+        }
 
         $.ajax({
             url : "/admin/event/store",  
@@ -148,7 +185,7 @@ $(document).ready(function() {
         });
     });
 
-    $('#jam_schedule').on('input', function() {
+    $('#jam_schedule, #jam_mulai_racepack, #jam_selesai_racepack').on('input', function() {
         let value = $(this).val().replace(/\D/g, '');
         if (value.length > 4) {
             value = value.slice(0, 4);
@@ -168,6 +205,20 @@ $(document).ready(function() {
         let jam         = $('#jam_schedule').val();
 
         let btn_schedule = $('#btn-submit-event-schedule');
+
+        const fields = [
+            { value: nama, message: 'Nama tidak boleh kosong', selector: '#nama_schedule' },
+            { value: deskripsi, message: 'Deskripsi tidak boleh kosong', selector: '#deskripsi_schedule' },
+            { value: jam, message: 'Jam tidak boleh kosong', selector: '#jam_schedule' }
+        ];
+
+        for (const field of fields) {
+            if (field.value.trim() === '') {
+                NioApp.Toast(field.message, 'warning', { position: 'top-right' });
+                $(field.selector).focus();
+                return false;
+            }
+        }
 
         $.ajax({
             url : "/admin/event/store-schedule",  
@@ -201,6 +252,7 @@ $(document).ready(function() {
             },
             error: function(error) {
                 btn_schedule.attr('disabled', false);
+                btn_schedule.html('Tambah');
                 NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
             }
         });

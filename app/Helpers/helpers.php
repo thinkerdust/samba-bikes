@@ -278,6 +278,25 @@
         }
     }
 
+    if (!function_exists('formatTanggalIndonesia')) {
+        function formatTanggalIndonesia($tanggal, $format = 'EEEE, dd MMMM yyyy')
+        {
+            $timestamp = strtotime($tanggal);
+            if (!$timestamp) return '-';
+    
+            $formatter = new \IntlDateFormatter(
+                'id_ID',
+                \IntlDateFormatter::FULL,
+                \IntlDateFormatter::NONE,
+                'Asia/Jakarta',
+                \IntlDateFormatter::GREGORIAN,
+                $format
+            );
+                
+            return $formatter->format($timestamp);
+        }
+    }
+
     function generateRandomString($length = 16) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);

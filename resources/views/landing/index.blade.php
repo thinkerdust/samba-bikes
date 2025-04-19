@@ -36,7 +36,7 @@
 		</a>
 		<div class="top-panel">
 			<div class="container">
-				<a href="index.html" class="logo"><img src="{{ asset('assets/images/logo-brand-side.png') }}" alt="logo" style="width: 11rem; height: auto;"></a>
+				<a href="#home" class="logo"><img src="{{ asset('assets/images/logo-brand-side.png') }}" alt="logo" style="width: 11rem; height: auto;"></a>
 				<ul class="social-list">
 					<li><a target="_blank" href="https://www.facebook.com/rovadex"><i class="fab fa-facebook-f"></i></a></li>
 					<li><a target="_blank" href="https://twitter.com/RovadexStudio"><i class="fab fa-twitter"></i></a></li>
@@ -50,11 +50,10 @@
 				<div class="header-nav-cover">
 					<nav class="nav-menu menu">
 						<ul class="nav-list">
-							<li><a href="index.html">home</a></li>
+							<li><a href="#home">home</a></li>
 							<li><a href="#about">about</a></li>
 							<li><a href="#schedule">schedule</a></li>
 							<li><a href="#location">location</a></li>
-							<li><a href="#register">register</a></li>
 						</ul>
 					</nav>
 					<a href="#register" class="btn btn-white"><span>registration</span></a>
@@ -67,63 +66,88 @@
 	<!-- ============= MARATHON-SLIDER ============= -->
 	<section class="s-marathon-slider">
 		<div class="marathon-slider">
-			<div class="marathon-slide marathon-slide-1">
-				<div data-hover-only="true" data-pointer-events="true" data-scalar-y="0" class="scene">
-					<div class="scene-item" data-depth="0.2">
-						<span class="marathon-effect" style="background-image: url({{ asset('assets/images/landing/effect-slider-marathon.svg') }});"></span>
-					</div>
-					<div class="scene-item" data-depth="0.2">
-						<img class="marathon-img" src="{{ asset('assets/images/landing/Trial/bicycle.png') }}" alt="img">
-					</div>
-					<div class="scene-item" data-depth="0.5">
-						<div class="slider-location">Surabaya <br>marathon <span class="date">23 feb 2025</span></div>
-					</div>
-					<div class="scene-item" data-depth="0.35">
-						<div class="marathon-text-left">find<br>your</div>
-					</div>
-					<div class="scene-item" data-depth="0.35">
-						<div class="marathon-text-right">Fast</div>
-					</div>
-				</div>
-			</div>
-			<div class="marathon-slide marathon-slide-2">
-				<div data-hover-only="true" data-pointer-events="true" data-scalar-y="0" class="scene">
-					<div class="scene-item" data-depth="0.2">
-						<span class="marathon-effect" style="background-image: url({{ asset('assets/images/landing/effect-slider-marathon.svg') }});"></span>
-					</div>
-					<div class="scene-item" data-depth="0.2">
-						<img class="marathon-img" src="{{ asset('assets/images/landing/Trial/bicycle.png') }}" alt="img">
-					</div>
-					<div class="scene-item" data-depth="0.5">
-						<div class="slider-location">Jakarta <br>marathon <span class="date">25 feb 2025</span></div>
-					</div>
-					<div class="scene-item" data-depth="0.35">
-						<div class="marathon-text-left">live<br>your</div>
-					</div>
-					<div class="scene-item" data-depth="0.35">
-						<div class="marathon-text-right">Life</div>
+				<div class="marathon-slide marathon-slide-1">
+					<div data-hover-only="true" data-pointer-events="true" data-scalar-y="0" class="scene">
+						<div class="scene-item" data-depth="0.2">
+							<span class="marathon-effect" style="background-image: url({{ asset('assets/images/landing/effect-slider-marathon.svg') }});"></span>
+						</div>
+						<div class="scene-item" data-depth="0.2">
+							<img class="marathon-img" src="{{ asset('/storage/uploads/' . $data->banner1) }}" alt="Event Image">
+						</div>
+						<div class="scene-item" data-depth="0.5">
+							<div class="slider-location">{{ $data->kota }} <span class="date">{{ date('d M Y', strtotime($data->tanggal)) }}</span> <br> {{ $data->nama }}</div>
+						</div>
+						@php
+							$tagline1 	= explode(' ', $data->tagline_banner1);
+							$tagline1_1 = $tagline1[0];
+							$tagline1_2 = $tagline1[1];
+							$tagline1_3 = $tagline1[2];
+						@endphp
+						<div class="scene-item" data-depth="0.35">
+							<div class="marathon-text-left">{{ $tagline1_1 }}<br>{{ $tagline1_2 }}</div>
+						</div>
+						<div class="scene-item" data-depth="0.35">
+							<div class="marathon-text-right">{{ $tagline1_3 }}</div>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="marathon-slide marathon-slide-3">
-				<div data-hover-only="true" data-pointer-events="true" data-scalar-y="0" class="scene">
-					<div class="scene-item" data-depth="0.2">
-						<span class="marathon-effect" style="background-image: url({{ asset('assets/images/landing/effect-slider-marathon.svg') }});"></span>
-					</div>
-					<div class="scene-item" data-depth="0.2">
-						<img class="marathon-img" src="{{ asset('assets/images/landing/Trial/bicycle.png') }}" alt="img">
-					</div>
-					<div class="scene-item" data-depth="0.5">
-						<div class="slider-location">Semarang <br>marathon <span class="date">28 feb 2025</span></div>
-					</div>
-					<div class="scene-item" data-depth="0.35">
-						<div class="marathon-text-left">Feel<br>your</div>
-					</div>
-					<div class="scene-item" data-depth="0.35">
-						<div class="marathon-text-right">burn!</div>
+
+			@if ($data->banner2 && $data->tagline_banner2) 
+				<div class="marathon-slide marathon-slide-1">
+					<div data-hover-only="true" data-pointer-events="true" data-scalar-y="0" class="scene">
+						<div class="scene-item" data-depth="0.2">
+							<span class="marathon-effect" style="background-image: url({{ asset('assets/images/landing/effect-slider-marathon.svg') }});"></span>
+						</div>
+						<div class="scene-item" data-depth="0.2">
+							<img class="marathon-img" src="{{ asset('/storage/uploads/' . $data->banner2) }}" alt="Event Image">
+						</div>
+						<div class="scene-item" data-depth="0.5">
+							<div class="slider-location">{{ $data->kota }} <span class="date">{{ date('d M Y', strtotime($data->tanggal)) }}</span> <br> {{ $data->nama }}</div>
+						</div>
+						@php
+							$tagline2 	= explode(' ', $data->tagline_banner2);
+							$tagline2_1 = $tagline2[0];
+							$tagline2_2 = $tagline2[1];
+							$tagline2_3 = $tagline2[2];
+						@endphp
+						<div class="scene-item" data-depth="0.35">
+							<div class="marathon-text-left">{{ $tagline2_1 }}<br>{{ $tagline2_2 }}</div>
+						</div>
+						<div class="scene-item" data-depth="0.35">
+							<div class="marathon-text-right">{{ $tagline2_3 }}</div>
+						</div>
 					</div>
 				</div>
-			</div>
+			@endif
+
+			@if ($data->banner3 && $data->tagline_banner3) 
+				<div class="marathon-slide marathon-slide-1">
+					<div data-hover-only="true" data-pointer-events="true" data-scalar-y="0" class="scene">
+						<div class="scene-item" data-depth="0.2">
+							<span class="marathon-effect" style="background-image: url({{ asset('assets/images/landing/effect-slider-marathon.svg') }});"></span>
+						</div>
+						<div class="scene-item" data-depth="0.2">
+							<img class="marathon-img" src="{{ asset('/storage/uploads/' . $data->banner3) }}" alt="Event Image">
+						</div>
+						<div class="scene-item" data-depth="0.5">
+							<div class="slider-location">{{ $data->kota }} <span class="date">{{ date('d M Y', strtotime($data->tanggal)) }}</span> <br> {{ $data->nama }}</div>
+						</div>
+						@php
+							$tagline3 	= explode(' ', $data->tagline_banner3);
+							$tagline3_1 = $tagline3[0];
+							$tagline3_2 = $tagline3[1];
+							$tagline3_3 = $tagline3[2];
+						@endphp
+						<div class="scene-item" data-depth="0.35">
+							<div class="marathon-text-left">{{ $tagline3_1 }}<br>{{ $tagline3_2 }}</div>
+						</div>
+						<div class="scene-item" data-depth="0.35">
+							<div class="marathon-text-right">{{ $tagline3_3 }}</div>
+						</div>
+					</div>
+				</div>
+			@endif
+
 		</div>
 		<img class="marathon-slider-shape" src="{{ asset('assets/images/landing/slider-home1-shape.svg') }}" alt="shape">
 		<div id="clockdiv" class="clock-timer clock-timer-marathon">
@@ -160,24 +184,24 @@
 				<div class="col-lg-6 our-mission-img">
 					<span>
 						<img class="mission-img-effect-1" src="{{ asset('assets/images/landing/our-mission-2.svg') }}" alt="img">
-						<img class="mission-img rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/our-mission.jpg') }}" alt="img">
+						<img class="mission-img rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/DEFAULT-OUR-MISSION.jpg') }}" alt="img">
 						<img class="mission-img-effect-4" src="{{ asset('assets/images/landing/tringle-gray-little.svg') }}" alt="img">
 					</span>
 				</div>
 				<div class="col-lg-6 our-mission-info">
 					<ul class="mission-meta">
-						<li><i aria-hidden="true" class="fas fa-map-marker-alt"></i>Jakarta</li>
-						<li><i aria-hidden="true" class="fas fa-calendar-alt"></i>28.02.2025</li>
+						<li><i aria-hidden="true" class="fas fa-map-marker-alt"></i>{{ $data->kota }}</li>
+						<li><i aria-hidden="true" class="fas fa-calendar-alt"></i>{{ date('d M Y', strtotime($data->tanggal)) }}</li>
 					</ul>
 					<h4>Pedal Together, Ride Stronger!</h4>
 					<p>At Samba, we bring cyclists together—whether casual riders or competitive athletes—to experience scenic and exciting rides. Cycling is more than a sport; it’s a lifestyle that promotes health, sustainability, and community. Join us and ride towards new adventures!</p>
 					<div class="mission-number-cover">
 						<div class="mission-number-item">
-							<div class="number">2000+</div>
+							<div class="number">100+</div>
 							<span>Participants</span>
 						</div>
 						<div class="mission-number-item">
-							<div class="number">50km</div>
+							<div class="number">{{ $data->jarak }}km</div>
 							<span>ride distance</span>
 						</div>
 					</div>
@@ -223,58 +247,29 @@
 			<h2 class="title"><span>Event schedule</span></h2>
 			<img class="schedule-effect-white"src="{{ asset('assets/images/landing/tringle-white.svg') }}" alt="img">
 			<img class="schedule-effect-yellow"src="{{ asset('assets/images/landing/tringle-yellow-little.svg') }}" alt="img">
-			<div class="row">
+			<div class="row" style="box-shadow: 10px 8px 20px -6px rgba(0, 0, 0, 0.15);">
 				<div class="col-xl-6">
 					<div class="event-schedule-tabs">
-						<div class="event-schedule-item">
-							{{-- <div class="schedule-item-img">
-								<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/event-icon-1.svg') }}" alt="img">
-							</div> --}}
-							<div class="schedule-item-info">
-								<div class="date">9:00 - 11:00</div>
-								<h4>Opening Ceremony & Warm-up</h4>
-								<div class="schedule-info-content" style="display: block;">
-									<p>Kick off the event with an energizing warm-up session, race briefing, and an inspiring welcome speech.</p>
+						
+						@foreach ($schedules as $schedule)
+							<div class="event-schedule-item">
+								<div class="schedule-item-info">
+									<div class="date">{{ $schedule->jam }}</div>
+									<h4>{{ $schedule->nama }}</h4>
+									<div class="schedule-info-content" style="{{ $loop->first ? 'display: block;' : '' }}">
+										<p>{{ $schedule->deskripsi }}</p>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="event-schedule-item">
-							{{-- <div class="schedule-item-img"><img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/event-icon-2.svg') }}" alt="img"></div> --}}
-							<div class="schedule-item-info">
-								<div class="date">11:00 - 13:00</div>
-								<h4>Main Cycling Event</h4>
-								<div class="schedule-info-content">
-									<p>Ride through scenic routes, challenge yourself, and enjoy the thrill of the race with fellow cyclists.</p>
-								</div>
-							</div>
-						</div>
-						<div class="event-schedule-item">
-							{{-- <div class="schedule-item-img"><img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/event-icon-3.svg') }}" alt="img"></div> --}}
-							<div class="schedule-item-info">
-								<div class="date">13:00 - 14:00</div>
-								<h4>Break & Refreshments</h4>
-								<div class="schedule-info-content">
-									<p>Recharge with snacks and drinks while mingling with other participants and sharing experiences.</p>
-								</div>
-							</div>
-						</div>
-						<div class="event-schedule-item">
-							{{-- <div class="schedule-item-img"><img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/event-icon-4.svg') }}" alt="img"></div> --}}
-							<div class="schedule-item-info">
-								<div class="date">14:00 - 15:00</div>
-								<h4>Awards & Closing Ceremony</h4>
-								<div class="schedule-info-content">
-									<p>Celebrate achievements with an award presentation and closing remarks, marking the end of an unforgettable event.</p>
-								</div>
-							</div>
-						</div>
+						@endforeach
+
 					</div>
 				</div>
 				<div class="col-md-6 event-schedule-img">
 					<div class="schedule-img-wrap">
 						<img class="schedule-effect-tringle" src="{{ asset('assets/images/landing/tringle-gray-little.svg') }}" alt="img">
 						<img class="schedule-img-effect" src="{{ asset('assets/images/landing/our-mission-2.svg') }}" alt="img">
-						<img class="schedule-img rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/event-schedule.jpg') }}" alt="img">
+						<img class="schedule-img rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/Trial/celebration-small.png') }}" alt="img">
 					</div>
 				</div>
 			</div>
@@ -291,7 +286,7 @@
 					<span>
 						<img src="{{ asset('assets/images/landing/our-mission-2.svg') }}" alt="img" class="map-img-effect-1">
 						<img src="{{ asset('assets/images/landing/tringle-gray-little.svg') }}" alt="img" class="map-img-effect-2">
-						<img class="rx-lazy map-img" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/map.png') }}" alt="img">
+						<img class="rx-lazy map-img" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('/storage/uploads/' . $data->rute) }}" alt="img">
 					</span>
 				</div>
 				<div class="col-lg-6 map-route-info">
@@ -303,7 +298,7 @@
 						<div class="mission-number-cover">
 							<div class="mission-number-item">
 								<img src="{{ asset('assets/images/landing/map-effect.svg') }}" alt="img" class="map-img-effect">
-								<div class="number">50km</div>
+								<div class="number">{{ $data->jarak }}km</div>
 								<span>Ride distance</span>
 							</div>
 						</div>
@@ -472,207 +467,49 @@
 
 	<!--=================== S-CLIENTS ===================-->
 	<section class="s-clients">
-		<div class="container">
-			<h2 class="title"><span>Sponsors</span></h2>
-			<div class="clients-cover">
-				<div class="client-slide">
-					<div class="client-slide-cover">
-						<img src="{{ asset('assets/images/landing/client-1.svg') }}" alt="img">
-					</div>
-				</div>
-				<div class="client-slide">
-					<div class="client-slide-cover">
-						<img src="{{ asset('assets/images/landing/client-2.svg') }}" alt="img">
-					</div>
-				</div>
-				<div class="client-slide">
-					<div class="client-slide-cover">
-						<img src="{{ asset('assets/images/landing/client-4.svg') }}" alt="img">
-					</div>
-				</div>
-				<div class="client-slide">
-					<div class="client-slide-cover">
-						<img src="{{ asset('assets/images/landing/client-5.svg') }}" alt="img">
-					</div>
-				</div>
-				<div class="client-slide">
-					<div class="client-slide-cover">
-						<img src="{{ asset('assets/images/landing/client-6.svg') }}" alt="img">
-					</div>
+		@if ($sponsors->count() > 0)
+			<div class="container">
+				<h2 class="title"><span>Our Sponsors</span></h2>
+				<div class="clients-cover">
+
+					@foreach ($sponsors as $sponsor)
+						<div class="client-slide">
+							<div class="client-slide-cover">
+								<img src="{{ asset('/storage/uploads/' . $sponsor->filename) }}" alt="img">
+							</div>
+						</div>
+					@endforeach
+					
 				</div>
 			</div>
-		</div>
+		@endif
 	</section>
 	<!--================= S-CLIENTS END =================-->
-
-	<!--================ S-MARATHON-NEWS ================-->
-	{{-- <section id="news" class="s-marathon-news">
-		<div class="container">
-			<h2 class="title"><span>Our news</span></h2>
-			<div class="marathon-news-slider">
-				<div class="marathon-news-slide">
-					<div class="marathon-news-date"><span>March</span>10, 2020</div>
-					<div class="marathon-news-item">
-						<h5><a href="single-blog.html">Sed ut perspiciatis unde omnis iste natus error sit</a></h5>
-						<div class="marathon-post-thumbnail">
-							<a href="single-blog.html"><img src="{{ asset('assets/images/landing/post-1-home-1.jpg') }}" alt="img"></a>
-						</div>
-						<div class="marathon-post-content">
-							<p>Сonsectetur adipiscing elit, sed do eiusmod tempor</p>
-							<div class="marathon-post-meta">
-								<i class="fas fa-comment rxta-dynamic-meta-icon" aria-hidden="true"></i>
-								<a href="blog.html">0 Comment(s)</a>
-							</div>
-							<a href="single-blog.html" class="btn"><span>Read More</span></a>
-						</div>
-					</div>
-				</div>
-				<div class="marathon-news-slide">
-					<div class="marathon-news-date"><span>April</span>15, 2020</div>
-					<div class="marathon-news-item">
-						<h5><a href="single-blog.html">It has survived not only five centuries</a></h5>
-						<div class="marathon-post-thumbnail">
-							<a href="single-blog.html"><img src="{{ asset('assets/images/landing/post-2-home-1.jpg') }}" alt="img"></a>
-						</div>
-						<div class="marathon-post-content">
-							<p>Many desktop publishing packages and web page</p>
-							<div class="marathon-post-meta">
-								<i class="fas fa-comment rxta-dynamic-meta-icon" aria-hidden="true"></i>
-								<a href="blog.html">0 Comment(s)</a>
-							</div>
-							<a href="single-blog.html" class="btn"><span>Read More</span></a>
-						</div>
-					</div>
-				</div>
-				<div class="marathon-news-slide">
-					<div class="marathon-news-date"><span>June</span>25, 2020</div>
-					<div class="marathon-news-item">
-						<h5><a href="single-blog.html">But I must explain to you how all this mistaken idea</a></h5>
-						<div class="marathon-post-thumbnail">
-							<a href="single-blog.html"><img src="{{ asset('assets/images/landing/post-3-home-1.jpg') }}" alt="img"></a>
-						</div>
-						<div class="marathon-post-content">
-							<p>Various versions have evolved over the years</p>
-							<div class="marathon-post-meta">
-								<i class="fas fa-comment rxta-dynamic-meta-icon" aria-hidden="true"></i>
-								<a href="blog.html">0 Comment(s)</a>
-							</div>
-							<a href="single-blog.html" class="btn"><span>Read More</span></a>
-						</div>
-					</div>
-				</div>
-				<div class="marathon-news-slide">
-					<div class="marathon-news-date"><span>September</span>20, 2020</div>
-					<div class="marathon-news-item">
-						<h5><a href="single-blog.html">Nor again is there anyone who loves or pursues</a></h5>
-						<div class="marathon-post-thumbnail">
-							<a href="single-blog.html"><img src="{{ asset('assets/images/landing/post-4-home-1.jpg') }}" alt="img"></a>
-						</div>
-						<div class="marathon-post-content">
-							<p>The point of using Lorem Ipsum is that</p>
-							<div class="marathon-post-meta">
-								<i class="fas fa-comment rxta-dynamic-meta-icon" aria-hidden="true"></i>
-								<a href="blog.html">0 Comment(s)</a>
-							</div>
-							<a href="single-blog.html" class="btn"><span>Read More</span></a>
-						</div>
-					</div>
-				</div>
-				<div class="marathon-news-slide">
-					<div class="marathon-news-date"><span>October</span>10, 2020</div>
-					<div class="marathon-news-item">
-						<h5><a href="single-blog.html">At vero eos et accusamus et iusto odio dignissimos</a></h5>
-						<div class="marathon-post-thumbnail">
-							<a href="single-blog.html"><img src="{{ asset('assets/images/landing/post-5-home-1.jpg') }}" alt="img"></a>
-						</div>
-						<div class="marathon-post-content">
-							<p>All the Lorem Ipsum generators on the Internet</p>
-							<div class="marathon-post-meta">
-								<i class="fas fa-comment rxta-dynamic-meta-icon" aria-hidden="true"></i>
-								<a href="blog.html">0 Comment(s)</a>
-							</div>
-							<a href="single-blog.html" class="btn"><span>Read More</span></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section> --}}
-	<!--============== S-MARATHON-NEWS END ==============-->
 
 	<!--================== S-INSTAGRAM ==================-->
 	<section class="s-instagram">
 		<div class="instagram-cover">
-			<a href="#" class="instagram-item">
-				<ul>
-					<li class="comments">234 <i class="far fa-comment"></i></li>
-					<li class="like">134 <i class="far fa-heart"></i></li>
-				</ul>
-				<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/instagram-1.jpg') }}" alt="img">
-			</a>
-			<a href="#" class="instagram-item">
-				<ul>
-					<li class="comments">222 <i class="far fa-comment"></i></li>
-					<li class="like">118 <i class="far fa-heart"></i></li>
-				</ul>
-				<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/instagram-2.jpg') }}" alt="img">
-			</a>
-			<a href="#" class="instagram-item">
-				<ul>
-					<li class="comments">224 <i class="far fa-comment"></i></li>
-					<li class="like">124 <i class="far fa-heart"></i></li>
-				</ul>
-				<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/instagram-3.jpg') }}" alt="img">
-			</a>
-			<a href="#" class="instagram-item">
-				<ul>
-					<li class="comments">155 <i class="far fa-comment"></i></li>
-					<li class="like">107 <i class="far fa-heart"></i></li>
-				</ul>
-				<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/instagram-4.jpg') }}" alt="img">
-			</a>
-			<a href="#" class="instagram-item">
-				<ul>
-					<li class="comments">350 <i class="far fa-comment"></i></li>
-					<li class="like">140 <i class="far fa-heart"></i></li>
-				</ul>
-				<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/instagram-5.jpg') }}" alt="img">
-			</a>
-			<a href="#" class="instagram-item">
-				<ul>
-					<li class="comments">350 <i class="far fa-comment"></i></li>
-					<li class="like">140 <i class="far fa-heart"></i></li>
-				</ul>
-				<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/instagram-6.jpg') }}" alt="img">
-			</a>
-			<a href="#" class="instagram-item">
-				<ul>
-					<li class="comments">350 <i class="far fa-comment"></i></li>
-					<li class="like">140 <i class="far fa-heart"></i></li>
-				</ul>
-				<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/instagram-7.jpg') }}" alt="img">
-			</a>
-			<a href="#" class="instagram-item">
-				<ul>
-					<li class="comments">350 <i class="far fa-comment"></i></li>
-					<li class="like">140 <i class="far fa-heart"></i></li>
-				</ul>
-				<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/instagram-8.jpg') }}" alt="img">
-			</a>
-			<a href="#" class="instagram-item">
-				<ul>
-					<li class="comments">350 <i class="far fa-comment"></i></li>
-					<li class="like">140 <i class="far fa-heart"></i></li>
-				</ul>
-				<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/instagram-9.jpg') }}" alt="img">
-			</a>
-			<a href="#" class="instagram-item">
-				<ul>
-					<li class="comments">350 <i class="far fa-comment"></i></li>
-					<li class="like">140 <i class="far fa-heart"></i></li>
-				</ul>
-				<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/instagram-10.jpg') }}" alt="img">
-			</a>
+
+			@php
+				$total_images 	= count($images);
+				$sisa 			= 10 - $total_images;
+
+				$default_images = ['DEFAULT-EVENT-1.jpg', 'DEFAULT-EVENT-2.jpg', 'DEFAULT-EVENT-3.jpg', 'DEFAULT-EVENT-4.jpg', 'DEFAULT-EVENT-5.jpg', 'DEFAULT-EVENT-6.jpg', 'DEFAULT-EVENT-7.jpg', 'DEFAULT-EVENT-8.jpg', 'DEFAULT-EVENT-9.jpg', 'DEFAULT-EVENT-10.jpg'];
+				shuffle($default_images); // Randomize the default images
+			@endphp
+
+			@foreach ($images as $image)
+				<a href="#" class="instagram-item">
+					<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('/storage/uploads/' . $image->filename) }}" alt="img">
+				</a>
+			@endforeach
+
+			@for ($index = 0; $index < $sisa; $index++)
+				<a href="#" class="instagram-item">
+					<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/' . $default_images[$index]) }}" alt="img">
+				</a>
+			@endfor
+
 		</div>
 	</section>
 	<!--================ S-INSTAGRAM END ================-->
@@ -680,20 +517,20 @@
 	<!--==================== FOOTER ====================-->
 	<footer>
 		<div class="container">
-			<div class="row">
+			<div class="row justify-content-between">
 				<div class="footer-cont col-12 col-sm-6 col-lg-4">
 					<a href="index.html" class="logo"><img src="{{ asset('assets/images/logo-brand-side-yellow.png') }}" alt="logo" style="width: 11rem; height: auto;"></a>
-					<p>Semarang, Indonesia</p>
+					<p>{{ $data->lokasi }}</p>
 					<ul class="footer-contacts">
 						<li class="footer-phone">
 							<i aria-hidden="true" class="fas fa-phone"></i>
-							<a href="tel:+085875502569">085875502569</a>
+							<a href="tel:{{ $data->phone }}">{{ $data->phone }}</a>
 						</li>
 						<li class="footer-email">
-							<a href="mailto:samba@gmail.com">samba@gmail.com</a>
+							<a href="mailto:{{ $data->email }}">{{ $data->email }}</a>
 						</li>
 					</ul>
-					<div class="footer-copyright"><a target="_blank" href="https://samba.com">Samba</a> © 2025. All Rights Reserved.</div>
+					<div class="footer-copyright"><a target="_blank" href="https://sambabikes.com">Samba Bikes</a> © 2025. All Rights Reserved.</div>
 				</div>
 				<div class="footer-item-link col-12 col-sm-6 col-lg-4">
 					<div class="footer-link">
@@ -801,6 +638,55 @@
 	<script src="{{ asset('assets/js/apps/landing/scripts.js') }}"></script>
 
 	<script src="{{ asset('assets/js/apps/landing/landing.js') }}"></script>
+
+	<script>
+		if( $( '#clockdiv' )[0] ){
+			function getTimeRemaining(endtime) {
+				var t = Date.parse(endtime) - Date.parse(new Date());
+				var seconds = Math.floor((t / 1000) % 60);
+				var minutes = Math.floor((t / 1000 / 60) % 60);
+				var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+				var days = Math.floor(t / (1000 * 60 * 60 * 24));
+				return {
+					'total': t,
+					'days': days,
+					'hours': hours,
+					'minutes': minutes,
+					'seconds': seconds
+				};
+			}
+
+			function initializeClock(id, endtime) {
+				var clock = document.getElementById(id);
+				var daysSpan = clock.querySelector('.days');
+				var hoursSpan = clock.querySelector('.hours');
+				var minutesSpan = clock.querySelector('.minutes');
+				var secondsSpan = clock.querySelector('.seconds');
+
+				function updateClock() {
+					var t = getTimeRemaining(endtime);
+
+					if (t.total <= 0) {
+						daysSpan.innerHTML = '0';
+						hoursSpan.innerHTML = '00';
+						minutesSpan.innerHTML = '00';
+						secondsSpan.innerHTML = '00';
+						clearInterval(timeinterval);
+					} else {
+						daysSpan.innerHTML = t.days;
+						hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+						minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+						secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+					}
+				}
+
+				updateClock();
+				var timeinterval = setInterval(updateClock, 1000);
+			}
+
+			initializeClock('clockdiv', "{{ $data->tanggal }}");
+		}
+	</script>
 
 </body>
 </html>
