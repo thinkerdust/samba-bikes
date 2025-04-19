@@ -16,8 +16,12 @@ return new class extends Migration
             $table->string('nama');
             $table->date('tanggal');
             $table->text('deskripsi')->nullable();
-            $table->string('lokasi');
+            $table->string('kota');
+            $table->text('lokasi');
             $table->unsignedInteger('jarak')->comment('kilometer');
+            $table->date('tanggal_racepack');
+            $table->time('jam_mulai_racepack');
+            $table->time('jam_selesai_racepack');
             $table->string('lat_start');
             $table->string('long_start');
             $table->string('lat_end');

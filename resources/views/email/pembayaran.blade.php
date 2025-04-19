@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="x-apple-disable-message-reformatting">
     <title></title>
-    
+
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,600" rel="stylesheet" type="text/css">
     <!-- Web Font / @font-face : BEGIN -->
     <!--[if mso]>
@@ -82,6 +82,7 @@
                             <tr>
                                 <td style="text-align:center;padding-bottom:25px">
                                     <img style="height: 40px;" src="https://dev.sambabikes.com/public/assets/images/logo-brand-side-yellow.png" alt="logo">
+
                                     <p style="font-size: 16px; padding-top: 12px;"><strong>Selamat Datang di {{ $data[0]->nama_event }}.</strong></p>
                                 </td>
                             </tr>
@@ -93,8 +94,9 @@
 
                                 <td style="padding: 30px 30px 20px">
                                     <p style="margin-bottom: 10px;"><strong>Hi Bikers</strong>,</p>
-                                    <p style="margin-bottom: 10px;">Terima kasih Anda telah melakukan pendaftaran {{ $data[0]->nama_event }}, untuk menyelesaikan pendaftaran silahkan melakukan pembayaran dalam waktu 24 Jam setelah email ini dikirimkan.                                    </p>
-                                    <p style="margin-bottom: 10px;">Data registrasi akan otomatis dihapus oleh sistem setelah 24 jam jika tidak terdapat pembayaran / melakukan konfirmasi pembayaran dalam batas waktu tersebut.</p>
+                                    <p style="margin-bottom: 10px;">Selamat Anda Terdaftar di {{ $data[0]->nama_event }}.</p>
+                                    <p style="margin-bottom: 10px;">Email ini adalah pemberitahuan bahwa registrasi yang Anda lakukan sebelumnya sudah selesai, dan Anda sudah terdaftar sebagai peserta {{ $data[0]->nama_event }}.</p>
+                                    <p style="margin-bottom: 10px;">Anda wajib MENCETAK ataupun MENUNJUKKAN email undangan pengambilan paket lomba ini kepada petugas di lokasi. Bawa identitas resmi Anda (KTP / KITAS / Paspor).</p>
                                     <p style="margin-bottom: 15px;">Berikut data pendaftaran Anda :</p>
                                 
                                     <table style="width:100%;max-width:620px;margin:0;background-color:#ffffff;border-collapse: collapse; border: 1px solid #ccc;">
@@ -114,6 +116,7 @@
                                         </tbody>
                                     </table>
 
+
                                     <p style="margin-bottom: 15px; margin-top: 15px;">Detail Tagihan :</p>                                    
                                     <table style="width:100%;max-width:620px;margin-left:0;background-color:#ffffff;border-collapse: collapse;border: 1px solid #555;">
                                         <tbody>
@@ -131,17 +134,27 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                
-                                    <p style="margin-bottom: 15px; margin-top: 15px;">Harap melakukan pembayaran dengan nominal yang sesuai dengan tagihan (dengan angka unik). Pembayaran bisa dilakukan melalui rekening berikut :</p>
-                                
-                                    <p style="text-align: center;"><strong>Nama Bank : {{ $data[0]->bank }}</strong></p>
-                                    <p style="text-align: center;"><strong>Nomor Rekening : {{ $data[0]->nomor_rekening }}</strong></p>
-                                    <p style="text-align: center;"><strong>Atas Nama : {{ $data[0]->nama_rekening }}</strong></p>
 
-                                    <p style="margin-bottom: 15px; margin-top: 15px;">Setelah melakukan pembayaran lakukan konfirmasi melalui whatsapp ke nomor {{ $data[0]->phone }}. Hanya menerima pesan Whatsapp (WA), tidak menerima SMS atau Telepon</p>
+                                    <p style="margin-bottom: 10px; margin-top: 15px;"><strong>Pengambilan Race Pack :</strong></p>
+                                    @php
+                                        $tanggal_racepack   = formatTanggalIndonesia($data[0]->tanggal_racepack);
+                                        $tanggal_event      = formatTanggalIndonesia($data[0]->tanggal);
+                                    @endphp
+                                    <ul>
+                                        <li style="margin-left: 15px;">{{ $tanggal_racepack }}, Jam {{ $data[0]->jam_mulai_racepack }} - {{ $data[0]->jam_selesai_racepack }}</li>
+                                        <li style="margin-left: 15px;">Tempat : {{ $data[0]->lokasi }}</li>
+                                    </ul>
+
+                                    <p style="margin-bottom: 10px; margin-top: 15px;"><strong>Info Jadwal :</strong></p>
+                                    <ul>
+                                        <li style="margin-left: 15px;">{{ $tanggal_event }} di {{ $data[0]->lokasi }}</li>
+                                    </ul>
+
+                                    <p style="margin-bottom: 10px; margin-top: 20px;">Kami tunggu kedatangan Anda di Event Semarang Great Sale 2025.</p>
                                 </td>
                             </tr>
                         </tbody>
+
                     </table>
 
                     <table style="width:100%;max-width:620px;margin:0 auto; background: #1e1e1e; color: white;" cellpadding="0" cellspacing="0" role="presentation">
@@ -156,6 +169,7 @@
                             </td>
                         </tr>
                     </table>
+
                 </td>
             </tr>
         </table>

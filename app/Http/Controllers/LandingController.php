@@ -12,11 +12,12 @@ use App\Models\Counters;
 use App\Models\Peserta;
 use DB;
 use Carbon\Carbon;
-use App\Mail\SendEmail;
+use App\Mail\SendEmailRegistrasi;
+use App\Mail\SendEmailPembayaran;
 
 class LandingController extends BaseController {
 
-    protected $counter;
+    protected $counters;
     protected $peserta;
 
     function __construct(Counters $counters, Peserta $peserta) {
@@ -25,8 +26,13 @@ class LandingController extends BaseController {
     }
 
     public function index() {
-        $js = 'assets/js/apps/landing/landing.js?_='.rand();
-        return view('landing.index', compact('js'));
+        $js         = 'assets/js/apps/landing/landing.js?_='.rand();
+        $data       = DB::table('event')->orderBy('tanggal', 'desc')->orderBy('status', 'desc')->first();
+        $schedules  = DB::table('event_schedule')->where('id_event', $data->id)->orderBy('jam', 'asc')->get();
+        $images     = DB::table('event_images')->where('id_event', $data->id)->get();
+        $sponsors   = DB::table('sponsor')->where('id_event', $data->id)->get();
+
+        return view('landing.index', compact('js', 'data', 'schedules', 'images', 'sponsors'));
     }
 
     public function get_harga(Request $request) {
@@ -77,7 +83,8 @@ class LandingController extends BaseController {
             $kode_unik = mt_rand(100, 999);
 
             $dataEmail = [
-                'event' => $event->nama
+                'nomor_order'   => $nomor_order,
+                'event'         => $event->nama,
             ];
 
             $dataOrder = [
@@ -177,10 +184,9 @@ class LandingController extends BaseController {
                     'nomor_order'   => $nomor_order,
                     'id_peserta'    => $id_peserta,
                 ];
-                $recepientMail = $request->email;
-                $dataEmail['nama'] = $request->nama;
-                $dataEmail['email'] = $request->email;
-                $dataEmail['phone'] = $request->phone;
+
+                $recepientMail      = $request->email;
+
             } else {
                 $validator = Validator::make($request->all(), [
                     'nama_komunitas'        => 'required',
@@ -211,10 +217,8 @@ class LandingController extends BaseController {
                 ];
 
                 $id_komunitas = DB::table('komunitas')->insertGetId($dataKomunitas);
-                $recepientMail = $request->email;
-                $dataEmail['nama'] = $request->nama_komunitas;
-                $dataEmail['email'] = $request->email;
-                $dataEmail['phone'] = $request->phone;
+
+                $recepientMail      = $request->email;
 
                 foreach ($request->nama as $key => $nama) {
                     $nik = $request->nik[$key];
@@ -277,21 +281,13 @@ class LandingController extends BaseController {
             DB::table('order')->insert($dataOrder);
             DB::table('order_detail')->insert($dataOrderDetail);
 
-            Mail::to($recepientMail)->send(new RegistrationMail($dataEmail));
-
             DB::commit();
 
             try {
-                $data = [
-                    'nomor_order' => $nomor_order,
-                    'event'       => $event->nama,
-                    'total'       => number_format($dataOrder['total'], 0, ',', '.'),
-                    'jumlah'      => $dataOrder['jumlah'],
-                    'email'       => $request->email,
-                ];
 
-                Mail::to($request->email)->send(new SendEmail($data));    
-            } catch (\Exception $e) {
+                Mail::to($recepientMail)->send(new SendEmailRegistrasi($dataEmail));
+    
+            } catch (\Throwable $e) {
                 Log::error($e->getMessage());
             }
 
@@ -303,4 +299,37 @@ class LandingController extends BaseController {
         }
     }
     
+    public function testEmailRegistrasi() {
+        try {
+
+            $recepientMail = 'okvadimas@gmail.com';
+
+            $dataEmail = [
+                'nomor_order'   => 'ORD/250601/0001',
+                'event'         => 'Event Test Registrasi',
+            ];
+    
+            Mail::to($recepientMail)->send(new SendEmailRegistrasi($dataEmail));
+    
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
+    public function testEmailPembayaran() {
+        try {
+
+            $recepientMail = 'okvadimas@gmail.com';
+
+            $dataEmail = [
+                'nomor_order'   => 'ORD/250601/0001',
+                'event'         => 'Event Test Pembayaran',
+            ];
+    
+            Mail::to($recepientMail)->send(new SendEmailPembayaran($dataEmail));
+    
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
 }

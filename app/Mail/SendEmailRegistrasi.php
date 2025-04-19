@@ -8,53 +8,44 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Event;
-use App\Models\Order;
+use DB;
 
 class SendEmailRegistrasi extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $id_event;
-    public $nama_event;
-    public $id_peserta; 
-    public $nomor_order;
+    public $participant;
 
-    public function __construct($id_event, $nama_event, $id_peserta, $nomor_order)
+    /**
+     * Create a new message instance.
+     */
+    public function __construct($participant)
     {
-        $this->id_event     = $id_event;
-        $this->nama_event   = $nama_event;
-        $this->id_peserta   = [$id_peserta]; 
-        $this->nomor_order  = $nomor_order;
+        $this->participant = $participant;
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Registrasi ' . $this->nama_event,
+            subject: 'Registrasi ' . $this->participant['event'],
         );
     }
 
     public function content(): Content
     {
-
-        $data_event     = Event::where('id', $this->id_event)->select('phone', 'bank', 'nama_rekening', 'nomor_rekening')->first();
-        $data_order     = Order::where('id', $this->nomor_order)->select('nomor_order', 'total')->first();
-        $data_peserta   = Peserta::where('id', $this->id_event)->select('phone', 'bank', 'nama_rekening', 'nomor_rekening')->first();
+        $data = DB::table('order')
+                ->join('order_detail as detail', 'order.nomor', '=', 'detail.nomor_order')
+                ->join('event', 'order.id_event', '=', 'event.id')
+                ->join('peserta', 'peserta.id', '=', 'detail.id_peserta')
+                ->where('order.nomor', $this->participant['nomor_order'])
+                ->select('peserta.nama as nama_peserta', 'peserta.size_jersey', 'order.nomor as nomor_order', 'order.total', 'event.nama as nama_event', 'event.phone', 'event.bank', 'event.nama_rekening', 'event.nomor_rekening')
+                ->get();
 
         return new Content(
             view: 'email.registrasi',
             with: [
-                'event'             => $data_event->nama,
-                'nama'              => $data_peserta->nama,
-                'jersey'            => $data_peserta->size_jersey,
-                'nomor_order'       => $this->nomor_order,
-                'total'             => $data_order->total,
-                'phone'             => $data_event->phone,
-                'bank'              => $data_event->bank,
-                'nama_rekening'     => $data_event->nama_rekening,
-                'nomor_rekening'    => $data_event->nomor_rekening,
-            ],
+                'data' => $data
+            ]
         );
     }
 

@@ -19,6 +19,10 @@ Route::get('/get-harga', [LandingController::class, 'get_harga'])->name('get-har
 Route::post('/register-peserta', [LandingController::class, 'register_peserta'])->name('register-peserta');
 Route::post('/check-peserta', [LandingController::class, 'check_peserta'])->name('check-peserta');
 
+// test email
+Route::get('/test-email-registrasi', [LandingController::class, 'testEmailRegistrasi']);
+Route::get('/test-email-pembayaran', [LandingController::class, 'testEmailPembayaran']);
+
 
 Route::get('/admin', function() {
     return redirect('login');
