@@ -254,7 +254,7 @@
 						@foreach ($schedules as $schedule)
 							<div class="event-schedule-item">
 								<div class="schedule-item-info">
-									<div class="date">{{ $schedule->jam }}</div>
+									<div class="date">{{ date('H:i', strtotime($schedule->jam)) }}</div>
 									<h4>{{ $schedule->nama }}</h4>
 									<div class="schedule-info-content" style="{{ $loop->first ? 'display: block;' : '' }}">
 										<p>{{ $schedule->deskripsi }}</p>

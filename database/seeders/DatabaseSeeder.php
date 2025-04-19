@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             BankSeeder::class,
             SizeChartSeeder::class,
             EventSeeder::class,
+            EventScheduleSeeder::class,
             KomunitasSeeder::class,
             PesertaSeeder::class,
             OrderSeeder::class,
