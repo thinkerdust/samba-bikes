@@ -8709,7 +8709,7 @@ body.modal {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000035960}}
   footer {
-    padding: 100px 0; }
+    padding: 100px 0 0; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000035963}}
   .footer-cont {
@@ -9039,5 +9039,9 @@ body.modal {
 @media (max-width: 575px) {
   .btn-register-personal, .btn-register-komunitas {
     font-size: 12px;
+  }
+
+  .footer-subscribe {
+    display: none;
   }
 }
