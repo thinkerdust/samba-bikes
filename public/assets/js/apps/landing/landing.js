@@ -117,7 +117,15 @@ $(document).ready(function() {
                 <td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="no"></td>
                 <td><input type="text" name="nik[]" placeholder="No KTP"></td>
                 <td><input type="text" name="telp_emergency[]" placeholder="No Telepon"></td>
-                <td><input type="text" name="hubungan_emergency[]" placeholder="Hubungan"></td>
+                <td>
+                    <select class="nice-select" id="hubungan_emergency[]" name="hubungan_emergency[]" placeholder="Hub Kontak Darurat" autocomplete="no" required>
+                        <option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
+                        <option value="SAUDARA" style="font-size: 14px;">Saudara</option>
+                        <option value="ORANG TUA" style="font-size: 14px;">Orang Tua</option>
+                        <option value="SUAMI/ISTRI" style="font-size: 14px;">Suami/Istri</option>
+                        <option value="ANAK" style="font-size: 14px;">Anak</option>
+                    </select>
+                </td>
                 <td>
                     <select class="nice-select" id="blood" name="blood[]" placeholder="Gol Darah" autocomplete="no" style="z-index: 0; padding: 15px 0; color: #aaa;">
                         <option value="">Gol Darah</option>
@@ -205,7 +213,9 @@ $('#registerPersonal').submit(function(e) {
             btn.attr('disabled', false);
             btn.html('Register');
             console.log(error);
-            NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+
+            let modal = $("#modalError");
+            modal.css("display", "flex").animate({ opacity: 1 }, 10);
         }
     });
 });
@@ -261,7 +271,9 @@ $('#registerKomunitas').submit(function(e) {
             btn.attr('disabled', false);
             btn.html('Register');
             console.log(error);
-            NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+
+            let modal = $("#modalError");
+            modal.css("display", "flex").animate({ opacity: 1 }, 10);
         }
     });
 
@@ -293,6 +305,9 @@ function processRegisterPersonal() {
             console.log(error);
             btn.attr('disabled', false);
             btn.html('Register');
+
+            let modal = $("#modalError");
+            modal.css("display", "flex").animate({ opacity: 1 }, 10);
         }
     });
 }
@@ -323,6 +338,9 @@ function processRegisterKomunitas() {
             console.log(error);
             btn.attr('disabled', false);
             btn.html('Register');
+
+            let modal = $("#modalError");
+            modal.css("display", "flex").animate({ opacity: 1 }, 10);
         }
     });
 }

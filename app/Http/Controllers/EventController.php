@@ -47,9 +47,13 @@ class EventController extends BaseController
             ->addColumn('action', function($row) {
                 $btn = '';
                 if(Gate::allows('crudAccess', 'EVENT', $row)) {
-                    $release = '';
+
+                    $release    = '';
+                    $delete     = '';
+                    
                     if($row->status != 2 && $row->status != 0) {
-                        $release = '<li><a class="btn" onclick="release(' . $row->id . ')"><em class="icon ni ni-send"></em><span>Release</span></a></li>';
+                        $release    = '<li><a class="btn" onclick="release(' . $row->id . ')"><em class="icon ni ni-send"></em><span>Release</span></a></li>';
+                        $delete     = '<li><a class="btn" onclick="hapus(\'' . $row->id . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>';
                     }
 
                     $btn = '<div class="drodown">
@@ -59,7 +63,7 @@ class EventController extends BaseController
                                         '.$release.'
                                         <li><a class="btn" onclick="detail(\'' . $row->id . '\')"><em class="icon ni ni-eye"></em><span>Detail</span></a></li>
                                         <li><a href="/admin/event/form/'.$row->id.'" class="btn"><em class="icon ni ni-edit"></em><span>Edit</span></a></li>
-                                        <li><a class="btn" onclick="hapus(\'' . $row->id . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>
+                                        '.$delete.'
                                     </ul>
                                 </div>
                             </div>';
@@ -140,6 +144,10 @@ class EventController extends BaseController
                 'tanggal_selesai'   => Carbon::createFromFormat('d/m/Y', $request->tanggal_selesai_tiket)->format('Y-m-d'),
                 'harga'             => $harga,
                 'stok'              => $stok,
+                'facebook'          => $request->facebook,
+                'twitter'           => $request->twitter,
+                'instagram'         => $request->instagram,
+                'youtube'           => $request->youtube,
                 'tagline_banner1'   => $request->tagline_banner1,
                 'tagline_banner2'   => $request->tagline_banner2,
                 'tagline_banner3'   => $request->tagline_banner3,
