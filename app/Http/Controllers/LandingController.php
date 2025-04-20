@@ -29,7 +29,7 @@ class LandingController extends BaseController
 
     public function index() {
         $js         = 'assets/js/apps/landing/landing.js?_='.rand();
-        $data       = DB::table('event')->orderBy('tanggal', 'desc')->orderBy('status', 'desc')->first();
+        $data       = DB::table('event')->where('status', 2)->first();
         $schedules  = DB::table('event_schedule')->where('id_event', $data->id)->orderBy('jam', 'asc')->get();
         $images     = DB::table('event_images')->where('id_event', $data->id)->get();
         $sponsors   = DB::table('sponsor')->where('id_event', $data->id)->get();
@@ -39,7 +39,7 @@ class LandingController extends BaseController
 
     public function get_harga(Request $request) 
     {
-        $data = DB::table('event')->where('status', 1)->first();
+        $data = DB::table('event')->where('status', 2)->first();
         return response()->json($data);
     }
 

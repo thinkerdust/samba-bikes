@@ -43,6 +43,12 @@ return new class extends Migration
             $table->string('tagline_banner3')->nullable();
             $table->text('size_chart')->nullable();
             $table->text('rute')->nullable();
+
+            $table->string('facebook')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('youtube')->nullable();
+
             $table->tinyInteger('status')->unsigned()->default(1)->comment("0: non-aktif; 1: aktif; 2: release");
 
             $table->dateTime('insert_at')->useCurrent();

@@ -87,6 +87,12 @@ $(document).ready(function() {
                     $('#tanggal_selesai_tiket').datepicker('setDate', data.tanggal_selesai);
                     $('#harga').val(thousandView(data.harga));
                     $('#stok').val(thousandView(data.stok));
+
+                    $('#facebook').val(data.facebook);
+                    $('#instagram').val(data.instagram);
+                    $('#twitter').val(data.twitter);
+                    $('#youtube').val(data.youtube);
+
                     $("#bank").empty().append(`<option value="${data.bank}">${data.bank}</option>`).val(data.bank).trigger('change');
 
                     $('#tagline_banner1').val(data.tagline_banner1);

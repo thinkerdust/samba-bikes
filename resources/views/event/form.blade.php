@@ -171,6 +171,35 @@
                                         </div>
 
                                         <hr class="preview-hr">
+                                        <h3>Sosial Media</h3>
+                                        <div class="row gy-4">
+                                            <div class="form-group col-md-3">
+                                                <label class="form-label">Facebook</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="facebook" name="facebook" placeholder="Isi Akun Facebook">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="form-label">Twitter</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="twitter" name="twitter" placeholder="Isi Akun Twitter">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="form-label">Instagram</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="instagram" name="instagram" placeholder="Isi Akun Instagram">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="form-label">Youtube</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="youtube" name="youtube" placeholder="Isi Akun Youtube">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr class="preview-hr">
                                         <h3>Assets</h3>
                                         <div class="row gy-4">
                                             <div class="col-md-4">
@@ -191,7 +220,7 @@
                                                             <input type="hidden" id="old_banner1" name="old_banner1">
                                                             <label class="form-file-label" id="label_banner1" for="banner1">Choose file</label>
                                                         </div>
-                                                        <div class="d-flex align-items-center">
+                                                        <div class="d-flex align-items-center my-2">
                                                             <a target="_blank" href="{{ asset('assets/images/DEFAULT-LANDING.png') }}" class="btn btn-primary btn-sm me-2">Download Default Banner</a>
                                                             <div id="sectionBanner1" class="my-2"></div>
                                                         </div>

@@ -2,8 +2,8 @@
 	<meta charset="UTF-8">
 	<title>Samba Bikes</title>
 	<!-- =================== META =================== -->
-	<meta name="keywords" content="">
-	<meta name="description" content="">
+	<meta name="keywords" content="Samba Cycling Event, bike event Indonesia, cycling race 2025, road bike challenge, fun ride, community cycling, bike festival 2025, bike event, cycling race, bike ride, bicycle competition, outdoor cycling, community bike ride, cycling festival, road bike event, mountain biking, group cycling event">
+	<meta name="description" content="A fun and thrilling bike event for all ages! Enjoy group rides, challenges, and outdoor excitement with fellow cycling enthusiasts.">
 	<meta name="format-detection" content="telephone=no">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
@@ -15,6 +15,7 @@
 	<link href="https://use.fontawesome.com/releases/v5.10.1/css/all.css" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('assets/css/landing/nice-select.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/css/landing/style.css') }}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body id="home">
 	<!-- =============== PRELOADER =============== -->
@@ -38,10 +39,18 @@
 			<div class="container">
 				<a href="#home" class="logo"><img src="{{ asset('assets/images/logo-brand-side.png') }}" alt="logo" style="width: 11rem; height: auto;"></a>
 				<ul class="social-list">
-					<li><a target="_blank" href="https://www.facebook.com/rovadex"><i class="fab fa-facebook-f"></i></a></li>
-					<li><a target="_blank" href="https://twitter.com/RovadexStudio"><i class="fab fa-twitter"></i></a></li>
-					<li><a target="_blank" href="https://www.instagram.com/rovadex"><i class="fab fa-instagram"></i></a></li>
-					<li><a target="_blank" href="https://www.youtube.com"><i class="fab fa-youtube"></i></a></li>
+					@if ($data->instagram)
+						<li><a target="_blank" href="{{ $data->instagram }}"><i class="fab fa-instagram"></i></a></li>
+					@endif
+					@if ($data->facebook)
+						<li><a target="_blank" href="{{ $data->facebook }}"><i class="fab fa-facebook-f"></i></a></li>
+					@endif
+					@if ($data->twitter)
+						<li><a target="_blank" href="{{ $data->twitter }}"><i class="fab fa-twitter"></i></a></li>
+					@endif
+					@if ($data->youtube)
+						<li><a target="_blank" href="{{ $data->youtube }}"><i class="fab fa-youtube"></i></a></li>
+					@endif
 				</ul>
 			</div>
 		</div>
@@ -56,7 +65,7 @@
 							<li><a href="#location">location</a></li>
 						</ul>
 					</nav>
-					<a href="#register" class="btn btn-white"><span>registration</span></a>
+					<a href="#register" id="registration-navbar" class="btn btn-white"><span>registration</span></a>
 				</div>
 			</div>
 		</div>
@@ -302,6 +311,9 @@
 								<span>Ride distance</span>
 							</div>
 						</div>
+						@if($data->lat_start && $data->long_start && $data->lat_end && $data->long_end)
+							<a class="btn mt-3" href="https://www.google.com/maps/dir/?api=1&origin={{ $data->lat_start }},{{ $data->long_start }}&destination={{ $data->lat_end }},{{ $data->long_end }}" target="_blank"><span>Open in Google Maps</span></a>
+						@endif
 					</div>
 				</div>
 			</div>
@@ -309,12 +321,19 @@
 	</section>
 	<!-- ============= MAP-WITH-ROUTE END ============= -->
 
-	<!-- ============= MAP-WITH-ROUTE END ============= -->
+	<section class="type-register" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+		<div class="container" style="display: flex; justify-content: center; gap: 1rem; backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.5); padding: 2rem; margin: 2rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+			<button type="button" class="btn btn-register-personal"><span>Register as Personal</span></button>
+			<button type="button" class="btn btn-register-komunitas"><span>Register as Komunitas</span></button>
+		</div>
+	</section>
+
+	<!-- ============= PERSONAL ============= -->
 	<section id="register" class="s-marathon-register">
 		<img src="{{ asset('assets/images/landing/tringle-gray-little.svg') }}" alt="img" class="register-img-effect-2">
 		<div class="container">
 			<div class="marathon-register-row">
-				<img src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/Trial/celebration.png') }}" alt="img" class="register-img rx-lazy">
+				<img src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('/storage/uploads/' . $data->size_chart) }}" alt="img" class="register-img rx-lazy">
 					<div class="marathon-register">
 						<img src="{{ asset('assets/images/landing/our-mission-2.svg') }}" alt="img" class="register-img-effect-1">
 						<h2 class="title"><span>Register as Personal</span></h2>
@@ -343,10 +362,18 @@
 								</li>
 								<li class="inp-cover" style="z-index: 0"><input id="nik" type="text" name="nik" placeholder="No Tanda Pengenal" autocomplete="no" required></li>
 								<li class="inp-cover" style="z-index: 0"><input id="telp_emergency" type="text" name=" telp_emergency" placeholder="No Kontak Darurat" autocomplete="no" required></li>
-								<li class="inp-cover" style="z-index: 0"><input id="hubungan_emergency" type="text" name="hubungan_emergency" placeholder="Hub Kontak Darurat" autocomplete="no" required></li>
+								<li class="inp-cover">
+									<select class="nice-select" id="hubungan_emergency" name="hubungan_emergency" placeholder="Hub Kontak Darurat" autocomplete="no" required>
+										<option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
+										<option value="SAUDARA" style="font-size: 14px;">Saudara</option>
+										<option value="ORANG TUA" style="font-size: 14px;">Orang Tua</option>
+										<option value="SUAMI/ISTRI" style="font-size: 14px;">Suami/Istri</option>
+										<option value="ANAK" style="font-size: 14px;">Anak</option>
+									</select>
+								</li>
 								<li class="inp-cover" style="z-index: 0"><input id="kota" type="text" name="kota" placeholder="Kota" autocomplete="no" required></li>
-								<li class="inp-cover"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas" autocomplete="no"></li>
-								<li class="inp-cover" style="width: 100%"><input id="alamat" type="text" name="alamat" placeholder="Alamat" autocomplete="no" required></li>
+								<li class="inp-cover" style="z-index: 0"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas" autocomplete="no"></li>
+								<li class="inp-cover" style="width: 100%; z-index: 0;"><input id="alamat" type="text" name="alamat" placeholder="Alamat" autocomplete="no" required></li>
 								<li class="inp-cover" style="width: 100%">
 									<select class="nice-select" id="jersey" name="jersey" autocomplete="no" required>
 										<option value="">Jersey</option>
@@ -362,111 +389,121 @@
 							</div>
 						</form>
 					</div>
+				</div>
 			</div>
+
 		</div>
 	</section>
-	<!-- ============= MAP-WITH-ROUTE END ============= -->
+	<!-- ============= PERSONAL ============= -->
 
-		<!--================== S-BUY-TICKET ==================-->
-		<section id="register" class="s-buy-ticket dance-buy-ticket" style="background-image: url(assets/img/effect-form-dance.svg);">
-			<div class="container">
-				<div class="title-cover">
-					<span class="dance-slogan">Daftarkan Komunitas Anda</span>
-					<h2 class="dance-title">Register as Komunitas</h2>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="buy-ticket-form">
-							<form id='registerKomunitas'>
-								@csrf
-								<h5>Informasi Komunitas</h5>
-								<ul class="form-cover">
-									<li class="inp-cover inp-name" style="width: 100%"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas"></li>
-									<li class="inp-cover inp-name"><input id="koordinator" type="text" name="koordinator" placeholder="Nama Koordinator"></li>
-									<li class="inp-cover inp-name"><input id="email" type="email" name="email" placeholder="Email Koordinator"></li>
-									<li class="inp-cover inp-name"><input id="kota" type="text" name="kota" placeholder="Kota Komunitas"></li>
-									<li class="inp-cover inp-name"><input id="phone" type="text" name="phone" placeholder="Kontak Koordinator"></li>
+	<!--================== KOMUNITAS ==================-->
+	<section id="register-komunitas" class="s-buy-ticket dance-buy-ticket d-none" style="background-image: url(assets/img/effect-form-dance.svg);">
+		<div class="container">
+			<div class="title-cover">
+				<span class="dance-slogan">Daftarkan Komunitas Anda</span>
+				<h2 class="dance-title">Register as Komunitas</h2>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="buy-ticket-form">
+						<form id='registerKomunitas'>
+							@csrf
+							<h5>Informasi Komunitas</h5>
+							<ul class="form-cover">
+								<li class="inp-cover inp-name" style="width: 100%"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas"></li>
+								<li class="inp-cover inp-name"><input id="koordinator" type="text" name="koordinator" placeholder="Nama Koordinator"></li>
+								<li class="inp-cover inp-name"><input id="email" type="email" name="email" placeholder="Email Koordinator"></li>
+								<li class="inp-cover inp-name"><input id="kota" type="text" name="kota" placeholder="Kota Komunitas"></li>
+								<li class="inp-cover inp-name"><input id="phone" type="text" name="phone" placeholder="Kontak Koordinator"></li>
+								
+								<li class="pay-method">
+									<div class="col-md-12 mb-2 p-0" style="display: flex; justify-content: space-between; align-items: center;">
+										<h5>List Peserta</h5>
+										<button type="button" class="btn" id="addPeserta"><span>Add Peserta</span></button>
+									</div>
+									<div class="table-container">
+										<table class="custom-table">
+											<thead>
+												<tr>
+													<th>Nama Peserta</th>
+													<th>Jenis Kelamin</th>
+													<th>Tanggal Lahir</th>
+													<th>No KTP</th>
+													<th>No Telepon</th>
+													<th>Hubungan</th>
+													<th>Gol Darah</th>
+													<th>Ukuran Jersey</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tbody id="listPeserta">
+												<tr>
+													<td><input type="text" name="nama[]" placeholder="Nama Peserta" autocomplete="no"></td>
+													<td>
+														<select class="nice-select" id="gender" name="gender[]" autocomplete="no">
+															<option value="">Jenis Kelamin</option>
+															<option value="L" style="font-size: 14px;">Laki-laki</option>
+															<option value="P" style="font-size: 14px;">Perempuan</option>
+														</select>
+													</td>
+													<td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="no"></td>
+													<td><input type="text" name="nik[]" placeholder="No KTP" autocomplete="no"></td>
+													<td><input type="text" name="telp_emergency[]" placeholder="No Telepon" autocomplete="no"></td>
+													<td>
+														<select class="nice-select" id="hubungan_emergency[]" name="hubungan_emergency[]" placeholder="Hub Kontak Darurat" autocomplete="no" required>
+															<option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
+															<option value="SAUDARA" style="font-size: 14px;">Saudara</option>
+															<option value="ORANG TUA" style="font-size: 14px;">Orang Tua</option>
+															<option value="SUAMI/ISTRI" style="font-size: 14px;">Suami/Istri</option>
+															<option value="ANAK" style="font-size: 14px;">Anak</option>
+														</select>
+													</td>
+													<td>
+														<select class="nice-select" id="blood" name="blood[]" placeholder="Gol Darah" autocomplete="no">
+															<option value="">Gol Darah</option>
+															<option value="A" style="font-size: 14px;">A</option>
+															<option value="B" style="font-size: 14px;">B</option>
+															<option value="AB" style="font-size: 14px;">AB</option>
+															<option value="O" style="font-size: 14px;">O</option>
+														</select>
+													</td>
+													<td>
+														<select class="nice-select" id="jersey" name="jersey[]" placeholder="Ukuran Jersey" autocomplete="no" style="width: 220px !important;">
+															<option value="">Jersey</option>
+															<option value="S" style="font-size: 14px;">S</option>
+															<option value="M" style="font-size: 14px;">M</option>
+															<option value="L" style="font-size: 14px;">L</option>
+															<option value="XL" style="font-size: 14px;">XL</option>
+														</select>
+													</td>
+													<td><button type="button" class="btn" id="removePeserta"><span>X</span></button></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 									
-									<li class="pay-method">
-										<div class="col-md-12 mb-2 p-0" style="display: flex; justify-content: space-between; align-items: center;">
-											<h5>List Peserta</h5>
-											<button type="button" class="btn" id="addPeserta"><span>Add Peserta</span></button>
-										</div>
-										<div class="table-container">
-											<table class="custom-table">
-												<thead>
-													<tr>
-														<th>Nama Peserta</th>
-														<th>Jenis Kelamin</th>
-														<th>Tanggal Lahir</th>
-														<th>No KTP</th>
-														<th>No Telepon</th>
-														<th>Hubungan</th>
-														<th>Gol Darah</th>
-														<th>Ukuran Jersey</th>
-														<th>Action</th>
-													</tr>
-												</thead>
-												<tbody id="listPeserta">
-													<tr>
-														<td><input type="text" name="nama[]" placeholder="Nama Peserta" autocomplete="no"></td>
-														<td>
-															<select class="nice-select" id="gender" name="gender[]" autocomplete="no">
-																<option value="">Jenis Kelamin</option>
-																<option value="L" style="font-size: 14px;">Laki-laki</option>
-																<option value="P" style="font-size: 14px;">Perempuan</option>
-															</select>
-														</td>
-														<td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="no"></td>
-														<td><input type="text" name="nik[]" placeholder="No KTP" autocomplete="no"></td>
-														<td><input type="text" name="telp_emergency[]" placeholder="No Telepon" autocomplete="no"></td>
-														<td><input type="text" name="hubungan_emergency[]" placeholder="Hubungan" autocomplete="no"></td>
-														<td>
-															<select class="nice-select" id="blood" name="blood[]" placeholder="Gol Darah" autocomplete="no">
-																<option value="">Gol Darah</option>
-																<option value="A" style="font-size: 14px;">A</option>
-																<option value="B" style="font-size: 14px;">B</option>
-																<option value="AB" style="font-size: 14px;">AB</option>
-																<option value="O" style="font-size: 14px;">O</option>
-															</select>
-														</td>
-														<td>
-															<select class="nice-select" id="jersey" name="jersey[]" placeholder="Ukuran Jersey" autocomplete="no" style="width: 220px !important;">
-																<option value="">Jersey</option>
-																<option value="S" style="font-size: 14px;">S</option>
-																<option value="M" style="font-size: 14px;">M</option>
-																<option value="L" style="font-size: 14px;">L</option>
-																<option value="XL" style="font-size: 14px;">XL</option>
-															</select>
-														</td>
-														<td><button type="button" class="btn" id="removePeserta"><span>X</span></button></td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-										
-										
-									</li>
-								</ul>
-								<div class="col-md-12 m-0 p-0" style="display: flex; justify-content: space-between; align-items: center;">
-									<div class="price-final">
-										<span>Total <span id="totalPeserta">1</span>Peserta :</span>
-										<div class="price-final-text">Rp. <span id="totalHarga">0</span></div>
-									</div>
-									<div class="btn-form-cover" style="margin-top: 1.5rem; margin-bottom: 1.5rem">
-										<button type="submit" class="btn" id="btn-submit-komunitas"><span>Register</span></button>
-									</div>
+									
+								</li>
+							</ul>
+							<div class="col-md-12 m-0 p-0" style="display: flex; justify-content: space-between; align-items: center;">
+								<div class="price-final">
+									<span>Total <span id="totalPeserta">1</span>Peserta :</span>
+									<div class="price-final-text"><span id="totalHarga">0</span></div>
 								</div>
-							</form>
-						</div>
+								<div class="btn-form-cover" style="margin-top: 1.5rem; margin-bottom: 1.5rem">
+									<button type="submit" class="btn" id="btn-submit-komunitas"><span>Register</span></button>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
-		</section>
-		<!--================ S-BUY-TICKET END ================-->
+		</div>
+	</section>
+	<!--================ KOMUNITAS ================-->
 
 	<!--=================== S-CLIENTS ===================-->
-	<section class="s-clients">
+	<section class="s-clients" @if ($sponsors->count() == 0) style="padding-bottom: 0 !important;" @endif>
 		@if ($sponsors->count() > 0)
 			<div class="container">
 				<h2 class="title"><span>Our Sponsors</span></h2>
@@ -544,24 +581,34 @@
 					<div class="footer-link">
 						<h5>Social</h5>
 						<ul class="footer-list">
-							<li><a target="_blank" href="https://www.facebook.com/rovadex">Facebook</a></li>
-							<li><a target="_blank" href="https://twitter.com/RovadexStudio">Twitter</a></li>
-							<li><a target="_blank" href="https://www.instagram.com/rovadex">Instagram</a></li>
-							<li><a target="_blank" href="https://www.youtube.com">Youtube</a></li>
+							@if($data->instagram)
+								<li><a href="{{ $data->instagram }}" target="_blank">Instagram</a></li>
+							@endif
+							@if($data->facebook)
+								<li><a href="{{ $data->facebook }}" target="_blank">Facebook</a></li>
+							@endif
+							@if($data->twitter)
+								<li><a href="{{ $data->twitter }}" target="_blank">Twitter</a></li>
+							@endif
+							@if ($data->youtube)
+								<li><a href="{{ $data->youtube }}" target="_blank">Youtube</a></li>
+							@endif
 						</ul>
 					</div>
 				</div>
 				<div class="footer-subscribe col-12 col-sm-6 col-lg-4">
-					<h5>Subscribe to our newsletter. Stay up to date with our latest news and updates.</h5>
-					<form class="subscribe-form">
-						<input class="inp-form" type="email" name="subscribe" placeholder="E-mail">
-						<button class="btn-form" type="submit"><i class="fas fa-paper-plane"></i></button>
-					</form>
-					<p>By clicking the button you agree to the <a href="#" target="_blank">Privacy Policy</a> and <a href="#" target="_blank">Terms and Conditions</a></p>
+					<h5>Event Registration</h5>
+					<div style="display: flex; flex-direction: column; gap: 1rem;">
+						<button type="button" class="btn btn-register-personal"><span>Register as Personal</span></button>
+						<button type="button" class="btn btn-register-komunitas"><span>Register as Komunitas</span></button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</footer>
+
+	<a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
+
 	<!--================== FOOTER END ==================-->
 
 	<!-- Modal Konfirmasi Pembayaran -->
@@ -612,6 +659,27 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	
+	<!-- Modal Error -->
+	<div id="modalError" class="modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Perhatian</h5>
+					<button type="button" class="close" onclick="closeModal()">&times;</button>
+				</div>
+				<div class="modal-body">
+					<!-- Informasi Pembayaran -->
+					<div class="info-error" id="info-error">Terjadi Kesalahan, Mohon Hubungi Admin 🙏</div>
+				</div>
+				<div class="modal-footer">
+					<div class="btn-form-cover">
+						<button type="button" class="btn btn-secondary" onclick="closeModal()"><span>Tutup</span></button>
+					</div>
+				</div>
+			</div>
+		</div>
 
 	<!--=================== TO TOP ===================-->
 	<a class="to-top" href="#home">
@@ -640,6 +708,53 @@
 	<script src="{{ asset('assets/js/apps/landing/landing.js') }}"></script>
 
 	<script>
+
+		$(window).on("scroll", function () {
+			if ($(".scroll-to-top").length) {
+			var strickyScrollPos = 100;
+			if ($(window).scrollTop() > strickyScrollPos) {
+				$(".scroll-to-top").fadeIn(500);
+			} else if ($(this).scrollTop() <= strickyScrollPos) {
+				$(".scroll-to-top").fadeOut(500);
+			}
+			}
+		});
+
+		if ($(".scroll-to-target").length) {
+			$(".scroll-to-target").on("click", function () {
+			var target = $(this).attr("data-target");
+			// animate
+			$("html, body").animate(
+				{
+				scrollTop: $(target).offset().top
+				},
+				1000
+			);
+
+			return false;
+			});
+		}
+
+		// click button regiter personal then show section register and hide section register komunitas
+		$(document).on('click', '.btn-register-personal', function() {
+			$('#registration-navbar').attr('href', '#register');
+			$('#register').removeClass('d-none').fadeIn(500);
+			$('#register-komunitas').fadeOut(500).addClass('d-none');
+			$('html, body').animate({
+				scrollTop: $("#register").offset().top
+			}, 500);
+		});
+
+		// click button register komunitas then show section register komunitas and hide section register
+		$(document).on('click', '.btn-register-komunitas', function() {
+			$('#registration-navbar').attr('href', '#register-komunitas');
+			$('#register-komunitas').removeClass('d-none').fadeIn(500);
+			$('#register').fadeOut(500).addClass('d-none');
+			$('html, body').animate({
+				scrollTop: $("#register-komunitas").offset().top
+			}, 500);
+		});
+
 		if( $( '#clockdiv' )[0] ){
 			function getTimeRemaining(endtime) {
 				var t = Date.parse(endtime) - Date.parse(new Date());
