@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Mail\SendEmailPembayaran;
 use App\Models\Order;
 use Carbon\Carbon;
 use Yajra\DataTables\DataTables;
