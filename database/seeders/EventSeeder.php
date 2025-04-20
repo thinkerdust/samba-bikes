@@ -16,7 +16,7 @@ class EventSeeder extends Seeder
         DB::table('event')->insert([
             [
                 'nama' => 'Marathon 2025',
-                'tanggal' => date('Y-m-01'),
+                'tanggal' => date('Y-m-t'),
                 'deskripsi' => 'Event marathon tahunan.',
                 'kota' => 'Jakarta',
                 'lokasi' => 'Jl. Janglidalam No. 1, Jakarta',
@@ -36,7 +36,7 @@ class EventSeeder extends Seeder
                 'nama_rekening' => 'John Doe',
                 'bank' => 'BCA',
                 'phone' => '081234567890',
-                'email' => 'admin@example.com',
+                'email' => 'marathon2025@gmail.com',
                 'tagline_banner1' => 'Feel Your Burn',
                 'tagline_banner2' => 'Feel Your Muscle',
                 'tagline_banner3' => 'Feel Your Power',
@@ -46,7 +46,7 @@ class EventSeeder extends Seeder
             ],
             [
                 'nama' => 'Trail Run 2025',
-                'tanggal' => date('Y-m-01'),
+                'tanggal' => date('Y-m-t'),
                 'deskripsi' => 'Event lari lintas alam.',
                 'kota' => 'Bandung',
                 'lokasi' => 'Jl. Gunung No. 1, Bandung',
@@ -66,7 +66,7 @@ class EventSeeder extends Seeder
                 'nama_rekening' => 'Jane Doe',
                 'bank' => 'Mandiri',
                 'phone' => '081298765432',
-                'email' => 'admin2@example.com',
+                'email' => 'trail_run_2025@gmail.com',
                 'tagline_banner1' => 'Feel Your Burn',
                 'tagline_banner2' => 'Feel Your Muscle',
                 'tagline_banner3' => 'Feel Your Power',
