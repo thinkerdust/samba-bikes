@@ -613,9 +613,9 @@
 						</div>
 						<div class="col-md-6 col-3">
 							<ul>
-								<li><span href="#">10</span></li>
-								<li><span href="#">100</span></li>
-								<li><span href="#">1000</span></li>
+								<li><span href="#">{{ $statistik->counterHari }}</span></li>
+								<li><span href="#">{{ $statistik->counterBulan }}</span></li>
+								<li><span href="#">{{ $statistik->counterTahun }}</span></li>
 							</ul>
 						</div>
 					</div>

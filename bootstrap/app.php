@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'ajax-request' => \App\Http\Middleware\AjaxRequest::class,
             'redirect-if-authenticated' => \App\Http\Middleware\RedirectIfAuthenticated::class, // Add alias
+            'counter-statistik' => \App\Http\Middleware\CounterStatistik::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
