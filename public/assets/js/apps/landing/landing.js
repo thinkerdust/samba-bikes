@@ -35,6 +35,18 @@ function closeModalOverride() {
     clearButtonSubmit()
 }
 
+function openModalError() {
+    let modal = document.getElementById("modalError");
+    modal.style.display = "flex";
+    setTimeout(() => modal.style.opacity = "1", 10);
+}
+
+function closeModalError() {
+    let modal = document.getElementById("modalError");
+    modal.style.opacity = "0";
+    setTimeout(() => modal.style.display = "none", 300);
+}
+
 function clearForm() {
     $('#registerPersonal')[0].reset();
     $('#registerKomunitas')[0].reset();
@@ -108,17 +120,17 @@ $(document).ready(function() {
             <tr>
                 <td><input type="text" name="nama[]" placeholder="Nama Peserta"></td>
                 <td>
-                    <select class="nice-select" id="gender" name="gender[]" autocomplete="no" style="z-index: 0; padding: 15px 0; color: #aaa;">
+                    <select class="nice-select" id="gender" name="gender[]" autocomplete="off" style="z-index: 0; padding: 15px 0; color: #aaa;">
                         <option value="">Jenis Kelamin</option>
                         <option value="L" style="font-size: 14px;">Laki-laki</option>
                         <option value="P" style="font-size: 14px;">Perempuan</option>
                     </select>
                 </td>
-                <td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="no"></td>
+                <td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off"></td>
                 <td><input type="text" name="nik[]" placeholder="No KTP"></td>
                 <td><input type="text" name="telp_emergency[]" placeholder="No Telepon"></td>
                 <td>
-                    <select class="nice-select" id="hubungan_emergency[]" name="hubungan_emergency[]" placeholder="Hub Kontak Darurat" autocomplete="no" required>
+                    <select class="nice-select" id="hubungan_emergency[]" name="hubungan_emergency[]" placeholder="Hub Kontak Darurat" autocomplete="off" required>
                         <option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
                         <option value="SAUDARA" style="font-size: 14px;">Saudara</option>
                         <option value="ORANG TUA" style="font-size: 14px;">Orang Tua</option>
@@ -127,7 +139,7 @@ $(document).ready(function() {
                     </select>
                 </td>
                 <td>
-                    <select class="nice-select" id="blood" name="blood[]" placeholder="Gol Darah" autocomplete="no" style="z-index: 0; padding: 15px 0; color: #aaa;">
+                    <select class="nice-select" id="blood" name="blood[]" placeholder="Gol Darah" autocomplete="off" style="z-index: 0; padding: 15px 0; color: #aaa;">
                         <option value="">Gol Darah</option>
                         <option value="A" style="font-size: 14px;">A</option>
                         <option value="B" style="font-size: 14px;">B</option>
@@ -136,7 +148,7 @@ $(document).ready(function() {
                     </select>
                 </td>
                 <td>
-                    <select class="nice-select" id="jersey" name="jersey[]" placeholder="Ukuran Jersey" autocomplete="no" style="width: 220px !important; z-index: 0;">
+                    <select class="nice-select" id="jersey" name="jersey[]" placeholder="Ukuran Jersey" autocomplete="off" style="width: 220px !important; z-index: 0;">
                         <option value="">Jersey</option>
                         <option value="S" style="font-size: 14px;">S</option>
                         <option value="M" style="font-size: 14px;">M</option>
@@ -205,20 +217,48 @@ $('#registerPersonal').submit(function(e) {
                     processRegisterPersonal();
                 }
             }
-
-            btn.attr('disabled', false);
-            btn.html('Register');
         },
         error: function(error) {
             btn.attr('disabled', false);
             btn.html('Register');
             console.log(error);
 
-            let modal = $("#modalError");
-            modal.css("display", "flex").animate({ opacity: 1 }, 10);
+            openModalError();
         }
     });
 });
+
+function processRegisterPersonal() {
+
+    var btn = $('#btn-submit-personal');
+
+    let formData = new FormData($('#registerPersonal')[0]);
+        formData.append('type', 'personal');
+
+    $.ajax({
+        url: '/register-peserta',
+        type: 'POST',
+        data: formData,
+        dataType : "JSON",
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            if(response.status) {
+                closeModalOverride();
+                openModal();
+            }
+            btn.attr('disabled', false);
+            btn.html('Register');
+        },
+        error: function(error) {
+            console.log(error);
+            btn.attr('disabled', false);
+            btn.html('Register');
+
+            openModalError();
+        }
+    });
+}
 
 $('#registerKomunitas').submit(function(e) {
     e.preventDefault();
@@ -263,54 +303,17 @@ $('#registerKomunitas').submit(function(e) {
                     processRegisterKomunitas();
                 }
             }
-
-            btn.attr('disabled', false);
-            btn.html('Register');
         },
         error: function(error) {
             btn.attr('disabled', false);
             btn.html('Register');
             console.log(error);
 
-            let modal = $("#modalError");
-            modal.css("display", "flex").animate({ opacity: 1 }, 10);
+            openModalError();
         }
     });
 
 });
-
-function processRegisterPersonal() {
-
-    var btn = $('#btn-submit-personal');
-
-    let formData = new FormData($('#registerPersonal')[0]);
-        formData.append('type', 'personal');
-
-    $.ajax({
-        url: '/register-peserta',
-        type: 'POST',
-        data: formData,
-        dataType : "JSON",
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            if(response.status) {
-                closeModalOverride();
-                openModal();
-            }
-            btn.attr('disabled', false);
-            btn.html('Register');
-        },
-        error: function(error) {
-            console.log(error);
-            btn.attr('disabled', false);
-            btn.html('Register');
-
-            let modal = $("#modalError");
-            modal.css("display", "flex").animate({ opacity: 1 }, 10);
-        }
-    });
-}
 
 function processRegisterKomunitas() {
 
@@ -339,8 +342,7 @@ function processRegisterKomunitas() {
             btn.attr('disabled', false);
             btn.html('Register');
 
-            let modal = $("#modalError");
-            modal.css("display", "flex").animate({ opacity: 1 }, 10);
+            openModalError();
         }
     });
 }
