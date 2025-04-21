@@ -8,4 +8,5 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-Schedule::command('task:counter-statistik')->dailyAt('20:00');
+// Schedule::command('task:counter-statistik')->dailyAt('20:00');
+Schedule::command('task:counter-statistik')->everyMinute();
