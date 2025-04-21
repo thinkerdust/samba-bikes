@@ -14,7 +14,7 @@
 	<link rel="stylesheet" href="{{ asset('assets/css/landing/bootstrap-grid.css') }}">
 	<link href="https://use.fontawesome.com/releases/v5.10.1/css/all.css" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('assets/css/landing/nice-select.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/css/landing/style.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/css/landing/style.css') . '?v=' . time() }}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body id="home">
@@ -559,7 +559,7 @@
 		<div class="container">
 			<div class="row justify-content-between">
 				<div class="footer-cont col-12 col-sm-6 col-lg-4">
-					<a href="index.html" class="logo"><img src="{{ asset('assets/images/logo-brand-side-yellow.png') }}" alt="logo" style="width: 11rem; height: auto;"></a>
+					<a href="#" class="logo"><img src="{{ asset('assets/images/logo-brand-side-yellow.png') }}" alt="logo" style="width: 11rem; height: auto;"></a>
 					<p>{{ $data->lokasi }}</p>
 					<ul class="footer-contacts">
 						<li class="footer-phone">
@@ -711,7 +711,6 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"> --}}
 
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="/resources/demos/style.css">
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 	
@@ -722,9 +721,27 @@
 	<script src="{{ asset('assets/js/apps/landing/parallax.min.js') }}"></script>
 	<script src="{{ asset('assets/js/apps/landing/scripts.js') }}"></script>
 
-	<script src="{{ asset('assets/js/apps/landing/landing.js') }}"></script>
+	<script src="{{ asset('assets/js/apps/landing/landing.js') . '?v=' . time() }}"></script>
 
 	<script>
+
+		// Check if the user is offline
+        if (!navigator.onLine) {
+            // User is offline, show SweetAlert notification
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'You are currently offline. Please check your internet connection and try again.',
+            });
+        }
+
+        window.addEventListener('online', () => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Great!',
+                text: 'You are back online. Welcome back!',
+            });
+        });
 
 		$(window).on("scroll", function () {
 			if ($(".scroll-to-top").length) {

@@ -7,13 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\RegistrationMail;
 use App\Models\Counters;
 use App\Models\Peserta;
 use DB;
 use Carbon\Carbon;
 use App\Mail\SendEmailRegistrasi;
-use App\Mail\SendEmailPembayaran;
 
 class LandingController extends BaseController 
 {
@@ -37,9 +35,9 @@ class LandingController extends BaseController
         return view('landing.index', compact('js', 'data', 'schedules', 'images', 'sponsors'));
     }
 
-    public function get_harga(Request $request) 
+    public function get_harga() 
     {
-        $data = DB::table('event')->where('status', 2)->first();
+        $data = DB::table('event')->where('status', 2)->select('harga')->first();
         return response()->json($data);
     }
 
@@ -65,6 +63,7 @@ class LandingController extends BaseController
                     ->select(
                         'e.id',
                         'e.nama',
+                        'e.email',
                         'e.harga',
                         'e.stok',
                         DB::raw('(e.stok - SUM(o.jumlah)) as sisa_stok')
@@ -91,6 +90,7 @@ class LandingController extends BaseController
             $dataEmail = [
                 'nomor_order'   => $nomor_order,
                 'event'         => $event->nama,
+                'email'         => $event->email
             ];
 
             $dataOrder = [
@@ -304,38 +304,5 @@ class LandingController extends BaseController
             return $this->ajaxResponse(false, 'Data gagal disimpan', $e);
         }
     }
-    
-    public function testEmailRegistrasi() {
-        try {
 
-            $recepientMail = 'okvadimas@gmail.com';
-
-            $dataEmail = [
-                'nomor_order'   => 'ORD/250601/0001',
-                'event'         => 'Event Test Registrasi',
-            ];
-    
-            Mail::to($recepientMail)->send(new SendEmailRegistrasi($dataEmail));
-    
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-        }
-    }
-
-    public function testEmailPembayaran() {
-        try {
-
-            $recepientMail = 'okvadimas@gmail.com';
-
-            $dataEmail = [
-                'nomor_order'   => 'ORD/250601/0001',
-                'event'         => 'Event Test Pembayaran',
-            ];
-    
-            Mail::to($recepientMail)->send(new SendEmailPembayaran($dataEmail));
-    
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-        }
-    }
 }

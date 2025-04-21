@@ -10,6 +10,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\TestController;
 
 Route::get('/', [LandingController::class, 'index'])->name('/');
 
@@ -20,8 +21,8 @@ Route::post('/register-peserta', [LandingController::class, 'register_peserta'])
 Route::post('/check-peserta', [LandingController::class, 'check_peserta'])->name('check-peserta');
 
 // test email
-Route::get('/test-email-registrasi', [LandingController::class, 'testEmailRegistrasi']);
-Route::get('/test-email-pembayaran', [LandingController::class, 'testEmailPembayaran']);
+Route::get('/test-email-registrasi', [TestController::class, 'testEmailRegistrasi']);
+Route::get('/test-email-pembayaran', [TestController::class, 'testEmailPembayaran']);
 
 
 Route::get('/admin', function() {
