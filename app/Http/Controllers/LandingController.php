@@ -51,6 +51,7 @@ class LandingController extends BaseController
 
     public function register_peserta(Request $request) 
     {
+        dd('masuk register');
         $type = $request->input('type');
         $jumlah = ($type == 'komunitas') ? count($request->nama): 1;
 

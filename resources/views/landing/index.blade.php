@@ -188,7 +188,7 @@
 	<section id="about" class="s-our-mission">
 		<div class="container">
 			<img class="mission-effect" src="{{ asset('assets/images/landing/our-mission-5.svg') }}" alt="img">
-			<h2 class="title">Our mission</h2>
+			<h2 class="title">What We Do</h2>
 			<div class="row">
 				<div class="col-lg-6 our-mission-img">
 					<span>
@@ -340,19 +340,19 @@
 						<form id='registerPersonal'>
 							@csrf
 							<ul class="form-cover">
-								<li class="inp-cover inp-name" style="width: 100%"><input id="nama" type="text" name="nama" placeholder="Name" autocomplete="no" required></li>
-								<li class="inp-cover"><input id="phone" type="text" name="phone" placeholder="No Telepon" autocomplete="no" pattern="\d*" required></li>
-								<li class="inp-cover inp-email"><input id="email" type="email" name="email" placeholder="E-mail" autocomplete="no" required></li>
-								<li class="inp-cover"><input id="tanggal_lahir" class="tanggal" type="text" name="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="no" required></li>
+								<li class="inp-cover inp-name" style="width: 100%"><input id="nama" type="text" name="nama" placeholder="Name" autocomplete="off" required></li>
+								<li class="inp-cover"><input id="phone" type="text" name="phone" placeholder="No Telepon" autocomplete="off" pattern="\d*" required></li>
+								<li class="inp-cover inp-email"><input id="email" type="email" name="email" placeholder="E-mail" autocomplete="off" required></li>
+								<li class="inp-cover"><input id="tanggal_lahir" class="tanggal" type="text" name="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off" required></li>
 								<li class="inp-cover">
-									<select class="nice-select" id="gender" name="gender" autocomplete="no" required>
+									<select class="nice-select" id="gender" name="gender" autocomplete="off" required>
 										<option value="" style="font-size: 14px;">Jenis Kelamin</option>
 										<option value="L" style="font-size: 14px;">Laki-Laki</option>
 										<option value="P" style="font-size: 14px;">Perempuan</option>
 									</select>
 								</li>
 								<li class="inp-cover">
-									<select class="nice-select" id="blood" name="blood" placeholder="Gol Darah" autocomplete="no" required>
+									<select class="nice-select" id="blood" name="blood" placeholder="Gol Darah" autocomplete="off" required>
 										<option value="" style="font-size: 14px;">Gol Darah</option>
 										<option value="A" style="font-size: 14px;">A</option>
 										<option value="B" style="font-size: 14px;">B</option>
@@ -360,10 +360,10 @@
 										<option value="O" style="font-size: 14px;">O</option>
 									</select>
 								</li>
-								<li class="inp-cover" style="z-index: 0"><input id="nik" type="text" name="nik" placeholder="No Tanda Pengenal" autocomplete="no" required></li>
-								<li class="inp-cover" style="z-index: 0"><input id="telp_emergency" type="text" name=" telp_emergency" placeholder="No Kontak Darurat" autocomplete="no" required></li>
+								<li class="inp-cover" style="z-index: 0"><input id="nik" type="text" name="nik" placeholder="No Tanda Pengenal" autocomplete="off" required></li>
+								<li class="inp-cover" style="z-index: 0"><input id="telp_emergency" type="text" name=" telp_emergency" placeholder="No Kontak Darurat" autocomplete="off" required></li>
 								<li class="inp-cover">
-									<select class="nice-select" id="hubungan_emergency" name="hubungan_emergency" placeholder="Hub Kontak Darurat" autocomplete="no" required>
+									<select class="nice-select" id="hubungan_emergency" name="hubungan_emergency" placeholder="Hub Kontak Darurat" autocomplete="off" required>
 										<option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
 										<option value="SAUDARA" style="font-size: 14px;">Saudara</option>
 										<option value="ORANG TUA" style="font-size: 14px;">Orang Tua</option>
@@ -371,16 +371,17 @@
 										<option value="ANAK" style="font-size: 14px;">Anak</option>
 									</select>
 								</li>
-								<li class="inp-cover" style="z-index: 0"><input id="kota" type="text" name="kota" placeholder="Kota" autocomplete="no" required></li>
-								<li class="inp-cover" style="z-index: 0"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas" autocomplete="no"></li>
-								<li class="inp-cover" style="width: 100%; z-index: 0;"><input id="alamat" type="text" name="alamat" placeholder="Alamat" autocomplete="no" required></li>
+								<li class="inp-cover" style="z-index: 0"><input id="kota" type="text" name="kota" placeholder="Kota" autocomplete="off" required></li>
+								<li class="inp-cover" style="z-index: 0"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas" autocomplete="off"></li>
+								<li class="inp-cover" style="width: 100%; z-index: 0;"><input id="alamat" type="text" name="alamat" placeholder="Alamat" autocomplete="off" required></li>
 								<li class="inp-cover" style="width: 100%">
-									<select class="nice-select" id="jersey" name="jersey" autocomplete="no" required>
+									<select class="nice-select" id="jersey" name="jersey" autocomplete="off" required>
 										<option value="">Jersey</option>
 										<option value="S">S</option>
 										<option value="M">M</option>
 										<option value="L">L</option>
 										<option value="XL">XL</option>
+										<option value="XXL">XXL</option>
 									</select>
 								</li>
 							</ul>
@@ -438,19 +439,19 @@
 											</thead>
 											<tbody id="listPeserta">
 												<tr>
-													<td><input type="text" name="nama[]" placeholder="Nama Peserta" autocomplete="no"></td>
+													<td><input type="text" name="nama[]" placeholder="Nama Peserta" autocomplete="off"></td>
 													<td>
-														<select class="nice-select" id="gender" name="gender[]" autocomplete="no">
+														<select class="nice-select" id="gender" name="gender[]" autocomplete="off">
 															<option value="">Jenis Kelamin</option>
 															<option value="L" style="font-size: 14px;">Laki-laki</option>
 															<option value="P" style="font-size: 14px;">Perempuan</option>
 														</select>
 													</td>
-													<td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="no"></td>
-													<td><input type="text" name="nik[]" placeholder="No KTP" autocomplete="no"></td>
-													<td><input type="text" name="telp_emergency[]" placeholder="No Telepon" autocomplete="no"></td>
+													<td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off"></td>
+													<td><input type="text" name="nik[]" placeholder="No KTP" autocomplete="off"></td>
+													<td><input type="text" name="telp_emergency[]" placeholder="No Telepon" autocomplete="off"></td>
 													<td>
-														<select class="nice-select" id="hubungan_emergency[]" name="hubungan_emergency[]" placeholder="Hub Kontak Darurat" autocomplete="no" required>
+														<select class="nice-select" id="hubungan_emergency[]" name="hubungan_emergency[]" placeholder="Hub Kontak Darurat" autocomplete="off" required>
 															<option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
 															<option value="SAUDARA" style="font-size: 14px;">Saudara</option>
 															<option value="ORANG TUA" style="font-size: 14px;">Orang Tua</option>
@@ -459,7 +460,7 @@
 														</select>
 													</td>
 													<td>
-														<select class="nice-select" id="blood" name="blood[]" placeholder="Gol Darah" autocomplete="no">
+														<select class="nice-select" id="blood" name="blood[]" placeholder="Gol Darah" autocomplete="off">
 															<option value="">Gol Darah</option>
 															<option value="A" style="font-size: 14px;">A</option>
 															<option value="B" style="font-size: 14px;">B</option>
@@ -468,12 +469,13 @@
 														</select>
 													</td>
 													<td>
-														<select class="nice-select" id="jersey" name="jersey[]" placeholder="Ukuran Jersey" autocomplete="no" style="width: 220px !important;">
+														<select class="nice-select" id="jersey" name="jersey[]" placeholder="Ukuran Jersey" autocomplete="off" style="width: 220px !important;">
 															<option value="">Jersey</option>
 															<option value="S" style="font-size: 14px;">S</option>
 															<option value="M" style="font-size: 14px;">M</option>
 															<option value="L" style="font-size: 14px;">L</option>
 															<option value="XL" style="font-size: 14px;">XL</option>
+															<option value="XXL" style="font-size: 14px;">XXL</option>
 														</select>
 													</td>
 													<td><button type="button" class="btn" id="removePeserta"><span>X</span></button></td>
@@ -525,6 +527,7 @@
 
 	<!--================== S-INSTAGRAM ==================-->
 	<section class="s-instagram">
+		<h2 class="title"><span>Gallery</span></h2>
 		<div class="instagram-cover">
 
 			@php
@@ -578,29 +581,43 @@
 							<li><a href="#location">Location</a></li>
 						</ul>
 					</div>
-					<div class="footer-link">
-						<h5>Social</h5>
-						<ul class="footer-list">
-							@if($data->instagram)
-								<li><a href="{{ $data->instagram }}" target="_blank">Instagram</a></li>
-							@endif
-							@if($data->facebook)
-								<li><a href="{{ $data->facebook }}" target="_blank">Facebook</a></li>
-							@endif
-							@if($data->twitter)
-								<li><a href="{{ $data->twitter }}" target="_blank">Twitter</a></li>
-							@endif
-							@if ($data->youtube)
-								<li><a href="{{ $data->youtube }}" target="_blank">Youtube</a></li>
-							@endif
-						</ul>
-					</div>
+					@if($data->instagram || $data->facebook || $data->twitter || $data->youtube)
+						<div class="footer-link">
+							<h5>Social</h5>
+							<ul class="footer-list">
+								@if($data->instagram)
+									<li><a href="{{ $data->instagram }}" target="_blank">Instagram</a></li>
+								@endif
+								@if($data->facebook)
+									<li><a href="{{ $data->facebook }}" target="_blank">Facebook</a></li>
+								@endif
+								@if($data->twitter)
+									<li><a href="{{ $data->twitter }}" target="_blank">Twitter</a></li>
+								@endif
+								@if ($data->youtube)
+									<li><a href="{{ $data->youtube }}" target="_blank">Youtube</a></li>
+								@endif
+							</ul>
+						</div>
+					@endif
 				</div>
 				<div class="footer-subscribe col-12 col-sm-6 col-lg-4">
-					<h5>Event Registration</h5>
-					<div style="display: flex; flex-direction: column; gap: 1rem;">
-						<button type="button" class="btn btn-register-personal"><span>Register as Personal</span></button>
-						<button type="button" class="btn btn-register-komunitas"><span>Register as Komunitas</span></button>
+					<h5>Pengunjung</h5>
+					<div class="row clearfix text-center text-md-start justify-content-center justify-content-md-start">
+						<div class="col-md-6 col-3 text-start">
+							<ul>
+								<li><span href="#">Harian</span></li>
+								<li><span href="#">Bulanan</span></li>
+								<li><span href="#">Tahunan</span></li>
+							</ul>
+						</div>
+						<div class="col-md-6 col-3">
+							<ul>
+								<li><span href="#">10</span></li>
+								<li><span href="#">100</span></li>
+								<li><span href="#">1000</span></li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -622,8 +639,8 @@
 				<div class="modal-body">
 					<!-- Informasi Pembayaran -->
 					<div class="info-pembayaran mb-3">
-						Silakan lakukan transfer ke <strong>Bank BCA</strong>, No. Rekening <strong>33321231123</strong> atas nama <strong>[Nama Pemilik Rekening]</strong>. 
-						Setelah transfer, mohon kirim bukti pembayaran melalui WhatsApp ke <a href="https://wa.me/6285875502569" target="_blank"><strong>0858-7550-2569</strong></a>.
+						Silakan lakukan transfer ke <strong>{{ $data->bank }}</strong>, No. Rekening <strong>{{ $data->nomor_rekening }}</strong> atas nama <strong>{{ $data->nama_rekening }}</strong>. 
+						Setelah transfer, mohon kirim bukti pembayaran melalui WhatsApp ke <a href="https://wa.me/{{ $data->phone }}" target="_blank"><strong>{{ $data->phone }}</strong></a>.
 					</div>
 					<!-- Pesan Konfirmasi -->
 					<div class="info-pembayaran mb-3 text-success">
@@ -667,7 +684,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Perhatian</h5>
-					<button type="button" class="close" onclick="closeModal()">&times;</button>
+					<button type="button" class="close" onclick="closeModalError()">&times;</button>
 				</div>
 				<div class="modal-body">
 					<!-- Informasi Pembayaran -->
@@ -675,7 +692,7 @@
 				</div>
 				<div class="modal-footer">
 					<div class="btn-form-cover">
-						<button type="button" class="btn btn-secondary" onclick="closeModal()"><span>Tutup</span></button>
+						<button type="button" class="btn btn-secondary" onclick="closeModalError()"><span>Tutup</span></button>
 					</div>
 				</div>
 			</div>
