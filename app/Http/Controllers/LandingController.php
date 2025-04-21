@@ -32,7 +32,23 @@ class LandingController extends BaseController
         $images     = DB::table('event_images')->where('id_event', $data->id)->get();
         $sponsors   = DB::table('sponsor')->where('id_event', $data->id)->get();
 
-        return view('landing.index', compact('js', 'data', 'schedules', 'images', 'sponsors'));
+        $today = Carbon::today();
+
+        $statistik = DB::table('statistik')
+            ->selectRaw('
+                IFNULL(SUM(view), 0) as totalView,
+                IFNULL(SUM(CASE WHEN YEAR(tanggal) = ? THEN view ELSE 0 END), 0) as counterTahun,
+                IFNULL(SUM(CASE WHEN YEAR(tanggal) = ? AND MONTH(tanggal) = ? THEN view ELSE 0 END), 0) as counterBulan,
+                IFNULL(SUM(CASE WHEN tanggal = ? THEN view ELSE 0 END), 0) as counterHari
+            ', [
+                $today->year,
+                $today->year,
+                $today->month,
+                $today->toDateString(),
+            ])
+            ->first();
+
+        return view('landing.index', compact('js', 'data', 'schedules', 'images', 'sponsors', 'statistik'));
     }
 
     public function get_harga() 
@@ -51,7 +67,6 @@ class LandingController extends BaseController
 
     public function register_peserta(Request $request) 
     {
-        dd('masuk register');
         $type = $request->input('type');
         $jumlah = ($type == 'komunitas') ? count($request->nama): 1;
 

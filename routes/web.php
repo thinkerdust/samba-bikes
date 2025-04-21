@@ -12,7 +12,7 @@ use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TestController;
 
-Route::get('/', [LandingController::class, 'index'])->name('/');
+Route::get('/', [LandingController::class, 'index'])->middleware('counter-statistik')->name('/');
 
 // get harga
 Route::get('/get-harga', [LandingController::class, 'get_harga'])->name('get-harga');
