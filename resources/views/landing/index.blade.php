@@ -332,64 +332,65 @@
 	<section id="register" class="s-marathon-register">
 		<img src="{{ asset('assets/images/landing/tringle-gray-little.svg') }}" alt="img" class="register-img-effect-2">
 		<div class="container">
-			<div class="marathon-register-row">
-				<img src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('/storage/uploads/' . $data->size_chart) }}" alt="img" class="register-img rx-lazy">
-					<div class="marathon-register">
-						<img src="{{ asset('assets/images/landing/our-mission-2.svg') }}" alt="img" class="register-img-effect-1">
-						<h2 class="title"><span>Register as Personal</span></h2>
-						<form id='registerPersonal'>
-							@csrf
-							<ul class="form-cover">
-								<li class="inp-cover inp-name" style="width: 100%"><input id="nama" type="text" name="nama" placeholder="Name" autocomplete="off" required></li>
-								<li class="inp-cover"><input id="phone" class="input-number" type="text" name="phone" placeholder="No Telepon" autocomplete="off" pattern="\d*" required></li>
-								<li class="inp-cover inp-email"><input id="email" type="email" name="email" placeholder="E-mail" autocomplete="off" required></li>
-								<li class="inp-cover"><input id="tanggal_lahir" class="tanggal" type="text" name="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off" required></li>
-								<li class="inp-cover">
-									<select class="nice-select" id="gender" name="gender" autocomplete="off" required>
-										<option value="" style="font-size: 14px;">Jenis Kelamin</option>
-										<option value="L" style="font-size: 14px;">Laki-Laki</option>
-										<option value="P" style="font-size: 14px;">Perempuan</option>
-									</select>
-								</li>
-								<li class="inp-cover">
-									<select class="nice-select" id="blood" name="blood" placeholder="Gol Darah" autocomplete="off" required>
-										<option value="" style="font-size: 14px;">Gol Darah</option>
-										<option value="A" style="font-size: 14px;">A</option>
-										<option value="B" style="font-size: 14px;">B</option>
-										<option value="AB" style="font-size: 14px;">AB</option>
-										<option value="O" style="font-size: 14px;">O</option>
-									</select>
-								</li>
-								<li class="inp-cover" style="z-index: 0"><input id="nik" class="input-number" type="text" name="nik" placeholder="No KTP" autocomplete="off" required></li>
-								<li class="inp-cover" style="z-index: 0"><input id="telp_emergency" class="input-number" type="text" name=" telp_emergency" placeholder="No Kontak Darurat" autocomplete="off" required></li>
-								<li class="inp-cover">
-									<select class="nice-select" id="hubungan_emergency" name="hubungan_emergency" placeholder="Hub Kontak Darurat" autocomplete="off" required>
-										<option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
-										<option value="SAUDARA" style="font-size: 14px;">Saudara</option>
-										<option value="ORANG TUA" style="font-size: 14px;">Orang Tua</option>
-										<option value="SUAMI/ISTRI" style="font-size: 14px;">Suami/Istri</option>
-										<option value="ANAK" style="font-size: 14px;">Anak</option>
-									</select>
-								</li>
-								<li class="inp-cover" style="z-index: 0"><input id="kota" type="text" name="kota" placeholder="Kota" autocomplete="off" required></li>
-								<li class="inp-cover" style="z-index: 0"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas" autocomplete="off"></li>
-								<li class="inp-cover" style="width: 100%; z-index: 0;"><input id="alamat" type="text" name="alamat" placeholder="Alamat" autocomplete="off" required></li>
-								<li class="inp-cover" style="width: 100%">
-									<select class="nice-select" id="jersey" name="jersey" autocomplete="off" required>
-										<option value="">Jersey</option>
-										<option value="S">S</option>
-										<option value="M">M</option>
-										<option value="L">L</option>
-										<option value="XL">XL</option>
-										<option value="XXL">XXL</option>
-									</select>
-								</li>
-							</ul>
-							<div class="btn-form-cover" style="margin-top: 1.5rem">
-								<button type="submit" class="btn" id="btn-submit-personal"><span>Register</span></button>
-							</div>
-						</form>
-					</div>
+			<div class="marathon-register-row row">
+				<div class="col-md-6 col-12">
+					<img src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('/storage/uploads/' . $data->size_chart) }}" alt="img" class="register-img rx-lazy">
+				</div>
+				<div class="marathon-register col-md-6 col-12">
+					<img src="{{ asset('assets/images/landing/our-mission-2.svg') }}" alt="img" class="register-img-effect-1">
+					<h2 class="title"><span>Register as Personal</span></h2>
+					<form id='registerPersonal'>
+						@csrf
+						<ul class="form-cover">
+							<li class="inp-cover inp-name" style="width: 100%"><input id="nama" type="text" name="nama" placeholder="Name" autocomplete="off" required></li>
+							<li class="inp-cover"><input id="phone" class="input-number" type="text" name="phone" placeholder="No Telepon" autocomplete="off" pattern="\d*" required></li>
+							<li class="inp-cover inp-email"><input id="email" type="email" name="email" placeholder="E-mail" autocomplete="off" required></li>
+							<li class="inp-cover"><input id="tanggal_lahir" class="tanggal" type="text" name="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off" required></li>
+							<li class="inp-cover">
+								<select class="nice-select" id="gender" name="gender" autocomplete="off" required>
+									<option value="" style="font-size: 14px;">Jenis Kelamin</option>
+									<option value="L" style="font-size: 14px;">Laki-Laki</option>
+									<option value="P" style="font-size: 14px;">Perempuan</option>
+								</select>
+							</li>
+							<li class="inp-cover" style="z-index: 1">
+								<select class="nice-select" id="blood" name="blood" placeholder="Gol Darah" autocomplete="off" required>
+									<option value="" style="font-size: 14px;">Gol Darah</option>
+									<option value="A" style="font-size: 14px;">A</option>
+									<option value="B" style="font-size: 14px;">B</option>
+									<option value="AB" style="font-size: 14px;">AB</option>
+									<option value="O" style="font-size: 14px;">O</option>
+								</select>
+							</li>
+							<li class="inp-cover" style="z-index: 0"><input id="nik" class="input-number" type="text" name="nik" placeholder="No KTP" autocomplete="off" required></li>
+							<li class="inp-cover" style="z-index: 0"><input id="telp_emergency" class="input-number" type="text" name=" telp_emergency" placeholder="No Kontak Darurat" autocomplete="off" required></li>
+							<li class="inp-cover">
+								<select class="nice-select" id="hubungan_emergency" name="hubungan_emergency" placeholder="Hub Kontak Darurat" autocomplete="off" required>
+									<option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
+									<option value="SAUDARA" style="font-size: 14px;">Saudara</option>
+									<option value="ORANG TUA" style="font-size: 14px;">Orang Tua</option>
+									<option value="SUAMI/ISTRI" style="font-size: 14px;">Suami/Istri</option>
+									<option value="ANAK" style="font-size: 14px;">Anak</option>
+								</select>
+							</li>
+							<li class="inp-cover" style="z-index: 0"><input id="kota" type="text" name="kota" placeholder="Kota" autocomplete="off" required></li>
+							<li class="inp-cover" style="z-index: 0"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas" autocomplete="off"></li>
+							<li class="inp-cover" style="width: 100%; z-index: 0;"><input id="alamat" type="text" name="alamat" placeholder="Alamat" autocomplete="off" required></li>
+							<li class="inp-cover" style="width: 100%">
+								<select class="nice-select" id="jersey" name="jersey" autocomplete="off" required>
+									<option value="">Jersey</option>
+									<option value="S">S</option>
+									<option value="M">M</option>
+									<option value="L">L</option>
+									<option value="XL">XL</option>
+									<option value="XXL">XXL</option>
+								</select>
+							</li>
+						</ul>
+						<div class="btn-form-cover" style="margin-top: 1.5rem">
+							<button type="submit" class="btn" id="btn-submit-personal"><span>Register</span></button>
+						</div>
+					</form>
 				</div>
 			</div>
 
@@ -539,13 +540,13 @@
 			@endphp
 
 			@foreach ($images as $image)
-				<a href="#" class="instagram-item">
+				<a href="#" onclick="return false;" class="instagram-item">
 					<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('/storage/uploads/' . $image->filename) }}" alt="img">
 				</a>
 			@endforeach
 
 			@for ($index = 0; $index < $sisa; $index++)
-				<a href="#" class="instagram-item">
+				<a href="#" onclick="return false;" class="instagram-item">
 					<img class="rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/' . $default_images[$index]) }}" alt="img">
 				</a>
 			@endfor
@@ -557,7 +558,7 @@
 	<!--==================== FOOTER ====================-->
 	<footer>
 		<div class="container">
-			<div class="row justify-content-between">
+			<div class="footer-box row justify-content-between">
 				<div class="footer-cont col-12 col-sm-6 col-lg-4">
 					<a href="#" class="logo"><img src="{{ asset('assets/images/logo-brand-side-yellow.png') }}" alt="logo" style="width: 11rem; height: auto;"></a>
 					<p>{{ $data->lokasi }}</p>
@@ -602,16 +603,16 @@
 					@endif
 				</div>
 				<div class="footer-subscribe col-12 col-sm-6 col-lg-4">
-					<h5>Pengunjung</h5>
+					<h5>Statistik Pengunjung</h5>
 					<div class="row clearfix text-center text-md-start justify-content-center justify-content-md-start">
-						<div class="col-md-6 col-3 text-start">
+						<div class="col-md-6 col-3" style="text-align: left;">
 							<ul>
 								<li><span href="#">Harian</span></li>
 								<li><span href="#">Bulanan</span></li>
 								<li><span href="#">Tahunan</span></li>
 							</ul>
 						</div>
-						<div class="col-md-6 col-3">
+						<div class="col-md-6 col-3" style="text-align: right;">
 							<ul>
 								<li><span href="#">{{ $statistik->counterHari }}</span></li>
 								<li><span href="#">{{ $statistik->counterBulan }}</span></li>
@@ -790,6 +791,14 @@
 			$('html, body').animate({
 				scrollTop: $("#register-komunitas").offset().top
 			}, 500);
+		});
+
+		// nav link click 
+		$(document).on('click', '.nav-list li a', function() {
+			$('.nav-menu').toggleClass('active');
+			$('.nav-btn').toggleClass('active');
+			$('body').toggleClass('no-scroll');
+			return false;
 		});
 
 		if( $( '#clockdiv' )[0] ){
