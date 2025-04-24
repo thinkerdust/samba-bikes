@@ -27,9 +27,17 @@ class SendEmailPembayaran extends Mailable
 
     public function envelope(): Envelope
     {
+
+        // get event using query builder
+        $event = DB::table('order')
+            ->join('event', 'order.id_event', '=', 'event.id')
+            ->where('order.id', $this->participant['id_order'])
+            ->select('event.*')
+            ->first();
+
         return new Envelope(
             // from: new Address($this->participant['email'], $this->participant['event']),
-            subject: 'Pembayaran ' . $this->participant['event'],
+            subject: 'Pembayaran ' . $event->nama,
         );
     }
 
@@ -39,7 +47,7 @@ class SendEmailPembayaran extends Mailable
                 ->join('order_detail as detail', 'order.nomor', '=', 'detail.nomor_order')
                 ->join('event', 'order.id_event', '=', 'event.id')
                 ->join('peserta', 'peserta.id', '=', 'detail.id_peserta')
-                ->where('order.nomor', $this->participant['nomor_order'])
+                ->where('order.id', $this->participant['id_order'])
                 ->select('peserta.nama as nama_peserta', 'peserta.size_jersey', 'order.nomor as nomor_order', 'order.total', 'event.nama as nama_event', 'event.tanggal', 'event.tanggal_racepack', DB::raw('DATE_FORMAT(event.jam_mulai_racepack, "%H:%i") as jam_mulai_racepack'), DB::raw('DATE_FORMAT(event.jam_selesai_racepack, "%H:%i") as jam_selesai_racepack'), 'event.lokasi')
                 ->get();
 

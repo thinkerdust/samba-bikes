@@ -341,7 +341,7 @@
 							@csrf
 							<ul class="form-cover">
 								<li class="inp-cover inp-name" style="width: 100%"><input id="nama" type="text" name="nama" placeholder="Name" autocomplete="off" required></li>
-								<li class="inp-cover"><input id="phone" type="text" name="phone" placeholder="No Telepon" autocomplete="off" pattern="\d*" required></li>
+								<li class="inp-cover"><input id="phone" class="input-number" type="text" name="phone" placeholder="No Telepon" autocomplete="off" pattern="\d*" required></li>
 								<li class="inp-cover inp-email"><input id="email" type="email" name="email" placeholder="E-mail" autocomplete="off" required></li>
 								<li class="inp-cover"><input id="tanggal_lahir" class="tanggal" type="text" name="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off" required></li>
 								<li class="inp-cover">
@@ -360,8 +360,8 @@
 										<option value="O" style="font-size: 14px;">O</option>
 									</select>
 								</li>
-								<li class="inp-cover" style="z-index: 0"><input id="nik" type="text" name="nik" placeholder="No Tanda Pengenal" autocomplete="off" required></li>
-								<li class="inp-cover" style="z-index: 0"><input id="telp_emergency" type="text" name=" telp_emergency" placeholder="No Kontak Darurat" autocomplete="off" required></li>
+								<li class="inp-cover" style="z-index: 0"><input id="nik" class="input-number" type="text" name="nik" placeholder="No KTP" autocomplete="off" required></li>
+								<li class="inp-cover" style="z-index: 0"><input id="telp_emergency" class="input-number" type="text" name=" telp_emergency" placeholder="No Kontak Darurat" autocomplete="off" required></li>
 								<li class="inp-cover">
 									<select class="nice-select" id="hubungan_emergency" name="hubungan_emergency" placeholder="Hub Kontak Darurat" autocomplete="off" required>
 										<option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
@@ -415,7 +415,7 @@
 								<li class="inp-cover inp-name"><input id="koordinator" type="text" name="koordinator" placeholder="Nama Koordinator"></li>
 								<li class="inp-cover inp-name"><input id="email" type="email" name="email" placeholder="Email Koordinator"></li>
 								<li class="inp-cover inp-name"><input id="kota" type="text" name="kota" placeholder="Kota Komunitas"></li>
-								<li class="inp-cover inp-name"><input id="phone" type="text" name="phone" placeholder="Kontak Koordinator"></li>
+								<li class="inp-cover inp-name"><input id="phone" class="input-number" type="text" name="phone" placeholder="Kontak Koordinator"></li>
 								
 								<li class="pay-method">
 									<div class="col-md-12 mb-2 p-0" style="display: flex; justify-content: space-between; align-items: center;">
@@ -448,8 +448,8 @@
 														</select>
 													</td>
 													<td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off"></td>
-													<td><input type="text" name="nik[]" placeholder="No KTP" autocomplete="off"></td>
-													<td><input type="text" name="telp_emergency[]" placeholder="No Telepon" autocomplete="off"></td>
+													<td><input type="text" class="input-number" name="nik[]" placeholder="No KTP" autocomplete="off"></td>
+													<td><input type="text" class="input-number" name="telp_emergency[]" placeholder="No Telepon" autocomplete="off"></td>
 													<td>
 														<select class="nice-select" id="hubungan_emergency[]" name="hubungan_emergency[]" placeholder="Hub Kontak Darurat" autocomplete="off" required>
 															<option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
@@ -639,12 +639,15 @@
 				<div class="modal-body">
 					<!-- Informasi Pembayaran -->
 					<div class="info-pembayaran mb-3">
-						Silakan lakukan transfer ke <strong>{{ $data->bank }}</strong>, No. Rekening <strong>{{ $data->nomor_rekening }}</strong> atas nama <strong>{{ $data->nama_rekening }}</strong>. 
-						Setelah transfer, mohon kirim bukti pembayaran melalui WhatsApp ke <a href="https://wa.me/{{ $data->phone }}" target="_blank"><strong>{{ $data->phone }}</strong></a>.
+						Silakan lakukan transfer pembayaran ke rekening <strong>{{ $data->bank }}</strong> dengan nomor <strong>{{ $data->nomor_rekening }}</strong> atas nama <strong>{{ $data->nama_rekening }}</strong>. 
+						Setelah melakukan transfer, mohon kirim bukti pembayaran melalui WhatsApp ke <a href="https://wa.me/{{ $data->phone }}" target="_blank"><strong>{{ $data->phone }}</strong></a>.
 					</div>
 					<!-- Pesan Konfirmasi -->
 					<div class="info-pembayaran mb-3 text-success">
 						Kami akan segera memproses pembayaran Anda setelah bukti transfer diterima.
+					</div>
+					<div class="info-pembayaran mb-3 text-success">
+						<strong>Catatan</strong>: Rincian lengkap pembayaran telah kami kirimkan ke email Anda. Silakan periksa inbox (atau folder spam) untuk memastikan Anda menerima informasinya.
 					</div>
 				</div>
 				<div class="modal-footer">

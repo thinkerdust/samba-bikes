@@ -115,6 +115,7 @@
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" name="id_order" id="id_order">
+                    <input type="hidden" name="email" id="email">
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label class="form-label">Total Bayar</label>

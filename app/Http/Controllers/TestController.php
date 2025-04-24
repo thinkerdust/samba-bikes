@@ -16,8 +16,7 @@ class TestController extends Controller
             $recepientMail = 'okvadimas@gmail.com';
 
             $dataEmail = [
-                'nomor_order'   => 'ORD/250601/0001',
-                'event'         => 'Event Test Pembayaran',
+                'id_order'   => '1',
             ];
     
             Mail::to($recepientMail)->send(new SendEmailPembayaran($dataEmail));
