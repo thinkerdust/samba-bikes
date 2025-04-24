@@ -411,11 +411,11 @@
 							@csrf
 							<h5>Informasi Komunitas</h5>
 							<ul class="form-cover">
-								<li class="inp-cover inp-name" style="width: 100%"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas"></li>
-								<li class="inp-cover inp-name"><input id="koordinator" type="text" name="koordinator" placeholder="Nama Koordinator"></li>
-								<li class="inp-cover inp-name"><input id="email" type="email" name="email" placeholder="Email Koordinator"></li>
-								<li class="inp-cover inp-name"><input id="kota" type="text" name="kota" placeholder="Kota Komunitas"></li>
-								<li class="inp-cover inp-name"><input id="phone" class="input-number" type="text" name="phone" placeholder="Kontak Koordinator"></li>
+								<li class="inp-cover inp-name" style="width: 100%"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas" autocomplete="off"></li>
+								<li class="inp-cover inp-name"><input id="koordinator" type="text" name="koordinator" placeholder="Nama Koordinator" autocomplete="off"></li>
+								<li class="inp-cover inp-name"><input id="email" type="email" name="email" placeholder="Email Koordinator" autocomplete="off"></li>
+								<li class="inp-cover inp-name"><input id="kota" type="text" name="kota" placeholder="Kota Komunitas" autocomplete="off"></li>
+								<li class="inp-cover inp-name"><input id="phone" class="input-number" type="text" name="phone" placeholder="Kontak Koordinator" autocomplete="off"></li>
 								
 								<li class="pay-method">
 									<div class="col-md-12 mb-2 p-0" style="display: flex; justify-content: space-between; align-items: center;">

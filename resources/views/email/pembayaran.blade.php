@@ -150,7 +150,7 @@
                                         <li style="margin-left: 15px;">{{ $tanggal_event }} di {{ $data[0]->lokasi }}</li>
                                     </ul>
 
-                                    <p style="margin-bottom: 10px; margin-top: 20px;">Kami tunggu kedatangan Anda di Event Semarang Great Sale 2025.</p>
+                                    <p style="margin-bottom: 10px; margin-top: 20px;">Kami tunggu kedatangan Anda di Event {{ $data[0]->nama_event }}.</p>
                                 </td>
                             </tr>
                         </tbody>
