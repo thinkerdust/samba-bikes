@@ -13,6 +13,7 @@ class Order extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'nomor',
+        'email',
         'id_event',
         'tanggal_bayar',
         'jumlah',

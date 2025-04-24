@@ -228,6 +228,7 @@ function payment(nomor) {
             if (response.status) {
                 $("#modalPayment").modal("show");
                 $('#id_order').val(response.data.id);
+                $('#email').val(response.data.email);
                 $('#total_bayar').val('Rp ' + thousandView(response.data.total));
             } else {
                 NioApp.Toast(response.message, 'warning', {position: 'top-right'});

@@ -88,6 +88,15 @@ function clearButtonSubmit() {
 
 $(document).ready(function() {
 
+    // class .input-number buat input hanya angka
+    $('.input-number').on('keypress', function (e) {
+        var charCode = (e.which) ? e.which : e.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    });
+
     // get harga per tiket
     function getHarga() {
         $.ajax({

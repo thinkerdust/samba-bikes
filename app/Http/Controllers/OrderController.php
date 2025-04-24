@@ -14,6 +14,7 @@ use App\Mail\SendEmailPembayaran;
 use App\Models\Order;
 use Carbon\Carbon;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends BaseController
 {
@@ -127,7 +128,7 @@ class OrderController extends BaseController
             $tanggal_bayar = $tanggal_bayar->format('Y-m-d');
 
             $dataEmail = [
-                'nomor_order' => $id,
+                'id_order' => $id,
             ];
 
             DB::table('order')->where('id', $id)->update(['status' => 2, 'tanggal_bayar' => $tanggal_bayar, 'approve_at' => Carbon::now(), 'approve_by' => $user->id]);

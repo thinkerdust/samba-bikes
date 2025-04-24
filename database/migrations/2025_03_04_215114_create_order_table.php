@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('order', function (Blueprint $table) {
             $table->id();
             $table->string('nomor')->comment('ORD/YYMMDD/0001');
+            $table->string('email')->nullable();
             $table->unsignedBigInteger('id_event');
             $table->date('tanggal_bayar')->comment('harus diisi admin jika status lunas ketika approval')->nullable();
             $table->unsignedInteger('jumlah')->default(0)->comment("jumlah tiket");

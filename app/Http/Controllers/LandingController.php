@@ -110,6 +110,7 @@ class LandingController extends BaseController
 
             $dataOrder = [
                 'nomor'     => $nomor_order,
+                'email'     => $request->email,
                 'id_event'  => $event->id,
                 'total'     => 0,
                 'jumlah'    => 0,
