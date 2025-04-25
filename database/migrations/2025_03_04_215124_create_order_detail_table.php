@@ -20,6 +20,7 @@ return new class extends Migration
             $table->dateTime('insert_at')->useCurrent();
             $table->dateTime('update_at')->nullable()->useCurrentOnUpdate();
             $table->unsignedBigInteger('update_by')->nullable()->useCurrentOnUpdate();
+            $table->tinyInteger('status')->unsigned()->default(1)->comment("1: aktif; 0: cancel/hapus/reject");
             
             $table->foreign('nomor_order')->references('nomor')->on('order')->onDelete('cascade');
             

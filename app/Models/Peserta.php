@@ -10,7 +10,28 @@ class Peserta extends Model
 {
     public $timestamps = false;
     protected $table = 'peserta';
-
+    protected $fillable = [
+        'id_komunitas',
+        'id_event',
+        'nama',
+        'phone',
+        'email',
+        'tgl_lahir',
+        'nik',
+        'blood',
+        'kota',
+        'alamat',
+        'gender',
+        'nama_komunitas',
+        'telp_emergency',
+        'hubungan_emergency',
+        'size_jersey',
+        'status',
+        'insert_at',
+        'update_at',
+        'update_by',
+    ];
+    
     public function dataTablePeserta($event)
     {
         
