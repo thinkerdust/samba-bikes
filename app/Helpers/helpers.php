@@ -78,6 +78,12 @@
         }
     }
 
+    if(!function_exists('js_countup')) {
+        function js_countup() {
+            return '<script src="https://cdn.jsdelivr.net/npm/countup.js@2.6.2/dist/countUp.umd.js"></script>';
+        }
+    }
+
     if (!function_exists('validation_message')) {
         function validation_message()
         {
