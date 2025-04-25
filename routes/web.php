@@ -39,7 +39,10 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
 
     Route::get('log-viewer', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::prefix('dashboard')->controller(DashboardController::class)->group(function () {
+        Route::get('/', 'index')->name('dashboard');
+        Route::get('/data', 'data_dashboard');
+    });
 
     //Data Master
     Route::middleware('ajax-request')->controller(MasterController::class)->group(function() {
