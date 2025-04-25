@@ -186,7 +186,7 @@ $(document).ready(function() {
 $('#registerPersonal').submit(function(e) {
     e.preventDefault();
 
-    consoleg.log('Submit Personal');
+    console.log('Submit Personal');
 
     var btn = $('#btn-submit-personal');
 
@@ -241,7 +241,7 @@ function processRegisterPersonal() {
 
     var btn = $('#btn-submit-personal');
 
-    consoleg.log('Process Personal');
+    console.log('Process Personal');
 
     let formData = new FormData($('#registerPersonal')[0]);
         formData.append('type', 'personal');
@@ -274,7 +274,7 @@ function processRegisterPersonal() {
 $('#registerKomunitas').submit(function(e) {
     e.preventDefault();
 
-    consoleg.log('Submit Komunitas');
+    console.log('Submit Komunitas');
 
     var btn = $('#btn-submit-komunitas');
 
@@ -332,7 +332,7 @@ function processRegisterKomunitas() {
 
     var btn = $('#btn-submit-komunitas');
 
-    consoleg.log('Process Komunitas');
+    console.log('Process Komunitas');
 
     let formData = new FormData($('#registerKomunitas')[0]);
         formData.append('type', 'komunitas');
