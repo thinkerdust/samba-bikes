@@ -9063,3 +9063,7 @@ body.modal {
     padding-bottom: 50px;
   }
 }
+
+.swal2-modal {
+  padding: 30px 0 50px 0;
+}

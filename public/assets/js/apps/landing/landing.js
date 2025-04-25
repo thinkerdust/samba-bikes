@@ -42,9 +42,16 @@ function closeModalOverride() {
     clearButtonSubmit()
 }
 
-function openModalError() {
+function openModalError(wording = '') {
     let modal = document.getElementById("modalError");
     modal.style.display = "flex";
+    
+    if(wording) {
+        modal.querySelector('#info-error').innerHTML = wording; 
+    } else {
+        modal.querySelector('#info-error').innerHTML = 'Terjadi Kesalahan, Mohon Hubungi Admin 🙏';
+    }
+
     setTimeout(() => modal.style.opacity = "1", 10);
 }
 
@@ -241,6 +248,22 @@ $('#registerPersonal').submit(function(e) {
         beforeSend: function() {
             btn.attr('disabled', true);
             btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading ...</span>`);
+            
+            Swal.fire({
+                title: '<strong>Tunggu Sebentar Ya!</strong>',
+                html: 'Sedang memproses pendaftaranmu... 🚴♂️✨<br><br>Siap-siap untuk petualangan seru di tengah lintasan yang menantang! 💪',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+                customClass: {
+                    popup: 'swal2-border-radius',
+                    title: 'swal2-title-custom',
+                    htmlContainer: 'swal2-html-custom',
+                }
+            });
         },
         success: function(response) {
             let data = response.data;
@@ -290,6 +313,7 @@ function processRegisterPersonal() {
         processData: false,
         contentType: false,
         success: function(response) {
+            Swal.close();
             if(response.status) {
                 closeModalOverride();
                 openModal();
@@ -302,7 +326,8 @@ function processRegisterPersonal() {
             btn.attr('disabled', false);
             btn.html('Register');
 
-            openModalError();
+            Swal.close();
+            openModalError(error.responseJSON.message);
         }
     });
 }
@@ -433,6 +458,7 @@ $('#registerKomunitas').submit(function(e) {
             btn.html('Register');
             console.log(error);
 
+            Swal.close();
             openModalError();
         }
     });
@@ -455,7 +481,25 @@ function processRegisterKomunitas() {
         data: formData,
         processData: false,
         contentType: false,
+        beforeSend: function() {
+            Swal.fire({
+                title: '<strong>Tunggu Sebentar Ya!</strong>',
+                html: 'Sedang memproses pendaftaranmu... 🚴♂️✨<br><br>Siap-siap untuk petualangan seru di tengah lintasan yang menantang! 💪',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+                customClass: {
+                    popup: 'swal2-border-radius',
+                    title: 'swal2-title-custom',
+                    htmlContainer: 'swal2-html-custom',
+                }
+            });
+        },
         success: function(response) {
+            Swal.close();
             if(response.status) {
                 closeModalOverride();
                 openModal();
@@ -468,7 +512,8 @@ function processRegisterKomunitas() {
             btn.attr('disabled', false);
             btn.html('Register');
 
-            openModalError();
+            Swal.close();
+            openModalError(error.responseJSON.message);
         }
     });
 }

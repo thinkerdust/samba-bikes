@@ -89,7 +89,7 @@ class LandingController extends BaseController
                         'e.email',
                         'e.harga',
                         'e.stok',
-                        DB::raw('(e.stok - SUM(o.jumlah)) as sisa_stok')
+                        DB::raw('(e.stok - SUM(IFNULL(o.jumlah, 0))) as sisa_stok')
                     )
                     ->where('e.status', 2)
                     ->whereBetween(DB::raw('CURDATE()'), [DB::raw('e.tanggal_mulai'), DB::raw('e.tanggal_selesai')])
@@ -273,6 +273,15 @@ class LandingController extends BaseController
                                 ->where('nomor', $oldOrder->nomor_order)
                                 ->update(['status' => 0]);
                         } else {
+                            // update jumlah, subtotal, total (subtotal + kode_unik)
+                            $totalPesertaOldOrder = DB::table('order_detail')->where('nomor_order', $oldOrder->nomor_order)->where('status', 1)->where('id_peserta', '!=', $peserta->id)->count();
+                            DB::table('order')
+                                ->where('nomor', $oldOrder->nomor_order) // First, add the where condition
+                                ->update([
+                                    'subtotal' => $event->harga * $totalPesertaOldOrder,
+                                    'total'    => ($event->harga * $totalPesertaOldOrder) + $oldOrder->kode_unik,
+                                ]);
+                            
                             DB::table('order')
                                 ->where('nomor', $oldOrder->nomor_order)
                                 ->decrement('jumlah');
@@ -325,6 +334,7 @@ class LandingController extends BaseController
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollback();
+            dd($e);
             return $this->ajaxResponse(false, 'Data gagal disimpan', $e);
         }
     }
