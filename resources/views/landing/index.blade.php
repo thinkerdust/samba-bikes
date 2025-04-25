@@ -15,6 +15,8 @@
 	<link href="https://use.fontawesome.com/releases/v5.10.1/css/all.css" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('assets/css/landing/nice-select.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/css/landing/style.css') . '?v=' . time() }}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.css" integrity="sha512-fjO3Vy3QodX9c6G9AUmr6WuIaEPdGRxBjD7gjatG5gGylzYyrEq3U0q+smkG6CwIY0L8XALRFHh4KPHig0Q1ug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body id="home">
@@ -347,14 +349,14 @@
 							<li class="inp-cover inp-email"><input id="email" type="email" name="email" placeholder="E-mail" autocomplete="off" required></li>
 							<li class="inp-cover"><input id="tanggal_lahir" class="tanggal" type="text" name="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off" required></li>
 							<li class="inp-cover">
-								<select class="nice-select" id="gender" name="gender" autocomplete="off" required>
+								<select class="nice-select" id="gender" name="gender" autocomplete="off">
 									<option value="" style="font-size: 14px;">Jenis Kelamin</option>
 									<option value="L" style="font-size: 14px;">Laki-Laki</option>
 									<option value="P" style="font-size: 14px;">Perempuan</option>
 								</select>
 							</li>
 							<li class="inp-cover" style="z-index: 1">
-								<select class="nice-select" id="blood" name="blood" placeholder="Gol Darah" autocomplete="off" required>
+								<select class="nice-select" id="blood" name="blood" placeholder="Gol Darah" autocomplete="off">
 									<option value="" style="font-size: 14px;">Gol Darah</option>
 									<option value="A" style="font-size: 14px;">A</option>
 									<option value="B" style="font-size: 14px;">B</option>
@@ -365,7 +367,7 @@
 							<li class="inp-cover" style="z-index: 0"><input id="nik" class="input-number" type="text" name="nik" placeholder="No KTP" autocomplete="off" required></li>
 							<li class="inp-cover" style="z-index: 0"><input id="telp_emergency" class="input-number" type="text" name=" telp_emergency" placeholder="No Kontak Darurat" autocomplete="off" required></li>
 							<li class="inp-cover">
-								<select class="nice-select" id="hubungan_emergency" name="hubungan_emergency" placeholder="Hub Kontak Darurat" autocomplete="off" required>
+								<select class="nice-select" id="hubungan_emergency" name="hubungan_emergency" placeholder="Hub Kontak Darurat" autocomplete="off">
 									<option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
 									<option value="SAUDARA" style="font-size: 14px;">Saudara</option>
 									<option value="ORANG TUA" style="font-size: 14px;">Orang Tua</option>
@@ -375,9 +377,9 @@
 							</li>
 							<li class="inp-cover" style="z-index: 0"><input id="kota" type="text" name="kota" placeholder="Kota" autocomplete="off" required></li>
 							<li class="inp-cover" style="z-index: 0"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas" autocomplete="off"></li>
-							<li class="inp-cover" style="width: 100%; z-index: 0;"><input id="alamat" type="text" name="alamat" placeholder="Alamat" autocomplete="off" required></li>
+							<li class="inp-cover" style="width: 100%; z-index: 0;"><input id="alamat" type="text" name="alamat" placeholder="Alamat" autocomplete="off"></li>
 							<li class="inp-cover" style="width: 100%">
-								<select class="nice-select" id="jersey" name="jersey" autocomplete="off" required>
+								<select class="nice-select" id="jersey" name="jersey" autocomplete="off">
 									<option value="">Jersey</option>
 									<option value="S">S</option>
 									<option value="M">M</option>
@@ -412,11 +414,11 @@
 							@csrf
 							<h5>Informasi Komunitas</h5>
 							<ul class="form-cover">
-								<li class="inp-cover inp-name" style="width: 100%"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas" autocomplete="off"></li>
-								<li class="inp-cover inp-name"><input id="koordinator" type="text" name="koordinator" placeholder="Nama Koordinator" autocomplete="off"></li>
-								<li class="inp-cover inp-name"><input id="email" type="email" name="email" placeholder="Email Koordinator" autocomplete="off"></li>
-								<li class="inp-cover inp-name"><input id="kota" type="text" name="kota" placeholder="Kota Komunitas" autocomplete="off"></li>
-								<li class="inp-cover inp-name"><input id="phone" class="input-number" type="text" name="phone" placeholder="Kontak Koordinator" autocomplete="off"></li>
+								<li class="inp-cover inp-name" style="width: 100%"><input id="nama_komunitas" type="text" name="nama_komunitas" placeholder="Nama Komunitas" autocomplete="off" required></li>
+								<li class="inp-cover inp-name"><input id="koordinator" type="text" name="koordinator" placeholder="Nama Koordinator" autocomplete="off" required></li>
+								<li class="inp-cover inp-name"><input id="email" type="email" name="email" placeholder="Email Koordinator" autocomplete="off" required></li>
+								<li class="inp-cover inp-name"><input id="kota" type="text" name="kota" placeholder="Kota Komunitas" autocomplete="off" required></li>
+								<li class="inp-cover inp-name"><input id="phone" class="input-number" type="text" name="phone" placeholder="Kontak Koordinator" autocomplete="off" required></li>
 								
 								<li class="pay-method">
 									<div class="col-md-12 mb-2 p-0" style="display: flex; justify-content: space-between; align-items: center;">
@@ -440,7 +442,7 @@
 											</thead>
 											<tbody id="listPeserta">
 												<tr>
-													<td><input type="text" name="nama[]" placeholder="Nama Peserta" autocomplete="off"></td>
+													<td><input type="text" name="nama[]" placeholder="Nama Peserta" autocomplete="off" required></td>
 													<td>
 														<select class="nice-select" id="gender" name="gender[]" autocomplete="off">
 															<option value="">Jenis Kelamin</option>
@@ -448,11 +450,11 @@
 															<option value="P" style="font-size: 14px;">Perempuan</option>
 														</select>
 													</td>
-													<td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off"></td>
-													<td><input type="text" class="input-number" name="nik[]" placeholder="No KTP" autocomplete="off"></td>
-													<td><input type="text" class="input-number" name="telp_emergency[]" placeholder="No Telepon" autocomplete="off"></td>
+													<td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off" required></td>
+													<td><input type="text" class="input-number" name="nik[]" placeholder="No KTP" autocomplete="off" required></td>
+													<td><input type="text" class="input-number" name="telp_emergency[]" placeholder="No Telepon" autocomplete="off" required></td>
 													<td>
-														<select class="nice-select" id="hubungan_emergency[]" name="hubungan_emergency[]" placeholder="Hub Kontak Darurat" autocomplete="off" required>
+														<select class="nice-select" id="hubungan_emergency[]" name="hubungan_emergency[]" placeholder="Hub Kontak Darurat" autocomplete="off">
 															<option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
 															<option value="SAUDARA" style="font-size: 14px;">Saudara</option>
 															<option value="ORANG TUA" style="font-size: 14px;">Orang Tua</option>
@@ -717,8 +719,8 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
-	
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.min.js" integrity="sha512-LGHBR+kJ5jZSIzhhdfytPoEHzgaYuTRifq9g5l6ja6/k9NAOsAi5dQh4zQF6JIRB8cAYxTRedERUF+97/KuivQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="{{ asset('assets/js/apps/landing/slick.min.js') }}"></script>
 	<script src="{{ asset('assets/js/apps/landing/rx-lazy.js') }}"></script>
 	<script src="{{ asset('assets/js/apps/landing/jquery.nice-select.js') }}"></script>
@@ -728,6 +730,8 @@
 	<script src="{{ asset('assets/js/apps/landing/landing.js') . '?v=' . time() }}"></script>
 
 	<script>
+
+		var phone = "{{ $data->phone }}";
 
 		// Check if the user is offline
         if (!navigator.onLine) {
