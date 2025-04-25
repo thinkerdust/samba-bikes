@@ -4,6 +4,13 @@ function openModal() {
     let modal = document.getElementById("modalKonfirmasi");
     modal.style.display = "flex";
     setTimeout(() => modal.style.opacity = "1", 10);
+
+    // Prevent closing the modal when clicking outside
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            event.stopPropagation();
+        }
+    });
 }
 
 function closeModal() {
@@ -89,7 +96,7 @@ function clearButtonSubmit() {
 $(document).ready(function() {
 
     // class .input-number buat input hanya angka
-    $('.input-number').on('input', function () {
+    $(document).on('input', '.input-number', function () {
         this.value = this.value.replace(/[^0-9]/g, '');
     });
 
@@ -125,7 +132,7 @@ $(document).ready(function() {
     $('#addPeserta').click(function() {
         let newRow = `
             <tr>
-                <td><input type="text" name="nama[]" placeholder="Nama Peserta"></td>
+                <td><input type="text" name="nama[]" placeholder="Nama Peserta" required></td>
                 <td>
                     <select class="nice-select" id="gender" name="gender[]" autocomplete="off" style="z-index: 0; padding: 15px 0; color: #aaa;">
                         <option value="">Jenis Kelamin</option>
@@ -133,11 +140,11 @@ $(document).ready(function() {
                         <option value="P" style="font-size: 14px;">Perempuan</option>
                     </select>
                 </td>
-                <td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off"></td>
-                <td><input type="text" name="nik[]" placeholder="No KTP"></td>
-                <td><input type="text" name="telp_emergency[]" placeholder="No Telepon" autocomplete="off"></td>
+                <td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off" required></td>
+                <td><input type="text" class="input-number" name="nik[]" placeholder="No KTP" required></td>
+                <td><input type="text" class="input-number" name="telp_emergency[]" placeholder="No Telepon" autocomplete="off" required></td>
                 <td>
-                    <select class="nice-select" id="hubungan_emergency[]" name="hubungan_emergency[]" placeholder="Hub Kontak Darurat" autocomplete="off" required>
+                    <select class="nice-select" id="hubungan_emergency[]" name="hubungan_emergency[]" placeholder="Hub Kontak Darurat" autocomplete="off">
                         <option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
                         <option value="SAUDARA" style="font-size: 14px;">Saudara</option>
                         <option value="ORANG TUA" style="font-size: 14px;">Orang Tua</option>
@@ -193,6 +200,35 @@ $('#registerPersonal').submit(function(e) {
     // check peserta
     let nik = [];
     nik.push($(this).find('input[name="nik"]').val());
+
+    // validasi form select harus diisi
+    let gender              = $('#gender').val();
+    let tgl_lahir           = $('#tanggal_lahir').val();
+    let blood               = $('#blood').val();
+    let hubungan_emergency  = $('#hubungan_emergency').val();
+    let jersey              = $('#jersey').val();
+
+    if(gender === '' || tgl_lahir === '' || blood === '' || hubungan_emergency === '' || jersey === '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops, ada yang terlewat!',
+            text: 'Pastikan semua kolom pada form telah diisi dengan benar. Mohon periksa kembali!',
+            footer: `<a href='https://wa.me/${phone}' target='_blank'>Butuh bantuan?</a>`,  // Optional: A link to help page
+            showConfirmButton: true,
+            confirmButtonText: 'Periksa Kembali',
+            confirmButtonColor: '#0d5aa5',
+            customClass: {
+                title: 'font-weight-bold', // Makes the title bold for emphasis
+                content: 'font-italic',    // Optional: Adds italics to content
+            },
+            showCloseButton: true,  // Optional: Adds a close button
+            didOpen: () => {
+                // Optional: You can focus a specific element or scroll to it
+                document.querySelector('input').focus();  // Focus on the first input
+            }
+        })
+        return;
+    }
 
     $.ajax({
         url: '/check-peserta',
@@ -278,11 +314,86 @@ $('#registerKomunitas').submit(function(e) {
 
     var btn = $('#btn-submit-komunitas');
 
-    // check peserta
-    let nik = [];
+    let nik                 = [];
+    let gender              = [];
+    let hubunganEmergency   = [];
+    let blood               = [];
+    let jersey              = [];
+    let isValid             = true;
+
     $(this).find('input[name="nik[]"]').each(function() {
         nik.push($(this).val());
     });
+    console.log(nik);
+
+    $(this).find('select[name="gender[]"]').each(function() {
+        gender.push($(this).val());
+    });
+    
+    $(this).find('select[name="hubungan_emergency[]"]').each(function() {
+        hubunganEmergency.push($(this).val());
+    });
+
+    $(this).find('select[name="blood[]"]').each(function() {
+        blood.push($(this).val());
+    });
+
+    $(this).find('select[name="jersey[]"]').each(function() {
+        jersey.push($(this).val());
+    });
+
+    // validasi harus minimalkan 1 peserta
+    if(nik.length < 1) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops, ada yang terlewat!',
+            text: 'Pastikan minimal 1 peserta. Mohon periksa kembali!',
+            footer: `<a href='https://wa.me/${phone}' target='_blank'>Butuh bantuan?</a>`,  // Optional: A link to help page
+            showConfirmButton: true,
+            confirmButtonText: 'Periksa Kembali',
+            confirmButtonColor: '#0d5aa5',
+            customClass: {
+                title: 'font-weight-bold', // Makes the title bold for emphasis
+                content: 'font-italic',    // Optional: Adds italics to content
+            },
+            showCloseButton: true,  // Optional: Adds a close button
+            didOpen: () => {
+                // Optional: You can focus a specific element or scroll to it
+                document.querySelector('input').focus();  // Focus on the first input
+            }
+        })
+        return;
+    }
+
+    for (let i = 0; i < nik.length; i++) {
+        if (nik[i] === '' || gender[i] === '' || hubunganEmergency[i] === '' || blood[i] === '' || jersey[i] === '') {
+            isValid = false;
+            break;  // Exit loop on first invalid select
+        }
+    }
+
+    // If validation failed, show an error
+    if (!isValid) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops, ada yang terlewat!',
+            text: 'Pastikan semua kolom pada form telah diisi dengan benar. Mohon periksa kembali!',
+            footer: `<a href='https://wa.me/${phone}' target='_blank'>Butuh bantuan?</a>`,  // Optional: A link to help page
+            showConfirmButton: true,
+            confirmButtonText: 'Periksa Kembali',
+            confirmButtonColor: '#0d5aa5',
+            customClass: {
+                title: 'font-weight-bold', // Makes the title bold for emphasis
+                content: 'font-italic',    // Optional: Adds italics to content
+            },
+            showCloseButton: true,  // Optional: Adds a close button
+            didOpen: () => {
+                // Optional: You can focus a specific element or scroll to it
+                document.querySelector('input').focus();  // Focus on the first input
+            }
+        })
+        return;
+    }
 
     $.ajax({
         url: '/check-peserta',
