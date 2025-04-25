@@ -27,7 +27,15 @@ class LandingController extends BaseController
 
     public function index() {
         $js         = 'assets/js/apps/landing/landing.js?_='.rand();
-        $data       = DB::table('event')->where('status', 2)->first();
+        $data       = DB::table('event')
+                        ->select('*',
+                            DB::raw("CASE 
+                                        WHEN DATE(NOW()) < tanggal_mulai OR DATE(NOW()) >= tanggal_selesai THEN 0
+                                        ELSE 1 
+                                    END AS register")
+                        )
+                        ->where('status', 2)
+                        ->first();
         $schedules  = DB::table('event_schedule')->where('id_event', $data->id)->orderBy('jam', 'asc')->get();
         $images     = DB::table('event_images')->where('id_event', $data->id)->get();
         $sponsors   = DB::table('sponsor')->where('id_event', $data->id)->get();

@@ -390,7 +390,9 @@
 							</li>
 						</ul>
 						<div class="btn-form-cover" style="margin-top: 1.5rem">
-							<button type="submit" class="btn" id="btn-submit-personal"><span>Register</span></button>
+							@if($data->register == 1)
+								<button type="submit" class="btn" id="btn-submit-personal"><span>Register</span></button>
+							@endif
 						</div>
 					</form>
 				</div>
@@ -496,7 +498,9 @@
 									<div class="price-final-text"><span id="totalHarga">0</span></div>
 								</div>
 								<div class="btn-form-cover" style="margin-top: 1.5rem; margin-bottom: 1.5rem">
-									<button type="submit" class="btn" id="btn-submit-komunitas"><span>Register</span></button>
+									@if($data->register == 1) 
+										<button type="submit" class="btn" id="btn-submit-komunitas"><span>Register</span></button>
+									@endif
 								</div>
 							</div>
 						</form>
