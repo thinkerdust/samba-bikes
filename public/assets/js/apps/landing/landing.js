@@ -108,7 +108,9 @@ $(document).ready(function() {
     getHarga();
 
     $(document).on('focus', '.tanggal', function () {
-        $(this).datepicker();
+        $(this).datepicker({
+            dateFormat: 'dd/mm/yy'
+        });
     });
 
     // Remove peserta
@@ -133,7 +135,7 @@ $(document).ready(function() {
                 </td>
                 <td><input type="date" name="tanggal_lahir[]" class="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off"></td>
                 <td><input type="text" name="nik[]" placeholder="No KTP"></td>
-                <td><input type="text" name="telp_emergency[]" placeholder="No Telepon"></td>
+                <td><input type="text" name="telp_emergency[]" placeholder="No Telepon" autocomplete="off"></td>
                 <td>
                     <select class="nice-select" id="hubungan_emergency[]" name="hubungan_emergency[]" placeholder="Hub Kontak Darurat" autocomplete="off" required>
                         <option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
@@ -183,6 +185,8 @@ $(document).ready(function() {
 
 $('#registerPersonal').submit(function(e) {
     e.preventDefault();
+
+    consoleg.log('Submit Personal');
 
     var btn = $('#btn-submit-personal');
 
@@ -237,6 +241,8 @@ function processRegisterPersonal() {
 
     var btn = $('#btn-submit-personal');
 
+    consoleg.log('Process Personal');
+
     let formData = new FormData($('#registerPersonal')[0]);
         formData.append('type', 'personal');
 
@@ -267,6 +273,8 @@ function processRegisterPersonal() {
 
 $('#registerKomunitas').submit(function(e) {
     e.preventDefault();
+
+    consoleg.log('Submit Komunitas');
 
     var btn = $('#btn-submit-komunitas');
 
@@ -323,6 +331,8 @@ $('#registerKomunitas').submit(function(e) {
 function processRegisterKomunitas() {
 
     var btn = $('#btn-submit-komunitas');
+
+    consoleg.log('Process Komunitas');
 
     let formData = new FormData($('#registerKomunitas')[0]);
         formData.append('type', 'komunitas');
