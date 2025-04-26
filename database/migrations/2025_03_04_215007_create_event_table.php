@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->date('tanggal');
             $table->text('deskripsi')->nullable();
+            $table->text('deskripsi_internal')->nullable();
             $table->string('kota');
             $table->text('lokasi');
             $table->unsignedInteger('jarak')->comment('kilometer');

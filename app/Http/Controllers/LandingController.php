@@ -27,15 +27,7 @@ class LandingController extends BaseController
 
     public function index() {
         $js         = 'assets/js/apps/landing/landing.js?_='.rand();
-        $data       = DB::table('event')
-                        ->select('*',
-                            DB::raw("CASE 
-                                        WHEN DATE(NOW()) < tanggal_mulai OR DATE(NOW()) >= tanggal_selesai THEN 0
-                                        ELSE 1 
-                                    END AS register")
-                        )
-                        ->where('status', 2)
-                        ->first();
+        $data       = DB::table('event')->where('status', 2)->first();
         $schedules  = DB::table('event_schedule')->where('id_event', $data->id)->orderBy('jam', 'asc')->get();
         $images     = DB::table('event_images')->where('id_event', $data->id)->get();
         $sponsors   = DB::table('sponsor')->where('id_event', $data->id)->get();
@@ -98,6 +90,12 @@ class LandingController extends BaseController
         
         if (!$event) {
             return $this->ajaxResponse(false, 'Event tidak ditemukan.');
+        }
+
+        if (date('Y-m-d') < $event->tanggal_mulai) {
+            return $this->ajaxResponse(false, 'Event belum dimulai. Silakan cek kembali pada tanggal ' . date('d M Y', strtotime($event->tanggal_mulai)) . '.');
+        } elseif (date('Y-m-d') > $event->tanggal_selesai) {
+            return $this->ajaxResponse(false, 'Event telah berakhir. Event telah berakhir. Nantikan event menarik kami berikutnya!');
         }
         
         if (($event->sisa_stok - $jumlah) <= 0) {
@@ -273,10 +271,9 @@ class LandingController extends BaseController
                                 ->where('nomor', $oldOrder->nomor_order)
                                 ->update(['status' => 0]);
                         } else {
-                            // update jumlah, subtotal, total (subtotal + kode_unik)
                             $totalPesertaOldOrder = DB::table('order_detail')->where('nomor_order', $oldOrder->nomor_order)->where('status', 1)->where('id_peserta', '!=', $peserta->id)->count();
                             DB::table('order')
-                                ->where('nomor', $oldOrder->nomor_order) // First, add the where condition
+                                ->where('nomor', $oldOrder->nomor_order) 
                                 ->update([
                                     'subtotal' => $event->harga * $totalPesertaOldOrder,
                                     'total'    => ($event->harga * $totalPesertaOldOrder) + $oldOrder->kode_unik,

@@ -83,6 +83,7 @@ $(document).ready(function() {
                     $('#long_end').val(data.long_end);
                     $('#tanggal').datepicker('setDate', data.tanggal);
                     $('#deskripsi').val(data.deskripsi);
+                    $('#deskripsi_internal').val(data.deskripsi_internal);
                     $('#tanggal_mulai_tiket').datepicker('setDate', data.tanggal_mulai);
                     $('#tanggal_selesai_tiket').datepicker('setDate', data.tanggal_selesai);
                     $('#harga').val(thousandView(data.harga));

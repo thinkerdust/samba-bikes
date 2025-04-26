@@ -204,11 +204,15 @@
 						<li><i aria-hidden="true" class="fas fa-map-marker-alt"></i>{{ $data->kota }}</li>
 						<li><i aria-hidden="true" class="fas fa-calendar-alt"></i>{{ date('d M Y', strtotime($data->tanggal)) }}</li>
 					</ul>
-					<h4>Pedal Together, Ride Stronger!</h4>
-					<p>At Samba, we bring cyclists together—whether casual riders or competitive athletes—to experience scenic and exciting rides. Cycling is more than a sport; it’s a lifestyle that promotes health, sustainability, and community. Join us and ride towards new adventures!</p>
+					<h4>Speed, Strength, Samba!</h4>
+					@if (!empty($data->deskripsi))
+						<p>{{ $data->deskripsi }}</p>
+					@else
+						<p>At Samba, we bring cyclists together—whether casual riders or competitive athletes—to experience scenic and exciting rides. Cycling is more than a sport; it’s a lifestyle that promotes health, sustainability, and community. Join us and ride towards new adventures!</p>
+					@endif
 					<div class="mission-number-cover">
 						<div class="mission-number-item">
-							<div class="number">100+</div>
+							<div class="number">{{ $data->stok }}+</div>
 							<span>Participants</span>
 						</div>
 						<div class="mission-number-item">
@@ -368,7 +372,7 @@
 							<li class="inp-cover" style="z-index: 0"><input id="telp_emergency" class="input-number" type="text" name=" telp_emergency" placeholder="No Kontak Darurat" autocomplete="off" required></li>
 							<li class="inp-cover">
 								<select class="nice-select" id="hubungan_emergency" name="hubungan_emergency" placeholder="Hub Kontak Darurat" autocomplete="off">
-									<option value="" style="font-size: 14px;">Hub Kontak Darurat</option>
+									<option value="" style="font-size: 14px;">Hubungan</option>
 									<option value="SAUDARA" style="font-size: 14px;">Saudara</option>
 									<option value="ORANG TUA" style="font-size: 14px;">Orang Tua</option>
 									<option value="SUAMI/ISTRI" style="font-size: 14px;">Suami/Istri</option>
@@ -390,9 +394,7 @@
 							</li>
 						</ul>
 						<div class="btn-form-cover" style="margin-top: 1.5rem">
-							@if($data->register == 1)
-								<button type="submit" class="btn" id="btn-submit-personal"><span>Register</span></button>
-							@endif
+							<button type="submit" class="btn" id="btn-submit-personal"><span>Register</span></button>
 						</div>
 					</form>
 				</div>
@@ -498,9 +500,7 @@
 									<div class="price-final-text"><span id="totalHarga">0</span></div>
 								</div>
 								<div class="btn-form-cover" style="margin-top: 1.5rem; margin-bottom: 1.5rem">
-									@if($data->register == 1) 
-										<button type="submit" class="btn" id="btn-submit-komunitas"><span>Register</span></button>
-									@endif
+									<button type="submit" class="btn" id="btn-submit-komunitas"><span>Register</span></button>
 								</div>
 							</div>
 						</form>

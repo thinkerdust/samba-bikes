@@ -116,9 +116,15 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label">Deskripsi</label>
+                                                    <label class="form-label">Deskripsi (What We Do)</label>
                                                     <div class="form-control-wrap">
                                                         <textarea class="form-control" id="deskripsi" name="deskripsi" rows="5" placeholder="Isi Dengan Deskripsi Event"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Deskripsi (Internal)</label>
+                                                    <div class="form-control-wrap">
+                                                        <textarea class="form-control" id="deskripsi_internal" name="deskripsi_internal" rows="5" placeholder="Isi Dengan Deskripsi Internal"></textarea>
                                                     </div>
                                                 </div>
                                             </div>

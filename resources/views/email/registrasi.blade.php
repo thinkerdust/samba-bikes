@@ -117,22 +117,28 @@
                                     <p style="margin-bottom: 15px; margin-top: 15px;">Detail Tagihan :</p>                                    
                                     <table style="width:100%;max-width:620px;margin-left:0;background-color:#ffffff;border-collapse: collapse;border: 1px solid #555;">
                                         <tbody>
+                                            @if ($data[0]->komunitas)
+                                                <tr>
+                                                    <td style="border: 1px solid #555; padding: 5px; padding-left: 10px; font-weight: bold; width: 120px;">Komunitas</td>
+                                                    <td style="border: 1px solid #555; padding: 5px; padding-left: 10px; ">{{ $data[0]->komunitas }}</td>
+                                                </tr>
+                                            @endif
                                             <tr>
-                                                <td style="border: 1px solid #555; padding: 2px; padding-left: 10px; font-weight: bold; width: 120px;">No Tagihan</td>
-                                                <td style="border: 1px solid #555; padding: 2px; padding-left: 10px; ">{{ $data[0]->nomor_order }}</td>
+                                                <td style="border: 1px solid #555; padding: 5px; padding-left: 10px; font-weight: bold; width: 120px;">No Tagihan</td>
+                                                <td style="border: 1px solid #555; padding: 5px; padding-left: 10px; ">{{ $data[0]->nomor_order }}</td>
                                             </tr>
                                             <tr>
-                                                <td style="border: 1px solid #555; padding: 2px; padding-left: 10px; font-weight: bold;">Paket</td>
-                                                <td style="border: 1px solid #555; padding: 2px; padding-left: 10px;">{{ $data[0]->nama_event }}</td>
+                                                <td style="border: 1px solid #555; padding: 5px; padding-left: 10px; font-weight: bold;">Paket</td>
+                                                <td style="border: 1px solid #555; padding: 5px; padding-left: 10px;">{{ $data[0]->nama_event }}</td>
                                             </tr>
                                             <tr>
-                                                <td style="border: 1px solid #555; padding: 2px; padding-left: 10px; font-weight: bold;">Total</td>
-                                                <td style="border: 1px solid #555; padding: 2px; padding-left: 10px;">Rp. {{ number_format($data[0]->total, 0, '.', '.') }}</td>
+                                                <td style="border: 1px solid #555; padding: 5px; padding-left: 10px; font-weight: bold;">Total</td>
+                                                <td style="border: 1px solid #555; padding: 5px; padding-left: 10px;">Rp. {{ number_format($data[0]->total, 0, '.', '.') }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 
-                                    <p style="margin-bottom: 15px; margin-top: 15px;">Harap melakukan pembayaran dengan nominal yang sesuai dengan tagihan (dengan angka unik). Pembayaran bisa dilakukan melalui rekening berikut :</p>
+                                    <p style="margin-bottom: 15px; margin-top: 20px;">Harap melakukan pembayaran dengan nominal yang sesuai dengan tagihan (dengan angka unik). Pembayaran bisa dilakukan melalui rekening berikut :</p>
                                 
                                     <p style="text-align: center;"><strong>Nama Bank : {{ $data[0]->bank }}</strong></p>
                                     <p style="text-align: center;"><strong>Nomor Rekening : {{ $data[0]->nomor_rekening }}</strong></p>

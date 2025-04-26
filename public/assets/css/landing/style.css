@@ -9035,16 +9035,25 @@ body.modal {
   color: #fff;
 }
 
-/* if max 575px media query */
+@media (max-width: 1199px) {
+  #schedule .container .row {
+    padding: 50px 0;
+  }
+
+  .register-img {
+    max-width: 100%;
+    display: block !important;
+    margin-bottom: 50px;
+  }
+}
+
+/* manunal custom if max 575px media query */
 @media (max-width: 575px) {
   .btn-register-personal, .btn-register-komunitas {
     font-size: 12px;
   }
 
   .register-img {
-    /* top: 13%; */
-    /* left: 50%; */
-    /* transform: translate(-50%, -50%); */
     max-width: 100%;
     display: block !important;
     margin-bottom: 50px;
@@ -9064,6 +9073,6 @@ body.modal {
   }
 }
 
-.swal2-modal {
-  padding: 30px 0 50px 0;
+.slick-list, .slick-slider, .slick-track {
+  margin: auto !important;
 }
