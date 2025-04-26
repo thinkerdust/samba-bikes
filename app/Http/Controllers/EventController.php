@@ -139,6 +139,7 @@ class EventController extends BaseController
                 'lat_end'           => $request->lat_end,
                 'long_end'          => $request->long_end,
                 'deskripsi'         => $request->deskripsi,
+                'deskripsi_internal'    => $request->deskripsi_internal,
                 'tanggal'           => Carbon::createFromFormat('d/m/Y', $request->tanggal)->format('Y-m-d'),
                 'tanggal_mulai'     => Carbon::createFromFormat('d/m/Y', $request->tanggal_mulai_tiket)->format('Y-m-d'),
                 'tanggal_selesai'   => Carbon::createFromFormat('d/m/Y', $request->tanggal_selesai_tiket)->format('Y-m-d'),

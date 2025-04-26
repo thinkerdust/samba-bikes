@@ -16,7 +16,7 @@ class TestController extends Controller
             $recepientMail = 'okvadimas@gmail.com';
 
             $dataEmail = [
-                'id_order'   => '1',
+                'id_order'   => '8',
             ];
     
             Mail::to($recepientMail)->send(new SendEmailPembayaran($dataEmail));
@@ -32,7 +32,7 @@ class TestController extends Controller
             $recepientMail = 'okvadimas@gmail.com';
 
             $dataEmail = [
-                'nomor_order'   => 'ORD/250601/0001',
+                'nomor_order'   => 'ORD/202504/0006',
                 'event'         => 'Event Test Registrasi',
             ];
     

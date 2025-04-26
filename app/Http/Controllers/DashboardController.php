@@ -17,14 +17,22 @@ class DashboardController extends BaseController
 
     public function data_dashboard()
     {
-        $event = DB::table('event')->where('status', 2)->first();
-        $id_event = isset($event) ? $event->id : 0;
-        $order = DB::table('order')
-                ->where('id_event', $id_event)->where('status', 2)
-                ->selectRaw("SUM(jumlah) as jumlah, SUM(subtotal) as revenue, COUNT(id) as total_order")
-                ->groupBy('id_event')
-                ->first();
-        $komunitas = DB::table('order as o')
+        $event      = DB::table('event')->where('status', 2)->first();
+        $id_event   = isset($event) ? $event->id : 0;
+
+        $order      = DB::table('order')
+                        ->where('id_event', $id_event)->where('status', 2)
+                        ->selectRaw("SUM(jumlah) as jumlah, SUM(subtotal) as revenue, COUNT(id) as total_order")
+                        ->groupBy('id_event')
+                        ->first();
+
+        $order_all  = DB::table('order')
+                        ->where('id_event', $id_event)->whereIn('status', [1,2])
+                        ->selectRaw("COUNT(id) as total_order")
+                        ->groupBy('id_event')
+                        ->first();
+
+        $komunitas  = DB::table('order as o')
                         ->join('order_detail as od', 'o.nomor', '=', 'od.nomor_order')
                         ->join('peserta as p', 'od.id_peserta', '=', 'p.id')
                         ->join('komunitas as k', 'p.id_komunitas', '=', 'k.id')
@@ -32,11 +40,12 @@ class DashboardController extends BaseController
                         ->selectRaw("SUM(k.id) as total_komunitas")
                         ->groupBy('o.id_event')
                         ->first();
+
         $data = [
-            'total_peserta' => isset($order) ? $order->jumlah : 0 ,
-            'total_order' => isset($order) ? $order->total_order : 0 ,
-            'total_revenue' => isset($order) ? $order->revenue : 0 ,
-            'total_komunitas' => isset($komunitas) ? $komunitas->total_komunitas : 0 ,
+            'total_peserta'     => isset($order) ? $order->jumlah : 0 ,
+            'total_komunitas'   => isset($komunitas) ? $komunitas->total_komunitas : 0 ,
+            'total_order'       => isset($order_all) ? $order_all->total_order : 0 ,
+            'total_revenue'     => isset($order) ? $order->revenue : 0 ,
         ];
         return $this->ajaxResponse(true, 'Berhasil', $data);
     }

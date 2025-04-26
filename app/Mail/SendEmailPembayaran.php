@@ -47,8 +47,10 @@ class SendEmailPembayaran extends Mailable
                 ->join('order_detail as detail', 'order.nomor', '=', 'detail.nomor_order')
                 ->join('event', 'order.id_event', '=', 'event.id')
                 ->join('peserta', 'peserta.id', '=', 'detail.id_peserta')
+                ->leftJoin('komunitas as k', 'peserta.id_komunitas', '=', 'k.id')
                 ->where('order.id', $this->participant['id_order'])
-                ->select('peserta.nama as nama_peserta', 'peserta.size_jersey', 'order.nomor as nomor_order', 'order.total', 'event.nama as nama_event', 'event.tanggal', 'event.tanggal_racepack', DB::raw('DATE_FORMAT(event.jam_mulai_racepack, "%H:%i") as jam_mulai_racepack'), DB::raw('DATE_FORMAT(event.jam_selesai_racepack, "%H:%i") as jam_selesai_racepack'), 'event.lokasi')
+                ->where('detail.status', 1)
+                ->select('k.nama as komunitas', 'peserta.nama as nama_peserta', 'peserta.size_jersey', 'order.nomor as nomor_order', 'order.total', 'event.nama as nama_event', 'event.tanggal', 'event.tanggal_racepack', DB::raw('DATE_FORMAT(event.jam_mulai_racepack, "%H:%i") as jam_mulai_racepack'), DB::raw('DATE_FORMAT(event.jam_selesai_racepack, "%H:%i") as jam_selesai_racepack'), 'event.lokasi')
                 ->get();
 
         return new Content(
