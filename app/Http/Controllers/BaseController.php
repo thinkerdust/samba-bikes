@@ -47,7 +47,7 @@ class BaseController extends Controller
             'data'    => $result,
             'message' => $message,
         ];
-        return response()->json($response, $status == true ? 200 : 400);
+        return response()->json($response);
     }
 
     public function logs($uid_order, $uid_divisi, $status = 1)
