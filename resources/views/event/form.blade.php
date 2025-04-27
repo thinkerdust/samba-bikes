@@ -76,7 +76,8 @@
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <div class="form-group">
-                                                            <label class="form-label">Jam Mulai Racepack <span class="text-danger">*</span></label>
+                                                            <label class="form-label d-none d-xxl-block">Jam Mulai Racepack <span class="text-danger">*</span></label>
+                                                            <label class="form-label d-block d-xxl-none">Mulai Racepack <span class="text-danger">*</span></label>
                                                             <div class="form-control-wrap">
                                                                 <input type="text" class="form-control text-center" id="jam_mulai_racepack" name="jam_mulai_racepack" placeholder="__:__" maxlength="5" required>
                                                             </div>
@@ -84,7 +85,8 @@
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <div class="form-group">
-                                                            <label class="form-label">Jam Selesai Racepack <span class="text-danger">*</span></label>
+                                                            <label class="form-label d-none d-xxl-block">Jam Selesai Racepack <span class="text-danger">*</span></label>
+                                                            <label class="form-label d-block d-xxl-none">Selesai Racepack <span class="text-danger">*</span></label>
                                                             <div class="form-control-wrap">
                                                                 <input type="text" class="form-control text-center" id="jam_selesai_racepack" name="jam_selesai_racepack" placeholder="__:__" maxlength="5" required>
                                                             </div>
@@ -149,13 +151,13 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="form-group col-md-6">
-                                                        <label class="form-label">Tanggal Mulai Tiket <span class="text-danger">*</span></label>
+                                                        <label class="form-label">Tanggal Start Tiket <span class="text-danger">*</span></label>
                                                         <div class="form-control-wrap">
                                                             <input type="text" class="form-control date-picker" id="tanggal_mulai_tiket" name="tanggal_mulai_tiket" data-date-format="dd/mm/yyyy" placeholder="10/04/2025" readonly required>
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <label class="form-label">Tanggal Selesai Tiket <span class="text-danger">*</span></label>
+                                                        <label class="form-label">Tanggal End Tiket <span class="text-danger">*</span></label>
                                                         <div class="form-control-wrap">
                                                             <input type="text" class="form-control date-picker" id="tanggal_selesai_tiket" name="tanggal_selesai_tiket" data-date-format="dd/mm/yyyy" placeholder="12/04/2025" readonly required>
                                                         </div>
@@ -227,7 +229,8 @@
                                                             <label class="form-file-label" id="label_banner1" for="banner1">Choose file</label>
                                                         </div>
                                                         <div class="d-flex align-items-center my-2">
-                                                            <a target="_blank" href="{{ asset('assets/images/DEFAULT-LANDING.png') }}" class="btn btn-primary btn-sm me-2">Download Default Banner</a>
+                                                            <a target="_blank" href="{{ asset('assets/images/DEFAULT-LANDING.png') }}" class="btn btn-primary btn-sm me-2 d-none d-xxl-block">Download Default Banner</a>
+                                                            <a target="_blank" href="{{ asset('assets/images/DEFAULT-LANDING.png') }}" class="btn btn-primary btn-sm me-2 d-block d-xxl-none">Default Banner</a>
                                                             <div id="sectionBanner1" class="my-2"></div>
                                                         </div>
                                                     </div>
@@ -363,7 +366,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-7">
+                                                <div class="col-md-6 col-xxl-7">
                                                     <div class="form-group">
                                                         <label class="form-label">Deskripsi <span class="text-danger">*</span></label>
                                                         <div class="form-control-wrap">
@@ -371,7 +374,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-1">
+                                                <div class="col-md-2 col-xxl-1">
                                                     <div class="form-group">
                                                         <label class="form-label">Jam <span class="text-danger">*</span></label>
                                                         <div class="form-control-wrap">
@@ -380,7 +383,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1" style="margin-top: 30px">
-                                                    <button type="button" class="btn btn-primary" id="btn-submit-event-schedule"><span>Tambah</span></button>
+                                                    <button type="button" class="btn btn-primary text-sm" id="btn-submit-event-schedule">
+                                                        <span class="block d-block d-xxl-none"><i class="fas fa-plus"></i></span>
+                                                        <span class="hidden d-none d-xxl-block">Tambah</span>
+                                                    </button>                                              
                                                 </div>
 
                                                 <table class="table table-striped nowrap" id="dt-table-schedule">
