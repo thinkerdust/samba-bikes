@@ -115,7 +115,7 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
 
     // Peserta
     Route::prefix('peserta')->middleware("can:Menu, 'PESERTA'")->controller(PesertaController::class)->group(function() {
-        Route::get('/', 'index');
+        Route::get('/', 'index')->name('peserta');
         Route::post('/datatable', 'datatable_peserta');
         Route::get('/edit/{id}', 'edit_peserta');
         Route::get('/delete/{id}', 'delete_peserta');
@@ -124,7 +124,7 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
 
     // Order
     Route::prefix('order')->middleware("can:Menu, 'ORDER'")->controller(OrderController::class)->group(function() {
-        Route::get('/', 'index');
+        Route::get('/', 'index')->name('order');
         Route::post('/datatable', 'datatable_order');
         Route::get('/edit', 'edit_order');
         Route::get('/detail', 'detail_order');

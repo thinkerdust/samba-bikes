@@ -2,6 +2,31 @@
 
 @section('content')
 
+<style>
+    .card {
+        box-shadow: 0 6px 12px rgba(255, 214, 10, 0.12);
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(255, 214, 10, 0.2);
+        cursor: pointer;
+    }
+
+    .card-icon i {
+        color: #facc15;
+        font-size: 2em;
+    }
+
+    @media (min-width: 1400px) {
+        .card-icon i {
+            font-size: 3em;
+        }
+    }
+</style>
+
 <div class="nk-content ">
     <div class="container-fluid">
         <div class="nk-content-inner">
@@ -17,8 +42,8 @@
 
                 <div class="nk-block">
                     <div class="row g-gs">
-                        <div class="col-xxl-3 col-sm-6">
-                            <div class="card">
+                        <div class="col-xxl-6 col-sm-6">
+                            <div class="card" data-target="{{ route('peserta') }}">
                                 <div class="nk-ecwg nk-ecwg6">
                                     <div class="card-inner">
                                         <div class="card-title-group">
@@ -29,17 +54,18 @@
                                         <div class="data">
                                             <div class="data-group">
                                                 <div class="amount" id="total-peserta">0</div>
-                                                <div class="nk-ecwg6-ck">
-                                                    <canvas class="ecommerce-line-chart-s3" id="todayOrders"></canvas>
+                                                <div class="card-icon pe-1 pe-md-4">
+                                                    <i class="fas fa-user-friends"></i>
                                                 </div>
                                             </div>
+                                            <small class="desc">Jumlah seluruh peserta yang telah terdaftar dalam event.</small>
                                         </div>
                                     </div><!-- .card-inner -->
                                 </div><!-- .nk-ecwg -->
                             </div><!-- .card -->
                         </div><!-- .col -->
-                        <div class="col-xxl-3 col-sm-6">
-                            <div class="card">
+                        <div class="col-xxl-6 col-sm-6">
+                            <div class="card" data-target="{{ route('peserta') }}">
                                 <div class="nk-ecwg nk-ecwg6">
                                     <div class="card-inner">
                                         <div class="card-title-group">
@@ -50,17 +76,18 @@
                                         <div class="data">
                                             <div class="data-group">
                                                 <div class="amount" id="total-komunitas">0</div>
-                                                <div class="nk-ecwg6-ck">
-                                                    <canvas class="ecommerce-line-chart-s3" id="todayRevenue"></canvas>
+                                                <div class="card-icon pe-1 pe-md-4">
+                                                    <i class="fas fa-users"></i>
                                                 </div>
                                             </div>
+                                            <small class="text-muted">Total komunitas atau grup yang bergabung dan berpartisipasi dalam event.</small>
                                         </div>
                                     </div><!-- .card-inner -->
                                 </div><!-- .nk-ecwg -->
                             </div><!-- .card -->
                         </div><!-- .col -->
-                        <div class="col-xxl-3 col-sm-6">
-                            <div class="card">
+                        <div class="col-xxl-6 col-sm-6">
+                            <div class="card" data-target="{{ route('order') }}">
                                 <div class="nk-ecwg nk-ecwg6">
                                     <div class="card-inner">
                                         <div class="card-title-group">
@@ -71,17 +98,18 @@
                                         <div class="data">
                                             <div class="data-group">
                                                 <div class="amount" id="total-order">0</div>
-                                                <div class="nk-ecwg6-ck">
-                                                    <canvas class="ecommerce-line-chart-s3" id="todayCustomers"></canvas>
+                                                <div class="card-icon pe-1 pe-md-4">
+                                                    <i class="fas fa-shopping-cart"></i>
                                                 </div>
                                             </div>
+                                            <small class="text-muted">Jumlah seluruh pesanan yang telah dilakukan oleh peserta atau komunitas.</small>
                                         </div>
                                     </div><!-- .card-inner -->
                                 </div><!-- .nk-ecwg -->
                             </div><!-- .card -->
                         </div><!-- .col -->
-                        <div class="col-xxl-3 col-sm-6">
-                            <div class="card">
+                        <div class="col-xxl-6 col-sm-6">
+                            <div class="card" data-target="{{ route('order') }}">
                                 <div class="nk-ecwg nk-ecwg6">
                                     <div class="card-inner">
                                         <div class="card-title-group">
@@ -92,10 +120,11 @@
                                         <div class="data">
                                             <div class="data-group">
                                                 <div class="amount" id="total-revenue">0</div>
-                                                <div class="nk-ecwg6-ck">
-                                                    <canvas class="ecommerce-line-chart-s3" id="todayVisitors"></canvas>
+                                                <div class="card-icon pe-1 pe-md-4">
+                                                    <i class="fas fa-coins"></i>
                                                 </div>
                                             </div>
+                                            <small class="text-muted">Total pendapatan yang dihasilkan dari seluruh transaksi yang telah berhasil.</small>
                                         </div>
                                     </div><!-- .card-inner -->
                                 </div><!-- .nk-ecwg -->
