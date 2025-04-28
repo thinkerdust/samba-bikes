@@ -296,6 +296,7 @@ function processRegisterPersonal() {
         processData: false,
         contentType: false,
         beforeSend: function() {
+            closeModalOverride();
             if(Swal.isVisible() == false) {
                 Swal.fire({
                     title: '<strong>Tunggu Sebentar Ya!</strong>',
@@ -489,6 +490,7 @@ function processRegisterKomunitas() {
         processData: false,
         contentType: false,
         beforeSend: function() {
+            closeModalOverride();
             if(Swal.isVisible() == false) {
                 Swal.fire({
                     title: '<strong>Tunggu Sebentar Ya!</strong>',
