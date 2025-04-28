@@ -200,8 +200,6 @@ $(document).ready(function() {
 $('#registerPersonal').submit(function(e) {
     e.preventDefault();
 
-    console.log('Submit Personal');
-
     var btn = $('#btn-submit-personal');
 
     // check peserta
@@ -283,12 +281,13 @@ $('#registerPersonal').submit(function(e) {
                 } else {
                     processRegisterPersonal();
                 }
+            } else {
+                openModalError(response.message);
             }
         },
         error: function(error) {
             btn.attr('disabled', false);
             btn.html('Register');
-            console.log(error);
 
             openModalError();
         }
@@ -298,8 +297,6 @@ $('#registerPersonal').submit(function(e) {
 function processRegisterPersonal() {
 
     var btn = $('#btn-submit-personal');
-
-    console.log('Process Personal');
 
     let formData = new FormData($('#registerPersonal')[0]);
         formData.append('type', 'personal');
@@ -316,25 +313,24 @@ function processRegisterPersonal() {
             if(response.status) {
                 closeModalOverride();
                 openModal();
+            } else {
+                openModalError(response.message);
             }
             btn.attr('disabled', false);
             btn.html('Register');
         },
         error: function(error) {
-            console.log(error);
             btn.attr('disabled', false);
             btn.html('Register');
 
             Swal.close();
-            openModalError(error.responseJSON.message);
+            openModalError('Terjadi Kesalahan, Mohon Hubungi Admin 🙏');
         }
     });
 }
 
 $('#registerKomunitas').submit(function(e) {
     e.preventDefault();
-
-    console.log('Submit Komunitas');
 
     var btn = $('#btn-submit-komunitas');
 
@@ -348,7 +344,6 @@ $('#registerKomunitas').submit(function(e) {
     $(this).find('input[name="nik[]"]').each(function() {
         nik.push($(this).val());
     });
-    console.log(nik);
 
     $(this).find('select[name="gender[]"]').each(function() {
         gender.push($(this).val());
@@ -455,7 +450,6 @@ $('#registerKomunitas').submit(function(e) {
         error: function(error) {
             btn.attr('disabled', false);
             btn.html('Register');
-            console.log(error);
 
             Swal.close();
             openModalError();
@@ -467,8 +461,6 @@ $('#registerKomunitas').submit(function(e) {
 function processRegisterKomunitas() {
 
     var btn = $('#btn-submit-komunitas');
-
-    console.log('Process Komunitas');
 
     let formData = new FormData($('#registerKomunitas')[0]);
         formData.append('type', 'komunitas');
@@ -501,17 +493,18 @@ function processRegisterKomunitas() {
             if(response.status) {
                 closeModalOverride();
                 openModal();
+            } else {
+                openModalError(response.message);
             }
             btn.attr('disabled', false);
             btn.html('Register');
         },
         error: function(error) {
-            console.log(error);
             btn.attr('disabled', false);
             btn.html('Register');
 
             Swal.close();
-            openModalError(error.responseJSON.message);
+            openModalError('Terjadi Kesalahan, Mohon Hubungi Admin 🙏');
         }
     });
 }
