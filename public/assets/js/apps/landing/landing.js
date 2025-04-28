@@ -18,9 +18,13 @@ function closeModal() {
     modal.style.opacity = "0";
     setTimeout(() => modal.style.display = "none", 300);
 
-    // refresh form
     clearForm();
     clearButtonSubmit()
+
+    setTimeout(() => {
+        location.reload();
+    }
+    , 1000);
 }
 
 function openModalOverride(listNama, onclick) {
@@ -69,14 +73,6 @@ function clearForm() {
     changeTotalHarga();
 }
 
-// Close when clicking outside the modal
-window.onclick = function(event) {
-    let modal = document.getElementById("modalKonfirmasi");
-    if (event.target === modal) {
-        closeModal();
-    }
-};
-
 function changeTotalPeserta() {
     let totalPeserta = $('#listPeserta tr').length;
     $('#totalPeserta').text(totalPeserta);
@@ -102,12 +98,10 @@ function clearButtonSubmit() {
 
 $(document).ready(function() {
 
-    // class .input-number buat input hanya angka
     $(document).on('input', '.input-number', function () {
         this.value = this.value.replace(/[^0-9]/g, '');
     });
 
-    // get harga per tiket
     function getHarga() {
         $.ajax({
             url: '/get-harga',
@@ -127,11 +121,9 @@ $(document).ready(function() {
         });
     });
 
-    // Remove peserta
     $(document).on('click', '#removePeserta', function() {
         $(this).closest('tr').remove();
 
-        // change total peserta
         changeTotalPeserta();
         changeTotalHarga()
     });
@@ -187,10 +179,8 @@ $(document).ready(function() {
         // Reinitialize only the newly added selects
         $newRow.find('.nice-select').each(function() {
             $(this).niceSelect();
-            // give css z-index = 0
         });
 
-        // change total peserta
         changeTotalPeserta();
         changeTotalHarga()
     });
@@ -202,11 +192,9 @@ $('#registerPersonal').submit(function(e) {
 
     var btn = $('#btn-submit-personal');
 
-    // check peserta
     let nik = [];
     nik.push($(this).find('input[name="nik"]').val());
 
-    // validasi form select harus diisi
     let gender              = $('#gender').val();
     let tgl_lahir           = $('#tanggal_lahir').val();
     let blood               = $('#blood').val();
@@ -218,18 +206,17 @@ $('#registerPersonal').submit(function(e) {
             icon: 'error',
             title: 'Oops, ada yang terlewat!',
             text: 'Pastikan semua kolom pada form telah diisi dengan benar. Mohon periksa kembali!',
-            footer: `<a href='https://wa.me/${phone}' target='_blank'>Butuh bantuan?</a>`,  // Optional: A link to help page
+            footer: `<a href='https://wa.me/${phone}' target='_blank'>Butuh bantuan?</a>`, 
             showConfirmButton: true,
             confirmButtonText: 'Periksa Kembali',
             confirmButtonColor: '#0d5aa5',
             customClass: {
-                title: 'font-weight-bold', // Makes the title bold for emphasis
-                content: 'font-italic',    // Optional: Adds italics to content
+                title: 'font-weight-bold',
+                content: 'font-italic',
             },
-            showCloseButton: true,  // Optional: Adds a close button
+            showCloseButton: true,  
             didOpen: () => {
-                // Optional: You can focus a specific element or scroll to it
-                document.querySelector('input').focus();  // Focus on the first input
+                document.querySelector('input').focus();
             }
         })
         return;
@@ -249,7 +236,7 @@ $('#registerPersonal').submit(function(e) {
             
             Swal.fire({
                 title: '<strong>Tunggu Sebentar Ya!</strong>',
-                html: 'Sedang memproses pendaftaranmu... 🚴♂️✨<br><br>Siap-siap untuk petualangan seru di tengah lintasan yang menantang! 💪',
+                html: 'Sedang memproses pendaftaranmu... 🚴✨<br><br>Siap-siap untuk petualangan seru di tengah lintasan yang menantang! 💪',
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 didOpen: () => {
@@ -267,16 +254,16 @@ $('#registerPersonal').submit(function(e) {
 
             if(response.status) {
                 if(data.length > 0) {
-                    // peserta sudah terdaftar tampilan modal konfirmasi override
+
                     let pesertaTerdaftar = '';
 
                     data.forEach((item, index) => {
-                        pesertaTerdaftar += `${item.nama}, `;
+                        pesertaTerdaftar += `${item.nama} (${item.nik}), `;
                     });
 
-                    // remove last comma
                     pesertaTerdaftar = pesertaTerdaftar.slice(0, -2);
 
+                    Swal.close();
                     openModalOverride(pesertaTerdaftar, 'processRegisterPersonal()');
                 } else {
                     processRegisterPersonal();
@@ -308,6 +295,24 @@ function processRegisterPersonal() {
         dataType : "JSON",
         processData: false,
         contentType: false,
+        beforeSend: function() {
+            if(Swal.isVisible() == false) {
+                Swal.fire({
+                    title: '<strong>Tunggu Sebentar Ya!</strong>',
+                    html: 'Sedang memproses pendaftaranmu... 🚴✨<br><br>Siap-siap untuk petualangan seru di tengah lintasan yang menantang! 💪',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    },
+                    customClass: {
+                        popup: 'swal2-border-radius',
+                        title: 'swal2-title-custom',
+                        htmlContainer: 'swal2-html-custom',
+                    }
+                });
+            }
+        },
         success: function(response) {
             Swal.close();
             if(response.status) {
@@ -361,24 +366,22 @@ $('#registerKomunitas').submit(function(e) {
         jersey.push($(this).val());
     });
 
-    // validasi harus minimalkan 1 peserta
     if(nik.length < 1) {
         Swal.fire({
             icon: 'error',
             title: 'Oops, ada yang terlewat!',
             text: 'Pastikan minimal 1 peserta. Mohon periksa kembali!',
-            footer: `<a href='https://wa.me/${phone}' target='_blank'>Butuh bantuan?</a>`,  // Optional: A link to help page
+            footer: `<a href='https://wa.me/${phone}' target='_blank'>Butuh bantuan?</a>`, 
             showConfirmButton: true,
             confirmButtonText: 'Periksa Kembali',
             confirmButtonColor: '#0d5aa5',
             customClass: {
-                title: 'font-weight-bold', // Makes the title bold for emphasis
-                content: 'font-italic',    // Optional: Adds italics to content
+                title: 'font-weight-bold', 
+                content: 'font-italic',    
             },
-            showCloseButton: true,  // Optional: Adds a close button
+            showCloseButton: true,  
             didOpen: () => {
-                // Optional: You can focus a specific element or scroll to it
-                document.querySelector('input').focus();  // Focus on the first input
+                document.querySelector('input').focus(); 
             }
         })
         return;
@@ -387,28 +390,26 @@ $('#registerKomunitas').submit(function(e) {
     for (let i = 0; i < nik.length; i++) {
         if (nik[i] === '' || gender[i] === '' || hubunganEmergency[i] === '' || blood[i] === '' || jersey[i] === '') {
             isValid = false;
-            break;  // Exit loop on first invalid select
+            break;  
         }
     }
 
-    // If validation failed, show an error
     if (!isValid) {
         Swal.fire({
             icon: 'error',
             title: 'Oops, ada yang terlewat!',
             text: 'Pastikan semua kolom pada form telah diisi dengan benar. Mohon periksa kembali!',
-            footer: `<a href='https://wa.me/${phone}' target='_blank'>Butuh bantuan?</a>`,  // Optional: A link to help page
+            footer: `<a href='https://wa.me/${phone}' target='_blank'>Butuh bantuan?</a>`, 
             showConfirmButton: true,
             confirmButtonText: 'Periksa Kembali',
             confirmButtonColor: '#0d5aa5',
             customClass: {
-                title: 'font-weight-bold', // Makes the title bold for emphasis
-                content: 'font-italic',    // Optional: Adds italics to content
+                title: 'font-weight-bold',
+                content: 'font-italic', 
             },
-            showCloseButton: true,  // Optional: Adds a close button
+            showCloseButton: true,
             didOpen: () => {
-                // Optional: You can focus a specific element or scroll to it
-                document.querySelector('input').focus();  // Focus on the first input
+                document.querySelector('input').focus(); 
             }
         })
         return;
@@ -425,22 +426,37 @@ $('#registerKomunitas').submit(function(e) {
         beforeSend: function() {
             btn.attr('disabled', true);
             btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading ...</span>`);
+
+            Swal.fire({
+                title: '<strong>Tunggu Sebentar Ya!</strong>',
+                html: 'Sedang memproses pendaftaranmu... 🚴✨<br><br>Siap-siap untuk petualangan seru di tengah lintasan yang menantang! 💪',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+                customClass: {
+                    popup: 'swal2-border-radius',
+                    title: 'swal2-title-custom',
+                    htmlContainer: 'swal2-html-custom',
+                }
+            });
         },
         success: function(response) {
             let data = response.data;
 
             if(response.status) {
                 if(data.length > 0) {
-                    // peserta sudah terdaftar tampilan modal konfirmasi override
+
                     let pesertaTerdaftar = '';
 
                     data.forEach((item, index) => {
                         pesertaTerdaftar += `${item.nama}, `;
                     });
 
-                    // remove last comma
                     pesertaTerdaftar = pesertaTerdaftar.slice(0, -2);
 
+                    Swal.close();
                     openModalOverride(pesertaTerdaftar, 'processRegisterKomunitas()');
                 } else {
                     processRegisterKomunitas();
@@ -473,20 +489,22 @@ function processRegisterKomunitas() {
         processData: false,
         contentType: false,
         beforeSend: function() {
-            Swal.fire({
-                title: '<strong>Tunggu Sebentar Ya!</strong>',
-                html: 'Sedang memproses pendaftaranmu... 🚴♂️✨<br><br>Siap-siap untuk petualangan seru di tengah lintasan yang menantang! 💪',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                },
-                customClass: {
-                    popup: 'swal2-border-radius',
-                    title: 'swal2-title-custom',
-                    htmlContainer: 'swal2-html-custom',
-                }
-            });
+            if(Swal.isVisible() == false) {
+                Swal.fire({
+                    title: '<strong>Tunggu Sebentar Ya!</strong>',
+                    html: 'Sedang memproses pendaftaranmu... 🚴✨<br><br>Siap-siap untuk petualangan seru di tengah lintasan yang menantang! 💪',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    },
+                    customClass: {
+                        popup: 'swal2-border-radius',
+                        title: 'swal2-title-custom',
+                        htmlContainer: 'swal2-html-custom',
+                    }
+                });;
+            }
         },
         success: function(response) {
             Swal.close();
