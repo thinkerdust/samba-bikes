@@ -81,6 +81,8 @@ class LandingController extends BaseController
                         'e.email',
                         'e.harga',
                         'e.stok',
+                        'e.tanggal_mulai',
+                        'e.tanggal_selesai',
                         DB::raw('(e.stok - SUM(IFNULL(o.jumlah, 0))) as sisa_stok')
                     )
                     ->where('e.status', 2)
