@@ -254,7 +254,6 @@ $('#registerPersonal').submit(function(e) {
                 html: 'Sedang memproses pendaftaranmu... 🚴♂️✨<br><br>Siap-siap untuk petualangan seru di tengah lintasan yang menantang! 💪',
                 allowOutsideClick: false,
                 allowEscapeKey: false,
-                allowEnterKey: false,
                 didOpen: () => {
                     Swal.showLoading();
                 },

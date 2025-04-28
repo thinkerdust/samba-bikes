@@ -195,7 +195,7 @@
 				<div class="col-lg-6 our-mission-img">
 					<span>
 						<img class="mission-img-effect-1" src="{{ asset('assets/images/landing/our-mission-2.svg') }}" alt="img">
-						<img class="mission-img rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/DEFAULT-OUR-MISSION.jpg') }}" alt="img">
+						<img class="mission-img rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/do-1.jpg') }}" alt="img">
 						<img class="mission-img-effect-4" src="{{ asset('assets/images/landing/tringle-gray-little.svg') }}" alt="img">
 					</span>
 				</div>
