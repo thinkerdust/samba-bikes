@@ -100,7 +100,7 @@ class LandingController extends BaseController
             return $this->ajaxResponse(false, 'Event telah berakhir. Event telah berakhir. Nantikan event menarik kami berikutnya!');
         }
         
-        if (($event->sisa_stok - $jumlah) <= 0) {
+        if (($event->sisa_stok - $jumlah) < 0) {
             return $this->ajaxResponse(false, 'Stok tiket event ' . $event->nama . ' sudah habis.');
         }
     
