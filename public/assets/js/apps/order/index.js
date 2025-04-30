@@ -182,10 +182,11 @@ function detail(nomor) {
     $("#modalDetail").modal("show");
 
     NioApp.DataTable('#dt-table-detail', {
-        scrollX: true,
         destroy: true, 
-        responsive: false,
         serverSide: false,
+        processing: true,
+        responsive: false,
+        searchDelay: 500,
         ajax: {
             url: '/admin/order/detail?nomor=' + nomor,
             dataType: 'json',
