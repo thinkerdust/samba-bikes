@@ -55,6 +55,7 @@
                                             <th>Jumlah</th> 
                                             <th>Total Harga</th> 
                                             <th>Tanggal Order</th> 
+                                            <th>Tanggal Bayar</th> 
                                             <th>Status</th>
                                             <th>Action</th> 
                                         </tr>
@@ -86,7 +87,7 @@
                         <tr>
                             <th>No</th>
                             <th>Peserta</th>
-                            <th>Phone</th>
+                            <th>Phone / Phone Emergency</th>
                             <th>Email</th>
                             <th>Ukuran Jersey</th>
                         </tr>
