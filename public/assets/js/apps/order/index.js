@@ -55,7 +55,8 @@ const table = () => NioApp.DataTable('#dt-table', {
 
                 var status = {
                     1: {'title': 'Pending', 'class': ' bg-warning'},
-                    2: {'title': 'Paid', 'class': ' bg-success'}
+                    2: {'title': 'Paid', 'class': ' bg-success'},
+                    0: {'title': 'Deleted', 'class': ' bg-danger'},
                 };
                 if (typeof status[full['status']] === 'undefined') {
                     return data;
