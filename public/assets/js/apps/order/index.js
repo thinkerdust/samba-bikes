@@ -37,6 +37,7 @@ const table = () => NioApp.DataTable('#dt-table', {
         {data: 'jumlah', name: 'order.jumlah', className: 'text-end'},
         {data: 'total', name: 'order.total'},
         {data: 'tanggal_order', name: 'order.insert_at'},
+        {data: 'tanggal_bayar', name: 'order.tanggal_bayar', render: function(data) { return data ? data : '-'; }},
         {data: 'status'},
         {data: 'action', orderable: false, searchable: false},
     ],
@@ -54,7 +55,8 @@ const table = () => NioApp.DataTable('#dt-table', {
 
                 var status = {
                     1: {'title': 'Pending', 'class': ' bg-warning'},
-                    2: {'title': 'Paid', 'class': ' bg-success'}
+                    2: {'title': 'Paid', 'class': ' bg-success'},
+                    0: {'title': 'Deleted', 'class': ' bg-danger'},
                 };
                 if (typeof status[full['status']] === 'undefined') {
                     return data;
@@ -181,11 +183,11 @@ function detail(nomor) {
     $("#modalDetail").modal("show");
 
     NioApp.DataTable('#dt-table-detail', {
-        scrollX: true,
         destroy: true, 
-        stateSave: true,
-        responsive: false,
         serverSide: false,
+        processing: true,
+        responsive: false,
+        searchDelay: 500,
         ajax: {
             url: '/admin/order/detail?nomor=' + nomor,
             dataType: 'json',
@@ -204,7 +206,13 @@ function detail(nomor) {
         columns: [
             {data: 'DT_RowIndex', orderable: false, searchable: false},
             {data: 'nama_peserta', name: 'p.nama'},
-            {data: 'phone', name: 'p.phone'},
+            {
+                data: null,
+                name: 'p.phone',
+                render: function(data, type, full, meta) {
+                    return data.phone ? data.phone : data.telp_emergency;
+                }
+            },
             {data: 'email', name: 'p.email'},
             {data: 'size_jersey', name: 'p.size_jersey'},
         ],

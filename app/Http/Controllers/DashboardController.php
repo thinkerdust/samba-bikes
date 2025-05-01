@@ -36,7 +36,7 @@ class DashboardController extends BaseController
                         ->join('order_detail as od', 'o.nomor', '=', 'od.nomor_order')
                         ->join('peserta as p', 'od.id_peserta', '=', 'p.id')
                         ->join('komunitas as k', 'p.id_komunitas', '=', 'k.id')
-                        ->where([['o.id_event', $id_event], ['o.status', 2]])
+                        ->where([['o.id_event', $id_event], ['o.status', 2], ['od.status', 1]])
                         ->selectRaw("SUM(k.id) as total_komunitas")
                         ->groupBy('o.id_event')
                         ->first();

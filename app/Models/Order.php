@@ -36,9 +36,8 @@ class Order extends Model
         $query = DB::table('order')
                     ->join('event', 'order.id_event', '=', 'event.id')
                     ->whereBetween(DB::raw('DATE(order.insert_at)'), [$start_date, $end_date])
-                    ->where('order.status', '!=', 0)
                     ->select('order.id', 'order.nomor', 'order.jumlah', 'order.total', 'order.status', 'event.nama as nama_event',
-                        DB::raw("DATE_FORMAT(order.insert_at, '%d/%m/%Y') as tanggal_order")
+                        DB::raw("DATE_FORMAT(order.insert_at, '%d/%m/%Y') as tanggal_order"), DB::raw("DATE_FORMAT(order.tanggal_bayar, '%d/%m/%Y') as tanggal_bayar")
                     );
 
         if($event) {
@@ -54,7 +53,8 @@ class Order extends Model
                     ->join('order_detail as od', 'order.nomor', '=', 'od.nomor_order')
                     ->join('peserta as p', 'od.id_peserta', '=', 'p.id')
                     ->where('order.nomor', $nomor)
-                    ->select('od.id', 'od.nomor_order', 'od.id_peserta', 'p.nama as nama_peserta', 'p.size_jersey', 'p.phone', 'p.email');
+                    ->where('od.status', 1)
+                    ->select('od.id', 'od.nomor_order', 'od.id_peserta', 'p.nama as nama_peserta', 'p.size_jersey', 'p.phone', 'p.telp_emergency', 'p.email');
 
         return $query;
     }
@@ -70,7 +70,8 @@ class Order extends Model
                         'od.racepack_by'
                     ])
                     ->join('peserta as p', 'od.id_peserta', '=', 'p.id')
-                    ->where('od.nomor_order', $nomor);
+                    ->where('od.nomor_order', $nomor)
+                    ->where('od.status', 1);
 
         return $query;
     }

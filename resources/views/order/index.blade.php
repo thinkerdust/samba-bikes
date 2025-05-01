@@ -17,29 +17,25 @@
                             <div class="card-inner">
 
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Filter Tanggal</label>
-                                            <div class="form-control-wrap">
-                                                <div class="input-daterange date-picker-range input-group">
-                                                    <input type="text" class="form-control" name="filter_start_date" id="filter_start_date" value="{{ date('01/m/Y') }}" readonly /> 
-                                                    <div class="input-group-addon">TO</div>
-                                                    <input type="text" class="form-control" name="filter_end_date" id="filter_end_date" value="{{ date('d/m/Y') }}" readonly />
-                                                </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="form-label">Filter Tanggal</label>
+                                        <div class="form-control-wrap">
+                                            <div class="input-daterange date-picker-range input-group">
+                                                <input type="text" class="form-control" name="filter_start_date" id="filter_start_date" value="{{ date('01/m/Y') }}" readonly /> 
+                                                <div class="input-group-addon">TO</div>
+                                                <input type="text" class="form-control" name="filter_end_date" id="filter_end_date" value="{{ date('d/m/Y') }}" readonly />
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label class="form-label">Event</label>
-                                            <div class="form-control-wrap">
-                                                <select class="form-select form-control form-control-lg select2-js event" id="filter_event" name="filter_event"></select>
-                                            </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label">Event</label>
+                                        <div class="form-control-wrap">
+                                            <select class="form-select form-control form-control-lg select2-js event" id="filter_event" name="filter_event"></select>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-2" style="margin-top:30px">
+                                    <div class="col-md-2 mt-2 d-flex align-items-center">
                                         <button type="button" class="btn btn-info" id="btn-filter"><em class="icon ni ni-search"></em><span>Filter</span></button>
                                     </div>
                                 </div>
@@ -55,6 +51,7 @@
                                             <th>Jumlah</th> 
                                             <th>Total Harga</th> 
                                             <th>Tanggal Order</th> 
+                                            <th>Tanggal Bayar</th> 
                                             <th>Status</th>
                                             <th>Action</th> 
                                         </tr>
@@ -86,7 +83,7 @@
                         <tr>
                             <th>No</th>
                             <th>Peserta</th>
-                            <th>Phone</th>
+                            <th>Phone / Phone Emergency</th>
                             <th>Email</th>
                             <th>Ukuran Jersey</th>
                         </tr>

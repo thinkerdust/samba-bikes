@@ -21,20 +21,18 @@
                                 @endcan
 
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Filter Tanggal</label>
-                                            <div class="form-control-wrap">
-                                                <div class="input-daterange date-picker-range input-group">
-                                                    <input type="text" class="form-control" name="start_date" id="start_date" value="{{ date('01/m/Y') }}" readonly /> 
-                                                    <div class="input-group-addon">TO</div>
-                                                    <input type="text" class="form-control" name="end_date" id="end_date" value="{{ date('d/m/Y') }}" readonly />
-                                                </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="form-label">Filter Tanggal</label>
+                                        <div class="form-control-wrap">
+                                            <div class="input-daterange date-picker-range input-group">
+                                                <input type="text" class="form-control" name="start_date" id="start_date" value="{{ date('01/m/Y') }}" readonly /> 
+                                                <div class="input-group-addon">TO</div>
+                                                <input type="text" class="form-control" name="end_date" id="end_date" value="{{ date('d/m/Y') }}" readonly />
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-2" style="margin-top:30px">
+                                    <div class="col-md-2 mt-2 d-flex align-items-center">
                                         <button type="button" class="btn btn-info" id="btn-filter"><em class="icon ni ni-search"></em><span>Filter</span></button>
                                     </div>
                                 </div>

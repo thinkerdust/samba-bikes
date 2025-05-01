@@ -17,16 +17,14 @@
                             <div class="card-inner">
 
                                 <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label class="form-label">Event</label>
-                                            <div class="form-control-wrap">
-                                                <select class="form-select form-control form-control-lg select2-js event" id="filter_event" name="filter_event"></select>
-                                            </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label">Event</label>
+                                        <div class="form-control-wrap">
+                                            <select class="form-select form-control form-control-lg select2-js event" id="filter_event" name="filter_event"></select>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-2" style="margin-top:30px">
+                                    <div class="col-md-2 mt-2 d-flex align-items-center">
                                         <button type="button" class="btn btn-info" id="btn-filter"><em class="icon ni ni-search"></em><span>Filter</span></button>
                                     </div>
                                 </div>

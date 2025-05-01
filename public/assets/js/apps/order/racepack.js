@@ -32,8 +32,8 @@ var table = NioApp.DataTable('#dt-table', {
         {data: 'id'},
         {data: 'nama_peserta', name: 'p.nama'},
         {data: 'size_jersey', name: 'p.size_jersey'},
-        {data: 'racepack_at', name: 'od.racepack_at'},
-        {data: 'racepack_by', name: 'od.racepack_by'}
+        {data: 'racepack_by', name: 'od.racepack_by'},
+        {data: 'racepack_at', name: 'od.racepack_at'}
     ],
     columnDefs: [
         {
@@ -133,11 +133,11 @@ $('#form-data').submit(function(e) {
                         NioApp.Toast(response.message, 'warning', {position: 'top-right'});
                     }
                     btn.attr('disabled', false);
-                    btn.html('Save');
+                    btn.html('Submit');
                 },
                 error: function(error) {
                     btn.attr('disabled', false);
-                    btn.html('Save');
+                    btn.html('Submit');
                     NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
                 }
             });
