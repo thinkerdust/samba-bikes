@@ -73,6 +73,7 @@ class LandingController extends BaseController
                     })
                     ->where('e.status', '=', 2)
                     ->where('o.status', '<>', 0)
+                    ->whereIn('p.nik', $nik)
                     ->select('p.id', 'p.nama', 'p.nik', 'o.status', DB::raw("case when curdate() between e.tanggal_mulai and e.tanggal_selesai then 1 else 0 end as flag_tanggal"))
                     ->get();
 
