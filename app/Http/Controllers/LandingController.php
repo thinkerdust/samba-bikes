@@ -183,21 +183,29 @@ class LandingController extends BaseController
                 if ($peserta) {
                     $peserta->update(['status' => 0]);
 
-                    $oldOrder = DB::table('order_detail')
-                                    ->join('order', 'order_detail.nomor_order', '=', 'order.nomor')
-                                    ->where('order_detail.id_peserta', $peserta->id)
-                                    ->where('order_detail.status', 1)
-                                    ->first();
+                        $oldOrder = DB::table('order_detail')
+                                        ->join('order', 'order_detail.nomor_order', '=', 'order.nomor')
+                                        ->where('order_detail.id_peserta', $peserta->id)
+                                        ->where('order_detail.status', 1)
+                                        ->first();
 
-                    if ($oldOrder->jumlah == 1) {
-                        DB::table('order')
-                            ->where('nomor', $oldOrder->nomor_order)
-                            ->update(['status' => 0]);
-                    } else {
-                        DB::table('order')
-                            ->where('nomor', $oldOrder->nomor_order)
-                            ->decrement('jumlah');
-                    }
+                        if ($oldOrder->jumlah == 1) {
+                            DB::table('order')
+                                ->where('nomor', $oldOrder->nomor_order)
+                                ->update(['status' => 0]);
+                        } else {
+                            $totalPesertaOldOrder = DB::table('order_detail')->where('nomor_order', $oldOrder->nomor_order)->where('status', 1)->where('id_peserta', '!=', $peserta->id)->count();
+                            DB::table('order')
+                                ->where('nomor', $oldOrder->nomor_order) 
+                                ->update([
+                                    'subtotal' => $event->harga * $totalPesertaOldOrder,
+                                    'total'    => ($event->harga * $totalPesertaOldOrder) + $oldOrder->kode_unik,
+                                ]);
+                            
+                            DB::table('order')
+                                ->where('nomor', $oldOrder->nomor_order)
+                                ->decrement('jumlah');
+                        }
 
                     DB::table('order_detail')
                         ->where('id_peserta', $peserta->id)

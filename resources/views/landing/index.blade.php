@@ -707,12 +707,7 @@
 				</div>
 			</div>
 		</div>
-
-	<!--=================== TO TOP ===================-->
-	<a class="to-top" href="#home">
-		<i class="fa fa-angle-double-up" aria-hidden="true"></i>
-	</a>
-	<!--================= TO TOP END =================-->
+	</div>
 
 	<!--=================== SCRIPT	===================-->
 	
