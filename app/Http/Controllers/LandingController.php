@@ -61,7 +61,21 @@ class LandingController extends BaseController
     public function check_peserta(Request $request) 
     {
         $nik  = $request->input('nik');
-        $data = DB::table('peserta')->select('id', 'nama', 'nik')->whereIn('nik', $nik)->where('status', 1)->get();
+        $data = DB::table('event as e')
+                    ->join('order as o', 'e.id', '=', 'o.id_event')
+                    ->join('order_detail as od', function ($join) {
+                        $join->on('od.nomor_order', '=', 'o.nomor')
+                            ->where('od.status', '=', 1);
+                    })
+                    ->join('peserta as p', function ($join) {
+                        $join->on('p.id', '=', 'od.id_peserta')
+                            ->where('p.status', '=', 1);
+                    })
+                    ->where('e.status', '=', 2)
+                    ->where('o.status', '<>', 0)
+                    ->select('p.id', 'p.nama', 'p.nik', 'o.status')
+                    ->get();
+
         return $this->ajaxResponse(true, 'Berhasil mengambil data peserta', $data);
     }    
 
