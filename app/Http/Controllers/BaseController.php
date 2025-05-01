@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
-use App\Models\Logs;
-use Illuminate\Support\Facades\Auth;
 
 class BaseController extends Controller
 {
@@ -48,20 +46,5 @@ class BaseController extends Controller
             'message' => $message,
         ];
         return response()->json($response);
-    }
-
-    public function logs($uid_order, $uid_divisi, $status = 1)
-    {
-        $user   = Auth::user();
-
-        $logs = Logs::create([
-            'uid'           => 'L'.date('YmdHis').mt_rand(100000, 999999),
-            'uid_order'     => $uid_order,
-            'uid_divisi'    => $uid_divisi,
-            'status'        => $status,
-            'insert_by'     => $user->id
-        ]);
-
-        return $logs;
     }
 }
