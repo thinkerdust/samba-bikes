@@ -672,7 +672,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Konfirmasi Peserta</h5>
-					<button type="button" class="close" onclick="closeModal()">&times;</button>
+					<button type="button" class="close" onclick="closeModalOverride()">&times;</button>
 				</div>
 				<div class="modal-body">
 					<!-- Informasi Pembayaran -->
