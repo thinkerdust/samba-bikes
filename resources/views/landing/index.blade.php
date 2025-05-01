@@ -405,7 +405,7 @@
 	<!-- ============= PERSONAL ============= -->
 
 	<!--================== KOMUNITAS ==================-->
-	<section id="register-komunitas" class="s-buy-ticket dance-buy-ticket d-none" style="background-image: url(assets/img/effect-form-dance.svg);">
+	<section id="register-komunitas" class="s-buy-ticket dance-buy-ticket d-none" style="background-image: url(assets/images/landing/effect-form-dance.svg);">
 		<div class="container">
 			<div class="title-cover">
 				<span class="dance-slogan">Daftarkan Komunitas Anda</span>
