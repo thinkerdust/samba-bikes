@@ -81,7 +81,7 @@
                         <tbody>
                             <tr>
                                 <td style="text-align:center;padding-bottom:25px">
-                                    <img style="height: 40px;" src="https://dev.sambabikes.com/public/assets/images/logo-brand-side-yellow.png" alt="logo">
+                                    <img style="height: 40px;" src="https://sambabikes.com/public/assets/images/logo-brand-side-yellow.png" alt="logo">
                                     <p style="font-size: 16px; padding-top: 12px;"><strong>Selamat Datang di {{ $data[0]->nama_event }}.</strong></p>
                                 </td>
                             </tr>
