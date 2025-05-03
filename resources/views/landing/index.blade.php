@@ -405,7 +405,7 @@
 	<!-- ============= PERSONAL ============= -->
 
 	<!--================== KOMUNITAS ==================-->
-	<section id="register-komunitas" class="s-buy-ticket dance-buy-ticket d-none" style="background-image: url(assets/img/effect-form-dance.svg);">
+	<section id="register-komunitas" class="s-buy-ticket dance-buy-ticket d-none" style="background-image: url(assets/images/landing/effect-form-dance.svg);">
 		<div class="container">
 			<div class="title-cover">
 				<span class="dance-slogan">Daftarkan Komunitas Anda</span>
@@ -672,7 +672,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Konfirmasi Peserta</h5>
-					<button type="button" class="close" onclick="closeModal()">&times;</button>
+					<button type="button" class="close" onclick="closeModalOverride()">&times;</button>
 				</div>
 				<div class="modal-body">
 					<!-- Informasi Pembayaran -->
@@ -707,12 +707,7 @@
 				</div>
 			</div>
 		</div>
-
-	<!--=================== TO TOP ===================-->
-	<a class="to-top" href="#home">
-		<i class="fa fa-angle-double-up" aria-hidden="true"></i>
-	</a>
-	<!--================= TO TOP END =================-->
+	</div>
 
 	<!--=================== SCRIPT	===================-->
 	

@@ -255,13 +255,40 @@ $('#registerPersonal').submit(function(e) {
             if(response.status) {
                 if(data.length > 0) {
 
-                    let pesertaTerdaftar = '';
+                    let pesertaTerdaftar        = '';
+                    let pesertaTerdaftarPaid    = '';
+                    let flag_tanggal            = 0;
 
                     data.forEach((item, index) => {
+                        flag_tanggal = item.flag_tanggal;
+                        
                         pesertaTerdaftar += `${item.nama} (${item.nik}), `;
+                        if(item.status == 2) {
+                            pesertaTerdaftarPaid += `${item.nama} (${item.nik}), `;
+                        }
                     });
 
-                    pesertaTerdaftar = pesertaTerdaftar.slice(0, -2);
+                    // event tidak tersedia
+                    if(flag_tanggal == 0) {
+                        Swal.close();
+                        openModalError(`Event tidak tersedia untuk sekarang, nantikan event kami selanjutnya! 🙏😊`);
+
+                        btn.attr('disabled', false);
+                        btn.html('Register');
+                        return;
+                    }
+
+                    pesertaTerdaftar        = pesertaTerdaftar.slice(0, -2);
+                    pesertaTerdaftarPaid    = pesertaTerdaftarPaid.slice(0, -2);
+
+                    if(pesertaTerdaftarPaid.length > 0) {
+                        Swal.close();
+                        openModalError(`Peserta ${pesertaTerdaftarPaid} sudah melakukan pembayaran, mohon hapus untuk melanjutkan pendaftaran!`);
+
+                        btn.attr('disabled', false);
+                        btn.html('Register');
+                        return;
+                    }
 
                     Swal.close();
                     openModalOverride(pesertaTerdaftar, 'processRegisterPersonal()');
@@ -449,13 +476,40 @@ $('#registerKomunitas').submit(function(e) {
             if(response.status) {
                 if(data.length > 0) {
 
-                    let pesertaTerdaftar = '';
+                    let pesertaTerdaftar        = '';
+                    let pesertaTerdaftarPaid    = '';
+                    let flag_tanggal            = 0;
 
                     data.forEach((item, index) => {
-                        pesertaTerdaftar += `${item.nama}, `;
+                        flag_tanggal = item.flag_tanggal;
+
+                        pesertaTerdaftar += `${item.nama} (${item.nik}), `;
+                        if(item.status == 2) {
+                            pesertaTerdaftarPaid += `${item.nama} (${item.nik}), `;
+                        }
                     });
 
-                    pesertaTerdaftar = pesertaTerdaftar.slice(0, -2);
+                    // event tidak tersedia
+                    if(flag_tanggal == 0) {
+                        Swal.close();
+                        openModalError(`Event tidak tersedia untuk sekarang, nantikan event kami selanjutnya! 🙏😊`);
+
+                        btn.attr('disabled', false);
+                        btn.html('Register');
+                        return;
+                    }
+
+                    pesertaTerdaftar        = pesertaTerdaftar.slice(0, -2);
+                    pesertaTerdaftarPaid    = pesertaTerdaftarPaid.slice(0, -2);
+
+                    if(pesertaTerdaftarPaid.length > 0) {
+                        Swal.close();
+                        openModalError(`Peserta ${pesertaTerdaftarPaid} sudah melakukan pembayaran, mohon hapus untuk melanjutkan pendaftaran!`);
+
+                        btn.attr('disabled', false);
+                        btn.html('Register');
+                        return;
+                    }
 
                     Swal.close();
                     openModalOverride(pesertaTerdaftar, 'processRegisterKomunitas()');

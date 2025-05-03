@@ -61,7 +61,22 @@ class LandingController extends BaseController
     public function check_peserta(Request $request) 
     {
         $nik  = $request->input('nik');
-        $data = DB::table('peserta')->select('id', 'nama', 'nik')->whereIn('nik', $nik)->where('status', 1)->get();
+        $data = DB::table('event as e')
+                    ->join('order as o', 'e.id', '=', 'o.id_event')
+                    ->join('order_detail as od', function ($join) {
+                        $join->on('od.nomor_order', '=', 'o.nomor')
+                            ->where('od.status', '=', 1);
+                    })
+                    ->join('peserta as p', function ($join) {
+                        $join->on('p.id', '=', 'od.id_peserta')
+                            ->where('p.status', '=', 1);
+                    })
+                    ->where('e.status', '=', 2)
+                    ->where('o.status', '<>', 0)
+                    ->whereIn('p.nik', $nik)
+                    ->select('p.id', 'p.nama', 'p.nik', 'o.status', DB::raw("case when curdate() between e.tanggal_mulai and e.tanggal_selesai then 1 else 0 end as flag_tanggal"))
+                    ->get();
+
         return $this->ajaxResponse(true, 'Berhasil mengambil data peserta', $data);
     }    
 
@@ -168,21 +183,29 @@ class LandingController extends BaseController
                 if ($peserta) {
                     $peserta->update(['status' => 0]);
 
-                    $oldOrder = DB::table('order_detail')
-                                    ->join('order', 'order_detail.nomor_order', '=', 'order.nomor')
-                                    ->where('order_detail.id_peserta', $peserta->id)
-                                    ->where('order_detail.status', 1)
-                                    ->first();
+                        $oldOrder = DB::table('order_detail')
+                                        ->join('order', 'order_detail.nomor_order', '=', 'order.nomor')
+                                        ->where('order_detail.id_peserta', $peserta->id)
+                                        ->where('order_detail.status', 1)
+                                        ->first();
 
-                    if ($oldOrder->jumlah == 1) {
-                        DB::table('order')
-                            ->where('nomor', $oldOrder->nomor_order)
-                            ->update(['status' => 0]);
-                    } else {
-                        DB::table('order')
-                            ->where('nomor', $oldOrder->nomor_order)
-                            ->decrement('jumlah');
-                    }
+                        if ($oldOrder->jumlah == 1) {
+                            DB::table('order')
+                                ->where('nomor', $oldOrder->nomor_order)
+                                ->update(['status' => 0]);
+                        } else {
+                            $totalPesertaOldOrder = DB::table('order_detail')->where('nomor_order', $oldOrder->nomor_order)->where('status', 1)->where('id_peserta', '!=', $peserta->id)->count();
+                            DB::table('order')
+                                ->where('nomor', $oldOrder->nomor_order) 
+                                ->update([
+                                    'subtotal' => $event->harga * $totalPesertaOldOrder,
+                                    'total'    => ($event->harga * $totalPesertaOldOrder) + $oldOrder->kode_unik,
+                                ]);
+                            
+                            DB::table('order')
+                                ->where('nomor', $oldOrder->nomor_order)
+                                ->decrement('jumlah');
+                        }
 
                     DB::table('order_detail')
                         ->where('id_peserta', $peserta->id)
