@@ -369,7 +369,7 @@
 								</select>
 							</li>
 							<li class="inp-cover" style="z-index: 0"><input id="nik" class="input-number" type="text" name="nik" placeholder="No KTP" autocomplete="off" required></li>
-							<li class="inp-cover" style="z-index: 0"><input id="telp_emergency" class="input-number" type="text" name=" telp_emergency" placeholder="No Kontak Darurat" autocomplete="off" required></li>
+							<li class="inp-cover" style="z-index: 0"><input id="telp_emergency" class="input-number" type="text" name="telp_emergency" placeholder="No Kontak Darurat" autocomplete="off" required></li>
 							<li class="inp-cover">
 								<select class="nice-select" id="hubungan_emergency" name="hubungan_emergency" placeholder="Hub Kontak Darurat" autocomplete="off">
 									<option value="" style="font-size: 14px;">Hubungan</option>

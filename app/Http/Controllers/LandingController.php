@@ -84,6 +84,7 @@ class LandingController extends BaseController
     {
         $type = $request->input('type');
         $jumlah = ($type == 'komunitas') ? count($request->nama): 1;
+        $today = date('Y-m-d');
 
         $event =  DB::table('event as e')
                     ->leftJoin('order as o', function ($join) {
@@ -101,21 +102,16 @@ class LandingController extends BaseController
                         DB::raw('(e.stok - SUM(IFNULL(o.jumlah, 0))) as sisa_stok')
                     )
                     ->where('e.status', 2)
-                    ->whereBetween(DB::raw('CURDATE()'), [DB::raw('e.tanggal_mulai'), DB::raw('e.tanggal_selesai')])
                     ->groupBy('e.id')
                     ->first();
         
         if (!$event) {
             return $this->ajaxResponse(false, 'Event tidak ditemukan.');
-        }
-
-        if (date('Y-m-d') < $event->tanggal_mulai) {
+        }elseif ($today < $event->tanggal_mulai){
             return $this->ajaxResponse(false, 'Event belum dimulai. Silakan cek kembali pada tanggal ' . date('d M Y', strtotime($event->tanggal_mulai)) . '.');
-        } elseif (date('Y-m-d') > $event->tanggal_selesai) {
+        }elseif ($today > $event->tanggal_selesai) {
             return $this->ajaxResponse(false, 'Event telah berakhir. Event telah berakhir. Nantikan event menarik kami berikutnya!');
-        }
-        
-        if (($event->sisa_stok - $jumlah) < 0) {
+        }elseif (($event->sisa_stok - $jumlah) < 0) {
             return $this->ajaxResponse(false, 'Stok tiket event ' . $event->nama . ' sudah habis.');
         }
     
@@ -123,7 +119,6 @@ class LandingController extends BaseController
             DB::beginTransaction();
         
             $nomor_order = $this->counters->generateKode();
-            $kode_unik = mt_rand(100, 999);
 
             $dataEmail = [
                 'nomor_order'   => $nomor_order,
@@ -135,21 +130,7 @@ class LandingController extends BaseController
                 'nomor'     => $nomor_order,
                 'email'     => $request->email,
                 'id_event'  => $event->id,
-                'total'     => 0,
-                'jumlah'    => 0,
-                'kode_unik' => $kode_unik,
-                'status'    => 1,
             ];
-    
-            if ($request->hasFile('bukti_transfer')) {
-                $file = $request->file('bukti_transfer');
-                $fileName = time() . '.' . $file->getClientOriginalExtension();
-                $filePath = 'uploads/' . $fileName;
-    
-                if (Storage::disk('public')->put($filePath, file_get_contents($file))) {
-                    $dataOrder['bukti_transfer'] = $fileName;
-                }
-            }
     
             $dataOrderDetail = [];
     
@@ -176,41 +157,38 @@ class LandingController extends BaseController
                 $nik = $request->input('nik');
 
                 $peserta = Peserta::where('nik', $nik)
-                            ->where('id_event', $event->id)
-                            ->where('status', 1)
+                            ->where([['id_event', $event->id], ['status', 1]])
                             ->first();
 
                 if ($peserta) {
                     $peserta->update(['status' => 0]);
 
-                        $oldOrder = DB::table('order_detail')
-                                        ->join('order', 'order_detail.nomor_order', '=', 'order.nomor')
-                                        ->where('order_detail.id_peserta', $peserta->id)
-                                        ->where('order_detail.status', 1)
-                                        ->first();
-
-                        if ($oldOrder->jumlah == 1) {
-                            DB::table('order')
-                                ->where('nomor', $oldOrder->nomor_order)
-                                ->update(['status' => 0]);
-                        } else {
-                            $totalPesertaOldOrder = DB::table('order_detail')->where('nomor_order', $oldOrder->nomor_order)->where('status', 1)->where('id_peserta', '!=', $peserta->id)->count();
-                            DB::table('order')
-                                ->where('nomor', $oldOrder->nomor_order) 
-                                ->update([
-                                    'subtotal' => $event->harga * $totalPesertaOldOrder,
-                                    'total'    => ($event->harga * $totalPesertaOldOrder) + $oldOrder->kode_unik,
-                                ]);
-                            
-                            DB::table('order')
-                                ->where('nomor', $oldOrder->nomor_order)
-                                ->decrement('jumlah');
-                        }
+                    $oldOrder = DB::table('order_detail')
+                                    ->join('order', 'order_detail.nomor_order', '=', 'order.nomor')
+                                    ->where([['order_detail.id_peserta', $peserta->id], ['order_detail.status', 1], ['order.id_event', $event->id]])
+                                    ->first();
 
                     DB::table('order_detail')
-                        ->where('id_peserta', $peserta->id)
+                        ->where([['id_peserta', $peserta->id], ['nomor_order', $oldOrder->nomor_order]])
                         ->update(['status' => 0]);
-                
+
+                    if ($oldOrder->jumlah == 1) {
+                        DB::table('order')
+                            ->where('nomor', $oldOrder->nomor_order)
+                            ->update(['status' => 0, 'jumlah' => 0, 'total' => 0]);
+                    } else {
+                        $summary = DB::table('order_detail')
+                            ->where([['nomor_order', $oldOrder->nomor_order], ['status', 1]])
+                            ->selectRaw('COUNT(id) as jumlah, SUM(subtotal) as total')
+                            ->first();
+
+                        DB::table('order')
+                            ->where('nomor', $oldOrder->nomor_order) 
+                            ->update([
+                                'jumlah' => $summary->jumlah,
+                                'total'  => $summary->total,
+                            ]);
+                    }                
                 }
     
                 $id_peserta = DB::table('peserta')->insertGetId([
@@ -230,12 +208,21 @@ class LandingController extends BaseController
                     'size_jersey'       => $request->jersey,
                 ]);
     
+                $lastNomorUrut = DB::table('order_detail')
+                                ->join('order', 'order_detail.nomor_order', '=', 'order.nomor')
+                                ->where('order.id_event', $event->id)
+                                ->max('order_detail.nomor_urut');
+
+                $nextNomorUrut = $lastNomorUrut ? $lastNomorUrut + 1 : 1;
+                $total = $event->harga + $nextNomorUrut;
+
                 $dataOrder['jumlah'] = 1;
-                $dataOrder['subtotal'] = $event->harga;
-                $dataOrder['total'] = $event->harga + $kode_unik;
+                $dataOrder['total'] = $total;
                 $dataOrderDetail[] = [
                     'nomor_order'   => $nomor_order,
                     'id_peserta'    => $id_peserta,
+                    'nomor_urut'    => $nextNomorUrut,
+                    'subtotal'      => $total
                 ];
 
                 $recepientMail      = $request->email;
@@ -271,7 +258,16 @@ class LandingController extends BaseController
 
                 $id_komunitas = DB::table('komunitas')->insertGetId($dataKomunitas);
 
-                $recepientMail      = $request->email;
+                $recepientMail = $request->email;
+                $total = 0;
+                $jumlah = 0;
+
+                $lastNomorUrut = DB::table('order_detail')
+                                ->join('order', 'order_detail.nomor_order', '=', 'order.nomor')
+                                ->where('order.id_event', $event->id)
+                                ->max('order_detail.nomor_urut');
+
+                $nextNomorUrut = $lastNomorUrut ? $lastNomorUrut + 1 : 1;
 
                 foreach ($request->nama as $key => $nama) {
                     $nik = $request->nik[$key];
@@ -286,32 +282,31 @@ class LandingController extends BaseController
                         $peserta->update(['status' => 0]);
 
                         $oldOrder = DB::table('order_detail')
-                                        ->join('order', 'order_detail.nomor_order', '=', 'order.nomor')
-                                        ->where('order_detail.id_peserta', $peserta->id)
-                                        ->where('order_detail.status', 1)
-                                        ->first();
-
-                        if ($oldOrder->jumlah == 1) {
-                            DB::table('order')
-                                ->where('nomor', $oldOrder->nomor_order)
-                                ->update(['status' => 0]);
-                        } else {
-                            $totalPesertaOldOrder = DB::table('order_detail')->where('nomor_order', $oldOrder->nomor_order)->where('status', 1)->where('id_peserta', '!=', $peserta->id)->count();
-                            DB::table('order')
-                                ->where('nomor', $oldOrder->nomor_order) 
-                                ->update([
-                                    'subtotal' => $event->harga * $totalPesertaOldOrder,
-                                    'total'    => ($event->harga * $totalPesertaOldOrder) + $oldOrder->kode_unik,
-                                ]);
-                            
-                            DB::table('order')
-                                ->where('nomor', $oldOrder->nomor_order)
-                                ->decrement('jumlah');
-                        }
+                                    ->join('order', 'order_detail.nomor_order', '=', 'order.nomor')
+                                    ->where([['order_detail.id_peserta', $peserta->id], ['order_detail.status', 1], ['order.id_event', $event->id]])
+                                    ->first();
 
                         DB::table('order_detail')
                             ->where('id_peserta', $peserta->id)
                             ->update(['status' => 0]);
+
+                        if ($oldOrder->jumlah == 1) {
+                            DB::table('order')
+                                ->where('nomor', $oldOrder->nomor_order)
+                                ->update(['status' => 0, 'jumlah' => 0, 'total' => 0]);
+                        } else {
+                            $summary = DB::table('order_detail')
+                                        ->where([['nomor_order', $oldOrder->nomor_order], ['status', 1]])
+                                        ->selectRaw('COUNT(id) as jumlah, SUM(subtotal) as total')
+                                        ->first();
+
+                            DB::table('order')
+                                ->where('nomor', $oldOrder->nomor_order) 
+                                ->update([
+                                    'jumlah' => $summary->jumlah,
+                                    'total'  => $summary->total,
+                                ]);
+                        }
                     }
 
                     $id_peserta = DB::table('peserta')->insertGetId([
@@ -326,17 +321,25 @@ class LandingController extends BaseController
                         'blood'             => $request->blood[$key],
                         'size_jersey'       => $request->jersey[$key],
                     ]);
+
+                    
+                    $subtotal = $event->harga + $nextNomorUrut;
+                    $total += $subtotal;
+                    $jumlah += 1;
                     
                     $dataOrderDetail[] = [
-                        'nomor_order' => $nomor_order,
-                        'id_peserta' => $id_peserta,
+                        'nomor_order'   => $nomor_order,
+                        'id_peserta'    => $id_peserta,
+                        'nomor_urut'    => $nextNomorUrut,
+                        'subtotal'      => $subtotal
                     ];
+
+                    $nextNomorUrut ++;
                 }
 
-                $total_peserta = count($request->nama);
-                $dataOrder['jumlah'] = $total_peserta;
-                $dataOrder['subtotal'] = $event->harga * $total_peserta;
-                $dataOrder['total'] = ($event->harga * $total_peserta) + $kode_unik;
+                $dataOrder['jumlah'] = $jumlah;
+                $dataOrder['total'] = $total;
+
             }
 
             DB::table('order')->insert($dataOrder);
