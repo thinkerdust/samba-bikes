@@ -18,8 +18,6 @@ return new class extends Migration
             $table->unsignedBigInteger('id_event');
             $table->date('tanggal_bayar')->comment('harus diisi admin jika status lunas ketika approval')->nullable();
             $table->unsignedInteger('jumlah')->default(0)->comment("jumlah tiket");
-            $table->decimal('subtotal', 15, 0)->default(0)->comment("subtotal harga tiket");
-            $table->unsignedInteger('kode_unik')->default(0)->comment("3 digit kode unik untuk harga tiket");
             $table->decimal('total', 15, 0)->default(0)->comment("total harga tiket");
             $table->tinyInteger('status')->unsigned()->default(1)->comment("1: pending; 2: terbayarkan; 0: cancel/hapus/reject");
             

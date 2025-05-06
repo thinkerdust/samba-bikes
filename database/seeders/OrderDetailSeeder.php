@@ -17,11 +17,15 @@ class OrderDetailSeeder extends Seeder
             [
                 'nomor_order' => 'ORD/250601/0001',
                 'id_peserta' => 1,
+                'nomor_urut' => 11,
+                'subtotal' => 250011,
                 'insert_at' => now()
             ],
             [
                 'nomor_order' => 'ORD/250801/0002',
                 'id_peserta' => 2,
+                'nomor_urut' => 122,
+                'subtotal' => 300122,
                 'insert_at' => now()
             ],
         ]);

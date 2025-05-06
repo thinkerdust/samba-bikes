@@ -21,31 +21,28 @@ class DashboardController extends BaseController
         $id_event   = isset($event) ? $event->id : 0;
 
         $order      = DB::table('order')
-                        ->where('id_event', $id_event)->where('status', 2)
-                        ->selectRaw("SUM(jumlah) as jumlah, SUM(subtotal) as revenue, COUNT(id) as total_order")
+                        ->where('id_event', $id_event)->where('status', '<>', 0)
+                        ->selectRaw("SUM(jumlah) as jumlah, COUNT(id) as total")
                         ->groupBy('id_event')
                         ->first();
 
-        $order_all  = DB::table('order')
-                        ->where('id_event', $id_event)->whereIn('status', [1,2])
-                        ->selectRaw("COUNT(id) as total_order")
-                        ->groupBy('id_event')
-                        ->first();
+        $revenue      = DB::table('order')
+                        ->where('id_event', $id_event)->where('status', 2)
+                        ->sum('total');
 
         $komunitas  = DB::table('order as o')
                         ->join('order_detail as od', 'o.nomor', '=', 'od.nomor_order')
                         ->join('peserta as p', 'od.id_peserta', '=', 'p.id')
                         ->join('komunitas as k', 'p.id_komunitas', '=', 'k.id')
-                        ->where([['o.id_event', $id_event], ['o.status', 2], ['od.status', 1]])
-                        ->selectRaw("SUM(k.id) as total_komunitas")
-                        ->groupBy('o.id_event')
+                        ->where([['o.id_event', $id_event], ['o.status', '<>', 0], ['od.status', 1]])
+                        ->selectRaw("COUNT(DISTINCT(k.id)) as total_komunitas")
                         ->first();
 
         $data = [
             'total_peserta'     => isset($order) ? $order->jumlah : 0 ,
             'total_komunitas'   => isset($komunitas) ? $komunitas->total_komunitas : 0 ,
-            'total_order'       => isset($order_all) ? $order_all->total_order : 0 ,
-            'total_revenue'     => isset($order) ? $order->revenue : 0 ,
+            'total_order'       => isset($order) ? $order->total : 0 ,
+            'total_revenue'     => $revenue
         ];
         return $this->ajaxResponse(true, 'Berhasil', $data);
     }
