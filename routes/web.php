@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\MasterManagementController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PesertaController;
@@ -86,6 +87,20 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
             Route::get('/edit/{id}', 'edit_role');
             Route::get('/delete/{id}', 'delete_role');
             Route::get('/list-permissions-menu', 'list_permissions_menu')->middleware('ajax-request');
+        });
+    });
+
+    // Master Management
+    Route::prefix('master-management')->controller(MasterManagementController::class)->group(function() {
+        // size chart
+        Route::group(['prefix' => 'size-chart', 'middleware' => "can:SubMenu, 'MS1'"], function() {
+            Route::get('/', 'size_chart');
+            Route::get('/datatable', 'datatable_size_chart');
+            Route::post('/store', 'store_size_chart');
+            Route::get('/edit/{id}', 'edit_size_chart');
+            Route::get('/delete/{id}', 'delete_size_chart');
+            Route::get('/activate/{id}', 'activate_size_chart');
+            Route::get('/deactivate/{id}', 'deactivate_size_chart');
         });
     });
 
