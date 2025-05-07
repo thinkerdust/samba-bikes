@@ -37,8 +37,9 @@ class OrderController extends BaseController
         $start_date = $request->start_date;
         $end_date   = $request->end_date;
         $event      = $request->event;
+        $status     = $request->status;
 
-        $data = $this->order->dataTableOrder($start_date, $end_date, $event); 
+        $data = $this->order->dataTableOrder($start_date, $end_date, $event, $status); 
 
         return Datatables::of($data)->addIndexColumn()
             ->addColumn('action', function($row) {

@@ -25,7 +25,7 @@ class Order extends Model
         'updated_by'
     ];
 
-    public function dataTableOrder($start_date, $end_date, $event)
+    public function dataTableOrder($start_date, $end_date, $event, $status)
     {
         $start_date = Carbon::createFromFormat('d/m/Y', $start_date);
         $start_date = $start_date->format('Y-m-d');
@@ -36,12 +36,16 @@ class Order extends Model
         $query = DB::table('order')
                     ->join('event', 'order.id_event', '=', 'event.id')
                     ->whereBetween(DB::raw('DATE(order.insert_at)'), [$start_date, $end_date])
-                    ->select('order.id', 'order.nomor', 'order.jumlah', 'order.total', 'order.status', 'event.nama as nama_event',
+                    ->select('order.id', 'order.nomor', 'order.email', 'order.jumlah', 'order.total', 'order.status', 'event.nama as nama_event',
                         DB::raw("DATE_FORMAT(order.insert_at, '%d/%m/%Y') as tanggal_order"), DB::raw("DATE_FORMAT(order.tanggal_bayar, '%d/%m/%Y') as tanggal_bayar")
                     );
 
         if($event) {
             $query->where('order.id_event', $event);
+        }
+
+        if($status != 'all') {
+            $query->where('order.status', $status);
         }
 
         return $query;
@@ -53,8 +57,8 @@ class Order extends Model
                     ->join('order_detail as od', 'order.nomor', '=', 'od.nomor_order')
                     ->join('peserta as p', 'od.id_peserta', '=', 'p.id')
                     ->where('order.nomor', $nomor)
-                    ->where('od.status', 1)
-                    ->select('od.id', 'od.nomor_order', 'od.id_peserta', 'p.nama as nama_peserta', 'p.size_jersey', 'p.phone', 'p.telp_emergency', 'p.email');
+                    ->select('od.id', 'od.nomor_order', 'od.id_peserta', 'od.subtotal', 'od.nomor_urut', 'od.status', 'p.nama as nama_peserta', 'p.size_jersey', 'p.phone', 'p.telp_emergency', 'p.email')
+                    ->orderBy('od.id', 'asc');
 
         return $query;
     }

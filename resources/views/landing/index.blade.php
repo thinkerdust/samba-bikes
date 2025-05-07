@@ -385,11 +385,10 @@
 							<li class="inp-cover" style="width: 100%">
 								<select class="nice-select" id="jersey" name="jersey" autocomplete="off">
 									<option value="">Jersey</option>
-									<option value="S">S</option>
-									<option value="M">M</option>
-									<option value="L">L</option>
-									<option value="XL">XL</option>
-									<option value="XXL">XXL</option>
+
+									@foreach ($size_chart as $sc)
+										<option value="{{ $sc->nama }}">{{ $sc->nama }}</option>
+									@endforeach
 								</select>
 							</li>
 						</ul>
@@ -478,11 +477,9 @@
 													<td>
 														<select class="nice-select" id="jersey" name="jersey[]" placeholder="Ukuran Jersey" autocomplete="off" style="width: 220px !important;">
 															<option value="">Jersey</option>
-															<option value="S" style="font-size: 14px;">S</option>
-															<option value="M" style="font-size: 14px;">M</option>
-															<option value="L" style="font-size: 14px;">L</option>
-															<option value="XL" style="font-size: 14px;">XL</option>
-															<option value="XXL" style="font-size: 14px;">XXL</option>
+															@foreach ($size_chart as $sc)
+																<option value="{{ $sc->nama }}">{{ $sc->nama }}</option>
+															@endforeach
 														</select>
 													</td>
 													<td><button type="button" class="btn" id="removePeserta"><span>X</span></button></td>
@@ -726,11 +723,10 @@
 	<script src="{{ asset('assets/js/apps/landing/parallax.min.js') }}"></script>
 	<script src="{{ asset('assets/js/apps/landing/scripts.js') }}"></script>
 
-	<script src="{{ asset('assets/js/apps/landing/landing.js') . '?v=' . time() }}"></script>
-
 	<script>
 
-		var phone = "{{ $data->phone }}";
+		var phone		= "{{ $data->phone }}";
+		const sizeChart = @json($size_chart);
 
 		// Check if the user is offline
         if (!navigator.onLine) {
@@ -851,6 +847,8 @@
 			initializeClock('clockdiv', "{{ $data->tanggal }}");
 		}
 	</script>
+
+	<script src="{{ asset('assets/js/apps/landing/landing.js') . '?v=' . time() }}"></script>
 
 </body>
 </html>

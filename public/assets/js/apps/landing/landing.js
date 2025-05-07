@@ -129,6 +129,12 @@ $(document).ready(function() {
     });
 
     $('#addPeserta').click(function() {
+
+        let jerseyOptions = '<option value="">Jersey</option>';
+        sizeChart.forEach(sc => {
+            jerseyOptions += `<option value="${sc.nama}" style="font-size: 14px;">${sc.nama}</option>`;
+        });
+
         let newRow = `
             <tr>
                 <td><input type="text" name="nama[]" placeholder="Nama Peserta" required></td>
@@ -162,11 +168,7 @@ $(document).ready(function() {
                 </td>
                 <td>
                     <select class="nice-select" id="jersey" name="jersey[]" placeholder="Ukuran Jersey" autocomplete="off" style="width: 220px !important; z-index: 0;">
-                        <option value="">Jersey</option>
-                        <option value="S" style="font-size: 14px;">S</option>
-                        <option value="M" style="font-size: 14px;">M</option>
-                        <option value="L" style="font-size: 14px;">L</option>
-                        <option value="XL" style="font-size: 14px;">XL</option>
+                        ${jerseyOptions}
                     </select>
                 </td>
                 <td><button type="button" class="btn" id="removePeserta"><span>X</span></button></td>

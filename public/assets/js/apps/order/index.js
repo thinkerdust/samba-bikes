@@ -13,6 +13,7 @@ const table = () => NioApp.DataTable('#dt-table', {
             d.start_date    = $('#filter_start_date').val();
             d.end_date      = $('#filter_end_date').val();
             d.event         = $('#filter_event').val();
+            d.status        = $('#filter_status').val();
         },
         beforeSend: function () {
             blockUI();
@@ -32,12 +33,12 @@ const table = () => NioApp.DataTable('#dt-table', {
     order: [1, 'ASC'],
     columns: [
         {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
-        {data: 'nama_event', name: 'event.nama'},
         {data: 'nomor', name: 'order.nomor'},
-        {data: 'jumlah', name: 'order.jumlah', className: 'text-end'},
-        {data: 'total', name: 'order.total'},
+        {data: 'email', name: 'order.email'},
         {data: 'tanggal_order', name: 'order.insert_at'},
-        {data: 'tanggal_bayar', name: 'order.tanggal_bayar', render: function(data) { return data ? data : '-'; }},
+        {data: 'tanggal_bayar', name: 'order.tanggal_bayar', render: function(data) { return data ? data : ''; }},
+        {data: 'jumlah', name: 'order.jumlah', className: 'text-end'},
+        {data: 'total', name: 'order.total', render: data => data ? 'Rp. ' + thousandView(data) : 'Rp. 0' },
         {data: 'status'},
         {data: 'action', orderable: false, searchable: false},
     ],
@@ -63,16 +64,16 @@ const table = () => NioApp.DataTable('#dt-table', {
                 }
                 return '<span class="badge '+ status[full['status']].class +'">'+ status[full['status']].title +'</span>';
             }
-        },
-        {
-            targets: 4, 
-            className: 'text-end',
-            render: function(data, type, full, meta) {
-                if (!data) return 'Rp 0'; // Jika data kosong, tampilkan Rp 0
-                return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(data);
-            }
         }
-    ]
+    ],
+    // footer sum total and jumlah
+    footerCallback: function (row, data, start, end, display) {
+        const api = this.api();
+        const sumColumn = i => api.column(i).data().reduce((a, b) => Number(a) + Number(b), 0);
+    
+        $(api.column(5).footer()).html(thousandView(sumColumn(5)));
+        $(api.column(6).footer()).html('Rp. ' + thousandView(sumColumn(6)));
+    }
 });
 
 $('#btn-filter').click(function() {
@@ -188,6 +189,8 @@ function detail(nomor) {
         processing: true,
         responsive: false,
         searchDelay: 500,
+        scrollX: true,
+        scrollY: '250px',
         ajax: {
             url: '/admin/order/detail?nomor=' + nomor,
             dataType: 'json',
@@ -202,7 +205,6 @@ function detail(nomor) {
                 NioApp.Toast('Error while fetching data: ' + error, 'error', { position: 'top-right' });
             }
         },
-        order: [1, 'ASC'], // Sort by the second column (nomor_order)
         columns: [
             {data: 'DT_RowIndex', orderable: false, searchable: false},
             {data: 'nama_peserta', name: 'p.nama'},
@@ -215,6 +217,18 @@ function detail(nomor) {
             },
             {data: 'email', name: 'p.email'},
             {data: 'size_jersey', name: 'p.size_jersey'},
+            {data: 'subtotal', name: 'p.subtotal', render: function(data) { return data ? 'Rp. ' + thousandView(data) : 'Rp. 0' }},
+            {data: 'nomor_urut', name: 'p.nomor_urut'},
+            {data: 'status', name: 'p.status', render: function(data) {
+                var status = {
+                    1: {'title': 'Aktif', 'class': ' bg-success'},
+                    0: {'title': 'Non-Aktif', 'class': ' bg-danger'},
+                };
+                if (typeof status[data] === 'undefined') {
+                    return data;
+                }
+                return '<span class="badge '+ status[data].class +'">'+ status[data].title +'</span>';
+            }},
         ],
         columnDefs: [
             {

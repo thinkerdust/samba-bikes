@@ -35,6 +35,18 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label">Status</label>
+                                        <div class="form-control-wrap">
+                                            <select class="form-select form-control form-control-lg select2-js status" id="filter_status" name="filter_status">
+                                                <option value="all">Semua</option>
+                                                <option value="1">Pending</option>
+                                                <option value="2">Paid</option>
+                                                <option value="0">Deleted</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-2 mt-2 d-flex align-items-center">
                                         <button type="button" class="btn btn-info" id="btn-filter"><em class="icon ni ni-search"></em><span>Filter</span></button>
                                     </div>
@@ -46,17 +58,29 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Event</th> 
                                             <th>Nomor Order</th> 
-                                            <th>Jumlah</th> 
-                                            <th>Total Harga</th> 
+                                            <th>Email</th> 
                                             <th>Tanggal Order</th> 
                                             <th>Tanggal Bayar</th> 
+                                            <th>Jumlah</th> 
+                                            <th>Total</th> 
                                             <th>Status</th>
                                             <th>Action</th> 
                                         </tr>
                                     </thead>
-
+                                    <tfoot>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div><!-- .card-preview -->
@@ -86,6 +110,9 @@
                             <th>Phone / Phone Emergency</th>
                             <th>Email</th>
                             <th>Ukuran Jersey</th>
+                            <th>Subtotal</th>
+                            <th>No Urut</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                 </table>

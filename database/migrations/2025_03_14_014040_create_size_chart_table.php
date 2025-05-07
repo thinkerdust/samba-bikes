@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('size_chart', function (Blueprint $table) {
             $table->id();
             $table->string('nama', 50)->comment('size');
+            $table->tinyInteger('status')->default(1)->comment('1=active, 0=non active');
         });
     }
 
