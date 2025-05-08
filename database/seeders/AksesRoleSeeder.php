@@ -37,13 +37,6 @@ class AksesRoleSeeder extends Seeder
             ],
             [
                 'id_role' => 1,
-                'kode_menu' => 'MS',
-                'flag_access' => 1,
-                'insert_at' => now(),
-                'insert_by' => 1,
-            ],
-            [
-                'id_role' => 1,
                 'kode_menu' => 'MS1',
                 'flag_access' => 1,
                 'insert_at' => now(),
