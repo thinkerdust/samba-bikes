@@ -56,7 +56,7 @@
                     <div class="form-group">
                         <label class="form-label">Ukuran</label>
                         <div class="form-control-wrap">
-                            <input type="text" class="form-control" name="nama" id="nama">
+                            <input type="text" class="form-control" name="ukuran" id="ukuran">
                         </div>
                     </div>
                     <hr class="preview-hr">
