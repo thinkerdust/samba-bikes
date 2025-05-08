@@ -31,19 +31,11 @@ class MasterManagementController extends BaseController
             ->addColumn('action', function($row) {
                 $btn = '';
                 if(Gate::allows('crudAccess', 'MS1', $row)) {
-
-                    $btn = '<div class="drodown">
-                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <ul class="link-list-opt no-bdr">
-                                        <li><a class="btn" onclick="edit(\'' . $row->id . '\')"><em class="icon ni ni-edit"></em><span>Edit</span></a></li>
-                                        <li><a class="btn" onclick="hapus(\'' . $row->id . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>
-                                        <li><a class="btn" onclick="activate(\'' . $row->id . '\')"><em class="icon ni ni-check-c"></em><span>Aktifkan</span></a></li>
-                                        <li><a class="btn" onclick="deactivate(\'' . $row->id . '\')"><em class="icon ni ni-cross-c"></em><span>Nonaktifkan</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>';
-
+                    if($row->status == 1) {
+                        $btn = '<a class="btn btn-danger btn-sm" onclick="deactivate(\'' . $row->id . '\')"><em class="icon ni ni-cross-c"></em><span>Non Activate</span></a>';
+                    }else{
+                        $btn = '<a class="btn btn-primary btn-sm" onclick="activate(\'' . $row->id . '\')"><em class="icon ni ni-check-c"></em><span>Activate</span></a>';
+                    }
                 }
                 return $btn;
             })
@@ -55,19 +47,15 @@ class MasterManagementController extends BaseController
         $id = $request->input('id_size_chart');
 
         $validator = Validator::make($request->all(), [
-            'nama' => 'required|max:100|unique:size_chart,nama,'.$id,
-        ], [
-            'nama.required' => 'Ukuran tidak boleh kosong',
-            'nama.max'      => 'Ukuran tidak boleh lebih dari 100 karakter',
-            'nama.unique'   => 'Ukuran sudah ada',
-        ]);
+            'ukuran' => 'required|max:5|unique:size_chart,nama,'.$id,
+        ], validation_message());
 
         if($validator->stopOnFirstFailure()->fails()){
             return $this->ajaxResponse(false, $validator->errors()->first());        
         }
 
         $data = [
-            'nama' => $request->nama,
+            'nama' => $request->ukuran,
         ];
 
         $process = SizeChart::updateOrCreate(['id' => $id], $data);
@@ -108,11 +96,11 @@ class MasterManagementController extends BaseController
             SizeChart::where('id', $id)->update(['status' => 1]);
 
             DB::commit();
-            return $this->ajaxResponse(true, 'Data berhasil di-release');
+            return $this->ajaxResponse(true, 'Data berhasil disimpan');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollback();
-            return $this->ajaxResponse(false, 'Data gagal di-release', $e);
+            return $this->ajaxResponse(false, 'Data gagal disimpan', $e);
         }
     }
 
@@ -126,11 +114,11 @@ class MasterManagementController extends BaseController
             SizeChart::where('id', $id)->update(['status' => 0]);
 
             DB::commit();
-            return $this->ajaxResponse(true, 'Data berhasil di-release');
+            return $this->ajaxResponse(true, 'Data berhasil disimpan');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollback();
-            return $this->ajaxResponse(false, 'Data gagal di-release', $e);
+            return $this->ajaxResponse(false, 'Data gagal disimpan', $e);
         }
     }
 }

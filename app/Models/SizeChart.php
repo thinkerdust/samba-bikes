@@ -16,6 +16,6 @@ class SizeChart extends Model
 
     public function dataTableSizeChart()
     {
-        return self::select('id', 'nama', 'status')->orderBy('nama', 'asc')->get();
+        return self::select('id', 'nama', 'status');
     }
 }

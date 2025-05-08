@@ -42,7 +42,7 @@ class UserManagementController extends BaseController
         $id = $request->id_user;
 
         $validator = Validator::make($request->all(), [
-            'username' => 'required|max:50|unique:users, "username",'.$id,
+            'username' => 'required|min:4|max:50|unique:users, "username",'.$id,
             'nama'=> 'required',
             'email' => 'required|email:rfc,dns|unique:users, "email",'.$id,
             'role' => 'required',

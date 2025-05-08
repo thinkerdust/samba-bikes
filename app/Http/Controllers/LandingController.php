@@ -106,7 +106,7 @@ class LandingController extends BaseController
                     ->groupBy('e.id')
                     ->first();
         
-        if (!$event) {
+        if(!$event) {
             return $this->ajaxResponse(false, 'Event tidak ditemukan.');
         }elseif ($today < $event->tanggal_mulai){
             return $this->ajaxResponse(false, 'Event belum dimulai. Silakan cek kembali pada tanggal ' . date('d M Y', strtotime($event->tanggal_mulai)) . '.');

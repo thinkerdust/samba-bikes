@@ -20,7 +20,6 @@ var table = NioApp.DataTable('#dt-table', {
             }
         }
     },
-    order: [1, 'ASC'],
     columns: [
         {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
         {data: 'nama'},
@@ -105,7 +104,7 @@ function edit(id) {
                 $('#modalForm').modal('show');
                 let data = response.data;
                 $('#id_size_chart').val(id);
-                $('#nama').val(data.nama);
+                $('#ukuran').val(data.nama);
             }
         },
         error: function(error) {
@@ -143,7 +142,7 @@ function hapus(id) {
 
 function activate(id) {
     Swal.fire({
-        title: 'Apakah anda yakin ingin mengaktifkan ukuran ini ?',
+        title: 'Apakah anda yakin ingin melakukan aktivasi data ?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Ya, saya yakin!'
@@ -170,7 +169,7 @@ function activate(id) {
 
 function deactivate(id) {
     Swal.fire({
-        title: 'Apakah anda yakin ingin menonaktifkan ukuran ini ?',
+        title: 'Apakah anda yakin ingin melakukan non aktivasi data ?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Ya, saya yakin!'

@@ -70,15 +70,11 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <th colspan="5" class="text-center">TOTAL</th>
+                                            <th class="text-end"></th>
+                                            <th class="text-end"></th>
+                                            <th></th>
+                                            <th></th>
                                         </tr>
                                     </tfoot>
                                 </table>

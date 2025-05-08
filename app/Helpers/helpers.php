@@ -95,6 +95,7 @@
                 'email' => 'Field :attribute harus berupa alamat email yang valid.',
                 'email.rfc,dns' => 'Field :attribute harus berupa alamat email yang valid sesuai dengan standar RFC dan DNS.',
                 'numeric' => 'Field :attribute harus angka.',
+                'min' => 'Field :attribute tidak boleh kurang dari :min .',
                 'max' => 'Field :attribute tidak boleh lebih dari :max .',
                 'mimes' => 'Tipe file harus :value',
                 'confirm_password.same' => 'Field New Password harus sama dengan Confirm Password.',

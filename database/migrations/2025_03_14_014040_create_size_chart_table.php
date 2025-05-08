@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama', 50)->comment('size');
             $table->tinyInteger('status')->default(1)->comment('1=active, 0=non active');
+            $table->dateTime('insert_at')->useCurrent();
+            $table->dateTime('update_at')->nullable()->useCurrentOnUpdate();
         });
     }
 
