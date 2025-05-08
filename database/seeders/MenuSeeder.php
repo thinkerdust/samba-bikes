@@ -67,7 +67,7 @@ class MenuSeeder extends Seeder
             [
                 'kode' => 'MS1',
                 'kode_parent' => 'MS',
-                'nama' => 'User',
+                'nama' => 'Size Chart',
                 'icon' => 'ni ni-list',
                 'url' => '/admin/master-management/size-chart',
                 'status' => 1,
