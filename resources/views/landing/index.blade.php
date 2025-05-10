@@ -796,7 +796,7 @@
 		$(document).on('click', '.nav-list li a', function() {
 			$('.nav-menu').toggleClass('active');
 			$('.nav-btn').toggleClass('active');
-			$('body').toggleClass('no-scroll');
+			// $('body').toggleClass('no-scroll');
 			return false;
 		});
 
