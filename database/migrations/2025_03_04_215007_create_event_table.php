@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('long_start');
             $table->string('lat_end');
             $table->string('long_end');
+            $table->text('link_route');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
             $table->decimal('harga', 15, 0)->default(0);

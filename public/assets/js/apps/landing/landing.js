@@ -115,9 +115,12 @@ $(document).ready(function() {
 
     getHarga();
 
-    $(document).on('focus', '.tanggal', function () {
+    $(document).on('focus', '.datepicker', function () {
         $(this).datepicker({
-            dateFormat: 'dd/mm/yy'
+            dateFormat: 'dd/mm/yy',
+            changeYear: true,
+            changeMonth: true,
+            yearRange: "1900:2100"
         });
     });
 

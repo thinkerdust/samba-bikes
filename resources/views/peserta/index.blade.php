@@ -68,7 +68,8 @@
 
             <form class="form-validate is-alter" id="form-data">
                 @csrf
-                <input type="hidden" name="id" id="id" value="{{ isset($id) ? $id:0 }}">
+                <input type="hidden" name="id" id="id">
+                <input type="hidden" name="id_komunitas" id="id_komunitas">
 
                 <div class="modal-body">
                     <div class="row gy-4">
@@ -120,14 +121,14 @@
                                 <input type="text" class="form-control" id="kota" name="kota">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="form-label">Tanggal Lahir</label>
                             <div class="form-control-wrap">
                                 <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" data-date-format="dd/mm/yyyy">
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="form-label">Gol Darah</label>
                             <div class="form-control-wrap">
                                 <select name="blood" id="blood" class="form-control select2-js">
@@ -139,7 +140,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="form-label">Jenis Kelamin</label>
                             <div class="form-control-wrap">
                                 <select name="gender" id="gender" class="form-control select2-js">
@@ -147,6 +148,12 @@
                                     <option value="L">Laki-laki</option>
                                     <option value="P">Perempuan</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Jersey (Size Jersey)</label>
+                            <div class="form-control-wrap">
+                                <select name="size_jersey" id="size_jersey" class="form-control select2-size-chart"></select>
                             </div>
                         </div>
                         <div class="col-md-12">

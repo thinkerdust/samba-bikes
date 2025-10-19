@@ -1,4 +1,4 @@
-<div class="nk-sidebar nk-sidebar-fixed" data-content="sidebarMenu">
+<div class="nk-sidebar nk-sidebar-fixed is-compact" data-content="sidebarMenu">
     <div class="nk-sidebar-element nk-sidebar-head">
         <div class="nk-sidebar-brand">
             <a href="/admin/dashboard" class="logo-link nk-sidebar-logo">

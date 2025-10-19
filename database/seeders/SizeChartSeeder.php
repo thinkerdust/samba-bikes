@@ -14,12 +14,17 @@ class SizeChartSeeder extends Seeder
     public function run(): void
     {
         DB::table('size_chart')->insert([
+            ['nama' => '3XS'],
+            ['nama' => '2XS'],
             ['nama' => 'XS'],
             ['nama' => 'S'],
             ['nama' => 'M'],
             ['nama' => 'L'],
             ['nama' => 'XL'],
-            ['nama' => 'XXL'],
+            ['nama' => '2XL'],
+            ['nama' => '3XL'],
+            ['nama' => '4XL'],
+            ['nama' => '5XL'],
         ]);
     }
 }

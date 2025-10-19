@@ -62,6 +62,7 @@ class OrderController extends BaseController
                                     <ul class="link-list-opt no-bdr">
                                         <li><a class="btn" onclick="detail(\'' . $row->nomor . '\')"><em class="icon ni ni-eye"></em><span>Detail</span></a></li>
                                         ' . $btn_action . '
+                                        <li><a class="btn" onclick="resendEmail(\'' . $row->nomor . '\')"><em class="icon ni ni-mail"></em><span>Resend Email</span></a></li>
                                     </ul>
                                 </div>
                             </div>';
@@ -110,7 +111,7 @@ class OrderController extends BaseController
     public function payment_order(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_order'  => 'required',
+            'nomor_order'   => 'required',
             'tanggal_bayar' => 'required',
         ], validation_message());
 
@@ -121,18 +122,18 @@ class OrderController extends BaseController
         try {  
             DB::beginTransaction(); 
 
-            $id    = $request->id_order;
-            $email = $request->email;
-            $user  = Auth::user();
+            $nomor_order    = $request->nomor_order;
+            $email          = $request->email;
+            $user           = Auth::user();
 
             $tanggal_bayar = Carbon::createFromFormat('d/m/Y', $request->tanggal_bayar);
             $tanggal_bayar = $tanggal_bayar->format('Y-m-d');
 
             $dataEmail = [
-                'id_order' => $id,
+                'nomor_order' => $nomor_order,
             ];
 
-            DB::table('order')->where('id', $id)->update(['status' => 2, 'tanggal_bayar' => $tanggal_bayar, 'approve_at' => Carbon::now(), 'approve_by' => $user->id]);
+            DB::table('order')->where('nomor', $nomor_order)->update(['status' => 2, 'tanggal_bayar' => $tanggal_bayar, 'approve_at' => Carbon::now(), 'approve_by' => $user->id]);
 
             DB::commit();
 
@@ -175,7 +176,7 @@ class OrderController extends BaseController
     public function store_racepack(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_order_detail'   => 'required',
+            'nomor_order_detail'   => 'required',
             'tanggal'           => 'required',
             'nama'              => 'required',
         ], validation_message());
@@ -201,5 +202,38 @@ class OrderController extends BaseController
             DB::rollback();
             return $this->ajaxResponse(false, 'Data gagal disimpan', $e);
         }
+    }
+
+    public function resend_email(Request $request) {
+
+        $nomorOrder = $request->nomor;
+
+        $dataOrder = DB::table('order as o')
+                        ->join('event as e', 'o.id_event', '=', 'e.id')
+                        ->where('o.nomor', $nomorOrder)
+                        ->select('o.nomor', 'o.email', 'o.status', 'e.nama as nama_event')
+                        ->first();
+        
+        if (empty($dataOrder)) {
+            return $this->ajaxResponse(false, 'Data order tidak ditemukan');
+        }
+
+        try {
+
+            if($dataOrder->status == 1) {
+                $dataEmail = [
+                    'nomor_order'   => $dataOrder->nomor,
+                    'event'         => $dataOrder->nama_event,
+                ];
+                Mail::to($dataOrder->email)->send(new SendEmailRegistrasi($dataEmail));
+            } else {
+                $dataEmail = [
+                    'nomor_order' => $dataOrder->nomor,
+                ];
+                $process = Mail::to($dataOrder->email)->send(new SendEmailPembayaran($dataEmail));
+            }
+        } catch (\Throwable $e) {
+            Log::error($e->getMessage());
+        } 
     }
 }

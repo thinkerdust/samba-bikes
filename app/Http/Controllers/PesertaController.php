@@ -62,21 +62,25 @@ class PesertaController extends BaseController
 
     public function store_peserta(Request $request)
     {
-        $id = $request->input('id');
+        $id             = $request->input('id');
+        $id_komunitas   = $request->input('id_komunitas');
+
+        $rulePersonal   = empty($id_komunitas) ? 'required' : 'nullable';   
+        $ruleKomunitas  = $id_komunitas ? 'required' : 'nullable';  
 
         $validator = Validator::make($request->all(), [
             'nama'                  => 'required|max:255',
-            'nama_komunitas'        => 'required|max:255',
-            'phone'                 => 'required|max:20',
+            'nama_komunitas'        => $ruleKomunitas . '|max:255',
+            'phone'                 => $rulePersonal . '|max:20',
             'telp_emergency'        => 'required|max:20',
             'hubungan_emergency'    => 'required|max:100',
-            'email'                 => 'required|email|max:255',
+            'email'                 => $rulePersonal . '|email|max:255',
             'nik'                   => 'required|max:255',
-            'kota'                  => 'required|max:100',
+            'kota'                  => $rulePersonal . '|max:100',
             'tanggal_lahir'         => 'required',
             'blood'                 => 'required',
             'gender'                => 'required',
-            'alamat'                => 'required',
+            'alamat'                => $rulePersonal,
         ], validation_message());
 
         if($validator->stopOnFirstFailure()->fails()){
@@ -87,8 +91,6 @@ class PesertaController extends BaseController
 
         try {
             DB::beginTransaction();
-
-            $id = $request->input('id');
 
             $data = [
                 'nama'                  => $request->nama,
@@ -102,6 +104,7 @@ class PesertaController extends BaseController
                 'tgl_lahir'             => $request->tanggal_lahir,
                 'blood'                 => $request->blood,
                 'gender'                => $request->gender,
+                'size_jersey'           => $request->size_jersey,
                 'alamat'                => $request->alamat,
             ];
 
@@ -116,6 +119,12 @@ class PesertaController extends BaseController
                 ['id' => $id],
                 $data
             );
+
+            $dataOrder = DB::table('order_detail')->where('id_peserta', $id)->first();
+
+            if($dataOrder) {
+                
+            }
 
             DB::commit();
             return $this->ajaxResponse(true, 'Data berhasil disimpan');

@@ -145,6 +145,7 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
         Route::get('/detail', 'detail_order');
         Route::post('/payment', 'payment_order');
         Route::get('/delete', 'delete_order');
+        Route::post('/resend-email', 'resend_email');
 
         Route::get('/racepack', 'racepack');
         Route::post('/racepack/datatable', 'datatable_racepack');

@@ -134,7 +134,7 @@
             <form class="form-validate is-alter" id="form-data-payment">
                 @csrf
                 <div class="modal-body">
-                    <input type="hidden" name="id_order" id="id_order">
+                    <input type="hidden" name="nomor_order" id="nomor_order">
                     <input type="hidden" name="email" id="email">
                     <div class="row">
                         <div class="form-group col-md-6">

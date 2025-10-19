@@ -93,31 +93,37 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <label class="form-label">Latitude Start <span class="text-danger">* Wajib isi jika menggunakan maps</span></label>
+                                                        <label class="form-label">Latitude Start</label>
                                                         <div class="form-control-wrap">
-                                                            <input type="text" class="form-control" id="lat_start" name="lat_start" placeholder="-6.983279655865463" required>
+                                                            <input type="text" class="form-control" id="lat_start" name="lat_start" placeholder="-6.983279655865463">
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <label class="form-label">Longitude Start <span class="text-danger">* Wajib isi jika menggunakan maps</span></label>
+                                                        <label class="form-label">Longitude Start</label>
                                                         <div class="form-control-wrap">
-                                                            <input type="text" class="form-control" id="long_start" name="long_start" placeholder="110.44557770717617" required>
+                                                            <input type="text" class="form-control" id="long_start" name="long_start" placeholder="110.44557770717617">
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <label class="form-label">Latitude End <span class="text-danger">* Wajib isi jika menggunakan maps</span></label>
+                                                        <label class="form-label">Latitude End</label>
                                                         <div class="form-control-wrap">
-                                                            <input type="text" class="form-control" id="lat_end" name="lat_end" placeholder="-6.983279655865463" required>
+                                                            <input type="text" class="form-control" id="lat_end" name="lat_end" placeholder="-6.983279655865463">
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <label class="form-label">Longitude End <span class="text-danger">* Wajib isi jika menggunakan maps</span></label>
+                                                        <label class="form-label">Longitude End</label>
                                                         <div class="form-control-wrap">
-                                                            <input type="text" class="form-control" id="long_end" name="long_end" placeholder="110.44557770717617" required>
+                                                            <input type="text" class="form-control" id="long_end" name="long_end" placeholder="110.44557770717617">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label class="form-label">Link Rute <span class="text-danger">* Wajib diisi jika gambar/file rute tidak ada</span></label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control" id="link_rute" name="link_rute" placeholder="https://www.google.com/maps">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group mt-3">
                                                     <label class="form-label">Deskripsi (What We Do)</label>
                                                     <div class="form-control-wrap">
                                                         <textarea class="form-control" id="deskripsi" name="deskripsi" rows="5" placeholder="Isi Dengan Deskripsi Event"></textarea>

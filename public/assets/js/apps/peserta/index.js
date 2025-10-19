@@ -1,3 +1,30 @@
+$(document).ready(function() {
+    $('.select2-size-chart').select2({
+        allowClear: false,
+        placeholder: "Select Size Chart",
+        minimumResultsForSearch: Infinity,
+        ajax: {
+            url: '/admin/data-size-chart',
+            dataType: "json",
+            type: "get",
+            data: function (params) {
+                return { q: params.term };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.nama,
+                            id: item.nama
+                        }
+                    })
+                };
+            },
+            cache: true
+        }
+    });
+})
+
 const table = () => NioApp.DataTable('#dt-table', {
     serverSide: true,
     processing: true,
@@ -142,6 +169,7 @@ function detailOrEdit(id) {
                 $('#modalDetailEdit').modal('show');
             
                 $('#id').val(data.id);
+                $('#id_komunitas').val(data.id_komunitas);
                 $('#nama').val(data.nama);
                 $('#nama_komunitas').val(data.nama_komunitas);
                 $('#phone').val(data.phone);
@@ -158,6 +186,7 @@ function detailOrEdit(id) {
                 // Select2
                 $('#blood').val(data.blood).trigger('change');
                 $('#gender').val(data.gender).trigger('change');
+                initializeSelect2('#size_jersey', '/admin/data-size-chart', data.size_jersey);
             }
         },
         error: function(error) {

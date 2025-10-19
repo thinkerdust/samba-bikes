@@ -2812,7 +2812,7 @@ footer {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\00003777}}
 .map-route-info {
-  padding-top: 64px; }
+  padding-top: 0px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\00003779}}
   .map-route-info h4 {
     line-height: 1.3em;
@@ -7712,7 +7712,7 @@ body.modal {
   .s-conference-news,
   .s-pricing-table,
   .s-speakers-schedule {
-    padding: 100px 0; }
+    padding: 50px 0 100px 0; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000035135}}
   .s-clients.s-partners,
@@ -9042,7 +9042,7 @@ body.modal {
 
 @media (max-width: 1199px) {
   #schedule .container .row {
-    padding: 50px 0;
+    padding: 0px 0;
   }
 
   .register-img {
