@@ -92,10 +92,6 @@ class EventController extends BaseController
             'tanggal_racepack'      => 'required',
             'jam_mulai_racepack'    => 'required',
             'jam_selesai_racepack'  => 'required',
-            'lat_start'             => 'required_without_all:rute|nullable',
-            'long_start'            => 'required_without_all:rute|nullable',
-            'lat_end'               => 'required_without_all:rute|nullable',
-            'long_end'              => 'required_without_all:rute|nullable',
             'tanggal_mulai_tiket'   => 'required',
             'tanggal_selesai_tiket' => 'required',
             'harga'                 => 'required',
@@ -106,8 +102,8 @@ class EventController extends BaseController
             'tagline_banner3'       => 'max:20',
             'banner2'               => 'max:2048',
             'banner3'               => 'max:2048',
-            'size_chart'            => 'required_if:id, 0|max:2048',
-            'rute'                  => 'required_without_all:lat_start,long_start,lat_end,long_end|nullable|max:2048',
+            'size_chart'            => 'required_if:id,0|max:2048',
+            'rute'                  => 'required|max:2048',
         ], validation_message());
 
         if($validator->stopOnFirstFailure()->fails()){
@@ -138,6 +134,7 @@ class EventController extends BaseController
                 'long_start'        => $request->long_start,
                 'lat_end'           => $request->lat_end,
                 'long_end'          => $request->long_end,
+                'link_rute'         => $request->link_rute,
                 'deskripsi'         => $request->deskripsi,
                 'deskripsi_internal'    => $request->deskripsi_internal,
                 'tanggal'           => Carbon::createFromFormat('d/m/Y', $request->tanggal)->format('Y-m-d'),

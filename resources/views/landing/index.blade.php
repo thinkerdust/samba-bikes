@@ -18,6 +18,20 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.css" integrity="sha512-fjO3Vy3QodX9c6G9AUmr6WuIaEPdGRxBjD7gjatG5gGylzYyrEq3U0q+smkG6CwIY0L8XALRFHh4KPHig0Q1ug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+	<style>
+		.ui-datepicker-year {
+			border: none !important;
+			margin-left: 5px !important;
+			border-radius: 4px !important;
+			padding: 2px !important;
+		}
+		.ui-datepicker-month {
+			border: none !important;
+			border-radius: 4px !important;
+			padding: 2px !important;
+		}
+	</style>
 </head>
 <body id="home">
 	<!-- =============== PRELOADER =============== -->
@@ -195,7 +209,7 @@
 				<div class="col-lg-6 our-mission-img">
 					<span>
 						<img class="mission-img-effect-1" src="{{ asset('assets/images/landing/our-mission-2.svg') }}" alt="img">
-						<img class="mission-img rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/do-1.jpg') }}" alt="img">
+						<img class="mission-img rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/about.jpg') }}" alt="img">
 						<img class="mission-img-effect-4" src="{{ asset('assets/images/landing/tringle-gray-little.svg') }}" alt="img">
 					</span>
 				</div>
@@ -281,10 +295,10 @@
 					</div>
 				</div>
 				<div class="col-md-6 event-schedule-img">
-					<div class="schedule-img-wrap">
+					<div class="schedule-img-wrap" style="width: 100%;">
 						<img class="schedule-effect-tringle" src="{{ asset('assets/images/landing/tringle-gray-little.svg') }}" alt="img">
 						<img class="schedule-img-effect" src="{{ asset('assets/images/landing/our-mission-2.svg') }}" alt="img">
-						<img class="schedule-img rx-lazy" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/Trial/celebration-small.png') }}" alt="img">
+						<img class="schedule-img rx-lazy" style="width: 100%;" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('assets/images/landing/biker.png') }}" alt="img">
 					</div>
 				</div>
 			</div>
@@ -297,14 +311,16 @@
 		<div class="container">
 			<h2 class="title"><span>Map with route</span></h2>
 			<div class="row">
-				<div class="col-lg-6 map-route-img">
-					<span>
-						<img src="{{ asset('assets/images/landing/our-mission-2.svg') }}" alt="img" class="map-img-effect-1">
-						<img src="{{ asset('assets/images/landing/tringle-gray-little.svg') }}" alt="img" class="map-img-effect-2">
-						<img class="rx-lazy map-img" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('/storage/uploads/' . $data->rute) }}" alt="img">
-					</span>
-				</div>
-				<div class="col-lg-6 map-route-info">
+				@if($data->rute)
+					<div class="col-lg-6 map-route-img">
+						<span>
+							<img src="{{ asset('assets/images/landing/our-mission-2.svg') }}" alt="img" class="map-img-effect-1">
+							<img src="{{ asset('assets/images/landing/tringle-gray-little.svg') }}" alt="img" class="map-img-effect-2">
+							<img class="rx-lazy map-img" src="{{ asset('assets/images/landing/placeholder-all.png') }}" data-src="{{ asset('/storage/uploads/' . $data->rute) }}" alt="img">
+						</span>
+					</div>
+				@endif
+				<div class="col-lg-12 map-route-info" @if($data->rute == null) style="text-align: center; display: flex; justify-content: center; align-items: center;" @endif>
 					<div class="map-route-cover">
 						<h4>Explore the exciting cycling route designed for all skill levels</h4>
 						<div class="route-info-content">
@@ -317,8 +333,15 @@
 								<span>Ride distance</span>
 							</div>
 						</div>
-						@if($data->lat_start && $data->long_start && $data->lat_end && $data->long_end)
-							<a class="btn mt-3" href="https://www.google.com/maps/dir/?api=1&origin={{ $data->lat_start }},{{ $data->long_start }}&destination={{ $data->lat_end }},{{ $data->long_end }}" target="_blank"><span>Open in Google Maps</span></a>
+						@if($data->link_rute)
+							@php
+								$link_rute = $data->link_rute;
+								if ($link_rute && !preg_match('/^https?:\/\//', $link_rute)) {
+									$link_rute = 'https://' . $link_rute;
+								}
+							@endphp
+
+							<a class="btn mt-3" href="{{ $link_rute }}" target="_blank"><span>View Route</span></a>
 						@endif
 					</div>
 				</div>
@@ -351,7 +374,7 @@
 							<li class="inp-cover inp-name" style="width: 100%"><input id="nama" type="text" name="nama" placeholder="Name" autocomplete="off" required></li>
 							<li class="inp-cover"><input id="phone" class="input-number" type="text" name="phone" placeholder="No Telepon" autocomplete="off" pattern="\d*" required></li>
 							<li class="inp-cover inp-email"><input id="email" type="email" name="email" placeholder="E-mail" autocomplete="off" required></li>
-							<li class="inp-cover"><input id="tanggal_lahir" class="tanggal" type="text" name="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off" required></li>
+							<li class="inp-cover"><input id="tanggal_lahir" class="tanggal datepicker" type="text" name="tanggal_lahir" placeholder="Tanggal Lahir" autocomplete="off" required></li>
 							<li class="inp-cover">
 								<select class="nice-select" id="gender" name="gender" autocomplete="off">
 									<option value="" style="font-size: 14px;">Jenis Kelamin</option>

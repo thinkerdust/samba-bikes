@@ -249,7 +249,7 @@ function payment(nomor) {
         success: function(response) {
             if (response.status) {
                 $("#modalPayment").modal("show");
-                $('#id_order').val(response.data.id);
+                $('#nomor_order').val(nomor);
                 $('#email').val(response.data.email);
                 $('#total_bayar').val('Rp ' + thousandView(response.data.total));
             } else {
@@ -307,3 +307,36 @@ $('#form-data-payment').submit(function(e) {
         }
     })
 });
+
+function resendEmail(nomor) {
+        Swal.fire({
+        title: 'Apakah anda yakin akan mengirim ulang email?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, saya yakin!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: '/admin/peserta/resend-email',
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                dataType: 'JSON',
+                data: {
+                    nomor: nomor
+                },
+                success: function(response) {
+                    if(response.status){
+                        NioApp.Toast(response.message, 'success', {position: 'top-right'});
+                    }else{
+                        NioApp.Toast(response.message, 'warning', {position: 'top-right'});
+                    }
+                },
+                error: function(error) {
+                    NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+                }
+            })
+        }
+    });
+}
