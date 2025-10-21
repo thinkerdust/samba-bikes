@@ -123,8 +123,9 @@ body#dance-page {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_typography\.scss}line{font-family:\0000338}}
 section {
-  position: relative;
-  z-index: 1; }
+  position: static;
+  /* z-index: 1;  */
+}
 
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_typography\.scss}line{font-family:\0000342}}
 .container {
@@ -520,7 +521,7 @@ header {
   left: 0;
   top: 0;
   width: 100%;
-  padding: 24px 0px 31px 0px; }
+  padding: 24px 0px 24px 0px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_header\.scss}line{font-family:\00003211}}
   .top-panel .container {
     display: -webkit-box;
@@ -2053,7 +2054,7 @@ footer {
     text-transform: uppercase;
     position: absolute;
     top: 42%;
-    left: 63.5%;
+    /* left: 63.5%; */
     z-index: 3;
     opacity: 0; }
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\00003150}}
@@ -2114,7 +2115,7 @@ footer {
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\00003204}}
 .marathon-slide-1 .marathon-img {
   top: 55%;
-  left: 43%; }
+  left: 50%; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\00003210}}
 .marathon-slide-2 .marathon-img {
@@ -7626,6 +7627,7 @@ body.modal {
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000035057}}
   .marathon-slide .slider-location {
     font-size: 16px;
+    display: none;
     top: 44%; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000035061}}
@@ -7747,8 +7749,9 @@ body.modal {
   .conference-slide .conference-slide-effect {
     display: none; }
 
+  /* Mobile marathon-img */
   .marathon-img {
-    display: none;
+    /* display: none; */
   }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000035164}}
@@ -8280,20 +8283,26 @@ body.modal {
       text-align: center;
       width: 100%;
       -webkit-text-stroke: 1px white;
-      text-stroke: 1px white; }
+      width: 5ch; /* limit width to roughly 5 characters */
+      text-stroke: 1px white; 
+      margin: 0 auto; /* center horizontally */
+    }
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000035595}}
     .marathon-slide .slider-location {
       letter-spacing: 0;
-      top: 51%;
+      top: 75%;
       width: 100%;
       text-align: center;
+      display: block;
       font-weight: 600;
       left: 0%; }
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000035601}}
+    /* Mobile marathon-img */
     .marathon-slide .marathon-img {
-      max-width: 100%;
-      display: none;
-      top: 53%; }
+      max-width: 105%;
+      /* display: none; */
+      top: 45% !important;
+    }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/F\:\/localhost\/giner-html\/template\/assets\/scss\/_site\.scss}line{font-family:\000035606}}
   .clock-timer.clock-timer-marathon > div {
@@ -9080,4 +9089,11 @@ body.modal {
 
 .slick-list, .slick-slider, .slick-track {
   margin: auto !important;
+}
+
+.marathon-img {
+  top: clamp(21.25rem, 4.2983rem + 19.8556vw, 28.125rem) !important;
+  width: 105% !important;
+  object-fit: cover !important;
+  height: 50% !important;
 }
