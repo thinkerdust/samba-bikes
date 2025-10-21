@@ -82,6 +82,7 @@ $(document).ready(function() {
                     $('#lat_end').val(data.lat_end);
                     $('#long_end').val(data.long_end);
                     $('#tanggal').datepicker('setDate', data.tanggal);
+                    $('#link_rute').val(data.link_rute);
                     $('#deskripsi').val(data.deskripsi);
                     $('#deskripsi_internal').val(data.deskripsi_internal);
                     $('#tanggal_mulai_tiket').datepicker('setDate', data.tanggal_mulai);

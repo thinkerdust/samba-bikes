@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\BaseController as BaseController;
 use Illuminate\Http\Request;
-use App\Models\SizeChart;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Gate;
+use App\Models\SizeChart;
+use App\Models\Bank;
 
 class MasterManagementController extends BaseController
 {
     function __construct()
     {
         $this->size_chart = new SizeChart();
+        $this->bank = new Bank();
     }
 
     public function size_chart()
@@ -74,18 +76,6 @@ class MasterManagementController extends BaseController
         return $this->ajaxResponse(true, 'Success!', $data);
     }
 
-    public function delete_size_chart(Request $request)
-    {
-        $id = $request->id;
-        $process = DB::table('size_chart')->where('id', $id)->delete();
-
-        if($process) {
-            return $this->ajaxResponse(true, 'Data berhasil dihapus');
-        }else{
-            return $this->ajaxResponse(false, 'Data gagal dihapus');
-        }
-    }
-
     public function activate_size_chart(Request $request)
     {
         try {
@@ -119,6 +109,71 @@ class MasterManagementController extends BaseController
             Log::error($e->getMessage());
             DB::rollback();
             return $this->ajaxResponse(false, 'Data gagal disimpan', $e);
+        }
+    }
+
+    public function bank()
+    {
+        $title = 'Bank';
+        $js = 'assets/js/apps/master/bank.js?_='.rand();
+        return view('master.bank', compact('js', 'title'));
+    }
+
+    public function datatable_bank()
+    {
+        $data = $this->bank->dataTableBank(); 
+        return Datatables::of($data)->addIndexColumn()
+            ->addColumn('action', function($row) {
+                $btn = '';
+                if(Gate::allows('crudAccess', 'MS2', $row)) {
+                    $btn = '<a class="btn btn-danger btn-sm" onclick="hapus(\'' . $row->id . '\')"><em class="icon ni ni-trash"></em><span>Delete</span></a>';
+                }
+                return $btn;
+            })
+            ->make(true);
+    }
+
+    public function store_bank(Request $request)
+    {
+        $id = $request->input('id_bank');
+
+        $validator = Validator::make($request->all(), [
+            'bank' => 'required|max:50',
+        ], validation_message());
+
+        if($validator->stopOnFirstFailure()->fails()){
+            return $this->ajaxResponse(false, $validator->errors()->first());        
+        }
+
+        $data = [
+            'nama' => $request->bank,
+        ];
+
+        $process = Bank::updateOrCreate(['id' => $id], $data);
+
+        if($process) {
+            return $this->ajaxResponse(true, 'Data berhasil disimpan');
+        }else{
+            return $this->ajaxResponse(false, 'Data gagal disimpan');
+        }
+    }
+
+    public function edit_bank(Request $request) 
+    {
+        $id = $request->id;
+        $data = Bank::where('id', $id)->first();
+        return $this->ajaxResponse(true, 'Success!', $data);
+    }
+
+    public function delete_bank(Request $request)
+    {
+        $id = $request->id;
+        $process = Bank::where('id', $id)->delete();
+
+        if($process) {
+            return $this->ajaxResponse(true, 'Data berhasil dihapus');
+        }else{
+            return $this->ajaxResponse(false, 'Data gagal dihapus');
         }
     }
 }

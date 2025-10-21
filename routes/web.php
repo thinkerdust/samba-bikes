@@ -98,9 +98,17 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
             Route::get('/datatable', 'datatable_size_chart');
             Route::post('/store', 'store_size_chart');
             Route::get('/edit/{id}', 'edit_size_chart');
-            Route::get('/delete/{id}', 'delete_size_chart');
             Route::get('/activate/{id}', 'activate_size_chart');
             Route::get('/deactivate/{id}', 'deactivate_size_chart');
+        });
+
+        // Bank
+        Route::group(['prefix' => 'bank', 'middleware' => "can:SubMenu, 'MS2'"], function() {
+            Route::get('/', 'bank');
+            Route::get('/datatable', 'datatable_bank');
+            Route::post('/store', 'store_bank');
+            Route::get('/edit/{id}', 'edit_bank');
+            Route::get('/delete/{id}', 'delete_bank');
         });
     });
 
@@ -135,6 +143,8 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
         Route::get('/edit/{id}', 'edit_peserta');
         Route::get('/delete/{id}', 'delete_peserta');
         Route::post('/store', 'store_peserta');
+        Route::get('/export/{id}', 'export_peserta');
+        Route::post('/resend-email', 'resend_email');
     });
 
     // Order

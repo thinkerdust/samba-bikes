@@ -54,32 +54,22 @@ const table = () => NioApp.DataTable('#dt-table', {
             }
         }
     },
-    order: [1, 'ASC'],
+    order: [3, 'asc'],
     columns: [
         {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
-        {data: 'nama_event'},
-        {data: 'nama'},
-        {data: 'nama'},
+        {data: 'nama_event', name: 'e.nama'},
+        {data: 'nama_komunitas', orderable: false, searchable: false},
+        {data: 'nama', name: 'p.nama'},
         {data: 'gender'},
-        {data: 'phone'},
-        {data: 'telp_emergency'},
-        {data: 'hubungan_emergency'},
+        {data: 'phone', name: 'p.phone'},
+        {data: 'telp_emergency', name: 'p.telp_emergency'},
+        {data: 'hubungan_emergency', name: 'p.hubungan_emergency'},
         {data: 'action', orderable: false, searchable: false},
     ],
     columnDefs: [
         {
             className: "nk-tb-col",
             targets: "_all"
-        },
-        {
-            targets: 2,
-            render: function(data, type, full, meta) {
-                if(full.nama_komunitas_personal != null) {
-                    return full.nama_komunitas_personal;
-                } else {
-                    return full.nama_komunitas;
-                }
-            }
         },
         {
             targets: 4,
@@ -131,7 +121,6 @@ $('.event').each(async function() {
     $(this).select2({
         placeholder: 'Pilih Event',
         dropdownParent: dropdownParent,
-        allowClear: true,
         ajax: {
             url: '/admin/data-event',
             dataType: "json",
@@ -170,6 +159,7 @@ function detailOrEdit(id) {
             
                 $('#id').val(data.id);
                 $('#id_komunitas').val(data.id_komunitas);
+                $('#nomor_order').val(data.nomor_order);
                 $('#nama').val(data.nama);
                 $('#nama_komunitas').val(data.nama_komunitas);
                 $('#phone').val(data.phone);
@@ -231,3 +221,59 @@ $('#form-data').submit(function(e) {
         }
     });
 });
+
+$('#btn-export').click(function() {
+    let event = $('#filter_event').val();
+    if(event) {
+        location.href = '/admin/peserta/export/'+event;
+    }else{
+        NioApp.Toast('Pilih event terlebih dahulu!', 'warning', {position: 'top-right'});    
+    }
+})
+
+function resendEmail(id_event, nomor_order, email)
+{
+    Swal.fire({
+        title: 'Apakah anda yakin akan mengirim ulang email?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, saya yakin!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: '/admin/peserta/resend-email',
+                type: 'POST',
+                dataType : "JSON",
+                data: {
+                    _token: token,
+                    id_event: id_event,
+                    nomor_order: nomor_order,
+                    email: email
+                },
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Loading...',
+                        text: 'Please wait while we load the data.',
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+                        onOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                },
+                success: function(response) {
+                    if(response.status){
+                        NioApp.Toast(response.message, 'success', {position: 'top-right'});
+                    }else{
+                        NioApp.Toast(response.message, 'warning', {position: 'top-right'});
+                    }
+                    Swal.close();
+                },
+                error: function(error) {
+                    Swal.close();
+                    NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+                }
+            });
+        }
+    });
+}

@@ -48,12 +48,13 @@ class OrderController extends BaseController
                     $btn_delete = '<li><a class="btn" onclick="hapus(\'' . $row->nomor . '\')"><em class="icon ni ni-trash"></em><span>Hapus</span></a></li>';
                     $btn_payment = '<li><a class="btn" onclick="payment(\'' . $row->nomor . '\')"><em class="icon ni ni-money"></em><span>Payment</span></a></li>';
                     $btn_racepack = '<li><a href="/admin/order/racepack?nomor='.$row->nomor.'" class="btn"><em class="icon ni ni-package"></em></em><span>Racepack</span></a></li>';
+                    $btn_email = '<li><a class="btn" onclick="resendEmail(\'' . $row->nomor . '\', \'' . $row->email . '\')"><em class="icon ni ni-mail"></em><span>Resend Email</span></a></li>';
                     $btn_action = '';
 
                     if($row->status == 1) {
                         $btn_action .= $btn_delete . ' ' . $btn_payment;
                     }elseif($row->status == 2) {
-                        $btn_action .= $btn_racepack;
+                        $btn_action .= $btn_racepack . ' ' . $btn_email;
                     }
 
                     $btn = '<div class="drodown">
@@ -62,7 +63,6 @@ class OrderController extends BaseController
                                     <ul class="link-list-opt no-bdr">
                                         <li><a class="btn" onclick="detail(\'' . $row->nomor . '\')"><em class="icon ni ni-eye"></em><span>Detail</span></a></li>
                                         ' . $btn_action . '
-                                        <li><a class="btn" onclick="resendEmail(\'' . $row->nomor . '\')"><em class="icon ni ni-mail"></em><span>Resend Email</span></a></li>
                                     </ul>
                                 </div>
                             </div>';
@@ -204,36 +204,21 @@ class OrderController extends BaseController
         }
     }
 
-    public function resend_email(Request $request) {
-
-        $nomorOrder = $request->nomor;
-
-        $dataOrder = DB::table('order as o')
-                        ->join('event as e', 'o.id_event', '=', 'e.id')
-                        ->where('o.nomor', $nomorOrder)
-                        ->select('o.nomor', 'o.email', 'o.status', 'e.nama as nama_event')
-                        ->first();
-        
-        if (empty($dataOrder)) {
-            return $this->ajaxResponse(false, 'Data order tidak ditemukan');
-        }
+    public function resend_email(Request $request) 
+    {
+        $email = $request->email;
+        $nomor = $request->nomor;
 
         try {
+            $dataEmail = [
+                'nomor_order' => $nomor,
+            ];
 
-            if($dataOrder->status == 1) {
-                $dataEmail = [
-                    'nomor_order'   => $dataOrder->nomor,
-                    'event'         => $dataOrder->nama_event,
-                ];
-                Mail::to($dataOrder->email)->send(new SendEmailRegistrasi($dataEmail));
-            } else {
-                $dataEmail = [
-                    'nomor_order' => $dataOrder->nomor,
-                ];
-                $process = Mail::to($dataOrder->email)->send(new SendEmailPembayaran($dataEmail));
-            }
+            Mail::to($email)->send(new SendEmailPembayaran($dataEmail));
+            return $this->ajaxResponse(true, 'Resend Email Berhasil!');
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
-        } 
+            Log::error('Resend Email Payment Error: ' . $e->getMessage());
+            return $this->ajaxResponse(false, 'Resend Email Gagal : '. $e->getMessage());
+        }
     }
 }

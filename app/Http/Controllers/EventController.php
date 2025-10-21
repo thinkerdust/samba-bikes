@@ -96,14 +96,14 @@ class EventController extends BaseController
             'tanggal_selesai_tiket' => 'required',
             'harga'                 => 'required',
             'stok'                  => 'required',
-            'banner1'               => 'required_if:id, 0|max:2048',
+            'banner1'               => 'required_if:id,0|max:2048',
             'tagline_banner1'       => 'required_if:id,0|max:20',
             'tagline_banner2'       => 'max:20',
             'tagline_banner3'       => 'max:20',
             'banner2'               => 'max:2048',
             'banner3'               => 'max:2048',
             'size_chart'            => 'required_if:id,0|max:2048',
-            'rute'                  => 'required|max:2048',
+            'rute'                  => 'required_if:id,0|max:2048',
         ], validation_message());
 
         if($validator->stopOnFirstFailure()->fails()){

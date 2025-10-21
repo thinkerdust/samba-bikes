@@ -10,17 +10,23 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use App\Models\Peserta;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendEmailRegistrasi;
 use Carbon\Carbon;
 use Yajra\DataTables\DataTables;
+use App\Exports\PesertaExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Peserta;
+use App\Models\Event;
 
 class PesertaController extends BaseController
 {
     protected $peserta;
 
-    function __construct(Peserta $peserta)
+    function __construct(Peserta $peserta, Event $event)
     {
         $this->peserta = $peserta;
+        $this->event = $event;
     }
 
     public function index()
@@ -43,6 +49,7 @@ class PesertaController extends BaseController
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <ul class="link-list-opt no-bdr">
                                         <li><a class="btn" onclick="detailOrEdit(\'' . $row->id . '\')"><em class="icon ni ni-eye"></em><span>Detail / Edit</span></a></li>
+                                        <li><a class="btn" onclick="resendEmail(\'' . $row->id_event . '\', \'' . $row->nomor_order . '\', \'' . $row->email . '\')"><em class="icon ni ni-mail"></em><span>Resend Email</span></a></li>
                                     </ul>
                                 </div>
                             </div>';
@@ -74,7 +81,7 @@ class PesertaController extends BaseController
             'phone'                 => $rulePersonal . '|max:20',
             'telp_emergency'        => 'required|max:20',
             'hubungan_emergency'    => 'required|max:100',
-            'email'                 => $rulePersonal . '|email|max:255',
+            'email'                 => 'required|email|max:255',
             'nik'                   => 'required|max:255',
             'kota'                  => $rulePersonal . '|max:100',
             'tanggal_lahir'         => 'required',
@@ -94,11 +101,8 @@ class PesertaController extends BaseController
 
             $data = [
                 'nama'                  => $request->nama,
-                'nama_komunitas'        => $request->nama_komunitas,
-                'phone'                 => $request->phone,
                 'telp_emergency'        => $request->telp_emergency,
                 'hubungan_emergency'    => $request->hubungan_emergency,
-                'email'                 => $request->email,
                 'nik'                   => $request->nik,
                 'kota'                  => $request->kota,
                 'tgl_lahir'             => $request->tanggal_lahir,
@@ -106,13 +110,14 @@ class PesertaController extends BaseController
                 'gender'                => $request->gender,
                 'size_jersey'           => $request->size_jersey,
                 'alamat'                => $request->alamat,
+                'update_at'             => Carbon::now(),
+                'update_by'             => $user->id
             ];
 
-            if(!empty($id)) {
-                $data['update_at']  = Carbon::now();
-                $data['update_by']  = $user->id;
-            } else {
-                $data['insert_at']  = Carbon::now();
+            if(empty($id_komunitas)) {
+                $data['nama_komunitas'] = $request->nama_komunitas;
+                $data['email'] = $request->email;
+                $data['phone'] = $request->phone;
             }
 
             DB::table('peserta')->updateOrInsert(
@@ -120,11 +125,11 @@ class PesertaController extends BaseController
                 $data
             );
 
-            $dataOrder = DB::table('order_detail')->where('id_peserta', $id)->first();
-
-            if($dataOrder) {
-                
+            if(!empty($id_komunitas)) {
+                DB::table('komunitas')->where('id', $id_komunitas)->update(['nama' => $request->nama_komunitas, 'email' => $request->email, 'phone' => $request->phone, 'update_by' => $user->id, 'update_at' => Carbon::now()]);
             }
+
+            DB::table('order')->where('nomor', $request->nomor_order)->update(['email' => $request->email,'update_by' => $user->id, 'update_at' => Carbon::now()]);
 
             DB::commit();
             return $this->ajaxResponse(true, 'Data berhasil disimpan');
@@ -132,6 +137,35 @@ class PesertaController extends BaseController
             Log::error($e->getMessage());
             DB::rollback();
             return $this->ajaxResponse(false, 'Data gagal disimpan', $e);
+        }
+    }
+
+    public function export_peserta(Request $request)
+    {
+        $event = $request->id;
+        return Excel::download(new PesertaExport($event), 'data_peserta.xlsx');
+    }
+
+    public function resend_email(Request $request)
+    {
+        $recipientMail = $request->email;
+        $idEvent = $request->id_event;
+        $nomorOrder = $request->nomor_order;
+        $event = Event::findOrFail($idEvent);
+
+        try {
+            
+            $dataEmail = [
+                'nomor_order'   => $nomorOrder,
+                'event'         => $event->nama,
+                'email'         => $event->email
+            ];
+
+            Mail::to($recipientMail)->send(new SendEmailRegistrasi($dataEmail));
+            return $this->ajaxResponse(true, 'Resend Email Berhasil!');
+        } catch (\Throwable $e) {
+            Log::error('Resend Email Regist Error: ' . $e->getMessage());
+            return $this->ajaxResponse(false, 'Resend Email Gagal : '. $e->getMessage());
         }
     }
 }

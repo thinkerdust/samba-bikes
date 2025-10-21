@@ -104,35 +104,17 @@
                                                             <input type="text" class="form-control" id="long_start" name="long_start" placeholder="110.44557770717617">
                                                         </div>
                                                     </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label">Latitude End</label>
-                                                        <div class="form-control-wrap">
-                                                            <input type="text" class="form-control" id="lat_end" name="lat_end" placeholder="-6.983279655865463">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label class="form-label">Longitude End</label>
-                                                        <div class="form-control-wrap">
-                                                            <input type="text" class="form-control" id="long_end" name="long_end" placeholder="110.44557770717617">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-md-12">
-                                                        <label class="form-label">Link Rute <span class="text-danger">* Wajib diisi jika gambar/file rute tidak ada</span></label>
-                                                        <div class="form-control-wrap">
-                                                            <input type="text" class="form-control" id="link_rute" name="link_rute" placeholder="https://www.google.com/maps">
-                                                        </div>
-                                                    </div>
                                                 </div>
-                                                <div class="form-group mt-3">
+                                                <div class="form-group">
                                                     <label class="form-label">Deskripsi (What We Do)</label>
                                                     <div class="form-control-wrap">
                                                         <textarea class="form-control" id="deskripsi" name="deskripsi" rows="5" placeholder="Isi Dengan Deskripsi Event"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label">Deskripsi (Internal)</label>
+                                                    <label class="form-label">Link Rute <span class="text-danger">* Wajib diisi jika gambar/file rute tidak ada</span></label>
                                                     <div class="form-control-wrap">
-                                                        <textarea class="form-control" id="deskripsi_internal" name="deskripsi_internal" rows="5" placeholder="Isi Dengan Deskripsi Internal"></textarea>
+                                                        <input type="text" class="form-control" id="link_rute" name="link_rute" placeholder="https://www.google.com/maps">
                                                     </div>
                                                 </div>
                                             </div>
@@ -179,6 +161,24 @@
                                                         <div class="form-control-wrap">
                                                             <input type="text" class="form-control format-currency text-end" id="stok" name="stok" placeholder="100" required>
                                                         </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label">Latitude End</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control" id="lat_end" name="lat_end" placeholder="-6.983279655865463">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-label">Longitude End</label>
+                                                        <div class="form-control-wrap">
+                                                            <input type="text" class="form-control" id="long_end" name="long_end" placeholder="110.44557770717617">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Deskripsi (Internal)</label>
+                                                    <div class="form-control-wrap">
+                                                        <textarea class="form-control" id="deskripsi_internal" name="deskripsi_internal" rows="5" placeholder="Isi Dengan Deskripsi Internal"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
