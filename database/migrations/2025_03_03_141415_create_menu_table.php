@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('menu', function (Blueprint $table) {
             $table->id(); // default from laravel will give auto increment and primary key to id
             $table->string('kode', 10)->unique(); // Ensure kode is unique
-            $table->string('kode_parent', 10)->nullable(); // is not giving nullable by default is not nullable
+            $table->string('kode_parent', 10)->default(0); // is not giving nullable by default is not nullable
             $table->string('nama', 100);
-            $table->text('icon');
-            $table->text('url');
+            $table->text('icon')->nullable();
+            $table->text('url')->nullable();
             $table->tinyInteger('status')->unsigned()->default(1)->comment("1: aktif; 0: non-aktif");
 
             $table->dateTime('insert_at')->useCurrent();

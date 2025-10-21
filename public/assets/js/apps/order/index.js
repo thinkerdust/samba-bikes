@@ -308,8 +308,8 @@ $('#form-data-payment').submit(function(e) {
     })
 });
 
-function resendEmail(nomor) {
-        Swal.fire({
+function resendEmail(nomor,email) {
+    Swal.fire({
         title: 'Apakah anda yakin akan mengirim ulang email?',
         icon: 'warning',
         showCancelButton: true,
@@ -317,14 +317,24 @@ function resendEmail(nomor) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: '/admin/peserta/resend-email',
+                url: '/admin/order/resend-email',
                 type: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
                 dataType: 'JSON',
                 data: {
-                    nomor: nomor
+                    _token: token,
+                    nomor: nomor,
+                    email: email
+                },
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Loading...',
+                        text: 'Please wait while we load the data.',
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+                        onOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
                 },
                 success: function(response) {
                     if(response.status){
@@ -332,8 +342,10 @@ function resendEmail(nomor) {
                     }else{
                         NioApp.Toast(response.message, 'warning', {position: 'top-right'});
                     }
+                    Swal.close();
                 },
                 error: function(error) {
+                    Swal.close();
                     NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
                 }
             })

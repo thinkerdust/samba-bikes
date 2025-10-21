@@ -19,7 +19,7 @@ class BankSeeder extends Seeder
             ['nama' => 'BNI'],
             ['nama' => 'BCA'],
             ['nama' => 'CIMB NIAGA'],
-            ['nama' => 'DANAMON'],
+            ['nama' => 'BANK JATENG'],
         ]);
     }
 }

@@ -15,7 +15,7 @@ class OrderSeeder extends Seeder
     {
         DB::table('order')->insert([
             [
-                'nomor' => 'ORD/202504/0001',
+                'nomor' => 'ORD/250601/0001',
                 'email' => 'sambabikes@mail.com',
                 'id_event' => 1,
                 'jumlah' => 1,
