@@ -22,7 +22,7 @@ class OrderDetailSeeder extends Seeder
                 'insert_at' => now()
             ],
             [
-                'nomor_order' => 'ORD/250801/0002',
+                'nomor_order' => 'ORD/202504/0002',
                 'id_peserta' => 2,
                 'nomor_urut' => 122,
                 'subtotal' => 300122,

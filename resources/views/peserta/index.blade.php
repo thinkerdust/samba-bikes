@@ -20,12 +20,16 @@
                                     <div class="form-group col-md-3">
                                         <label class="form-label">Event</label>
                                         <div class="form-control-wrap">
-                                            <select class="form-select form-control form-control-lg select2-js event" id="filter_event" name="filter_event"></select>
+                                            <select class="form-select form-control form-control-lg select2-js event" id="filter_event"></select>
                                         </div>
                                     </div>
 
                                     <div class="col-md-2 mt-2 d-flex align-items-center">
                                         <button type="button" class="btn btn-info" id="btn-filter"><em class="icon ni ni-search"></em><span>Filter</span></button>
+                                    </div>
+
+                                    <div class="col-md-2 mt-2 d-flex align-items-center">
+                                        <button type="button" class="btn btn-success" id="btn-export"><em class="icon ni ni-file-xls"></em><span>Export Data</span></button>
                                     </div>
                                 </div>
 
@@ -70,6 +74,7 @@
                 @csrf
                 <input type="hidden" name="id" id="id">
                 <input type="hidden" name="id_komunitas" id="id_komunitas">
+                <input type="hidden" name="nomor_order" id="nomor_order">
 
                 <div class="modal-body">
                     <div class="row gy-4">
