@@ -53,7 +53,7 @@
 		</a>
 		<div class="top-panel">
 			<div class="container">
-				<a href="#home" class="logo"><img src="{{ asset('assets/images/logo-brand-side.png') }}" alt="logo" style="width: 11rem; height: auto;"></a>
+				<a href="#home" class="logo"><img src="{{ asset('assets/images/logo-brand-side-samba.png') }}" alt="logo" style="width: clamp(11rem, 9.9474rem + 4.2105vw, 15rem); height: auto;"></a>
 				<ul class="social-list">
 					@if ($data->instagram)
 						<li><a target="_blank" href="{{ $data->instagram }}"><i class="fab fa-instagram"></i></a></li>
@@ -99,7 +99,7 @@
 						<div class="scene-item" data-depth="0.2">
 							<img class="marathon-img" src="{{ asset('/storage/uploads/' . $data->banner1) }}" alt="Event Image">
 						</div>
-						<div class="scene-item" data-depth="0.5">
+						<div class="scene-item d-block d-lg-none" data-depth="0.5">
 							<div class="slider-location">{{ $data->kota }} <span class="date">{{ date('d M Y', strtotime($data->tanggal)) }}</span> <br> {{ $data->nama }}</div>
 						</div>
 						@php
@@ -108,11 +108,8 @@
 							$tagline1_2 = $tagline1[1];
 							$tagline1_3 = $tagline1[2];
 						@endphp
-						<div class="scene-item" data-depth="0.35">
-							<div class="marathon-text-left">{{ $tagline1_1 }}<br>{{ $tagline1_2 }}</div>
-						</div>
-						<div class="scene-item" data-depth="0.35">
-							<div class="marathon-text-right">{{ $tagline1_3 }}</div>
+						<div class="scene-item d-block d-lg-none" data-depth="0.35">
+							<!-- <div class="marathon-text-left">{{ $tagline1_1 }}<br>{{ $tagline1_2 }}<br>{{ $tagline1_3 }}</div> -->
 						</div>
 					</div>
 				</div>
@@ -135,11 +132,8 @@
 							$tagline2_2 = $tagline2[1];
 							$tagline2_3 = $tagline2[2];
 						@endphp
-						<div class="scene-item" data-depth="0.35">
-							<div class="marathon-text-left">{{ $tagline2_1 }}<br>{{ $tagline2_2 }}</div>
-						</div>
-						<div class="scene-item" data-depth="0.35">
-							<div class="marathon-text-right">{{ $tagline2_3 }}</div>
+						<div class="scene-item d-block d-lg-none" data-depth="0.35">
+							<div class="marathon-text-left">{{ $tagline2_1 }}<br>{{ $tagline2_2 }}<br>{{ $tagline2_3 }}</div>
 						</div>
 					</div>
 				</div>
@@ -163,11 +157,8 @@
 							$tagline3_2 = $tagline3[1];
 							$tagline3_3 = $tagline3[2];
 						@endphp
-						<div class="scene-item" data-depth="0.35">
-							<div class="marathon-text-left">{{ $tagline3_1 }}<br>{{ $tagline3_2 }}</div>
-						</div>
-						<div class="scene-item" data-depth="0.35">
-							<div class="marathon-text-right">{{ $tagline3_3 }}</div>
+						<div class="scene-item d-block d-lg-none" data-depth="0.35">
+							<div class="marathon-text-left">{{ $tagline3_1 }}<br>{{ $tagline3_2 }}<br>{{ $tagline3_3 }}</div>
 						</div>
 					</div>
 				</div>
@@ -218,7 +209,7 @@
 						<li><i aria-hidden="true" class="fas fa-map-marker-alt"></i>{{ $data->kota }}</li>
 						<li><i aria-hidden="true" class="fas fa-calendar-alt"></i>{{ date('d M Y', strtotime($data->tanggal)) }}</li>
 					</ul>
-					<h4>Speed, Strength, Samba!</h4>
+					<h4>{{ $data->tagline_banner1 ?? 'Speed Strength Samba' }}</h4>
 					@if (!empty($data->deskripsi))
 						<p>{{ $data->deskripsi }}</p>
 					@else
@@ -320,7 +311,7 @@
 						</span>
 					</div>
 				@endif
-				<div class="col-lg-12 map-route-info" @if($data->rute == null) style="text-align: center; display: flex; justify-content: center; align-items: center;" @endif>
+				<div class="{{ $data->rute ? 'col-lg-6' : 'col-lg-12' }} map-route-info" @if($data->rute == null) style="text-align: center; display: flex; justify-content: center; align-items: center;" @endif>
 					<div class="map-route-cover">
 						<h4>Explore the exciting cycling route designed for all skill levels</h4>
 						<div class="route-info-content">
@@ -586,7 +577,7 @@
 		<div class="container">
 			<div class="footer-box row justify-content-between">
 				<div class="footer-cont col-12 col-sm-6 col-lg-4">
-					<a href="#" class="logo"><img src="{{ asset('assets/images/logo-brand-side-yellow.png') }}" alt="logo" style="width: 11rem; height: auto;"></a>
+					<a href="#" class="logo"><img src="{{ asset('assets/images/logo-brand-side-samba.png') }}" alt="logo" style="width: clamp(11rem, 9.9474rem + 4.2105vw, 15rem); height: auto;"></a>
 					<p>{{ $data->lokasi }}</p>
 					<ul class="footer-contacts">
 						<li class="footer-phone">
