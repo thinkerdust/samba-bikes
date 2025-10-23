@@ -37,7 +37,7 @@ class Event extends Model
                     ->where('id', $id)
                     ->select('id', 'nama', 'kota', 'lokasi', 'jarak', DB::raw('DATE_FORMAT(jam_mulai_racepack, "%H:%i") as jam_mulai_racepack'), DB::raw('DATE_FORMAT(jam_selesai_racepack, "%H:%i") as jam_selesai_racepack'), 
                         'lat_start', 'long_start', 'lat_end', 'long_end', 'harga', 'stok', 'status', 'deskripsi', 'deskripsi_internal', 'bank', 'nomor_rekening', 'nama_rekening', 'phone', 'email', 'facebook', 'instagram', 'twitter', 'youtube',
-                        'banner1', 'tagline_banner1', 'banner2', 'tagline_banner2', 'banner3', 'tagline_banner3', 'size_chart', 'rute', 'link_rute',
+                        'banner_desktop', 'banner_tablet', 'banner_mobile', 'tagline', 'size_chart', 'rute', 'link_rute',
                         DB::raw("DATE_FORMAT(tanggal, '%d/%m/%Y') as tanggal"),
                         DB::raw("DATE_FORMAT(tanggal_mulai, '%d/%m/%Y') as tanggal_mulai"),
                         DB::raw("DATE_FORMAT(tanggal_selesai, '%d/%m/%Y') as tanggal_selesai"),

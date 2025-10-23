@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 
-	<link rel="shortcut icon" href="{{ asset('assets/images/logo.png') }}">
+	<link rel="shortcut icon" href="{{ asset('assets/images/samba.png') }}">
 	<!-- =================== STYLE =================== -->
 	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/landing/slick.min.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('assets/css/landing/bootstrap-grid.css') }}">
@@ -53,7 +53,7 @@
 		</a>
 		<div class="top-panel">
 			<div class="container">
-				<a href="#home" class="logo"><img src="{{ asset('assets/images/logo-brand-side-samba.png') }}" alt="logo" style="width: clamp(11rem, 9.9474rem + 4.2105vw, 15rem); height: auto;"></a>
+				<a href="#home" class="logo"><img src="{{ asset('assets/images/samba-side.png') }}" alt="logo" style="width: clamp(11rem, 9.9474rem + 4.2105vw, 15rem); height: auto;"></a>
 				<ul class="social-list">
 					@if ($data->instagram)
 						<li><a target="_blank" href="{{ $data->instagram }}"><i class="fab fa-instagram"></i></a></li>
@@ -91,79 +91,21 @@
 	<!-- ============= MARATHON-SLIDER ============= -->
 	<section class="s-marathon-slider">
 		<div class="marathon-slider">
-				<div class="marathon-slide marathon-slide-1">
-					<div data-hover-only="true" data-pointer-events="true" data-scalar-y="0" class="scene">
-						<div class="scene-item" data-depth="0.2">
-							<span class="marathon-effect" style="background-image: url({{ asset('assets/images/landing/effect-slider-marathon.svg') }});"></span>
-						</div>
-						<div class="scene-item" data-depth="0.2">
-							<img class="marathon-img" src="{{ asset('/storage/uploads/' . $data->banner1) }}" alt="Event Image">
-						</div>
-						<div class="scene-item d-block d-lg-none" data-depth="0.5">
-							<div class="slider-location">{{ $data->kota }} <span class="date">{{ date('d M Y', strtotime($data->tanggal)) }}</span> <br> {{ $data->nama }}</div>
-						</div>
-						@php
-							$tagline1 	= explode(' ', $data->tagline_banner1);
-							$tagline1_1 = $tagline1[0];
-							$tagline1_2 = $tagline1[1];
-							$tagline1_3 = $tagline1[2];
-						@endphp
-						<div class="scene-item d-block d-lg-none" data-depth="0.35">
-							<!-- <div class="marathon-text-left">{{ $tagline1_1 }}<br>{{ $tagline1_2 }}<br>{{ $tagline1_3 }}</div> -->
-						</div>
+			<div class="marathon-slide marathon-slide-1">
+				<div data-hover-only="true" data-pointer-events="true" data-scalar-y="0" class="scene">
+					<div class="scene-item" data-depth="0.2">
+						<span class="marathon-effect" style="background-image: url({{ asset('assets/images/landing/effect-slider-marathon.svg') }});"></span>
+					</div>
+					<div class="scene-item" data-depth="0.2">
+						<img class="marathon-img d-none d-xl-block" src="{{ asset('/storage/uploads/' . $data->banner_desktop) }}" alt="Event Image">
+						<img class="marathon-img d-none d-md-block" src="{{ asset('/storage/uploads/' . $data->banner_tablet) }}" alt="Event Image">
+						<img class="marathon-img d-block d-md-none" src="{{ asset('/storage/uploads/' . $data->banner_mobile) }}" alt="Event Image">
+					</div>
+					<div class="scene-item d-block d-lg-none" data-depth="0.5">
+						<div class="slider-location">{{ $data->kota }} <span class="date">{{ date('d M Y', strtotime($data->tanggal)) }}</span> <br> {{ $data->nama }}</div>
 					</div>
 				</div>
-
-			@if ($data->banner2 && $data->tagline_banner2) 
-				<div class="marathon-slide marathon-slide-1">
-					<div data-hover-only="true" data-pointer-events="true" data-scalar-y="0" class="scene">
-						<div class="scene-item" data-depth="0.2">
-							<span class="marathon-effect" style="background-image: url({{ asset('assets/images/landing/effect-slider-marathon.svg') }});"></span>
-						</div>
-						<div class="scene-item" data-depth="0.2">
-							<img class="marathon-img" src="{{ asset('/storage/uploads/' . $data->banner2) }}" alt="Event Image">
-						</div>
-						<div class="scene-item" data-depth="0.5">
-							<div class="slider-location">{{ $data->kota }} <span class="date">{{ date('d M Y', strtotime($data->tanggal)) }}</span> <br> {{ $data->nama }}</div>
-						</div>
-						@php
-							$tagline2 	= explode(' ', $data->tagline_banner2);
-							$tagline2_1 = $tagline2[0];
-							$tagline2_2 = $tagline2[1];
-							$tagline2_3 = $tagline2[2];
-						@endphp
-						<div class="scene-item d-block d-lg-none" data-depth="0.35">
-							<div class="marathon-text-left">{{ $tagline2_1 }}<br>{{ $tagline2_2 }}<br>{{ $tagline2_3 }}</div>
-						</div>
-					</div>
-				</div>
-			@endif
-
-			@if ($data->banner3 && $data->tagline_banner3) 
-				<div class="marathon-slide marathon-slide-1">
-					<div data-hover-only="true" data-pointer-events="true" data-scalar-y="0" class="scene">
-						<div class="scene-item" data-depth="0.2">
-							<span class="marathon-effect" style="background-image: url({{ asset('assets/images/landing/effect-slider-marathon.svg') }});"></span>
-						</div>
-						<div class="scene-item" data-depth="0.2">
-							<img class="marathon-img" src="{{ asset('/storage/uploads/' . $data->banner3) }}" alt="Event Image">
-						</div>
-						<div class="scene-item" data-depth="0.5">
-							<div class="slider-location">{{ $data->kota }} <span class="date">{{ date('d M Y', strtotime($data->tanggal)) }}</span> <br> {{ $data->nama }}</div>
-						</div>
-						@php
-							$tagline3 	= explode(' ', $data->tagline_banner3);
-							$tagline3_1 = $tagline3[0];
-							$tagline3_2 = $tagline3[1];
-							$tagline3_3 = $tagline3[2];
-						@endphp
-						<div class="scene-item d-block d-lg-none" data-depth="0.35">
-							<div class="marathon-text-left">{{ $tagline3_1 }}<br>{{ $tagline3_2 }}<br>{{ $tagline3_3 }}</div>
-						</div>
-					</div>
-				</div>
-			@endif
-
+			</div>
 		</div>
 		<img class="marathon-slider-shape" src="{{ asset('assets/images/landing/slider-home1-shape.svg') }}" alt="shape">
 		<div id="clockdiv" class="clock-timer clock-timer-marathon">
@@ -209,7 +151,7 @@
 						<li><i aria-hidden="true" class="fas fa-map-marker-alt"></i>{{ $data->kota }}</li>
 						<li><i aria-hidden="true" class="fas fa-calendar-alt"></i>{{ date('d M Y', strtotime($data->tanggal)) }}</li>
 					</ul>
-					<h4>{{ $data->tagline_banner1 ?? 'Speed Strength Samba' }}</h4>
+					<h4>{{ $data->tagline ?? 'Speed Strength Samba' }}</h4>
 					@if (!empty($data->deskripsi))
 						<p>{{ $data->deskripsi }}</p>
 					@else
@@ -577,7 +519,7 @@
 		<div class="container">
 			<div class="footer-box row justify-content-between">
 				<div class="footer-cont col-12 col-sm-6 col-lg-4">
-					<a href="#" class="logo"><img src="{{ asset('assets/images/logo-brand-side-samba.png') }}" alt="logo" style="width: clamp(11rem, 9.9474rem + 4.2105vw, 15rem); height: auto;"></a>
+					<a href="#" class="logo"><img src="{{ asset('assets/images/samba-side.png') }}" alt="logo" style="width: clamp(11rem, 9.9474rem + 4.2105vw, 15rem); height: auto;"></a>
 					<p>{{ $data->lokasi }}</p>
 					<ul class="footer-contacts">
 						<li class="footer-phone">

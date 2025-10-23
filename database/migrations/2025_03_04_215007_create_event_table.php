@@ -37,12 +37,10 @@ return new class extends Migration
             $table->string('bank')->comment("table: bank");
             $table->string('phone', 20)->comment("nomor telepon admin");
             $table->string('email')->comment("email admin");
-            $table->text('banner1')->nullable();
-            $table->string('tagline_banner1')->nullable();
-            $table->text('banner2')->nullable();
-            $table->string('tagline_banner2')->nullable();
-            $table->text('banner3')->nullable();
-            $table->string('tagline_banner3')->nullable();
+            $table->text('banner_desktop')->nullable();
+            $table->text('banner_tablet')->nullable();
+            $table->text('banner_mobile')->nullable();
+            $table->string('tagline')->nullable();
             $table->text('size_chart')->nullable();
             $table->text('rute')->nullable();
 

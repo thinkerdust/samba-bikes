@@ -96,12 +96,10 @@ class EventController extends BaseController
             'tanggal_selesai_tiket' => 'required',
             'harga'                 => 'required',
             'stok'                  => 'required',
-            'banner1'               => 'required_if:id,0|max:2048',
-            'tagline_banner1'       => 'required_if:id,0|max:20',
-            'tagline_banner2'       => 'max:20',
-            'tagline_banner3'       => 'max:20',
-            'banner2'               => 'max:2048',
-            'banner3'               => 'max:2048',
+            'banner_desktop'        => 'required_if:id,0|max:2048',
+            'banner_tablet'         => 'required_if:id,0|max:2048',
+            'banner_mobile'         => 'required_if:id,0|max:2048',
+            'tagline'               => 'required_if:id,0|max:20',
             'size_chart'            => 'required_if:id,0|max:2048',
             'rute'                  => 'required_if:id,0|max:2048',
         ], validation_message());
@@ -146,54 +144,52 @@ class EventController extends BaseController
                 'twitter'           => $request->twitter,
                 'instagram'         => $request->instagram,
                 'youtube'           => $request->youtube,
-                'tagline_banner1'   => $request->tagline_banner1,
-                'tagline_banner2'   => $request->tagline_banner2,
-                'tagline_banner3'   => $request->tagline_banner3,
+                'tagline'           => $request->tagline,
             ];
 
-            if($request->file('banner1')) {
-                $banner = $request->file('banner1');
-                $extBanner = $banner->getClientOriginalExtension();
-                $filenameBanner = 'BANNER_' . time() . '.' . $extBanner;
-                $banner->storeAs('uploads', $filenameBanner, 'public');
-                $data['banner1'] = $filenameBanner;
+            if($request->file('banner_desktop')) {
+                $banner_desktop         = $request->file('banner_desktop');
+                $extBannerDesktop       = $banner_desktop->getClientOriginalExtension();
+                $filenameBannerDesktop  = 'BANNER_DESKTOP_' . time() . '.' . $extBannerDesktop;
+                $banner_desktop->storeAs('uploads', $filenameBannerDesktop, 'public');
+                $data['banner_desktop'] = $filenameBannerDesktop;
 
-                $filePathBanner = 'uploads/'.$request->old_banner;
-                if (Storage::disk('public')->exists($filePathBanner)) {
-                    Storage::disk('public')->delete($filePathBanner);
+                $filePathBannerDesktop = 'uploads/'.$request->old_banner_desktop;
+                if (Storage::disk('public')->exists($filePathBannerDesktop)) {
+                    Storage::disk('public')->delete($filePathBannerDesktop);
                 }
             }
 
-            if($request->file('banner2')) {
-                $banner = $request->file('banner2');
-                $extBanner = $banner->getClientOriginalExtension();
-                $filenameBanner = 'BANNER_' . time() . '.' . $extBanner;
-                $banner->storeAs('uploads', $filenameBanner, 'public');
-                $data['banner2'] = $filenameBanner;
+            if($request->file('banner_tablet')) {
+                $banner_tablet          = $request->file('banner_tablet');
+                $extBannerTablet        = $banner_tablet->getClientOriginalExtension();
+                $filenameBannerTablet   = 'BANNER_TABLET_' . time() . '.' . $extBannerTablet;
+                $banner_tablet->storeAs('uploads', $filenameBannerTablet, 'public');
+                $data['banner_tablet'] = $filenameBannerTablet;
 
-                $filePathBanner2 = 'uploads/'.$request->old_banner2;
-                if (Storage::disk('public')->exists($filePathBanner2)) {
-                    Storage::disk('public')->delete($filePathBanner2);
+                $filePathBannerTablet = 'uploads/'.$request->old_banner_tablet;
+                if (Storage::disk('public')->exists($filePathBannerTablet)) {
+                    Storage::disk('public')->delete($filePathBannerTablet);
                 }
             }
 
-            if($request->file('banner3')) {
-                $banner = $request->file('banner3');
-                $extBanner = $banner->getClientOriginalExtension();
-                $filenameBanner = 'BANNER_' . time() . '.' . $extBanner;
-                $banner->storeAs('uploads', $filenameBanner, 'public');
-                $data['banner3'] = $filenameBanner;
+            if($request->file('banner_mobile')) {
+                $banner_mobile          = $request->file('banner_mobile');
+                $extBannerMobile        = $banner_mobile->getClientOriginalExtension();
+                $filenameBannerMobile   = 'BANNER_MOBILE_' . time() . '.' . $extBannerMobile;
+                $banner_mobile->storeAs('uploads', $filenameBannerMobile, 'public');
+                $data['banner_mobile'] = $filenameBannerMobile;
 
-                $filePathBanner3 = 'uploads/'.$request->old_banner3;
-                if (Storage::disk('public')->exists($filePathBanner3)) {
-                    Storage::disk('public')->delete($filePathBanner3);
+                $filePathBannerMobile = 'uploads/'.$request->old_banner_mobile;
+                if (Storage::disk('public')->exists($filePathBannerMobile)) {
+                    Storage::disk('public')->delete($filePathBannerMobile);
                 }
             }
 
             if($request->file('size_chart')) {
-                $size_chart = $request->file('size_chart');
-                $extSizeChart = $size_chart->getClientOriginalExtension();
-                $filenameSizeChart = 'SIZE_CHART_' . time() . '.' . $extSizeChart;
+                $size_chart         = $request->file('size_chart');
+                $extSizeChart       = $size_chart->getClientOriginalExtension();
+                $filenameSizeChart  = 'SIZE_CHART_' . time() . '.' . $extSizeChart;
                 $size_chart->storeAs('uploads', $filenameSizeChart, 'public');
                 $data['size_chart'] = $filenameSizeChart;
 
@@ -204,9 +200,9 @@ class EventController extends BaseController
             }
 
             if($request->file('rute')) {
-                $rute = $request->file('rute');
-                $extRute = $rute->getClientOriginalExtension();
-                $filenameRute = 'RUTE_' . time() . '.' . $extRute;
+                $rute           = $request->file('rute');
+                $extRute        = $rute->getClientOriginalExtension();
+                $filenameRute   = 'RUTE_' . time() . '.' . $extRute;
                 $rute->storeAs('uploads', $filenameRute, 'public');
                 $data['rute'] = $filenameRute;
 

@@ -44,7 +44,7 @@ $(document).ready(function() {
         }
     })
     
-    $('#tagline_banner1, #tagline_banner2, #tagline_banner3').on('input', function () {
+    $('#tagline').on('input', function () {
         const value = $(this).val().trim();
         const wordCount = value.split(/\s+/).filter(word => word.length > 0).length;
 
@@ -97,28 +97,26 @@ $(document).ready(function() {
 
                     $("#bank").empty().append(`<option value="${data.bank}">${data.bank}</option>`).val(data.bank).trigger('change');
 
-                    $('#tagline_banner1').val(data.tagline_banner1);
-                    $('#tagline_banner2').val(data.tagline_banner2);
-                    $('#tagline_banner3').val(data.tagline_banner3);
+                    $('#tagline').val(data.tagline);
 
                     let link_storage = '/storage/uploads/';
 
-                    if(data.banner1) {
-                        $('#preview_image_banner1').attr('src', link_storage+data.banner1);
-                        $('#sectionBanner1').html(`<a target="_blank" href="${link_storage+data.banner1}" class="btn btn-info btn-sm">Download File Banner</a>`);
-                        $('#old_banner1').val(data.banner1);
+                    if(data.banner_desktop) {
+                        $('#preview_image_banner_desktop').attr('src', link_storage+data.banner_desktop);
+                        $('#sectionBannerDesktop').html(`<a target="_blank" href="${link_storage+data.banner_desktop}" class="btn btn-info btn-sm">Download File Banner</a>`);
+                        $('#old_banner_desktop').val(data.banner_desktop);
                     }
 
-                    if(data.banner2) {
-                        $('#preview_image_banner2').attr('src', link_storage+data.banner2);
-                        $('#sectionBanner2').html(`<a target="_blank" href="${link_storage+data.banner2}" class="btn btn-info btn-sm">Download File Banner</a>`);
-                        $('#old_banner2').val(data.banner2);
+                    if(data.banner_tablet) {
+                        $('#preview_image_banner_tablet').attr('src', link_storage+data.banner_tablet);
+                        $('#sectionBannerTablet').html(`<a target="_blank" href="${link_storage+data.banner_tablet}" class="btn btn-info btn-sm">Download File Banner</a>`);
+                        $('#old_banner_tablet').val(data.banner_tablet);
                     }
 
-                    if(data.banner3) {
-                        $('#preview_image_banner3').attr('src', link_storage+data.banner3);
-                        $('#sectionBanner3').html(`<a target="_blank" href="${link_storage+data.banner3}" class="btn btn-info btn-sm">Download File Banner</a>`);
-                        $('#old_banner3').val(data.banner3);
+                    if(data.banner_mobile) {
+                        $('#preview_image_banner_mobile').attr('src', link_storage+data.banner_mobile);
+                        $('#sectionBannerMobile').html(`<a target="_blank" href="${link_storage+data.banner_mobile}" class="btn btn-info btn-sm">Download File Banner</a>`);
+                        $('#old_banner_mobile').val(data.banner_mobile);
                     }
 
                     if(data.size_chart) {
@@ -144,21 +142,6 @@ $(document).ready(function() {
         e.preventDefault();
         formData = new FormData($(this)[0]);
         var btn = $('#btn-submit');
-
-        // validasi tagline_banner1, 2, 3 harus 3 kata
-        const taglineFields = ['#tagline_banner1', '#tagline_banner2', '#tagline_banner3'];
-        for (const field of taglineFields) {
-            const value = $(field).val().trim();
-
-            if (value) {
-                const wordCount = value.split(' ').filter(word => word.length > 0).length;
-                if (wordCount != 3) {
-                    NioApp.Toast("Tagline harus 3 kata", 'warning', { position: 'top-right' });
-                    $(field).focus();
-                    return false;
-                }
-            }
-        }
 
         $.ajax({
             url : "/admin/event/store",  
@@ -286,7 +269,6 @@ $(document).ready(function() {
     
         error(file, response) {
             this.removeFile(file);
-            console.error("Upload Error:", typeof response === "object" ? response.message : response);
             NioApp.Toast(typeof response === "object" ? response.message : response, 'error', { position: 'top-right' });
         },
     
@@ -547,18 +529,18 @@ function hapus_schedule(id) {
     });
 }
 
-$('#preview_image_size_chart, #preview_image_rute, #preview_image_banner1, #preview_image_banner2, #preview_image_banner3').attr('src', "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png");
+$('#preview_image_size_chart, #preview_image_rute, #preview_image_banner_desktop, #preview_image_banner_tablet, #preview_image_banner_mobile').attr('src', "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.png");
 
-$('#banner1').on('change', function() {
-    handleFileChange('banner1', 'preview_image_banner1', 'label_banner1');
+$('#banner_desktop').on('change', function() {
+    handleFileChange('banner_desktop', 'preview_image_banner_desktop', 'label_banner_desktop');
 });
 
-$('#banner2').on('change', function() {
-    handleFileChange('banner2', 'preview_image_banner2', 'label_banner2');
+$('#banner_tablet').on('change', function() {
+    handleFileChange('banner_tablet', 'preview_image_banner_tablet', 'label_banner_tablet');
 });
 
-$('#banner3').on('change', function() {
-    handleFileChange('banner3', 'preview_image_banner3', 'label_banner3');
+$('#banner_mobile').on('change', function() {
+    handleFileChange('banner_mobile', 'preview_image_banner_mobile', 'label_banner_mobile');
 });
 
 $('#size_chart').on('change', function() {
