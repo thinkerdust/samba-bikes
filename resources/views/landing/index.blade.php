@@ -98,7 +98,7 @@
 					</div>
 					<div class="scene-item" data-depth="0.2">
 						<img class="marathon-img d-none d-xl-block" src="{{ asset('/storage/uploads/' . $data->banner_desktop) }}" alt="Event Image">
-						<img class="marathon-img d-none d-md-block" src="{{ asset('/storage/uploads/' . $data->banner_tablet) }}" alt="Event Image">
+						<img class="marathon-img d-none d-md-block d-xl-none" src="{{ asset('/storage/uploads/' . $data->banner_tablet) }}" alt="Event Image">
 						<img class="marathon-img d-block d-md-none" src="{{ asset('/storage/uploads/' . $data->banner_mobile) }}" alt="Event Image">
 					</div>
 					<div class="scene-item d-block d-lg-none" data-depth="0.5">
