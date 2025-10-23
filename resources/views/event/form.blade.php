@@ -181,6 +181,12 @@
                                                         <textarea class="form-control" id="deskripsi_internal" name="deskripsi_internal" rows="5" placeholder="Isi Dengan Deskripsi Internal"></textarea>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Tagline <span class="text-danger">*</span></label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control" id="tagline" placeholder="Ngopeni Nglakoni Jateng" name="tagline" required>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -217,10 +223,10 @@
                                         <h3>Assets</h3>
                                         <div class="row gy-4">
                                             <div class="col-md-4">
-                                                <label class="form-label">File Banner 1 <span class="text-danger">*</span></label>
+                                                <label class="form-label">File Banner Desktop <span class="text-danger">*</span></label>
                                                     <label class="cabinet center-block">
                                                     <figure>
-                                                        <img src="" class="gambar img-responsive img-thumbnail" id="preview_image_banner1" />
+                                                        <img src="" class="gambar img-responsive img-thumbnail" id="preview_image_banner_desktop" />
                                                         <figcaption>
                                                             <ul>
                                                                 <li>*)Leave blank if you don't want to replace</li>
@@ -230,32 +236,23 @@
                                                     </figure>
                                                     <div class="form-control-wrap">
                                                         <div class="form-file">
-                                                            <input type="file" class="form-file-input" id="banner1" name="banner1" accept=".png, .jpg">
-                                                            <input type="hidden" id="old_banner1" name="old_banner1">
-                                                            <label class="form-file-label" id="label_banner1" for="banner1">Choose file</label>
+                                                            <input type="file" class="form-file-input" id="banner_desktop" name="banner_desktop" accept=".png, .jpg">
+                                                            <input type="hidden" id="old_banner_desktop" name="old_banner_desktop">
+                                                            <label class="form-file-label" id="label_banner_desktop" for="banner_desktop">Choose file</label>
                                                         </div>
-                                                        <div class="d-flex align-items-center my-2">
+                                                        <div class="d-flex align-items-center">
                                                             <a target="_blank" href="{{ asset('assets/images/DEFAULT-LANDING.png') }}" class="btn btn-primary btn-sm me-2 d-none d-xxl-block">Download Default Banner</a>
                                                             <a target="_blank" href="{{ asset('assets/images/DEFAULT-LANDING.png') }}" class="btn btn-primary btn-sm me-2 d-block d-xxl-none">Default Banner</a>
-                                                            <div id="sectionBanner1" class="my-2"></div>
+                                                            <div id="sectionBannerDesktop" class="my-2"></div>
                                                         </div>
                                                     </div>
                                                 </label>
-                                                <div class="form-group">
-                                                    <label class="form-label">Tagline Banner 1 <span class="text-danger">*</span></label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="tagline_banner1" name="tagline_banner1" placeholder="Feel Your Burn" required>
-                                                        <div class="invalid-feedback">
-                                                            Tagline must be a maximum of 4 words.
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <label class="form-label">File Banner 2</label>
+                                                <label class="form-label">File Banner Tablet <span class="text-danger">*</span></label>
                                                     <label class="cabinet center-block">
                                                     <figure>
-                                                        <img src="" class="gambar img-responsive img-thumbnail" id="preview_image_banner2" />
+                                                        <img src="" class="gambar img-responsive img-thumbnail" id="preview_image_banner_tablet" />
                                                         <figcaption>
                                                             <ul>
                                                                 <li>*)Leave blank if you don't want to replace</li>
@@ -265,28 +262,19 @@
                                                     </figure>
                                                     <div class="form-control-wrap">
                                                         <div class="form-file">
-                                                            <input type="file" class="form-file-input" id="banner2" name="banner2" accept=".png, .jpg">
-                                                            <input type="hidden" id="old_banner2" name="old_banner2">
-                                                            <label class="form-file-label" id="label_banner2" for="banner2">Choose file</label>
+                                                            <input type="file" class="form-file-input" id="banner_tablet" name="banner_tablet" accept=".png, .jpg">
+                                                            <input type="hidden" id="old_banner_tablet" name="old_banner_tablet">
+                                                            <label class="form-file-label" id="label_banner_tablet" for="banner_tablet">Choose file</label>
                                                         </div>
-                                                        <div id="sectionBanner2" class="my-2"></div>
+                                                        <div id="sectionBannerTablet" class="my-2"></div>
                                                     </div>
                                                 </label>
-                                                <div class="form-group">
-                                                    <label class="form-label">Tagline Banner 2</label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="tagline_banner2" placeholder="Feel Your Muscle" name="tagline_banner2">
-                                                        <div class="invalid-feedback">
-                                                            Tagline must be a maximum of 4 words.
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <label class="form-label">File Banner 3</label>
+                                                <label class="form-label">File Banner Mobile <span class="text-danger">*</span></label>
                                                     <label class="cabinet center-block">
                                                     <figure>
-                                                        <img src="" class="gambar img-responsive img-thumbnail" id="preview_image_banner3" />
+                                                        <img src="" class="gambar img-responsive img-thumbnail" id="preview_image_banner_mobile" />
                                                         <figcaption>
                                                             <ul>
                                                                 <li>*)Leave blank if you don't want to replace</li>
@@ -296,22 +284,13 @@
                                                     </figure>
                                                     <div class="form-control-wrap">
                                                         <div class="form-file">
-                                                            <input type="file" class="form-file-input" id="banner3" name="banner3" accept=".png, .jpg">
-                                                            <input type="hidden" id="old_banner3" name="old_banner3">
-                                                            <label class="form-file-label" id="label_banner3" for="banner3">Choose file</label>
+                                                            <input type="file" class="form-file-input" id="banner_mobile" name="banner_mobile" accept=".png, .jpg">
+                                                            <input type="hidden" id="old_banner_mobile" name="old_banner_mobile">
+                                                            <label class="form-file-label" id="label_banner_mobile" for="banner_mobile">Choose file</label>
                                                         </div>
-                                                        <div id="sectionBanner3" class="my-2"></div>
+                                                        <div id="sectionBannerMobile" class="my-2"></div>
                                                     </div>
                                                 </label>
-                                                <div class="form-group">
-                                                    <label class="form-label">Tagline Banner 3</label>
-                                                    <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="tagline_banner3" placeholder="Feel Your Turn" name="tagline_banner3">
-                                                        <div class="invalid-feedback">
-                                                            Tagline must be a maximum of 4 words.
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <label class="form-label">File Size Chart <span class="text-danger">*</span></label>
