@@ -40,7 +40,7 @@ return new class extends Migration
             $table->text('banner_desktop')->nullable();
             $table->text('banner_tablet')->nullable();
             $table->text('banner_mobile')->nullable();
-            $table->string('tagline')->nullable();
+            $table->text('tagline')->nullable();
             $table->text('size_chart')->nullable();
             $table->text('rute')->nullable();
 
