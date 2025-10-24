@@ -6,8 +6,8 @@
             </div>
             <div class="nk-header-brand d-xl-none">
                 <a href="/admin/dashboard" class="logo-link">
-                    <img class="logo-light logo-img" src="{{ asset('assets/images/logo-brand-side-yellow.png') }}" srcset="{{ asset('assets/images/logo-brand-side-yellow.png 2x') }}" alt="logo">
-                    <img class="logo-dark logo-img" src="{{ asset('assets/images/logo-brand-side-yellow.png') }}" srcset="{{ asset('assets/images/logo-brand-side-yellow.png 2x') }}" alt="logo-dark">
+                    <img class="logo-light logo-img" src="{{ asset('assets/images/samba-side.png') }}" srcset="{{ asset('assets/images/samba-side.png 2x') }}" alt="logo">
+                    <img class="logo-dark logo-img" src="{{ asset('assets/images/samba-side.png') }}" srcset="{{ asset('assets/images/samba-side.png 2x') }}" alt="logo-dark">
                 </a>
             </div><!-- .nk-header-brand -->
             <!-- .nk-header-news -->

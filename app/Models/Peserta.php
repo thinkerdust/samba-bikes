@@ -32,7 +32,7 @@ class Peserta extends Model
         'update_by',
     ];
     
-    public function dataTablePeserta($event)
+    public function dataTablePeserta($event, $status)
     {
         
         $query = DB::table('peserta as p')
@@ -50,11 +50,14 @@ class Peserta extends Model
                         $join->on('od.nomor_order', '=', 'o.nomor')
                             ->on('od.id_peserta', '=', 'p.id');
                     })
-                    ->where('p.status', 1)
-                    ->where('o.status', 2);
+                    ->where('p.status', 1);
 
         if($event) {
             $query->where('p.id_event', $event);
+        }
+
+        if($status != 'all') {
+            $query->where('o.status', $status);
         }
 
         return $query;

@@ -24,6 +24,18 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group col-md-3">
+                                        <label class="form-label">Status</label>
+                                        <div class="form-control-wrap">
+                                            <select class="form-select form-control form-control-lg select2-js status" id="filter_status" name="filter_status">
+                                                <option value="all">Semua</option>
+                                                <option value="1">Pending</option>
+                                                <option value="2" selected>Paid</option>
+                                                <option value="0">Deleted</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-2 mt-2 d-flex align-items-center">
                                         <button type="button" class="btn btn-info" id="btn-filter"><em class="icon ni ni-search"></em><span>Filter</span></button>
                                     </div>

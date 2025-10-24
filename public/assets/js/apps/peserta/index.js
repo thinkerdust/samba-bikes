@@ -37,7 +37,8 @@ const table = () => NioApp.DataTable('#dt-table', {
         type: 'POST',
         data: function(d) {
             d._token    = token;
-            d.event    = $('#filter_event').val();
+            d.event     = $('#filter_event').val();
+            d.status    = $('#filter_status').val();
         },
         beforeSend: function () {
             blockUI();
