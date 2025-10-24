@@ -151,11 +151,11 @@
 						<li><i aria-hidden="true" class="fas fa-map-marker-alt"></i>{{ $data->kota }}</li>
 						<li><i aria-hidden="true" class="fas fa-calendar-alt"></i>{{ date('d M Y', strtotime($data->tanggal)) }}</li>
 					</ul>
-					<h4>{{ $data->tagline ?? 'Speed Strength Samba' }}</h4>
+					<h4>{!! nl2br(e($data->tagline ?? 'Speed Strength Samba')) !!}</h4>
 					@if (!empty($data->deskripsi))
 						<p>{{ $data->deskripsi }}</p>
 					@else
-						<p>At Samba, we bring cyclists together—whether casual riders or competitive athletes—to experience scenic and exciting rides. Cycling is more than a sport; it’s a lifestyle that promotes health, sustainability, and community. Join us and ride towards new adventures!</p>
+						<p>At {{ $data->nama ?? 'Samba' }}, we bring cyclists together—whether casual riders or competitive athletes—to experience scenic and exciting rides. Cycling is more than a sport; it’s a lifestyle that promotes health, sustainability, and community. Join us and ride towards new adventures!</p>
 					@endif
 					<div class="mission-number-cover">
 						<div class="mission-number-item">

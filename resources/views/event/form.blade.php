@@ -184,7 +184,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Tagline <span class="text-danger">*</span></label>
                                                     <div class="form-control-wrap">
-                                                        <input type="text" class="form-control" id="tagline" placeholder="Ngopeni Nglakoni Jateng" name="tagline" required>
+                                                        <textarea class="form-control" id="tagline" placeholder="Ngopeni Nglakoni Jateng" name="tagline" required></textarea>
                                                     </div>
                                                 </div>
                                             </div>
