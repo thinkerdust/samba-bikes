@@ -152,6 +152,10 @@ $('.format-currency').on('keyup', (evt) => {
     keyUpThousandView(evt)
 })
 
+$('.select2-js').select2({
+    minimumResultsForSearch: Infinity
+});
+
 function hapus(nomor) {
     Swal.fire({
         title: 'Apakah anda yakin akan hapus data?',
