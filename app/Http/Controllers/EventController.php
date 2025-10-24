@@ -99,7 +99,7 @@ class EventController extends BaseController
             'banner_desktop'        => 'required_if:id,0|max:2048',
             'banner_tablet'         => 'required_if:id,0|max:2048',
             'banner_mobile'         => 'required_if:id,0|max:2048',
-            'tagline'               => 'required_if:id,0|max:20',
+            'tagline'               => 'required_if:id,0',
             'size_chart'            => 'required_if:id,0|max:2048',
             'rute'                  => 'required_if:id,0|max:2048',
         ], validation_message());
