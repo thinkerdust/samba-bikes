@@ -9,7 +9,7 @@
     <meta name="description" content="Samba Bikes">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fav Icon  -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/logo.png') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/images/samba.png') }}">
     <!-- Page Title  -->
     <title>Panel | Samba Bikes</title>
     <!-- StyleSheets  -->
