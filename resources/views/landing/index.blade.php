@@ -494,7 +494,7 @@
 				$total_images 	= count($images);
 				$sisa 			= 10 - $total_images;
 
-				$default_images = ['DEFAULT-EVENT-1.jpg', 'DEFAULT-EVENT-2.jpg', 'DEFAULT-EVENT-3.jpg', 'DEFAULT-EVENT-4.jpg', 'DEFAULT-EVENT-5.jpg', 'DEFAULT-EVENT-6.jpg', 'DEFAULT-EVENT-7.jpg', 'DEFAULT-EVENT-8.jpg', 'DEFAULT-EVENT-9.jpg', 'DEFAULT-EVENT-10.jpg'];
+				$default_images = ['DEFAULT-EVENT-1.jpg', 'DEFAULT-EVENT-2.jpg', 'DEFAULT-EVENT-3.jpg', 'DEFAULT-EVENT-4.jpg', 'DEFAULT-EVENT-5.jpg', 'DEFAULT-EVENT-6.jpg', 'DEFAULT-EVENT-7.jpg', 'DEFAULT-EVENT-11.jpg', 'DEFAULT-EVENT-9.jpg', 'DEFAULT-EVENT-10.jpg'];
 				shuffle($default_images); // Randomize the default images
 			@endphp
 

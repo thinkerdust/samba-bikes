@@ -38,8 +38,6 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () {
 
-    Route::get('log-viewer', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
-
     Route::prefix('dashboard')->controller(DashboardController::class)->group(function () {
         Route::get('/', 'index')->name('dashboard');
         Route::get('/data', 'data_dashboard');
