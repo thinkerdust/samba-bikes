@@ -31,7 +31,7 @@
                                     <div class="form-group col-md-3">
                                         <label class="form-label">Event</label>
                                         <div class="form-control-wrap">
-                                            <select class="form-select form-control form-control-lg select2-js event" id="filter_event" name="filter_event"></select>
+                                            <select class="form-select form-control form-control-lg event" id="filter_event" name="filter_event"></select>
                                         </div>
                                     </div>
 
