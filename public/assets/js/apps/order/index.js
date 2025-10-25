@@ -1,4 +1,149 @@
-const table = () => NioApp.DataTable('#dt-table', {
+$(document).ready(function() {
+    $('.select2-js').select2({
+        minimumResultsForSearch: Infinity
+    });
+
+    $('.format-currency').on('keyup', (evt) => {
+        keyUpThousandView(evt)
+    })
+
+    $('.event').each(async function() {
+        var dropdownParent = null;
+
+        if ($(this).closest('.modal').length > 0) {
+            dropdownParent = $(this).closest('.modal');
+        }
+
+        $(this).select2({
+            placeholder: 'Pilih Event',
+            dropdownParent: dropdownParent,
+            allowClear: true,
+            ajax: {
+                url: '/admin/data-event',
+                dataType: "json",
+                type: "GET",
+                delay: 250,
+                data: function (params) {
+                    return { q: params.term, release: true };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.nama,
+                                id: item.id
+                            }
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+    });
+
+    // Panggil datatable() in here (Callback dari initializeSelect2)
+    initializeSelect2('#filter_event', '/admin/data-event', null, null, function () {
+        const el = $('#filter_event');
+
+        if (!el.val()) {
+            $.getJSON('/admin/data-event', function (res) {
+                if (res.length > 0) {
+                    const first = res[0];
+                    const option = new Option(first.nama, first.id, true, true);
+                    el.append(option).trigger('change');
+                }
+
+                datatable();
+            });
+        } else {
+            datatable();
+        }
+    });
+
+    $('#btn-filter').click(function() {
+        datatable();
+    })
+
+    $('#form-data-payment').submit(function(e) {
+        e.preventDefault();
+        formData = new FormData($(this)[0]);
+        var btn = $('#btn-submit-payment');
+
+        Swal.fire({
+            title: 'Apakah anda yakin akan simpan data?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, saya yakin!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url : "/admin/order/payment",  
+                    data : formData,
+                    type : "POST",
+                    dataType : "JSON",
+                    cache:false,
+                    async : true,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function() {
+                        btn.attr('disabled', true);
+                        btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading ...</span>`);
+                    },
+                    success: function(response) {
+                        if(response.status) {
+                            datatable();
+                            NioApp.Toast(response.message, 'success', {position: 'top-right'});
+                            $('#modalPayment').modal('hide');
+                        } else {
+                            NioApp.Toast(response.message, 'warning', {position: 'top-right'});
+                        }
+                        btn.attr('disabled', false);
+                        btn.html('Submit');
+                    },
+                    error: function(error) {
+                        btn.attr('disabled', false);
+                        btn.html('Submit');
+                        NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+                    }
+                });
+            }
+        })
+    });
+})
+
+// Utility
+const thousandView = (number = 0) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function initializeSelect2(elementId, url, selectedValue, additionalParams = {}, callback = null) {
+    const element = $(elementId);
+    $.ajax({
+        type: 'GET',
+        url: url,
+        dataType: 'json',
+        data: { ...additionalParams },
+    }).done(function (res) {
+        if (selectedValue) {
+            const response = res.find(o => o.id == selectedValue);
+            if (response) {
+                const option = new Option(response.nama, response.id, true, true);
+                element.append(option).trigger('change');
+            }
+        }
+        if (callback) callback(); // Ensure table() is called after data loads
+    });
+}
+
+const keyUpThousandView = (evt) => {
+    let currentValue = (evt.currentTarget.value != '') ? evt.currentTarget.value.replaceAll('.','') : '0';
+    let iNumber = parseInt(currentValue);
+    let result = isNaN(iNumber) == false ? thousandView(iNumber) : '0';
+    evt.currentTarget.value = result;
+}
+// End Utility
+
+const datatable = () => NioApp.DataTable('#dt-table', {
     serverSide: true,
     processing: true,
     responsive: false,
@@ -76,86 +221,6 @@ const table = () => NioApp.DataTable('#dt-table', {
     }
 });
 
-$('#btn-filter').click(function() {
-    $("#dt-table").DataTable().ajax.reload();
-})
-
-const thousandView = (number = 0) => {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
-function initializeSelect2(elementId, url, selectedValue, additionalParams = {}, callback = null) {
-    const element = $(elementId);
-    $.ajax({
-        type: 'GET',
-        url: url,
-        dataType: 'json',
-        data: { ...additionalParams },
-    }).done(function (res) {
-        if (selectedValue) {
-            const response = res.find(o => o.id == selectedValue);
-            if (response) {
-                const option = new Option(response.nama, response.id, true, true);
-                element.append(option).trigger('change');
-            }
-        }
-        if (callback) callback(); // Ensure table() is called after data loads
-    });
-}
-
-$('.event').each(async function() {
-    var dropdownParent = null;
-
-    if ($(this).closest('.modal').length > 0) {
-        dropdownParent = $(this).closest('.modal');
-    }
-
-    $(this).select2({
-        placeholder: 'Pilih Event',
-        dropdownParent: dropdownParent,
-        allowClear: true,
-        ajax: {
-            url: '/admin/data-event',
-            dataType: "json",
-            type: "GET",
-            delay: 250,
-            data: function (params) {
-                return { q: params.term, release: true };
-            },
-            processResults: function (data, params) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            text: item.nama,
-                            id: item.id
-                        }
-                    })
-                };
-            },
-            cache: true
-        }
-    });
-
-    initializeSelect2('#filter_event', '/admin/data-event', 1, null, function () {
-        table();
-    });
-});
-
-const keyUpThousandView = (evt) => {
-    let currentValue = (evt.currentTarget.value != '') ? evt.currentTarget.value.replaceAll('.','') : '0';
-    let iNumber = parseInt(currentValue);
-    let result = isNaN(iNumber) == false ? thousandView(iNumber) : '0';
-    evt.currentTarget.value = result;
-}
-
-$('.format-currency').on('keyup', (evt) => {
-    keyUpThousandView(evt)
-})
-
-$('.select2-js').select2({
-    minimumResultsForSearch: Infinity
-});
-
 function hapus(nomor) {
     Swal.fire({
         title: 'Apakah anda yakin akan hapus data?',
@@ -169,7 +234,7 @@ function hapus(nomor) {
                 dataType: 'JSON',
                 success: function(response) {
                     if(response.status){
-                        $("#dt-table").DataTable().ajax.reload(null, false);
+                        datatable();
                         NioApp.Toast(response.message, 'success', {position: 'top-right'});
                     }else{
                         NioApp.Toast(response.message, 'warning', {position: 'top-right'});
@@ -265,52 +330,6 @@ function payment(nomor) {
         }
     });
 }
-
-$('#form-data-payment').submit(function(e) {
-    e.preventDefault();
-    formData = new FormData($(this)[0]);
-    var btn = $('#btn-submit-payment');
-
-    Swal.fire({
-        title: 'Apakah anda yakin akan simpan data?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Ya, saya yakin!'
-    }).then((result) => {
-        if (result.value) {
-            $.ajax({
-                url : "/admin/order/payment",  
-                data : formData,
-                type : "POST",
-                dataType : "JSON",
-                cache:false,
-                async : true,
-                contentType: false,
-                processData: false,
-                beforeSend: function() {
-                    btn.attr('disabled', true);
-                    btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading ...</span>`);
-                },
-                success: function(response) {
-                    if(response.status) {
-                        $("#dt-table").DataTable().ajax.reload(null, false);
-                        NioApp.Toast(response.message, 'success', {position: 'top-right'});
-                        $('#modalPayment').modal('hide');
-                    } else {
-                        NioApp.Toast(response.message, 'warning', {position: 'top-right'});
-                    }
-                    btn.attr('disabled', false);
-                    btn.html('Submit');
-                },
-                error: function(error) {
-                    btn.attr('disabled', false);
-                    btn.html('Submit');
-                    NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
-                }
-            });
-        }
-    })
-});
 
 function resendEmail(nomor,email) {
     Swal.fire({

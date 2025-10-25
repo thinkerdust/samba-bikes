@@ -36,12 +36,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-1 mt-2 d-flex align-items-center">
+                                    <div class="col-md-3 mt-2 d-flex align-items-center">
                                         <button type="button" class="btn btn-info" id="btn-filter"><em class="icon ni ni-search"></em><span>Filter</span></button>
-                                    </div>
-
-                                    <div class="col-md-2 mt-2 d-flex align-items-center justify-content-start">
-                                        <button type="button" class="btn btn-success" id="btn-export"><em class="icon ni ni-file-xls"></em><span>Export Data</span></button>
+                                        <button type="button" class="btn btn-success ms-4" id="btn-export"><em class="icon ni ni-file-xls"></em><span>Export Data</span></button>
                                     </div>
                                 </div>
 
