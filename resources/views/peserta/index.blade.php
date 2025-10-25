@@ -36,11 +36,11 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-2 mt-2 d-flex align-items-center">
+                                    <div class="col-md-1 mt-2 d-flex align-items-center">
                                         <button type="button" class="btn btn-info" id="btn-filter"><em class="icon ni ni-search"></em><span>Filter</span></button>
                                     </div>
 
-                                    <div class="col-md-2 mt-2 d-flex align-items-center">
+                                    <div class="col-md-2 mt-2 d-flex align-items-center justify-content-start">
                                         <button type="button" class="btn btn-success" id="btn-export"><em class="icon ni ni-file-xls"></em><span>Export Data</span></button>
                                     </div>
                                 </div>
@@ -54,14 +54,22 @@
                                             <th>Event</th>
                                             <th>Nama Komunitas</th> 
                                             <th>Nama</th> 
+                                            <th>Email</th> 
                                             <th>Gender</th>
                                             <th>Phone</th> 
                                             <th>Emergency Phone</th>
                                             <th>Emergency Hubungan</th>
+                                            <th>Nominal</th>
                                             <th>Action</th> 
                                         </tr>
                                     </thead>
-
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="9" class="text-center">TOTAL</th>
+                                            <th class="text-end"></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div><!-- .card-preview -->

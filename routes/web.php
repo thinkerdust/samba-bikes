@@ -141,7 +141,7 @@ Route::group(['prefix' => 'admin','middleware' => ['web', 'auth']], function () 
         Route::get('/edit/{id}', 'edit_peserta');
         Route::get('/delete/{id}', 'delete_peserta');
         Route::post('/store', 'store_peserta');
-        Route::get('/export/{id}', 'export_peserta');
+        Route::get('/export/{id}/{status}', 'export_peserta');
         Route::post('/resend-email', 'resend_email');
     });
 
