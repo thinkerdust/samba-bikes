@@ -36,7 +36,7 @@ class Master extends Model
 
     public function listDataEvent($q)
     {
-        $data = DB::table('event')->select('id', 'nama');
+        $data = DB::table('event')->select('id', 'nama')->where('status', '<>', 0);
         if($q) {
             $data = $data->where('nama', 'like', '%'.$q.'%');
         }
