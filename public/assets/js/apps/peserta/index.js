@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    $('.select2-js').select2({
+        minimumResultsForSearch: Infinity
+    });
+
     $('.select2-size-chart').select2({
         allowClear: false,
         placeholder: "Select Size Chart",
@@ -23,9 +27,137 @@ $(document).ready(function() {
             cache: true
         }
     });
+
+    $('.event').each(async function() {
+        var dropdownParent = null;
+
+        if ($(this).closest('.modal').length > 0) {
+            dropdownParent = $(this).closest('.modal');
+        }
+
+        $(this).select2({
+            placeholder: 'Pilih Event',
+            dropdownParent: dropdownParent,
+            ajax: {
+                url: '/admin/data-event',
+                dataType: "json",
+                type: "GET",
+                delay: 250,
+                data: function (params) {
+                    return { q: params.term, release: true };
+                },
+                processResults: function (data, params) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.nama,
+                                id: item.id
+                            }
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+    }); 
+    
+    // Panggil datatable() in here (Callback dari initializeSelect2)
+    initializeSelect2('#filter_event', '/admin/data-event', null, null, function () {
+        const el = $('#filter_event');
+
+        if (!el.val()) {
+            $.getJSON('/admin/data-event', function (res) {
+                if (res.length > 0) {
+                    const first = res[0];
+                    const option = new Option(first.nama, first.id, true, true);
+                    el.append(option).trigger('change');
+                }
+
+                datatable(); 
+            });
+        } else {
+            datatable();
+        }
+    });
+
+    $('#btn-filter').click(function() {
+        datatable();
+    })
+
+    $('#form-data').submit(function(e) {
+        e.preventDefault();
+        formData = new FormData($(this)[0]);
+        var btn = $('#btn-submit');
+
+        $.ajax({
+            url: '/admin/peserta/store',
+            data : formData,
+            type : "POST",
+            dataType : "JSON",
+            cache:false,
+            async : true,
+            contentType: false,
+            processData: false,
+            beforeSend: function() {
+                btn.attr('disabled', true);
+                btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading ...</span>`);
+            },
+            success: function(response) {
+                if(response.status){
+                    NioApp.Toast(response.message, 'success', {position: 'top-right'});
+                    $('#modalDetailEdit').modal('hide');
+                    datatable();
+                }else{
+                    NioApp.Toast(response.message, 'warning', {position: 'top-right'});
+                }
+                btn.attr('disabled', false);
+                btn.html('Update');
+            },
+            error: function(error) {
+                btn.attr('disabled', false);
+                btn.html('Update');
+                NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+            }
+        });
+    });
+
+    $('#btn-export').click(function() {
+        let event   = $('#filter_event').val();
+        let status  = $('#filter_status').val();
+        if(event && status) {
+            location.href = '/admin/peserta/export/'+event+'/'+status;
+        }else{
+            NioApp.Toast('Pilih event terlebih dahulu!', 'warning', {position: 'top-right'});    
+        }
+    })
 })
 
-const table = () => NioApp.DataTable('#dt-table', {
+// Utility
+const thousandView = (number = 0) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function initializeSelect2(elementId, url, selectedValue, additionalParams = {}, callback = null) {
+    const element = $(elementId);
+    $.ajax({
+        type: 'GET',
+        url: url,
+        dataType: 'json',
+        data: { ...additionalParams },
+    }).done(function (res) {
+        if (selectedValue) {
+            const response = res.find(o => o.id == selectedValue);
+            if (response) {
+                const option = new Option(response.nama, response.id, true, true);
+                element.append(option).trigger('change');
+            }
+        }
+        if (callback) callback(); // Ensure table() is called after data loads
+    });
+}
+// End Utility
+
+const datatable = () => NioApp.DataTable('#dt-table', {
     serverSide: true,
     processing: true,
     responsive: false,
@@ -93,74 +225,6 @@ const table = () => NioApp.DataTable('#dt-table', {
     }
 });
 
-$('#btn-filter').click(function() {
-    $("#dt-table").DataTable().ajax.reload();
-})
-
-const thousandView = (number = 0) => {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
-$('.select2-js').select2({
-    minimumResultsForSearch: Infinity
-});
-
-function initializeSelect2(elementId, url, selectedValue, additionalParams = {}, callback = null) {
-    const element = $(elementId);
-    $.ajax({
-        type: 'GET',
-        url: url,
-        dataType: 'json',
-        data: { ...additionalParams },
-    }).done(function (res) {
-        if (selectedValue) {
-            const response = res.find(o => o.id == selectedValue);
-            if (response) {
-                const option = new Option(response.nama, response.id, true, true);
-                element.append(option).trigger('change');
-            }
-        }
-        if (callback) callback(); // Ensure table() is called after data loads
-    });
-}
-
-$('.event').each(async function() {
-    var dropdownParent = null;
-
-    if ($(this).closest('.modal').length > 0) {
-        dropdownParent = $(this).closest('.modal');
-    }
-
-    $(this).select2({
-        placeholder: 'Pilih Event',
-        dropdownParent: dropdownParent,
-        ajax: {
-            url: '/admin/data-event',
-            dataType: "json",
-            type: "GET",
-            delay: 250,
-            data: function (params) {
-                return { q: params.term, release: true };
-            },
-            processResults: function (data, params) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            text: item.nama,
-                            id: item.id
-                        }
-                    })
-                };
-            },
-            cache: true
-        }
-    });
-
-    initializeSelect2('#filter_event', '/admin/data-event', 1, null, function () {
-        table();
-    });
-}); 
-
 function detailOrEdit(id) {
     $.ajax({
         url: '/admin/peserta/edit/'+id,
@@ -198,55 +262,7 @@ function detailOrEdit(id) {
     })
 }
 
-$('#form-data').submit(function(e) {
-    e.preventDefault();
-    formData = new FormData($(this)[0]);
-    var btn = $('#btn-submit');
-
-    $.ajax({
-        url: '/admin/peserta/store',
-        data : formData,
-        type : "POST",
-        dataType : "JSON",
-        cache:false,
-        async : true,
-        contentType: false,
-        processData: false,
-        beforeSend: function() {
-            btn.attr('disabled', true);
-            btn.html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading ...</span>`);
-        },
-        success: function(response) {
-            if(response.status){
-                NioApp.Toast(response.message, 'success', {position: 'top-right'});
-                $('#modalDetailEdit').modal('hide');
-                $("#dt-table").DataTable().ajax.reload(null, false);
-            }else{
-                NioApp.Toast(response.message, 'warning', {position: 'top-right'});
-            }
-            btn.attr('disabled', false);
-            btn.html('Update');
-        },
-        error: function(error) {
-            btn.attr('disabled', false);
-            btn.html('Update');
-            NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
-        }
-    });
-});
-
-$('#btn-export').click(function() {
-    let event   = $('#filter_event').val();
-    let status  = $('#filter_status').val();
-    if(event && status) {
-        location.href = '/admin/peserta/export/'+event+'/'+status;
-    }else{
-        NioApp.Toast('Pilih event terlebih dahulu!', 'warning', {position: 'top-right'});    
-    }
-})
-
-function resendEmail(id_event, nomor_order, email)
-{
+function resendEmail(id_event, nomor_order, email) {
     Swal.fire({
         title: 'Apakah anda yakin akan mengirim ulang email?',
         icon: 'warning',

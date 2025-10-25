@@ -1,76 +1,16 @@
-var table = NioApp.DataTable('#dt-table', {
-    serverSide: true,
-    processing: true,
-    responsive: false,
-    searchDelay: 500,
-    scrollX: true,
-    scrollY: '500px',
-    ajax: {
-        url: '/admin/event/datatable',
-        type: 'POST',
-        data: function(d) {
-            d._token        = token;
-            d.start_date    = $('#start_date').val();
-            d.end_date      = $('#end_date').val();
-        },
-        beforeSend: function () {
-            blockUI();
-        },
-        complete: function () {
-            unBlockUI();
-        },
-        error: function (xhr) {
-            if (xhr.status === 419) { // Unauthorized error
-                NioApp.Toast('Your session has expired. Redirecting to login...', 'error', {position: 'top-right'});
-                window.location.href = "/login"; 
-            } else {
-                NioApp.Toast('An error occurred while loading data. Please try again.', 'error', {position: 'top-right'});
-            }
-        }
-    },
-    order: [1, 'ASC'],
-    columns: [
-        {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
-        {data: 'nama'},
-        {data: 'tanggal'},
-        {data: 'lokasi'},
-        {data: 'tanggal_mulai'},
-        {data: 'tanggal_selesai'},
-        {data: 'harga', className: 'text-end', render: $.fn.dataTable.render.number( ',', '.', 0)},
-        {data: 'stok', className: 'text-end', render: $.fn.dataTable.render.number( ',', '.', 0)},
-        {data: 'status'},
-        {data: 'action', orderable: false, searchable: false},
-    ],
-    columnDefs: [
-        {
-            className: "nk-tb-col",
-            targets: "_all"
-        },
-        {
-            targets: -2,
-            orderable: false,
-            searchable: false,
-            className: 'text-center',
-            render: function(data, type, full, meta) {
+$(document).ready(function() {
+    $('.format-currency').on('keyup', (evt) => {
+        keyUpThousandView(evt)
+    })
 
-                var status = {
-                    0: {'title': 'Non Aktif', 'class': ' bg-danger'},
-                    1: {'title': 'Aktif', 'class': ' bg-success'},
-                    2: {'title': 'Release', 'class': ' bg-primary'}
-                };
-                if (typeof status[full['status']] === 'undefined') {
-                    return data;
-                }
-                return '<span class="badge '+ status[full['status']].class +'">'+ status[full['status']].title +'</span>';
-            }
-        },
-    ]
-});
+    $('#btn-filter').click(function() {
+        datatable();
+    })
 
-$('#btn-filter').click(function() {
-    $("#dt-table").DataTable().ajax.reload();
+    datatable();
 })
 
+// Utility
 const thousandView = (number = 0) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
@@ -81,10 +21,78 @@ const keyUpThousandView = (evt) => {
     let result = isNaN(iNumber) == false ? thousandView(iNumber) : '0';
     evt.currentTarget.value = result;
 }
+// End Utility
 
-$('.format-currency').on('keyup', (evt) => {
-    keyUpThousandView(evt)
-})
+const datatable = () => {
+    NioApp.DataTable('#dt-table', {
+        serverSide: true,
+        processing: true,
+        responsive: false,
+        searchDelay: 500,
+        scrollX: true,
+        scrollY: '500px',
+        ajax: {
+            url: '/admin/event/datatable',
+            type: 'POST',
+            data: function(d) {
+                d._token        = token;
+                d.start_date    = $('#start_date').val();
+                d.end_date      = $('#end_date').val();
+            },
+            beforeSend: function () {
+                blockUI();
+            },
+            complete: function () {
+                unBlockUI();
+            },
+            error: function (xhr) {
+                if (xhr.status === 419) { // Unauthorized error
+                    NioApp.Toast('Your session has expired. Redirecting to login...', 'error', {position: 'top-right'});
+                    window.location.href = "/login"; 
+                } else {
+                    NioApp.Toast('An error occurred while loading data. Please try again.', 'error', {position: 'top-right'});
+                }
+            }
+        },
+        order: [1, 'ASC'],
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+            {data: 'nama'},
+            {data: 'tanggal'},
+            {data: 'lokasi'},
+            {data: 'tanggal_mulai'},
+            {data: 'tanggal_selesai'},
+            {data: 'harga', className: 'text-end', render: $.fn.dataTable.render.number( ',', '.', 0)},
+            {data: 'stok', className: 'text-end', render: $.fn.dataTable.render.number( ',', '.', 0)},
+            {data: 'status'},
+            {data: 'action', orderable: false, searchable: false},
+        ],
+        columnDefs: [
+            {
+                className: "nk-tb-col",
+                targets: "_all"
+            },
+            {
+                targets: -2,
+                orderable: false,
+                searchable: false,
+                className: 'text-center',
+                render: function(data, type, full, meta) {
+
+                    var status = {
+                        0: {'title': 'Non Aktif', 'class': ' bg-danger'},
+                        1: {'title': 'Aktif', 'class': ' bg-success'},
+                        2: {'title': 'Release', 'class': ' bg-primary'}
+                    };
+                    if (typeof status[full['status']] === 'undefined') {
+                        return data;
+                    }
+                    return '<span class="badge '+ status[full['status']].class +'">'+ status[full['status']].title +'</span>';
+                }
+            },
+        ]
+    });
+} 
 
 function hapus(id) {
     Swal.fire({
@@ -101,7 +109,7 @@ function hapus(id) {
                 dataType: 'JSON',
                 success: function(response) {
                     if(response.status){
-                        $("#dt-table").DataTable().ajax.reload(null, false);
+                        datatable();
                         NioApp.Toast(response.message, 'success', {position: 'top-right'});
                     }else{
                         NioApp.Toast(response.message, 'warning', {position: 'top-right'});
@@ -156,7 +164,7 @@ function release(id) {
                 dataType: 'JSON',
                 success: function(response) {
                     if(response.status){
-                        $("#dt-table").DataTable().ajax.reload(null, false);
+                        datatable();
                         NioApp.Toast(response.message, 'success', {position: 'top-right'});
                     }else{
                         NioApp.Toast(response.message, 'warning', {position: 'top-right'});
