@@ -143,8 +143,9 @@ class PesertaController extends BaseController
 
     public function export_peserta(Request $request)
     {
-        $event = $request->id;
-        return Excel::download(new PesertaExport($event), 'data_peserta.xlsx');
+        $event  = $request->id;
+        $status = $request->status;
+        return Excel::download(new PesertaExport($event, $status), 'data_peserta.xlsx');
     }
 
     public function resend_email(Request $request)

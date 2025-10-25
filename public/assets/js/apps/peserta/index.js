@@ -61,10 +61,12 @@ const table = () => NioApp.DataTable('#dt-table', {
         {data: 'nama_event', name: 'e.nama'},
         {data: 'nama_komunitas', orderable: false, searchable: false},
         {data: 'nama', name: 'p.nama'},
+        {data: 'email', orderable: false, searchable: false},
         {data: 'gender'},
         {data: 'phone', name: 'p.phone'},
         {data: 'telp_emergency', name: 'p.telp_emergency'},
         {data: 'hubungan_emergency', name: 'p.hubungan_emergency'},
+        {data: 'subtotal', name: 'od.subtotal', className: 'text-end', render: data => data ? thousandView(data) : '0' },
         {data: 'action', orderable: false, searchable: false},
     ],
     columnDefs: [
@@ -73,7 +75,7 @@ const table = () => NioApp.DataTable('#dt-table', {
             targets: "_all"
         },
         {
-            targets: 4,
+            targets: 5,
             orderable: false,
             searchable: false,
             className: 'text-center',
@@ -82,12 +84,22 @@ const table = () => NioApp.DataTable('#dt-table', {
                 return gender;
             }
         },
-    ]
+    ],
+    footerCallback: function (row, data, start, end, display) {
+        const api = this.api();
+        const sumColumn = i => api.column(i).data().reduce((a, b) => Number(a) + Number(b), 0);
+    
+        $(api.column(-2).footer()).html('Rp. ' + thousandView(sumColumn(-2)));
+    }
 });
 
 $('#btn-filter').click(function() {
     $("#dt-table").DataTable().ajax.reload();
 })
+
+const thousandView = (number = 0) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 
 $('.select2-js').select2({
     minimumResultsForSearch: Infinity
@@ -224,9 +236,10 @@ $('#form-data').submit(function(e) {
 });
 
 $('#btn-export').click(function() {
-    let event = $('#filter_event').val();
-    if(event) {
-        location.href = '/admin/peserta/export/'+event;
+    let event   = $('#filter_event').val();
+    let status  = $('#filter_status').val();
+    if(event && status) {
+        location.href = '/admin/peserta/export/'+event+'/'+status;
     }else{
         NioApp.Toast('Pilih event terlebih dahulu!', 'warning', {position: 'top-right'});    
     }

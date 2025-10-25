@@ -39,7 +39,7 @@ class Peserta extends Model
                     ->select('p.id', 'p.nama', 'p.gender', 'p.phone', 'p.telp_emergency', 
                         'p.hubungan_emergency', 'p.kota', 'p.id_event',
                         'e.nama as nama_event',
-                        'od.nomor_order',
+                        'od.nomor_order', 'od.subtotal',
                         DB::raw("IFNULL(p.nama_komunitas, k.nama) as nama_komunitas"),
                         DB::raw("IFNULL(p.email, k.email) as email")
                     )
@@ -49,8 +49,7 @@ class Peserta extends Model
                     ->join('order_detail as od', function($join) {
                         $join->on('od.nomor_order', '=', 'o.nomor')
                             ->on('od.id_peserta', '=', 'p.id');
-                    })
-                    ->where('p.status', 1);
+                    });
 
         if($event) {
             $query->where('p.id_event', $event);

@@ -13,16 +13,18 @@ use Illuminate\Support\Facades\DB;
 class PesertaExport implements ShouldAutoSize, FromCollection, WithHeadings, WithMapping
 {
     protected $event;
+    protected $status;
     private $no = 0;
 
-    public function __construct($event)
+    public function __construct($event, $status)
     {
         $this->event     = $event;
+        $this->status    = $status;
     }
 
     public function collection()
     {
-        return Peserta::select(
+        $data = Peserta::select(
                 'peserta.nama',
                 DB::raw("IFNULL(peserta.nama_komunitas, komunitas.nama) as komunitas"),
                 'peserta.gender',
@@ -35,10 +37,13 @@ class PesertaExport implements ShouldAutoSize, FromCollection, WithHeadings, Wit
                 $join->on('order_detail.nomor_order', '=', 'order.nomor')
                     ->on('order_detail.id_peserta', '=', 'peserta.id');
             })
-            ->where('order.status', 2)
-            ->where('peserta.status', 1)
-            ->where('peserta.id_event', $this->event)
-            ->get();
+            ->where('peserta.id_event', $this->event);
+
+        if($this->status != 'all') {
+            $data->where('order.status', $this->status);
+        }
+
+        return $data->get();
     }
 
     public function headings(): array

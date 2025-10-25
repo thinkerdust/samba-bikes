@@ -38,7 +38,7 @@ const table = () => NioApp.DataTable('#dt-table', {
         {data: 'tanggal_order', name: 'order.insert_at'},
         {data: 'tanggal_bayar', name: 'order.tanggal_bayar', render: function(data) { return data ? data : ''; }},
         {data: 'jumlah', name: 'order.jumlah', className: 'text-end'},
-        {data: 'total', name: 'order.total', render: data => data ? 'Rp. ' + thousandView(data) : 'Rp. 0' },
+        {data: 'total', name: 'order.total', className: 'text-end', render: data => data ? thousandView(data) : '0' },
         {data: 'status'},
         {data: 'action', orderable: false, searchable: false},
     ],
