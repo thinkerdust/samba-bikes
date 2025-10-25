@@ -31,6 +31,7 @@ const datatable = () => {
         searchDelay: 500,
         scrollX: true,
         scrollY: '500px',
+        bDestroy: true,
         ajax: {
             url: '/admin/event/datatable',
             type: 'POST',

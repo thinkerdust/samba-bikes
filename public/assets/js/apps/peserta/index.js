@@ -164,6 +164,7 @@ const datatable = () => NioApp.DataTable('#dt-table', {
     searchDelay: 500,
     scrollX: true,
     scrollY: '500px',
+    bDestroy: true,
     ajax: {
         url: '/admin/peserta/datatable',
         type: 'POST',
