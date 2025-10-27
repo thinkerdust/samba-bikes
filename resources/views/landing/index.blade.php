@@ -593,21 +593,13 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Konfirmasi Pembayaran</h5>
+					<h5 class="modal-title">Pendaftaran Anda Berhasil 🎉</h5>
 					<button type="button" class="close" onclick="closeModal()">&times;</button>
 				</div>
 				<div class="modal-body">
 					<!-- Informasi Pembayaran -->
 					<div class="info-pembayaran mb-3">
-						Silakan lakukan transfer pembayaran ke rekening <strong>{{ $data->bank }}</strong> dengan nomor <strong>{{ $data->nomor_rekening }}</strong> atas nama <strong>{{ $data->nama_rekening }}</strong>. 
-						Setelah melakukan transfer, mohon kirim bukti pembayaran melalui WhatsApp ke <a href="https://wa.me/{{ $data->phone }}" target="_blank"><strong>{{ $data->phone }}</strong></a>.
-					</div>
-					<!-- Pesan Konfirmasi -->
-					<div class="info-pembayaran mb-3 text-success">
-						Kami akan segera memproses pembayaran Anda setelah bukti transfer diterima.
-					</div>
-					<div class="info-pembayaran mb-3 text-success">
-						<strong>Catatan</strong>: Rincian lengkap pembayaran telah kami kirimkan ke email Anda. Silakan periksa inbox (atau folder spam) untuk memastikan Anda menerima informasinya.
+						Terimakasih telah melakukan pendaftaran. Silahkan cek email Anda (termasuk folder spam).
 					</div>
 				</div>
 				<div class="modal-footer">
