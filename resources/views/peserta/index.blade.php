@@ -25,7 +25,7 @@
                                     </div>
 
                                     <div class="form-group col-md-3">
-                                        <label class="form-label">Status</label>
+                                        <label class="form-label">Status Order</label>
                                         <div class="form-control-wrap">
                                             <select class="form-select form-control form-control-lg select2-js status" id="filter_status" name="filter_status">
                                                 <option value="all">Semua</option>
