@@ -49,7 +49,8 @@ class Peserta extends Model
                     ->join('order_detail as od', function($join) {
                         $join->on('od.nomor_order', '=', 'o.nomor')
                             ->on('od.id_peserta', '=', 'p.id');
-                    });
+                    })
+                    ->where('p.status', 1);
 
         if($event) {
             $query->where('p.id_event', $event);
