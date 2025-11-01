@@ -17,16 +17,18 @@ use Yajra\DataTables\DataTables;
 use App\Exports\PesertaExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Peserta;
+use App\Models\Order;
 use App\Models\Event;
 
 class PesertaController extends BaseController
 {
     protected $peserta;
 
-    function __construct(Peserta $peserta, Event $event)
+    function __construct(Peserta $peserta, Event $event, Order $order)
     {
         $this->peserta = $peserta;
         $this->event = $event;
+        $this->order = $order;
     }
 
     public function index()
@@ -51,6 +53,7 @@ class PesertaController extends BaseController
                                     <ul class="link-list-opt no-bdr">
                                         <li><a class="btn" onclick="detailOrEdit(\'' . $row->id . '\')"><em class="icon ni ni-eye"></em><span>Detail / Edit</span></a></li>
                                         <li><a class="btn" onclick="resendEmail(\'' . $row->id_event . '\', \'' . $row->nomor_order . '\', \'' . $row->email . '\')"><em class="icon ni ni-mail"></em><span>Resend Email</span></a></li>
+                                        <li><a class="btn" onclick="hapus(\'' . $row->id . '\')"><em class="icon ni ni-trash"></em><span>Delete</span></a></li>
                                     </ul>
                                 </div>
                             </div>';
@@ -168,6 +171,40 @@ class PesertaController extends BaseController
         } catch (\Throwable $e) {
             Log::error('Resend Email Regist Error: ' . $e->getMessage());
             return $this->ajaxResponse(false, 'Resend Email Gagal : '. $e->getMessage());
+        }
+    }
+
+    public function delete_peserta(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $id         = $request->id;
+            $user       = Auth::user();
+            $peserta    = Peserta::where('id', $id)->first();
+
+            $peserta->update(['status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->id]);
+
+            // Update Order Detail
+            $orderDetail = DB::table('order_detail')->where('id_peserta', $id)->first();
+            DB::table('order_detail')->where('id_peserta', $id)->update(['status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->id]);
+
+            // Update Order
+            $order = Order::where('nomor', $orderDetail->nomor_order)->first();
+            if($order->jumlah > 1) {
+                // Komunitas
+                $order->update(['jumlah' => $order->jumlah - 1, 'total' => $order->total - $orderDetail->subtotal, 'update_at' => Carbon::now(), 'update_by' => $user->id]);
+            } else {
+                // Personal
+                $order->update(['jumlah' => 0, 'total' => 0, 'status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->id]);
+            }
+
+            DB::commit();
+            return $this->ajaxResponse(true, 'Data berhasil dihapus');
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            DB::rollback();
+            return $this->ajaxResponse(false, 'Data gagal dihapus', $e);
         }
     }
 }

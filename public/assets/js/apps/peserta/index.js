@@ -308,3 +308,30 @@ function resendEmail(id_event, nomor_order, email) {
         }
     });
 }
+
+function hapus(id) {
+    Swal.fire({
+        title: 'Apakah anda yakin akan menghapus data?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, saya yakin!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: '/admin/peserta/delete/'+id,
+                dataType: 'JSON',
+                success: function(response) {
+                    if(response.status){
+                        datatable();
+                        NioApp.Toast(response.message, 'success', {position: 'top-right'});
+                    }else{
+                        NioApp.Toast(response.message, 'warning', {position: 'top-right'});
+                    }
+                },
+                error: function(error) {
+                    NioApp.Toast('Error while fetching data', 'error', {position: 'top-right'});
+                }
+            })
+        }
+    });
+}

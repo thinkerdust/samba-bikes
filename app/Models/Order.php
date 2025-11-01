@@ -21,8 +21,8 @@ class Order extends Model
         'status',
         'approve_at',
         'approve_by',
-        'updated_at',
-        'updated_by'
+        'update_at',
+        'update_by'
     ];
 
     public function dataTableOrder($start_date, $end_date, $event, $status)

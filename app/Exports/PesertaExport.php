@@ -28,7 +28,8 @@ class PesertaExport implements ShouldAutoSize, FromCollection, WithHeadings, Wit
                 'peserta.nama',
                 DB::raw("IFNULL(peserta.nama_komunitas, komunitas.nama) as komunitas"),
                 'peserta.gender',
-                'peserta.size_jersey'
+                'peserta.size_jersey',
+                'order_detail.subtotal'
             )
             ->leftJoin('komunitas', 'komunitas.id', '=', 'peserta.id_komunitas')
             ->join('event', 'event.id', '=', 'peserta.id_event')
@@ -37,6 +38,7 @@ class PesertaExport implements ShouldAutoSize, FromCollection, WithHeadings, Wit
                 $join->on('order_detail.nomor_order', '=', 'order.nomor')
                     ->on('order_detail.id_peserta', '=', 'peserta.id');
             })
+            ->where('peserta.status', 1)
             ->where('peserta.id_event', $this->event);
 
         if($this->status != 'all') {
@@ -48,7 +50,7 @@ class PesertaExport implements ShouldAutoSize, FromCollection, WithHeadings, Wit
 
     public function headings(): array
     {
-        return ['NO', 'NAMA', 'KOMUNITAS', 'GENDER', 'JERSEY'];
+        return ['NO', 'NAMA', 'KOMUNITAS', 'GENDER', 'JERSEY', 'TOTAL'];
     }
 
     public function map($row): array
@@ -59,6 +61,7 @@ class PesertaExport implements ShouldAutoSize, FromCollection, WithHeadings, Wit
             Str::upper($row->komunitas) ?? '',
             $row->gender == 'L' ? 'LAKI-LAKI' : 'PEREMPUAN',
             $row->size_jersey,
+            number_format($row->subtotal, 0, ',', '.'),
         ];
     }
 }
