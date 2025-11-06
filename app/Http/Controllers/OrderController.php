@@ -97,7 +97,7 @@ class OrderController extends BaseController
             $user   = Auth::user();
             $order  = Order::where('nomor', $nomor)->first();
 
-            $order->update(['status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->username]);
+            $order->update(['status' => 0, 'update_at' => Carbon::now(), 'update_by' => $user->id]);
 
             DB::commit();
             return $this->ajaxResponse(true, 'Data berhasil dihapus');
