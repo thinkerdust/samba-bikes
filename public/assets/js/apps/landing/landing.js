@@ -295,8 +295,12 @@ $('#registerPersonal').submit(function(e) {
                         return;
                     }
 
+                    // openModalOverride(pesertaTerdaftar, 'processRegisterPersonal()');
                     Swal.close();
-                    openModalOverride(pesertaTerdaftar, 'processRegisterPersonal()');
+                    openModalError(`Peserta ${pesertaTerdaftar} sudah melakukan pendaftaran, mohon kontak admin untuk informasi lebih lanjut!`);
+                    btn.attr('disabled', false);
+                    btn.html('Register');
+                    return;
                 } else {
                     processRegisterPersonal();
                 }
@@ -516,8 +520,12 @@ $('#registerKomunitas').submit(function(e) {
                         return;
                     }
 
+                    // openModalOverride(pesertaTerdaftar, 'processRegisterKomunitas()');
                     Swal.close();
-                    openModalOverride(pesertaTerdaftar, 'processRegisterKomunitas()');
+                    openModalError(`Peserta ${pesertaTerdaftar} sudah melakukan pendaftaran, mohon kontak admin untuk informasi lebih lanjut!`);
+                    btn.attr('disabled', false);
+                    btn.html('Register');
+                    return;
                 } else {
                     processRegisterKomunitas();
                 }
