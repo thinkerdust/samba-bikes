@@ -52,6 +52,33 @@ class LandingController extends BaseController
         return view('landing.index', compact('js', 'data', 'schedules', 'images', 'sponsors', 'size_chart', 'statistik'));
     }
 
+    public function index_v2() {
+        $js         = 'assets/js/apps/landing/landing.js?_='.rand();
+        $data       = DB::table('event')->where('status', 2)->first();
+        $schedules  = DB::table('event_schedule')->where('id_event', $data->id)->orderBy('jam', 'asc')->get();
+        $images     = DB::table('event_images')->where('id_event', $data->id)->get();
+        $sponsors   = DB::table('sponsor')->where('id_event', $data->id)->get();
+        $size_chart = DB::table('size_chart')->where('status', 1)->get();
+
+        $today = Carbon::today();
+
+        $statistik = DB::table('statistik')
+            ->selectRaw('
+                IFNULL(SUM(view), 0) as totalView,
+                IFNULL(SUM(CASE WHEN YEAR(tanggal) = ? THEN view ELSE 0 END), 0) as counterTahun,
+                IFNULL(SUM(CASE WHEN YEAR(tanggal) = ? AND MONTH(tanggal) = ? THEN view ELSE 0 END), 0) as counterBulan,
+                IFNULL(SUM(CASE WHEN tanggal = ? THEN view ELSE 0 END), 0) as counterHari
+            ', [
+                $today->year,
+                $today->year,
+                $today->month,
+                $today->toDateString(),
+            ])
+            ->first();
+
+        return view('landing.index_v2', compact('js', 'data', 'schedules', 'images', 'sponsors', 'size_chart', 'statistik'));
+    }
+
     public function get_harga() 
     {
         $data = DB::table('event')->where('status', 2)->select('harga')->first();
