@@ -8,7 +8,7 @@
 	<!-- End Google Tag Manager -->
 
 	<meta charset="UTF-8">
-	<title>Samba Bikes</title>
+	<title>Samba Bikes V2</title>
 	<!-- =================== META =================== -->
 	<meta name="keywords" content="Samba Cycling Event, bike event Indonesia, cycling race 2025, road bike challenge, fun ride, community cycling, bike festival 2025, bike event, cycling race, bike ride, bicycle competition, outdoor cycling, community bike ride, cycling festival, road bike event, mountain biking, group cycling event">
 	<meta name="description" content="A fun and thrilling bike event for all ages! Enjoy group rides, challenges, and outdoor excitement with fellow cycling enthusiasts.">
@@ -168,7 +168,7 @@
 					@if (!empty($data->deskripsi))
 						<p>{{ $data->deskripsi }}</p>
 					@else
-						<p>At {{ $data->nama ?? 'Samba' }}, we bring cyclists together—whether casual riders or competitive athletes—to experience scenic and exciting rides. Cycling is more than a sport; it’s a lifestyle that promotes health, sustainability, and community. Join us and ride towards new adventures!</p>
+						<p>At {{ $data->nama ?? 'Samba' }}, Join exciting cycling races and challenge yourself on scenic routes. Daftar sekarang dan rasakan pengalaman balap terbaik!</p>
 					@endif
 					<div class="mission-number-cover">
 						<div class="mission-number-item">

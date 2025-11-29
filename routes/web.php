@@ -14,6 +14,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TestController;
 
 Route::get('/', [LandingController::class, 'index'])->middleware('counter-statistik')->name('/');
+Route::get('/v2', [LandingController::class, 'index_v2'])->middleware('counter-statistik')->name('/v2');
 
 // get harga
 Route::get('/get-harga', [LandingController::class, 'get_harga'])->name('get-harga');
