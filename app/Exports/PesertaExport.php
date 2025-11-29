@@ -59,7 +59,7 @@ class PesertaExport implements ShouldAutoSize, FromCollection, WithHeadings, Wit
         return [
             ++$this->no,
             Str::upper($row->nama),
-            $row->nik,
+            '`'.$row->nik,
             Str::upper($row->komunitas) ?? '',
             $row->gender == 'L' ? 'LAKI-LAKI' : 'PEREMPUAN',
             $row->size_jersey,
