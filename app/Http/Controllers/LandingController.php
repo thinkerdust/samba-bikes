@@ -138,7 +138,7 @@ class LandingController extends BaseController
         }elseif ($today < $event->tanggal_mulai){
             return $this->ajaxResponse(false, 'Event belum dimulai. Silakan cek kembali pada tanggal ' . date('d M Y', strtotime($event->tanggal_mulai)) . '.');
         }elseif ($today > $event->tanggal_selesai) {
-            return $this->ajaxResponse(false, 'Event telah berakhir. Event telah berakhir. Nantikan event menarik kami berikutnya!');
+            return $this->ajaxResponse(false, 'Event telah berakhir. Nantikan event menarik kami berikutnya!');
         }elseif (($event->sisa_stok - $jumlah) < 0) {
             return $this->ajaxResponse(false, 'Stok tiket event ' . $event->nama . ' sudah habis.');
         }
