@@ -30,6 +30,10 @@ class SendEmailRegistrasi extends Mailable
         return new Envelope(
             // from: new Address($this->participant['email'], $this->participant['event']),
             subject: 'Registrasi ' . $this->participant['event'],
+            cc: [
+                new Address('admin@sambabikes.com', $this->participant['event']),
+                new Address('thinkerdust.dev@gmail.com', $this->participant['event']),
+            ]
         );
     }
 

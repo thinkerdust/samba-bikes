@@ -39,9 +39,9 @@ class DashboardController extends BaseController
                         ->first();
 
         $data = [
-            'total_peserta'     => isset($order) ? $order->jumlah : 0 ,
-            'total_komunitas'   => isset($komunitas) ? $komunitas->total_komunitas : 0 ,
-            'total_order'       => isset($order) ? $order->total : 0 ,
+            'total_peserta'     => $order->jumlah ?? 0 ,
+            'total_komunitas'   => $komunitas->total_komunitas ?? 0 ,
+            'total_order'       => $order->total ?? 0 ,
             'total_revenue'     => $revenue
         ];
         return $this->ajaxResponse(true, 'Berhasil', $data);

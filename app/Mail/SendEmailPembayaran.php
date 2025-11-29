@@ -38,6 +38,10 @@ class SendEmailPembayaran extends Mailable
         return new Envelope(
             // from: new Address($this->participant['email'], $this->participant['event']),
             subject: 'Pembayaran ' . $event->nama,
+            cc: [
+                new Address('admin@sambabikes.com', $event->nama),
+                new Address('thinkerdust.dev@gmail.com', $event->nama),
+            ]
         );
     }
 
